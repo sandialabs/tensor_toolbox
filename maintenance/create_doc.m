@@ -92,4 +92,5 @@ for iii = 1:numel(docs)
     fprintf('Publishing file %s ...\n',name);
     html = publish(name);
     fprintf('File has been published to %s\n',html);
+    keep iii docs
 end
