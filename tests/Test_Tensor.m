@@ -1,4 +1,5 @@
-classdef TensorTest < matlab.unittest.TestCase
+% Tests for tensor class
+classdef Test_Tensor < matlab.unittest.TestCase
     
     properties (TestParameter)
         nd = struct( 'three', 3, 'one', 1 );

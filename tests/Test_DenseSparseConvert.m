@@ -1,4 +1,5 @@
-classdef DenseSparseConvertTest < matlab.unittest.TestCase
+% Testing conversions between tensor and sptensor
+classdef Test_DenseSparseConvert < matlab.unittest.TestCase
     methods (Test)
 
         function Empty(testCase)
