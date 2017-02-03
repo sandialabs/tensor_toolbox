@@ -53,7 +53,7 @@ while 1
     elseif  regexp(tline,'INSERT LIST HERE')
         fprintf(outfid','<ul>\n');
         for i = 1:numel(docs)
-            fprintf(outfid,'<li><a href="doc/html/%s.html">%s</a></li>\n',docs(i).name(1:end-2),docs(i).title);
+            fprintf(outfid,'<li><a href="%s.html">%s</a></li>\n',docs(i).name(1:end-2),docs(i).title);
         end
         fprintf(outfid','</ul>\n');
 
