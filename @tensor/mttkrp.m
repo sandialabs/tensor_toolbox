@@ -1,11 +1,16 @@
 function V = mttkrp(X,U,n,vers)
 %MTTKRP Matricized tensor times Khatri-Rao product for tensor.
 %
-%   V = MTTKRP(X,U,n) efficiently calculates the matrix product of the
+%   V = MTTKRP(X,U,N) efficiently calculates the matrix product of the
 %   n-mode matricization of X with the Khatri-Rao product of all
-%   entries in U, a cell array of matrices, except the nth.  How to
+%   entries in U, a cell array of matrices, except the Nth.  How to
 %   most efficiently do this computation depends on the type of tensor
 %   involved.
+%
+%   V = MTTKRP(X,K,N) instead uses the Khatri-Rao product formed by the
+%   matrices and lambda vector stored in the ktensor K. As with the cell
+%   array, it ignores the Nth factor matrix. The lambda vector is absorbed
+%   into one of the factor matrices.
 %
 %   NOTE: Updated to use BSXFUN per work of Phan Anh Huy. See Anh Huy Phan,
 %   Petr Tichavský, Andrzej Cichocki, On Fast Computation of Gradients for
@@ -38,6 +43,21 @@ if (N < 2)
     error('MTTKRP is invalid for tensors with fewer than 2 dimensions');
 end
 
+if isa(U,'ktensor')
+    % Absorb lambda into one of the factors, but not the one that's skipped
+    if n == 1
+        U = redistribute(U,2);
+    else
+        U = redistribute(U,1);
+    end    
+    % Extract the factor matrices
+    U = U.u;
+end
+
+if ~iscell(U)
+    error('Second argument should be a cell array or a ktensor');
+end
+
 if (length(U) ~= N)
     error('Cell array is the wrong length');
 end
@@ -47,7 +67,7 @@ if n == 1
 else
     R = size(U{1},2);
 end
-
+   
 for i = 1:N
    if i == n, continue; end
    if (size(U{i},1) ~= size(X,i)) || (size(U{i},2) ~= R)

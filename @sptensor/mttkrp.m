@@ -7,6 +7,11 @@ function V = mttkrp(X,U,n)
 %   most efficiently do this computation depends on the type of tensor
 %   involved.
 %
+%   V = MTTKRP(X,K,N) instead uses the Khatri-Rao product formed by the
+%   matrices and lambda vector stored in the ktensor K. As with the cell
+%   array, it ignores the Nth factor matrix. The lambda vector is absorbed
+%   into one of the factor matrices.
+%
 %   Examples
 %   S = sptensor([3 3 3; 1 3 3; 1 2 1], 4, [3, 4, 3]); %<-Declare sptensor
 %   mttkrp(S, {rand(3,3), rand(3,3), rand(3,3)}, 2)
@@ -29,6 +34,25 @@ function V = mttkrp(X,U,n)
 % rather than forming the Khatri-Rao product.
 
 N = ndims(X);
+
+if isa(U,'ktensor')
+    % Absorb lambda into one of the factors, but not the one that's skipped
+    if n == 1
+        U = redistribute(U,2);
+    else
+        U = redistribute(U,1);
+    end    
+    % Extract the factor matrices
+    U = U.u;
+end
+
+if (length(U) ~= N)
+    error('Cell array is the wrong length');
+end
+
+if ~iscell(U)
+    error('Second argument should be a cell array or a ktensor');
+end
 
 if (n == 1)
     R = size(U{2},2);
