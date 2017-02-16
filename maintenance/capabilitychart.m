@@ -1,36 +1,12 @@
 %% Create capability chart for all the tensor toolbox classes
 
-%% Analyze files to find what we have
-D = dir('../');
-nd = length(D);
+%% Manual class names
+    
+nclasses = 7;
+classnames = {'tensor'; 'sptensor'; 'symtensor'; 'ttensor'; 'ktensor'; 'symktensor'; 'sumtensor'};
 
-tf_class = false(nd,1);
-for i = 1:nd
-    if D(i).name(1) == '@'
-        tf_class(i) = true;
-    end
-end
 
-tf_func = false(nd,1);
-for i = 1:nd
-    if (length(D(i).name) > 3) && strcmp(D(i).name(end-1:end),'.m')
-        tf_func(i) = true;
-    end
-end
-
-%% Create table of functions per class
-
-% number of classes
-nclasses = sum(tf_class);
-
-% classnames
-classnames = cell(nclasses,1);
-[classnames{:}] = deal(D(tf_class).name);
-for i = 1:nclasses
-    classnames{i} = classnames{i}(2:end);
-end
-pi = [8 3 6 1 9 5 4 7 2];
-classnames = classnames(pi);
+%%
 
 % get directory contents for each class (omitting constructor)
 classmembers = cell(nclasses,1);
@@ -38,7 +14,7 @@ functionnames = {};
 for i = 1:nclasses
     C = dir(['../@' classnames{i}]);
     nc = length(C);
-    tf_tmp = false(nd,1);
+    tf_tmp = false(nc,1);
     for j = 1:nc
         if (length(C(j).name) > 3) && strcmp(C(j).name(end-1:end),'.m') ...
                 && ~strcmp(C(j).name(1:end-2),classnames{i})
