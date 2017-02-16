@@ -26,5 +26,9 @@ else
     sz = cell2mat(varargin);
 end
 
-data = rand([sz 1 1]);
-X = tensor(data,sz);
+if isempty(sz)
+    X = tensor;
+else
+    data = rand([sz 1 1]);
+    X = tensor(data,sz);
+end
