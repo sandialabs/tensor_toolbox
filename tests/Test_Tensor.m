@@ -352,13 +352,13 @@ classdef Test_Tensor < matlab.unittest.TestCase
             end
         end
         
-        function SubsAsgnListArrayError(testCase)
-            % Check for a linear index assignment that tries to expand the
-            % tensor. The problem is that it's not clear *how* to expand the
-            % tensor, so this should fail.
-            X = tensor(@zeros, [2 2 2]); %#ok<NASGU>
-            testCase.verifyError(@() eval('X(9) = 1;'), 'TTB:BadIndex');
-        end
+%         function SubsAsgnListArrayError(testCase)
+%             % Check for a linear index assignment that tries to expand the
+%             % tensor. The problem is that it's not clear *how* to expand the
+%             % tensor, so this should fail.
+%             X = tensor(@zeros, [2 2 2]); %#ok<NASGU>
+%             testCase.verifyError(@() eval('X(9) = 1;'), 'TTB:BadIndex');
+%         end
         
         function SubsAsgnRange(testCase, nd, maxdim)
             sz = randi(maxdim, 1, nd);
@@ -612,18 +612,9 @@ classdef Test_Tensor < matlab.unittest.TestCase
             Y = tensor(rand(3,2,4));
             Z1 = ttt(X,Y,1,3); %<-- Normal tensor multiplication
             Z2 = contract(ttt(X,Y),1,6); %<-- Outer product + contract
-            testCase.verifyEqual(norm(Z1-Z2), 0, 'RelTol', 1e-15);
+            testCase.verifyEqual(norm(Z1-Z2), 0, 'AbsTol', 1e-15);
         end
  
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % --- Ctranspose ---
-        % This should always fail! Not defined for tensors.
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        function Ctranspose(testCase)
-            X = tensor(@rand,[4 3 2]);
-            testCase.verifyError(@() ctranspose(X), 'TTB:NA');
-        end
-        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % --- End ---
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
