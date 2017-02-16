@@ -6,6 +6,7 @@ classdef Test_Tensor < matlab.unittest.TestCase
         maxdim = struct( 'ten', 10, 'three', 3, 'one', 1 );
         gen = struct( 'rand', @rand, 'zeros', @zeros, 'ones', @ones, 'randn', @randn );
         nx = struct( 'one', 1, 'ten', 10, 'hundred', 100 );
+        szs = struct( 'fourthreetwo', [4 3 2], 'threetwoone', [3 2 1], 'threetwo', [3 2], 'three', 3, 'one', 1, 'emtpy', []);
         
         bf = struct('and', @and, 'eq', @eq, 'ge', @ge, 'gt', @gt, 'ldivide', @ldivide, 'le', @le, 'lt', @lt, 'minus', @minus, 'ne', @ne, 'or', @or, 'plus', @plus, 'power', @power, 'rdivide', @rdivide, 'times', @times, 'xor', @xor);
         uf = struct('not', @not, 'uminus', @uminus, 'uplus', @uplus);
@@ -56,7 +57,12 @@ classdef Test_Tensor < matlab.unittest.TestCase
             testCase.verifyEqual(nnz(X), nnz(X.data(:)));
         end
         
-        function ConstructBadSize(testCase)            
+        function ConstructAlt(testCase,szs)
+            X = tenrand(szs);
+            testCase.verifyEqual(size(X),szs);
+        end
+        
+        function ConstructBadSize(testCase)
             testCase.verifyError(@()eval('X = tensor(1:12, [4 3 2]);'), ?MException);
         end
         
@@ -79,6 +85,7 @@ classdef Test_Tensor < matlab.unittest.TestCase
             testCase.verifyEqual(Z1,Z2);
         end
         
+         
         function BinaryFuncErrors(testCase,bf) %check binary functions
             X = tensor(rand([4 3 2]));
             Y = tensor(rand([3 4 2]));
@@ -90,6 +97,11 @@ classdef Test_Tensor < matlab.unittest.TestCase
             testCase.verifyError(@()bf(X,X,X), ?MException);
         end
 
+        function And(testCase, szs)
+            X = tenrand(szs);
+            Y = X.data;
+            testCase.verifyEqual(double(X&X), double(Y~=0));
+        end
         
         function UnaryFuncs(testCase,uf)
             sz = [4 3 2 4];
@@ -377,6 +389,21 @@ classdef Test_Tensor < matlab.unittest.TestCase
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % --- FIND ---
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function Find(testCase, szs)
+            X = tenrand(szs);
+            subs = find(X > 0.5);
+            idx = find(X.data > 0.5);
+            % This next step is a workaround since MATLAB's built-in function
+            % returns a 0x1 array if X.data is nonempty but all zeros.
+            if isempty(idx)
+                idx = [];
+            end
+            testCase.verifyEqual(tt_sub2ind(size(X),subs), idx);
+        end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % --- TTM: Tensor Times Matrix ---
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
@@ -553,6 +580,30 @@ classdef Test_Tensor < matlab.unittest.TestCase
             testCase.verifyEqual(double(scale(Y,1./S,1:3)), X.data, 'RelTol', 1e-15);
         end
         
+        function CollapseSum(testCase, szs)
+            X = tenrand(szs);
+            Y = collapse(X,2:ndims(X));
+            Z = X.data;
+            for j = 2:ndims(X)
+                Z = sum(Z,j);
+            end
+            testCase.verifyEqual(double(Y),Z,'RelTol',1e-14);
+        end
+        
+        function CollapseMax(testCase, szs)
+            X = tenrand(szs);
+            Y = collapse(X,1:ndims(X)-1,@max);
+            Z = X.data;
+            for j = 1:ndims(X)-1
+                Z = max(Z,[],j);
+            end
+            if isempty(X.data)
+                testCase.verifyEqual(double(Y),[],'RelTol',1e-14);
+            else
+                zsz = [size(X,ndims(X)) 1];
+                testCase.verifyEqual(double(Y),reshape(Z, zsz),'RelTol',1e-14);
+            end
+        end        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % --- Contract ---
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -581,7 +632,9 @@ classdef Test_Tensor < matlab.unittest.TestCase
             testCase.verifyEqual(X(end,1,1), X(4,1,1));
             testCase.verifyEqual(X(end,end,1), X(4,3,1));
             testCase.verifyEqual(X(end,end,end), X(4,3,2));
-            testCase.verifyEqual(X(end), X(24));            
+            testCase.verifyEqual(X(end), X(24));  
+            testCase.verifyEqual(size(X(end,:,:)),[3 2]);
+            testCase.verifyEqual(size(X(2:end,:,:)),[3 3 2]);
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % --- InnerProd ---
@@ -605,8 +658,11 @@ classdef Test_Tensor < matlab.unittest.TestCase
             C = rand(4,6);
             Y = mttkrp(X, {A,B,C}, 3);
             testCase.verifyEqual(size(Y), [4 6]);
+            Y2 = mttkrp(X, {A,B,[]}, 3);
+            testCase.verifyEqual(size(Y2), [4 6]);
             Z = double(tenmat(X,3))*khatrirao(B,A);
             testCase.verifyEqual(Y, Z, 'RelTol', 1e-14);
+            testCase.verifyEqual(Y2, Z, 'RelTol', 1e-14);
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
