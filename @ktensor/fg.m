@@ -1,39 +1,45 @@
 function [f,G] = fg(M,X,varargin)
-%FG Master objective function for optimization of Kruskal model.
+%FG Objective and gradient function evaluation for fitting Ktensor to data.
 %
-%   F = fg(K,X) takes a ktensor K and a tensor X and returns the sum of
-%   squares, i.e., F = sum(L(:)) where L = (X-K).^2. This assumes that K
-%   and X are the same order and size.
+%   F = fg(M,X) takes a ktensor M and a tensor X and returns the value of
+%   the loss function (see loss function definitions below). The tensors
+%   M and X must be the same order and size. 
 %
-%   [F,G] = fg(K,X,'GradCalc',N) returns the gradient with respect to the
-%   Nth factor matrix as a single matrix (not in a cell array). We assume N
-%   is in the range {1,...,ndims(K)}. The gradient with respect to the Nth
-%   factor matrix, i.e., K.U{N}, is a matrix of size I x R where I =
-%   size(K,N) and R = ncomponents(K). 
+%   [F,G] = fg(M,X) also returns the gradients (with respect to lambda and
+%   each factor matrix in M) as a ktensor G.
 %
-%   [F,G] = fg(K,X) or [F,G] = fg(K,X,'GradCalc',RNG) returns the
-%   gradient of all the factor matrices specified by RNG as a cell array.
-%   Each entry of RNG must be in the set {1,...,ndims(K)}. 
+%   [F,G] = fg(M,X,'IgnoreLambda',true) instead returns the gradients (with
+%   respect to each factor matrix) as a cell array and ignores lambda in
+%   the calculation of the gradient.
 %
-%   [F,G] = fg(K,X,'GradCalc',0) returns the gradient with respect
-%   to the factor weights, i.e., K.lambda, as a vector of length R where R
-%   = ncomponents(K).
+%   [F,G] = fg(M,X,'GradMode',K) returns the gradient with respect to the
+%   Kth factor matrix as a single matrix. 
 %
-%   [F,G] = fg(K,X,'GradCalc',0:N) returns the gradient of lambda and
-%   all the factor matrices combined into a ktensor. 
+%   [F,G] = fg(M,X,'GradMode',K,'IgnoreLambda',true) ignores lambda in the
+%   calculation of the gradient.
+%
+%   [F,G] = fg(K,X,'GradMode',0) returns the gradient with respect
+%   to lambda.
 %
 %   [F,G] = fg(K,X,...,'GradVec',true, ...) vectorizes G. For a vector,
 %   this is no change. For a matrix, this is equivalent to G = G(:). For a
 %   cell array, this is equivalent to 
-%      G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false)')
+%      G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false))
 %   For a ktensor, this is equivalent to G = tovec(G).
 %
+%   [F,G] = fg(K,X,...,'Mask',M) defines a mask tensor M that is 1 for
+%   known values and 0 for missing values.
+%
+%   Loss Function Options: TBD
+
+
+% FUTURE OPTIONS...
 %   [F,G] = fg(K,X,...,'Type',T,...) chooses the objective function type.
 %   In every case, we return F = sum(L(:)) for different choices of L:
 %      'G': Gaussian, L = (X-K).^2 [Default]
 %      'P': Poisson, L = K - X*log(K), assumes K >= 0
 %      'LP': Log-Poisson, L = exp(K) - X*K
-%      'B': Bernoulli, L = log(K+1) - X*log(K)m assues K >= 0
+%      'B': Bernoulli, L = log(K+1) - X*log(K), assumes K >= 0
 %      'LB': Logit-Bernoulli, L = log(1+K) - X*K
 %   Here all operations are written as if they are elementwise and applied
 %   to full(K).
@@ -53,83 +59,154 @@ function [f,G] = fg(M,X,varargin)
 %% Process inputs
 
 % Check size match between X and K
-sz = size(X);
-if ~isequal(size(M),sz)
+sz = size(M);
+nd = ndims(M);
+if ~isequal(size(X),sz)
     error('Model and tensor sizes do not match');
 end
 
 params = inputParser;
-params.addParameter('GradCalc', 1:ndims(X), @(x) isvector(x) && all(ismember(x,0:ndims(X))));
+params.addParameter('GradMode', -1, @(x) isscalar(x) && all(ismember(x,-1:ndims(X))));
 params.addParameter('GradVec', false, @(x) isscalar(x) && islogical(x));
+params.addParameter('IgnoreLambda', false, @(x) isscalar(x) && islogical(x));
+params.addParameter('Mask',[]);
 params.addParameter('Type', 'B', @(x) ismember(x, {'B'}));
-params.addParameter('Reg',[]);
+%params.addParameter('Reg',[]);
 params.parse(varargin{:});
 
-GradCalc = sort(params.Results.GradCalc);
+GradMode = params.Results.GradMode;
 GradVec = params.Results.GradVec;
-Type = params.Results.Type;
-Reg = params.Results.Reg;
+IgnoreLambda = params.Results.IgnoreLambda;
+W = params.Results.Mask;
+FuncType = params.Results.Type;
+
+% Figure out sparsity situation with X and Mask
+if ~isa(X,'sptensor') 
+    CalcType = 'Dense';
+elseif isa(W,'sptensor')
+    CalcType = 'Sparse';
+else
+    CalcType = 'SparseDense';
+end
+    
+
+%Reg = params.Results.Reg;
 
 % Check Reg
-if ~isempty(Reg)
-    if ~iscell(Reg)
-        error('Parameter ''Reg'' should be a cell array');
-    end
-    if size(Reg,2) ~= 3
-        error('Parameter ''Reg'' should have three columns');
-    end
-    % Check first column: Specific dimenions
-    if ~all(cellfun(@(x) isvector(x) && all(ismember(x,0:ndims(X))), Reg(:,1)))
-        error('Parameter ''Reg'' first column validation error'); 
-    end
-    % Check second column: weights
-    if ~all(cellfun(@(x) isscalar(x) && x > 0, Reg(:,2)))
-        error('Parameter ''Reg'' second column validation error'); 
-    end        
-    % Check second column: weights
-    if ~all(cellfun(@(x) ismember(x,{'L1','L2'}), Reg(:,3)))
-        error('Parameter ''Reg'' third column validation error'); 
-    end        
-end
-
-if numel(GradCalc) > 1
-    fprintf('Only supporting single derivative computations');
-end
-
-
-
-%% B (Bernoulli)
-k = GradCalc; % Extract mode for gradient calculation
-F = tenfun(@(x,m) -x * log(m) + log(1+m), X, full(M));
-
-Mfull = full(M);
-%F = -X .* tenfun(@log,Mfull) + tenfun(@log,Mfull+1);
-f = collapse(F);
-BigG = ( -X ./ Mfull ) + ( 1 ./ (Mfull + 1) );
-G = mttkrp(BigG,M.u,k);
-
-%% PLL
-% 
-% U = tocell(K);
-% M = full(K);
-% expM = exp(M);
-% f = sum(expM(:) - X(:).*M(:));
-% D = expM-X;
-% 
-% Gcell = cell(nd,1);
-% for n = 1:nd
-%     Gcell{n} = mttkrp(D,U,n);
-% end
-% 
-% % Finalize G
-% if GradVec
-%     Gcell = cellfun(@(x) x(:), Gcell, 'UniformOutput', false);
-%     G = cell2mat(Gcell);
-% else
-%     G = Gcell;
+% if ~isempty(Reg)
+%     if ~iscell(Reg)
+%         error('Parameter ''Reg'' should be a cell array');
+%     end
+%     if size(Reg,2) ~= 3
+%         error('Parameter ''Reg'' should have three columns');
+%     end
+%     % Check first column: Specific dimenions
+%     if ~all(cellfun(@(x) isvector(x) && all(ismember(x,0:ndims(X))), Reg(:,1)))
+%         error('Parameter ''Reg'' first column validation error'); 
+%     end
+%     % Check second column: weights
+%     if ~all(cellfun(@(x) isscalar(x) && x > 0, Reg(:,2)))
+%         error('Parameter ''Reg'' second column validation error'); 
+%     end        
+%     % Check second column: weights
+%     if ~all(cellfun(@(x) ismember(x,{'L1','L2'}), Reg(:,3)))
+%         error('Parameter ''Reg'' third column validation error'); 
+%     end        
 % end
 
-%%
-if GradVec
-    G = G(:);
+%% SPECIAL CASES - SPARSEDENSE WITH GAUSSIAN OR POISSON - TBD
+
+
+
+%% Pick master function
+switch FuncType
+    case 'B'
+        objfh = @(x,m) -x.*log(m) + log(1+m);
+        gradfh = @(x,m) -x./m + 1./(m+1);
+    otherwise
+        error('Unsupported function type %s', FuncType);
 end
+
+
+%% Calculation function value and optionally information for gradient
+switch CalcType
+    case 'Dense'
+        Mfull = full(M);
+        F = tenfun(objfh, X, Mfull);
+        if ~isempty(W)
+            F = W.*F;
+        end
+        f = collapse(F);
+        if nargout > 1
+            BigG = tenfun(gradfh, X, Mfull);
+            if ~isempty(W)
+                BigG = W.*BigG;
+            end
+        end
+    case 'Sparse'
+        xvals = mask(X,W);
+        mvals = mask(M,W);
+        fvals = objfh(xvals, mvals);
+        f = sum(fvals);
+        if nargout > 1
+            biggvals = gradfh(xvals, mvals);
+            BigG = sptensor(biggvals, W.subs, M.size);
+        end
+    case 'SparseDense'
+    % Onle works in the case of Gaussian or Poisson
+end
+
+%% ADD REGULARIZATION TO FUNCTION - TBD
+
+%% QUIT IF ONLY NEED FUNCTION EVAL
+if nargout <= 1 
+    return;
+end
+
+
+%% Gradient calculation - works the same whether BigG is dense or sparse
+
+% Gradient wrt Lambda
+if GradMode == 0 || (GradMode == -1 && ~IgnoreLambda)
+    tmp = mttkrp(BigG, M.u, 1);
+    GradLambda = sum(M.u{1} .* tmp)';
+    %TBD: Add regularization
+end   
+
+% Gradient wrt U's
+GradU = cell(nd,1);
+for k = 1:nd
+    if GradMode == k || GradMode == -1
+        if IgnoreLambda
+            GradU{k} = mttkrp(BigG, M.u, k);
+        else
+            GradU{k} = mttkrp(BigG, M, k);
+        end        
+        %TBD: Add regularization
+    end
+end
+
+%% Assemble gradient
+if GradMode == 0
+    G = GradLambda;
+elseif GradMode > 0
+    G = GradU{GradMode};
+    if GradVec
+        G = G(:);
+    end
+elseif GradMode == -1
+    if IgnoreLambda
+        G = GradU;
+        if GradVec
+            G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false));
+        end
+    else
+        G = ktensor(GradLambda, GradU);
+        if GradVec
+            G = tovec(G);
+        end
+    end
+end
+
+
+

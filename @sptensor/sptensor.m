@@ -81,7 +81,11 @@ function t = sptensor(varargin)
 %   sparse matrix. Note that a row-vector, integer MDA is interpreted as a
 %   size (see previous constructor).
 %
-%   S = SPTENSOR is the empty constructor.
+%   X = SPTENSOR is the empty constructor.
+%
+%   X = SPTENSOR(FH,SZ,NZ) creates a random sparse tensor of the specified
+%   size with NZ nonzeros (this can be an explit value or a proportion).
+%   The function handle FH is used to create the nonzeros.
 %
 %   The argument VALS may be scalar, which is expanded to be the
 %   same length as SUBS, i.e., it is equivalent to VALS*(p,1).
@@ -238,6 +242,43 @@ if (nargin == 4) && (isnumeric(varargin{4})) && (varargin{4} == 0)
 
     return;
 
+end
+
+% RANDOM TENSOR
+if (nargin == 3) && isa(varargin{1},'function_handle')
+    fh = varargin{1};
+    sz = varargin{2};
+    nz = varargin{3};
+    
+    if (nz < 0) || (nz >= prod(sz))
+        error('Requested number of nonzeros must be positive and less than the total size')
+    elseif (nz < 1)
+        nz = ceil(prod(sz) * nz);
+    else
+        nz = floor(nz);
+    end
+    
+    % Keep iterating until we find enough unique nonzeros or we give up
+    subs = [];
+    cnt = 0;
+    while (size(subs,1) < nz) && (cnt < 10)
+        subs = ceil( rand(nz, size(sz,2)) * diag(sz) );
+        subs = unique(subs, 'rows');
+        cnt = cnt + 1;
+    end
+    
+    nz = min(nz, size(subs,1));
+    subs = subs(1:nz,:);
+    vals = fh(nz,1);
+    
+    % Store everything
+    t.subs = subs;
+    t.vals = vals;
+    t.size = sz;
+
+    % Create the tensor
+    t = class(t, 'sptensor');
+    return;
 end
 
 % CONVERT A SET OF INPUTS
