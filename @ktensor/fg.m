@@ -115,14 +115,17 @@ end
 % end
 
 %% SPECIAL CASES - SPARSEDENSE WITH GAUSSIAN OR POISSON - TBD
-
+if strcmpi(CalcType,'SparseDense')
+    error('Cannot handle sparse tensor and dense/empty mask tensor');
+end
 
 
 %% Pick master function
 switch FuncType
     case 'B'
-        objfh = @(x,m) -x.*log(m) + log(1+m);
-        gradfh = @(x,m) -x./m + 1./(m+1);
+        bthresh = 1e-7; % Really important! Can't be any smaller!
+        objfh = @(x,m) -x.*log(m+bthresh) + log(m+1);
+        gradfh = @(x,m) -x./(m+bthresh) + 1./(m+1);
     otherwise
         error('Unsupported function type %s', FuncType);
 end
@@ -144,13 +147,14 @@ switch CalcType
             end
         end
     case 'Sparse'
+        %TODO: Reuse mvals for sparse MTTKRP
         xvals = mask(X,W);
         mvals = mask(M,W);
         fvals = objfh(xvals, mvals);
         f = sum(fvals);
         if nargout > 1
             biggvals = gradfh(xvals, mvals);
-            BigG = sptensor(biggvals, W.subs, M.size);
+            BigG = sptensor(find(W), biggvals, sz);
         end
     case 'SparseDense'
     % Onle works in the case of Gaussian or Poisson

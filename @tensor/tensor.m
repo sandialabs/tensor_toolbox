@@ -67,8 +67,9 @@ function t = tensor(varargin)
 %   of A.
 %
 %   X = TENSOR(F,SIZ) createa a tensor of size SIZ using the function
-%   handle F to create the data.
-
+%   handle F to create the data. The function F must take a size vector as
+%   input. 
+%
 %   X = TENSOR(A) creates a tensor from the multidimensional array A, using
 %   SIZ = size(A). 
 %
