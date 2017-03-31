@@ -1,6 +1,56 @@
+%CPRAND Compute a CP decomposition of a dense tensor using randomized least squares.
+%
+%   P = CPRAND(X,R) computes an estimate of the best rank-R
+%   CP model of a tensor X using a randomized alternating least-squares
+%   algorithm. The input tensor is preprocessed using a mixing algorithm.
+%   The input X can be a tensor, ktensor, or ttensor. The result P is a ktensor.
+%
+%   P = CPRAND(X,R,'mix',0) computes the above but without the preprocessing step.
+%   This is suitable for some data, and requires less initialization time and space. 
+%
+%   P = CPRAND(X,R,'param',value,...) specifies optional parameters and
+%   values. Valid parameters and their default values are:
+%      'tol' - Tolerance on difference in fit {0}
+%      'maxiters' - Maximum number of iterations {100}
+%      'dimorder' - Order to loop through dimensions {1:ndims(A)}
+%      'init' - Initial guess [{'random'}|'nvecs'|cell array]
+%      'printitn' - Print fit every n iterations; 0 for no printing {1}
+%      'desired_fit' - Terminate when fit reaches this threshold {1}
+%      'mix' - Include  {10Rlog(R)}
+%      'num_samples' - Number of least-squares samples taken in each iteration {10Rlog(R)}
+%      'window' - Maximum number of iterations to perform without seeing any fit improvement; 0 to ignore this condition {0}
+%      'fit_samples' - Number of samples to use when computing approximate fit {min(nnz(X),2^14)}
+%
+%   [P,U0] = CPRAND(...) also returns the initial guess.
+%
+%   [P,U0,out] = CPRAND(...) also returns additional output that contains
+%   the input parameters.
+%
+%   Note: The exact "fit" is defined as 1 - norm(X-full(P))/norm(X) and is
+%   loosely the proportion of the data described by the CP model, i.e., a
+%   fit of 1 is perfect.
+%
+%   Examples:
+%   X = tenrand([5 4 3], 10);
+%   P = cprand(X,2);
+%   P = cprand(X,2,'dimorder',[3 2 1]);
+%   P = cprand(X,2,'dimorder',[3 2 1],'init','nvecs');
+%   U0 = {rand(5,2),rand(4,2),[]}; %<-- Initial guess for factors of P
+%   [P,U0,out] = cprand(X,2,'dimorder',[3 2 1],'init',U0);
+%   P = cprand(X,2,out.params); %<-- Same params as previous run
+%   P = cprand(X,2, 'num_samples', 10, 'printitn', 50, 'init', 'random', 'maxiters', 1000, 'desired_fit', 0.98, 'mix', 1);
+%   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2015, Sandia Corporation.
 
-% Example call for tensor X with rank R:
-% cprand(X, R, 'num_samples', 50, 'printitn', 50, 'init', 'random', 'maxiters', MAX_ITERS, 'desired_fit', TOL, 'fft', 1); 
+% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
+% http://www.sandia.gov/~tgkolda/TensorToolbox.
+% Copyright (2015) Sandia Corporation. Under the terms of Contract
+% DE-AC04-94AL85000, there is a non-exclusive license for use of this
+% work by or on behalf of the U.S. Government. Export of this data may
+% require a license from the United States Government.
+% The full license terms can be found in the file LICENSE.txt
 
 function [P,Uinit,output] = cprand(X,R,varargin)
 
@@ -10,18 +60,16 @@ function [P,Uinit,output] = cprand(X,R,varargin)
 
     %% Set algorithm parameters from input or by using defaults
     params = inputParser;
-    params.addParamValue('tol',1e-6,@isscalar);
+    params.addParamValue('tol',0,@isscalar);
     params.addParamValue('maxiters',100,@(x) isscalar(x) & x > 0);
     params.addParamValue('dimorder',1:N,@(x) isequal(sort(x),1:N));
     params.addParamValue('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
     params.addParamValue('printitn',10,@isscalar);
     params.addParamValue('desired_fit',1,@(x) isscalar(x) & x > 0 & x < 1);
-    params.addParamValue('fft',0,@(x) isscalar(x) & x == 0 || x == 1);
+    params.addParamValue('mix',1,@(x) isscalar(x) & x == 0 || x == 1);
     params.addParamValue('num_samples',0,@(x) isscalar(x) & x > 0);
-    params.addParamValue('stopping',1,@(x) isscalar(x) & x == 0 || x == 1);
     params.addParamValue('window',0,@(x) isscalar(x) & x >= 0);
     params.addParamValue('fit_samples',2^14,@(x) isscalar(x) & x >= 0);
-
 
     params.parse(varargin{:});
 
@@ -32,8 +80,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
     init = params.Results.init;
     printitn = params.Results.printitn;
     desired_fit = params.Results.desired_fit;   % cprand will terminate if this fit is reached (default 1)
-    do_fft = params.Results.fft;
-    stopping = params.Results.stopping;
+    do_fft = params.Results.mix;
     window = params.Results.window;     % if defined, cprand will terminate if fit does not decrease after this many iterations
     fit_samples = params.Results.fit_samples;
 
@@ -46,7 +93,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
         num_samples = params.Results.num_samples;
     else
         num_samples = ceil(10*R*log2(R));
-        fprintf('Warning: num_samples not passed to CPRAND.\n Using (10 * R logR)=%d as default.\n',num_samples); 
+        %fprintf('Warning: num_samples not passed to CPRAND.\n Using (10 * R logR)=%d as default.\n',num_samples); 
     end
 
     %% Error checking 
@@ -163,7 +210,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
         end
 
         P = ktensor(lambda, U);
-        if (stopping || mod(iter,printitn)==0 || window > 0)
+        if (mod(iter,printitn)==0 || window > 0)
             if normX == 0
                 fit = norm(P)^2 - 2 * innerprod(X,P);
             else
@@ -183,7 +230,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
             end
 
             %SCP convergence criteria
-            if (fit > desired_fit) || (windowcounter > window) || (stopping) && (iter > 1) && ((fitchange < fitchangetol))
+            if (fit > desired_fit) || (windowcounter > window) || (iter > 1) && ((fitchange < fitchangetol))
                 flag = 0;
             else
                 flag = 1;
