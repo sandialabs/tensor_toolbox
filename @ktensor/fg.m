@@ -1,48 +1,61 @@
 function [f,G] = fg(M,X,varargin)
 %FG Objective and gradient function evaluation for fitting Ktensor to data.
 %
-%   F = fg(M,X) takes a ktensor M and a tensor X and returns the value of
-%   the loss function (see loss function definitions below). The tensors
-%   M and X must be the same order and size. 
+%   [F,G] = fg(M,X) takes a ktensor M and a data tensor X and returns the
+%   value of the scalar loss function (see loss function definitions below)
+%   as F and the gradient with respect to the loss function as G. The
+%   gradient is stored as a ktensor unless modified per the optional
+%   parameters below. The tensors M and X must be the same order and size.
 %
-%   [F,G] = fg(M,X) also returns the gradients (with respect to lambda and
-%   each factor matrix in M) as a ktensor G.
+%   [F,G] = fg(M,X,'parameter',value,...) also accepts parameter value
+%   pairs as follows:
 %
-%   [F,G] = fg(M,X,'IgnoreLambda',true) instead returns the gradients (with
-%   respect to each factor matrix) as a cell array and ignores lambda in
-%   the calculation of the gradient.
+%   'Mask' - Defines a mask tensor M that is 1 for known values and 0 for
+%   missing values. The tensor M can be dense or sparse.
 %
-%   [F,G] = fg(M,X,'GradMode',K) returns the gradient with respect to the
-%   Kth factor matrix as a single matrix. 
+%   'Func' - Which scalar loss function to use. This should be a
+%   function/gradient pair of the form f(x,m) and g(x,m) where x and m are
+%   scalars or vectors. In the vector case, each one should be processed as
+%   if it were a scalar. Some defaults are predefined.
+%      'G': Gaussian
+%           objfh = @(x,m) 0.5 * (x-m).^2;
+%           gradfh = @(x,m) -x + m;
+%      'B': Bernoulli/Binary, assumes m >= 0:
+%           bthresh = 1e-7; 
+%           objfh = @(x,m) -x.*log(m+bthresh) + log(m+1);
+%           gradfh = @(x,m) -x./(m+bthresh) + 1./(m+1);
 %
-%   [F,G] = fg(M,X,'GradMode',K,'IgnoreLambda',true) ignores lambda in the
-%   calculation of the gradient.
+%   'FuncOnly' - True says to only compute the function value. This is the
+%   default behavior if there is only one output argument and 'GradOnly' is
+%   false. Throws an error if there is more than one output argument.
+%   Default: false. 
 %
-%   [F,G] = fg(K,X,'GradMode',0) returns the gradient with respect
-%   to lambda.
+%   'GradOnly' - True says to only compute the gradient value. Throws an
+%   error if there is more than one output argument. Default: false.
 %
-%   [F,G] = fg(K,X,...,'GradVec',true, ...) vectorizes G. For a vector,
-%   this is no change. For a matrix, this is equivalent to G = G(:). For a
-%   cell array, this is equivalent to 
+%   'IgnoreLambda' - True says to ignore lambda in the function and
+%   gradient calculations. In this case, G is a cell array whose K-th cell
+%   is the gradient in matrix form with respect to the K-th factor matrix
+%   in M. Default: false.
+%   
+%   'GradMode' - Says which gradient to compute. A value K between 1 and
+%   ndims(X) says to compute the gradient with respect to the K-th factor
+%   matrix; in this case, G is a matrix. A value of 0 says to compute the
+%   gradient with respect to lambda; in this case, G is a vector. A value
+%   of -1 says to compute all the gradients; in thie case, G is either a
+%   ktensor or a cell array, depending on the value of 'IgnoreLambda'.
+%   Default: -1.
+%
+%   'GradVec' - True says to vectorize the gradient G. For a vector (e.g.,
+%   'GradMode' == 0), this is no change. For a matrix (e.g., 'GradMode' ==
+%   K), this is equivalent to G = G(:). For a cell array (e.g.,
+%   'IgnoreLambda' == true), this is equivalent to
 %      G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false))
-%   For a ktensor, this is equivalent to G = tovec(G).
+%   For a ktensor, this is equivalent to G = tovec(G). Default: false.
 %
-%   [F,G] = fg(K,X,...,'Mask',M) defines a mask tensor M that is 1 for
-%   known values and 0 for missing values.
-%
-%   Loss Function Options: TBD
 
 
 % FUTURE OPTIONS...
-%   [F,G] = fg(K,X,...,'Type',T,...) chooses the objective function type.
-%   In every case, we return F = sum(L(:)) for different choices of L:
-%      'G': Gaussian, L = (X-K).^2 [Default]
-%      'P': Poisson, L = K - X*log(K), assumes K >= 0
-%      'LP': Log-Poisson, L = exp(K) - X*K
-%      'B': Bernoulli, L = log(K+1) - X*log(K), assumes K >= 0
-%      'LB': Logit-Bernoulli, L = log(1+K) - X*K
-%   Here all operations are written as if they are elementwise and applied
-%   to full(K).
 %
 %   [F,G] = fg(K,X,...,'Reg',REG,...} specifies the
 %   regularization for lambda and/or any subset of factor matrices. REG is
@@ -66,63 +79,58 @@ if ~isequal(size(X),sz)
 end
 
 params = inputParser;
+params.addParameter('FuncOnly', false, @(x) isscalar(x) && islogical(x));
+params.addParameter('GradOnly', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('GradMode', -1, @(x) isscalar(x) && all(ismember(x,-1:ndims(X))));
 params.addParameter('GradVec', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('IgnoreLambda', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('Mask',[]);
 params.addParameter('Type', 'B', @(x) ismember(x, {'B'}));
-%params.addParameter('Reg',[]);
 params.parse(varargin{:});
 
+FuncOnly = params.Results.FuncOnly;
+GradOnly = params.Results.GradOnly;
 GradMode = params.Results.GradMode;
 GradVec = params.Results.GradVec;
 IgnoreLambda = params.Results.IgnoreLambda;
 W = params.Results.Mask;
 FuncType = params.Results.Type;
 
-% Figure out sparsity situation with X and Mask
-if ~isa(X,'sptensor') 
-    CalcType = 'Dense';
-elseif isa(W,'sptensor')
-    CalcType = 'Sparse';
+if FuncOnly && GradOnly
+    error('Cannot set both ''FuncOnly'' and ''GradOnly'' to true');
+end
+
+if (nargout > 2) || ((nargout > 1) && (FuncOnly || GradOnly))
+    error('Too many output arguments');
+end
+
+if nargout == 1
+    if GradOnly
+        CompFunc = false;
+        CompGrad = true;
+    else
+        CompFunc = true;
+        CompGrad = false;
+    end
 else
-    CalcType = 'SparseDense';
+    CompFunc = true;
+    CompGrad = true;  
+end
+
+% Figure out sparsity situation with X and Mask
+if isa(W,'sptensor')
+    CalcType = 'Sparse';
+elseif ~isa(X,'sptensor') 
+    CalcType = 'Dense';
 end
     
 
-%Reg = params.Results.Reg;
-
-% Check Reg
-% if ~isempty(Reg)
-%     if ~iscell(Reg)
-%         error('Parameter ''Reg'' should be a cell array');
-%     end
-%     if size(Reg,2) ~= 3
-%         error('Parameter ''Reg'' should have three columns');
-%     end
-%     % Check first column: Specific dimenions
-%     if ~all(cellfun(@(x) isvector(x) && all(ismember(x,0:ndims(X))), Reg(:,1)))
-%         error('Parameter ''Reg'' first column validation error'); 
-%     end
-%     % Check second column: weights
-%     if ~all(cellfun(@(x) isscalar(x) && x > 0, Reg(:,2)))
-%         error('Parameter ''Reg'' second column validation error'); 
-%     end        
-%     % Check second column: weights
-%     if ~all(cellfun(@(x) ismember(x,{'L1','L2'}), Reg(:,3)))
-%         error('Parameter ''Reg'' third column validation error'); 
-%     end        
-% end
-
-%% SPECIAL CASES - SPARSEDENSE WITH GAUSSIAN OR POISSON - TBD
-if strcmpi(CalcType,'SparseDense')
-    error('Cannot handle sparse tensor and dense/empty mask tensor');
-end
-
-
-%% Pick master function
+%% Setup objective function
 switch FuncType
-    case 'B'
+    case 'G' % Gaussian
+        objfh = @(x,m) 0.5 * (x-m).^2;
+        gradfh = @(x,m) -x + m;
+    case 'B' % Bernoulli
         bthresh = 1e-7; % Really important! Can't be any smaller!
         objfh = @(x,m) -x.*log(m+bthresh) + log(m+1);
         gradfh = @(x,m) -x./(m+bthresh) + 1./(m+1);
