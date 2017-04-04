@@ -1,29 +1,33 @@
+function [P,Uinit,output] = cp_als_rand(X,R,varargin)
 %CPRAND Compute a CP decomposition of a dense tensor using randomized least squares.
 %
-%   P = CPRAND(X,R) computes an estimate of the best rank-R
+%   P = CP_ALS_RAND(X,R) computes an estimate of the best rank-R
 %   CP model of a tensor X using a randomized alternating least-squares
 %   algorithm. The input tensor is preprocessed using a mixing algorithm.
 %   The input X can be a tensor, ktensor, or ttensor. The result P is a ktensor.
 %
-%   P = CPRAND(X,R,'mix',0) computes the above but without the preprocessing step.
+%   P = CP_ALS_RAND(X,R,'mix',0) computes the above but without the preprocessing step.
 %   This is suitable for some data, and requires less initialization time and space. 
 %
-%   P = CPRAND(X,R,'param',value,...) specifies optional parameters and
+%   P = CP_ALS_RAND(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
-%      'tol' - Tolerance on difference in fit {0}
-%      'maxiters' - Maximum number of iterations {100}
-%      'dimorder' - Order to loop through dimensions {1:ndims(A)}
-%      'init' - Initial guess [{'random'}|'nvecs'|cell array]
-%      'printitn' - Print fit every n iterations; 0 for no printing {1}
-%      'desired_fit' - Terminate when fit reaches this threshold {1}
-%      'mix' - Include  {10Rlog(R)}
-%      'num_samples' - Number of least-squares samples taken in each iteration {10Rlog(R)}
-%      'window' - Maximum number of iterations to perform without seeing any fit improvement; 0 to ignore this condition {0}
-%      'fit_samples' - Number of samples to use when computing approximate fit {min(nnz(X),2^14)}
+%   o 'tol'           - Tolerance on difference in fit {0}
+%   o 'maxiters'      - Maximum number of iterations {100}
+%   o 'dimorder'      - Order to loop through dimensions {1:ndims(A)}
+%   o 'init'          - Initial guess [{'random'}|'nvecs'|cell array]
+%   o 'printitn'      - Print fit every n iterations; 0 for no printing {1}
+%   o 'desired_fit'   - Terminate when fit reaches this threshold {1}
+%   o 'mix'           - Include  {10Rlog(R)}
+%   o 'num_samples'   - Number of least-squares samples taken in each iteration 
+%                       {10Rlog(R)}
+%   o 'window'        - Maximum number of iterations to perform without seeing 
+%                       any fit improvement; 0 to ignore this condition {0}
+%   o 'fit_samples'   - Number of samples to use when computing approximate fit 
+%                       {min(nnz(X),2^14)}
 %
-%   [P,U0] = CPRAND(...) also returns the initial guess.
+%   [P,U0] = CP_ALS_RAND(...) also returns the initial guess.
 %
-%   [P,U0,out] = CPRAND(...) also returns additional output that contains
+%   [P,U0,out] = CP_ALS_RAND(...) also returns additional output that contains
 %   the input parameters.
 %
 %   Note: The exact "fit" is defined as 1 - norm(X-full(P))/norm(X) and is
@@ -32,13 +36,14 @@
 %
 %   Examples:
 %   X = tenrand([5 4 3], 10);
-%   P = cprand(X,2);
-%   P = cprand(X,2,'dimorder',[3 2 1]);
-%   P = cprand(X,2,'dimorder',[3 2 1],'init','nvecs');
+%   P = cp_als_rand(X,2);
+%   P = cp_als_rand(X,2,'dimorder',[3 2 1]);
+%   P = cp_als_rand(X,2,'dimorder',[3 2 1],'init','nvecs');
 %   U0 = {rand(5,2),rand(4,2),[]}; %<-- Initial guess for factors of P
-%   [P,U0,out] = cprand(X,2,'dimorder',[3 2 1],'init',U0);
-%   P = cprand(X,2,out.params); %<-- Same params as previous run
-%   P = cprand(X,2, 'num_samples', 10, 'printitn', 50, 'init', 'random', 'maxiters', 1000, 'desired_fit', 0.98, 'mix', 1);
+%   [P,U0,out] = cp_als_rand(X,2,'dimorder',[3 2 1],'init',U0);
+%   P = cp_als_rand(X,2,out.params); %<-- Same params as previous run
+%   P = cp_als_rand(X,2, 'num_samples', 10, 'printitn', 50, 'init', 'random', 
+%       'maxiters', 1000, 'desired_fit', 0.98, 'mix', 1);
 %   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR.
 %
 %MATLAB Tensor Toolbox.
@@ -52,24 +57,24 @@
 % require a license from the United States Government.
 % The full license terms can be found in the file LICENSE.txt
 
-function [P,Uinit,output] = cprand(X,R,varargin)
 
     N = ndims(X);
     normX = norm(X);
     sz = size(X);
+    num_elements = prod(sz);
 
     %% Set algorithm parameters from input or by using defaults
     params = inputParser;
-    params.addParamValue('tol',0,@isscalar);
-    params.addParamValue('maxiters',100,@(x) isscalar(x) & x > 0);
-    params.addParamValue('dimorder',1:N,@(x) isequal(sort(x),1:N));
-    params.addParamValue('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
-    params.addParamValue('printitn',10,@isscalar);
-    params.addParamValue('desired_fit',1,@(x) isscalar(x) & x > 0 & x < 1);
-    params.addParamValue('mix',1,@(x) isscalar(x) & x == 0 || x == 1);
-    params.addParamValue('num_samples',0,@(x) isscalar(x) & x > 0);
-    params.addParamValue('window',0,@(x) isscalar(x) & x >= 0);
-    params.addParamValue('fit_samples',2^14,@(x) isscalar(x) & x >= 0);
+    params.addParameter('tol',0,@isscalar);
+    params.addParameter('maxiters',100,@(x) isscalar(x) & x > 0);
+    params.addParameter('dimorder',1:N,@(x) isequal(sort(x),1:N));
+    params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
+    params.addParameter('printitn',10,@isscalar);
+    params.addParameter('desired_fit',1,@(x) isscalar(x) & x > 0 & x < 1);
+    params.addParameter('mix',true,@(x) isboolean(x));
+    params.addParameter('num_samples',0,@(x) isscalar(x) & x > 0);
+    params.addParameter('window',0,@(x) isscalar(x) & x >= 0);
+    params.addParameter('fit_samples',2^14,@(x) isscalar(x) & x >= 0);
 
     params.parse(varargin{:});
 
@@ -81,7 +86,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
     printitn = params.Results.printitn;
     desired_fit = params.Results.desired_fit;   % cprand will terminate if this fit is reached (default 1)
     do_fft = params.Results.mix;
-    window = params.Results.window;     % if defined, cprand will terminate if fit does not decrease after this many iterations
+    iter_window = params.Results.window;     % if defined, cprand will terminate if fit does not decrease after this many iterations
     fit_samples = params.Results.fit_samples;
 
     maxfit = 0;
@@ -103,7 +108,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
         if numel(Uinit) ~= N
             error('OPTS.init does not have %d cells',N);
         end
-        for n = dimorder(2:end);
+        for n = dimorder(2:end)
             if ~isequal(size(Uinit{n}),[size(X,n) R])
                 error('OPTS.init{%d} is the wrong size',n);
             end
@@ -143,10 +148,8 @@ function [P,Uinit,output] = cprand(X,R,varargin)
 
     %% Sample input tensor for stopping criterion
     fitsamples = min(nnz(X),fit_samples);
-    [Xfit_subs, Xfit_idxs] = sample_all_modes(fitsamples, sz);
+    [Xfit_subs, ~] = sample_all_modes(fitsamples, sz);
     Xfit_vals = X(Xfit_subs);
-    Xfit = sptensor(Xfit_subs,Xfit_vals,sz);
-    normXf = norm(Xfit);
     %% Main Loop: Iterate until convergence
     if (do_fft)
         % Compute random diagonal D_n for each factor
@@ -187,7 +190,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
 
             mixinfo.dofft = do_fft;
             mixinfo.signflips = diag_flips;
-            [Unew, sampX, sampZ]= dense_sample_mttkrp(X_mixed,U_mixed,n,num_samples,mixinfo);
+            [Unew, ~, ~]= dense_sample_mttkrp(X_mixed,U_mixed,n,num_samples,mixinfo);
 
             if issparse(Unew)
                 Unew = full(Unew);   % for the case R=1
@@ -210,17 +213,17 @@ function [P,Uinit,output] = cprand(X,R,varargin)
         end
 
         P = ktensor(lambda, U);
-        if (mod(iter,printitn)==0 || window > 0)
+        if (mod(iter,printitn)==0 || iter_window > 0)
             if normX == 0
                 fit = norm(P)^2 - 2 * innerprod(X,P);
             else
                 Ps = sample_ktensor(P, Xfit_subs);
                 diff_mean = mean((Xfit_vals - Ps).^2);
-                fit = 1 - sqrt(diff_mean*prod(size(X)))/normX;
+                fit = 1 - sqrt(diff_mean*num_elements)/normX;
             end
             fitchange = abs(fitold - fit);
 
-            if (window > 0)
+            if (iter_window > 0)
                 if fit > maxfit
                     windowcounter = 0;
                     maxfit = fit;
@@ -230,7 +233,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
             end
 
             %SCP convergence criteria
-            if (fit > desired_fit) || (windowcounter > window) || (iter > 1) && ((fitchange < fitchangetol))
+            if (fit > desired_fit) || (windowcounter > iter_window) || (iter > 1) && ((fitchange < fitchangetol))
                 flag = 0;
             else
                 flag = 1;
@@ -259,7 +262,7 @@ function [P,Uinit,output] = cprand(X,R,varargin)
         fit = 1 - (normresidual / normX);%fraction explained by model
         Ps = sample_ktensor(P, Xfit_subs);
         Xfit_mean = mean((Xfit_vals - Ps).^2);
-        testfit = 1 - sqrt(Xfit_mean*prod(size(X)))/normX;
+        testfit = 1 - sqrt(Xfit_mean*num_elements)/normX;
     end
     fprintf(' Final fit = %e Final estimated fit = %e \n', fit, testfit);
     %end
@@ -279,9 +282,16 @@ end
 % MTTKRP That performs sampling after transforming X and the KR-product with an FFT
 % And then solves using normal equations
 function [V, Xsamp, Zsamp] = dense_sample_mttkrp(X,U,n,num_samples,mixinfo)
+
     N = ndims(X);
-    if (N < 2) error('MTTKRP is invalid for tensors with fewer than 2 dimensions'); end
-    if (length(U) ~= N) error('Cell array is the wrong length'); end
+
+    if (N < 2) 
+        error('MTTKRP is invalid for tensors with fewer than 2 dimensions'); 
+    end
+
+    if (length(U) ~= N) 
+        error('Cell array is the wrong length'); 
+    end
 
     if n == 1 
         R = size(U{2},2);
@@ -324,7 +334,7 @@ function P = skr(varargin)
     if iscell(varargin{1}) % Input is a single cell array
         A = varargin{1};
     else % Input is a sequence of matrices
-        A = {varargin{1:end-1}};
+        A = varargin(1:end-1);
     end
 
     numfactors = length(A);
@@ -368,7 +378,7 @@ function [tensor_idx, factor_idx] = sample_mode_n(num_samples, dims, n)
     % Expand tensor_idx so that every fiber element is included
     %tensor_idx = repelem(tensor_idx,dims(n),1); % not portable
     tensor_idx = kron(tensor_idx,ones(dims(n),1)); % portable
-    tensor_idx(:,n) = repmat([1:dims(n)]',num_samples,1);
+    tensor_idx(:,n) = repmat((1:dims(n))',num_samples,1);
     tensor_idx = tt_sub2ind(dims, tensor_idx);
 end
 
@@ -379,7 +389,7 @@ function [subs, idxs] = sample_all_modes(num_samples, dims)
     D = length(dims);
     subs = zeros(num_samples, D);     % Tuples that index fibers in original tensor
 
-    for i = [1:D]
+    for i = 1:D
         % Uniformly sample w.r. in each dimension
         subs(:,i) = randi(dims(i), num_samples, 1);
     end
@@ -393,9 +403,5 @@ end
 % Random sample fibers in mode n from tensor X
 % Generate the corresponding indices for the factor matrices as a tuple
 function [data] = sample_ktensor(P, subs)
-    sz = size(P);
     data = skr(P.u, subs) * P.lambda;
-    %Xk = sptensor(subs,data,sz);
-    % we may rarely see a 0 value in data
-    % so we should just return data
 end
