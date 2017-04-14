@@ -57,7 +57,6 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
 % require a license from the United States Government.
 % The full license terms can be found in the file LICENSE.txt
 
-
     N = ndims(X);
     normX = norm(X);
     sz = size(X);
@@ -71,7 +70,7 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
     params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
     params.addParameter('printitn',10,@isscalar);
     params.addParameter('desired_fit',1,@(x) isscalar(x) & x > 0 & x < 1);
-    params.addParameter('mix',true,@(x) isboolean(x));
+    params.addParameter('mix',true,@(x) isscalar(x) & x == 0 || x == 1);
     params.addParameter('num_samples',0,@(x) isscalar(x) & x > 0);
     params.addParameter('window',0,@(x) isscalar(x) & x >= 0);
     params.addParameter('fit_samples',2^14,@(x) isscalar(x) & x >= 0);
