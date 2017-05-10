@@ -85,7 +85,7 @@ params.addParameter('GradMode', -1, @(x) isscalar(x) && all(ismember(x,-1:ndims(
 params.addParameter('GradVec', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('IgnoreLambda', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('Mask',[]);
-params.addParameter('Type', 'B', @(x) ismember(x, {'B'}));
+params.addParameter('Type', 'B', @(x) ismember(x, {'B','G'}));
 params.parse(varargin{:});
 
 FuncOnly = params.Results.FuncOnly;
