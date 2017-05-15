@@ -11,14 +11,15 @@ relerr = sqrt(ftrue) / norm(X); % Should be equal to the noise level
 
 %% Compute error using ktensor/fg
 
-%falt = 2*fg(M,X,'Type','G')
+[f,G] = fg(M,X,'Type','G');
+f = 2*f
 
 %% Compute error using ktensor/fg_est
 sz = size(X);
 n = 1000;
 idx = randi(prod(sz), n, 1);
 subs = tt_ind2sub(sz, idx);
-[fmean,stuff] = fg_est(M,X,subs);
+[fmean,Gest,stuff] = fg_est(M,X,subs);
 fest = fmean * prod(sz);
 
 
