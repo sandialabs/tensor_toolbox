@@ -36,8 +36,8 @@ for k = 2:d
 end
 mvals = sum(tmp,2);
 
-%% Compute function value
-fest = mean( (xvals - mvals).^2 );
+%% Compute function value (and scale)
+fest = mean( (xvals - mvals).^2 ) * prod(n);
 
 %% Compute gradient 
 % This is inherently doing an MTTKRP, but we avoid forming the G tensor or
@@ -65,7 +65,7 @@ for k = 1:d
     for r = 1:ncomponents(M)
         m(:,r) = accumarray(msubs,mvals(:,r),[n(k),1]);
     end
-    Gest{k} = m;        
+    Gest{k} = m / size(subs,1) * prod(n);
 end
     
 
