@@ -4,7 +4,6 @@ function M = cp_sgd(X,r,varargin)
 %% Extract number of dimensions and norm of X.
 n = ndims(X);
 sz = size(X);
-normX = norm(X);
 
 %% Set algorithm parameters from input or by using defaults
 params = inputParser;
@@ -42,7 +41,7 @@ else
         Uinit{k} = rand(sz(k),r);
     end
 end
-U = Uinit;
+M = ktensor(Uinit);
 
 %% Extract samples for estimating function value
 % TBD: Handle missing data. Currently assumes input is complete. Also note
@@ -50,10 +49,9 @@ U = Uinit;
 % not be a good thing.
 fidx = randi(prod(sz), fsamples, 1);
 fsubs = tt_ind2sub(sz, fidx);
-fxvals = X(fidx);
 
 %% Initial function value
-fest = festimate(n, r, fsamples, fxvals, fsubs, U);
+fest = fg_est(M,X,fsubs);
 
 if verbosity > 10
     fprintf('Initial f-est: %e\n', fest);
@@ -61,42 +59,47 @@ end
 
 %% Main loop
 nepoch = 0;
-Uexplode = cell(n,1);
 while nepoch < maxepochs
     
-    U = renormalize(U);
+%     U = renormalize(U);    
     
     for iter = 1:epochiters
     
+        % Select subset for stochastic gradient
         gidx = randi(prod(sz), gsamples, 1);
         gsubs = tt_ind2sub(sz, gidx);
+        
+        % Compute gradients for each mode and take step
+        % This isn't using any of the ability of fg_est to keep values and
+        % also creates a ktensor from U each time. Prob fairly inefficient.
+        [~,Gest] = fg_est(M,X,gsubs);
         for k = 1:n
-            Uexplode{k} = U(gsubs(k,:),:);
+            M.u{k} = M.u{k} + rate*Gest{k};
         end
-        
-        % Compute gvals
-        xvals = X(gidx);
-        tmp = Uexplode{1};
-        for k = 2:n
-            tmp = tmp .* Uexplode{k};
-        end
-        mvals = sum(tmp,2);
-        gvals = xvals - mvals;
-        
-        % Compute krvecs + gradients for each mode and take step
-        
         
     end
     
     festold = fest;
-    fest = festimate(n, r, fsamples, fxvals, fsubs, U);
+    % This isn't using any of the ability of fg_est to keep values and
+    % also creates a ktensor from U each time. Prob fairly inefficient.
+    fest = fg_est(M,X,fsubs);
     if fest >= festold
         break;
-    end    
+    end
     
+    nepoch = nepoch + 1;
+    
+    if verbosity > 10
+        fprintf(' Epoch %2d: fest = %e, ftrue = %e\n', nepoch, fest, ...
+            fg(M,X,'Type','G','IgnoreLambda',true));
+    end
 end
 
-
+%% Clean up final result
+% Arrange the final tensor so that the columns are normalized.
+M = arrange(M);
+% Fix the signs
+M = fixsigns(M);
 
 %% Wrap up
 if verbosity > 10
