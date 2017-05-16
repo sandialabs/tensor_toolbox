@@ -105,7 +105,7 @@ for n = 1:N
 end
 
 % Collapse across all modes using the product
-C = collapse(Cbig,3,@prod);
+C = double(collapse(Cbig,3,@prod));
 
 %% Calculate penalty based on differences in the Lambda's
 % Note that we are assuming the the lambda value are positive because the
