@@ -12,16 +12,15 @@ relerr = sqrt(ftrue) / norm(X); % Should be equal to the noise level
 %% Compute error using ktensor/fg
 
 [f,G] = fg(M,X,'Type','G','IgnoreLambda',true);
-f = 2*f
+f = 2*f;
+G = cellfun(@(g) -2*g,G,'UniformOutput',false);
 
 %% Compute error using ktensor/fg_est
 sz = size(X);
 n = 1000;
 idx = randi(prod(sz), n, 1);
 subs = tt_ind2sub(sz, idx);
-[fmean,Gest,stuff] = fg_est(M,X,subs);
-fest = fmean * prod(sz);
-
+[fest,Gest,stuff] = fg_est(M,X,subs);
 
 fprintf('True function value      = %e\n', ftrue);
 fprintf('Estimated function value = %e (with %d samples)\n', fest, n);
@@ -37,6 +36,7 @@ W = tensor(sptensor(subs,1,size(X)));
 % W = sptensor(subs,1,size(X));  % Strangely gives something different
 [fmask,Gmask] = fg(M,X,'Type','G','IgnoreLambda',true,'Mask',W);
 fmask = 2 * (fmask / n * prod(sz));
+Gmask = cellfun(@(g) -2*(g / n * prod(sz)),Gmask,'UniformOutput',false);
 
 fprintf('Estimated function value = %e (using fg w/ mask)\n', fmask);
 fprintf('Gradient cosine angle    = %e (b/w fg_est and fg w/ mask)\n', ...
