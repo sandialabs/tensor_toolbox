@@ -73,6 +73,9 @@ while nepoch < maxepochs
         % This isn't using any of the ability of fg_est to keep values and
         % also creates a ktensor from U each time. Prob fairly inefficient.
         [~,Gest] = fg_est(M,X,gsubs);
+        if any(isinf(cell2mat(Gest)))
+            error('Infinite gradient reached!')
+        end
         for k = 1:n
             M.u{k} = M.u{k} + rate*Gest{k};
         end
