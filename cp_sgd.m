@@ -14,6 +14,7 @@ params.addParameter('fsamples', 1000);
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-2);
+params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -24,6 +25,7 @@ fsamples = params.Results.fsamples;
 epochiters = params.Results.epochiters;
 maxepochs = params.Results.maxepochs;
 rate = params.Results.rate;
+gsample_gen = params.Results.gsample_gen;
 
 %% Welcome
 if verbosity > 10
@@ -66,7 +68,7 @@ while nepoch < maxepochs
     for iter = 1:epochiters
     
         % Select subset for stochastic gradient
-        gidx = randi(prod(sz), gsamples, 1);
+        gidx = gsample_gen(prod(sz), gsamples, 1);
         gsubs = tt_ind2sub(sz, gidx);
         
         % Compute gradients for each mode and take step
