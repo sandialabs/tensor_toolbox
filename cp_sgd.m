@@ -80,9 +80,7 @@ while nepoch < maxepochs
         if any(isinf(cell2mat(Gest)))
             error('Infinite gradient reached!')
         end
-        for k = 1:n
-            M.u{k} = M.u{k} + rate*Gest{k};
-        end
+        M.u = cellfun(@(u,g) u+rate*g,M.u,Gest,'UniformOutput',false);
         
     end
     
