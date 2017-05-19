@@ -19,7 +19,7 @@ if isempty(xvals)
 end
 
 %% Grab appropriate rows of each factor matrix
-Uexplode = params.Results.xvals;
+Uexplode = params.Results.Uexplode;
 if isempty(Uexplode)
     Uexplode = cell(d,1);
     for k = 1:d
@@ -59,16 +59,16 @@ end
 
 Gest = cell(d,1);
 for k = 1:d
-    m = zeros(n(k),r);
-    mvals = bsxfun(@times,KRexplode{k},gvals);
+    gm = zeros(n(k),r);
+    gmvals = bsxfun(@times,KRexplode{k},gvals);
     msubs = subs(:,k);
     for r = 1:ncomponents(M)
-        m(:,r) = accumarray(msubs,mvals(:,r),[n(k),1]);
+        gm(:,r) = accumarray(msubs,gmvals(:,r),[n(k),1]);
     end
-    Gest{k} = m / size(subs,1) * prod(n);
+    Gest{k} = gm / size(subs,1) * prod(n);
 end
     
 
 %%
 info.xvals = xvals;
-info.mvals = mvals;
+info.Uexplode = Uexplode;
