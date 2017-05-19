@@ -15,6 +15,7 @@ params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-2);
 params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
+params.addParameter('print_ftrue', false, @islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -26,6 +27,7 @@ epochiters = params.Results.epochiters;
 maxepochs = params.Results.maxepochs;
 rate = params.Results.rate;
 gsample_gen = params.Results.gsample_gen;
+print_ftrue = params.Results.print_ftrue;
 
 %% Welcome
 if verbosity > 10
@@ -95,8 +97,12 @@ while nepoch < maxepochs
     nepoch = nepoch + 1;
     
     if verbosity > 10
-        fprintf(' Epoch %2d: fest = %e, ftrue = %e\n', nepoch, fest, ...
-            fg(M,X,'Type','G','IgnoreLambda',true));
+        if print_ftrue
+            fprintf(' Epoch %2d: fest = %e, ftrue = %e\n', nepoch, fest, ...
+                fg(M,X,'Type','G','IgnoreLambda',true));
+        else
+            fprintf(' Epoch %2d: fest = %e\n', nepoch, fest);
+        end
     end
 end
 
