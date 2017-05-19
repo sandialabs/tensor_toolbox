@@ -53,9 +53,10 @@ M = ktensor(Uinit);
 % not be a good thing.
 fidx = randi(prod(sz), fsamples, 1);
 fsubs = tt_ind2sub(sz, fidx);
+fvals = X(fsubs);
 
 %% Initial function value
-fest = fg_est(M,X,fsubs);
+fest = fg_est(M,X,fsubs,'xvals',fvals);
 
 if verbosity > 10
     fprintf('Initial f-est: %e\n', fest);
@@ -87,7 +88,7 @@ while nepoch < maxepochs
     festold = fest;
     % This isn't using any of the ability of fg_est to keep values and
     % also creates a ktensor from U each time. Prob fairly inefficient.
-    fest = fg_est(M,X,fsubs);
+    fest = fg_est(M,X,fsubs,'xvals',fvals);
     if fest >= festold
         break;
     end
