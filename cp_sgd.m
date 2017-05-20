@@ -16,6 +16,7 @@ params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-2);
 params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
+params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -28,6 +29,7 @@ maxepochs = params.Results.maxepochs;
 rate = params.Results.rate;
 gsample_gen = params.Results.gsample_gen;
 print_ftrue = params.Results.print_ftrue;
+conv_cond = params.Results.conv_cond;
 
 %% Welcome
 if verbosity > 10
@@ -99,7 +101,7 @@ while nepoch < maxepochs
         end
     end
 
-    if fest >= festold
+    if conv_cond(fest,festold)
         break;
     end
 end
