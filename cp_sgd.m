@@ -65,7 +65,7 @@ end
 %% Main loop
 nepoch = 0;
 while nepoch < maxepochs
-    
+    nepoch = nepoch + 1;
 %     U = renormalize(U);    
     
     for iter = 1:epochiters
@@ -79,7 +79,7 @@ while nepoch < maxepochs
         % also creates a ktensor from U each time. Prob fairly inefficient.
         [~,Gest] = fg_est(M,X,gsubs);
         if any(isinf(cell2mat(Gest)))
-            error('Infinite gradient reached!')
+            error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         M.u = cellfun(@(u,g) u+rate*g,M.u,Gest,'UniformOutput',false);
         
@@ -89,11 +89,6 @@ while nepoch < maxepochs
     % This isn't using any of the ability of fg_est to keep values and
     % also creates a ktensor from U each time. Prob fairly inefficient.
     fest = fg_est(M,X,fsubs,'xvals',fvals);
-    if fest >= festold
-        break;
-    end
-    
-    nepoch = nepoch + 1;
     
     if verbosity > 10
         if print_ftrue
@@ -102,6 +97,10 @@ while nepoch < maxepochs
         else
             fprintf(' Epoch %2d: fest = %e\n', nepoch, fest);
         end
+    end
+
+    if fest >= festold
+        break;
     end
 end
 
