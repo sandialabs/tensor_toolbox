@@ -1,4 +1,4 @@
-function M = cp_sgd(X,r,varargin)
+function [M,info] = cp_sgd(X,r,varargin)
 %CP_SGD Stochastic gradient descent for CP
 
 %% Extract number of dimensions and norm of X.
@@ -66,6 +66,7 @@ end
 
 %% Main loop
 nepoch = 0;
+info.fest = [];
 while nepoch < maxepochs
     nepoch = nepoch + 1;
 %     U = renormalize(U);    
@@ -91,6 +92,7 @@ while nepoch < maxepochs
     % This isn't using any of the ability of fg_est to keep values and
     % also creates a ktensor from U each time. Prob fairly inefficient.
     fest = fg_est(M,X,fsubs,'xvals',fvals);
+    info.fest = [info.fest fest];
     
     if verbosity > 10
         if print_ftrue
