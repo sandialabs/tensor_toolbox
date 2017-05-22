@@ -2,7 +2,7 @@ function [M,info] = cp_sgd(X,r,varargin)
 %CP_SGD Stochastic gradient descent for CP
 
 %% Extract number of dimensions and norm of X.
-n = ndims(X);
+n  = ndims(X);
 sz = size(X);
 
 %% Set algorithm parameters from input or by using defaults
@@ -20,16 +20,16 @@ params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'
 params.parse(varargin{:});
 
 %% Copy from params object
-verbosity = params.Results.verbosity;
-init = params.Results.init;
-gsamples = params.Results.gsamples;
-fsamples = params.Results.fsamples;
-epochiters = params.Results.epochiters;
-maxepochs = params.Results.maxepochs;
-rate = params.Results.rate;
+verbosity   = params.Results.verbosity;
+init        = params.Results.init;
+gsamples    = params.Results.gsamples;
+fsamples    = params.Results.fsamples;
+epochiters  = params.Results.epochiters;
+maxepochs   = params.Results.maxepochs;
+rate        = params.Results.rate;
 gsample_gen = params.Results.gsample_gen;
 print_ftrue = params.Results.print_ftrue;
-conv_cond = params.Results.conv_cond;
+conv_cond   = params.Results.conv_cond;
 
 %% Welcome
 if verbosity > 10
@@ -53,7 +53,7 @@ M = ktensor(Uinit);
 % TBD: Handle missing data. Currently assumes input is complete. Also note
 % that this version assumes that we allows for _repeats_ which may or may
 % not be a good thing.
-fidx = randi(prod(sz), fsamples, 1);
+fidx  = randi(prod(sz), fsamples, 1);
 fsubs = tt_ind2sub(sz, fidx);
 fvals = X(fsubs);
 
@@ -69,17 +69,14 @@ nepoch = 0;
 info.fest = [];
 while nepoch < maxepochs
     nepoch = nepoch + 1;
-%     U = renormalize(U);    
     
     for iter = 1:epochiters
-    
+        
         % Select subset for stochastic gradient
         gidx = gsample_gen(prod(sz), gsamples, 1);
         gsubs = tt_ind2sub(sz, gidx);
         
         % Compute gradients for each mode and take step
-        % This isn't using any of the ability of fg_est to keep values and
-        % also creates a ktensor from U each time. Prob fairly inefficient.
         [~,Gest] = fg_est(M,X,gsubs);
         if any(isinf(cell2mat(Gest)))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
@@ -89,8 +86,6 @@ while nepoch < maxepochs
     end
     
     festold = fest;
-    % This isn't using any of the ability of fg_est to keep values and
-    % also creates a ktensor from U each time. Prob fairly inefficient.
     fest = fg_est(M,X,fsubs,'xvals',fvals);
     info.fest = [info.fest fest];
     
@@ -102,7 +97,7 @@ while nepoch < maxepochs
             fprintf(' Epoch %2d: fest = %e\n', nepoch, fest);
         end
     end
-
+    
     if conv_cond(fest,festold)
         break;
     end
@@ -118,16 +113,3 @@ M = fixsigns(M);
 if verbosity > 10
     fprintf('Goodbye!\n-----\n');
 end
-
-
-function U = renormalize(n, r, U)
-%RENORMALIZE Absord all the column weights into first factor matrix
-for n = 2:N
-    tmp = sqrt(sum(U{n}.^2,1));
-    U{n} = bsxfun(@rdivide,Y,tmp);
-    U{1} = bsxfun(@times,U{1},tmp);
-end
-
-
-
-
