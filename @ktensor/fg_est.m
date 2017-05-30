@@ -47,7 +47,7 @@ fest = mean( (xvals - mvals).^2 ) * prod(n);
 % This is inherently doing an MTTKRP, but we avoid forming the G tensor or
 % calling the MTTKRP function. THis is probably inefficient and also
 % ignores the lambdas (i.e., assumes they are one).
-gvals = 2 * (xvals - mvals);
+gvals = -2 * (xvals - mvals);
 
 KRexplode = cell(size(M.u));
 for k = 1:d

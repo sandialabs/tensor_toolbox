@@ -100,9 +100,6 @@ while nepoch < maxepochs
         if any(isinf(cell2mat(Gest)))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
-        % I think Gest returned by fg_est is actually the negative gradient
-        % TODO: Check this and correct if needed
-        Gest = cellfun(@(g) -g,Gest,'UniformOutput',false);
         
         m = cellfun(@(mk,gk) beta1*mk + (1-beta1)*gk,m,Gest,'UniformOutput',false);
         v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
