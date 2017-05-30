@@ -78,6 +78,10 @@ fest = fg_est(M,X,fsubs,'xvals',fvals);
 if verbosity > 10
     fprintf('Initial f-est: %e\n', fest);
 end
+if verbosity > 20
+    start_time = clock;
+    last_time = clock;
+end
 
 %% Main loop
 nepoch = 0;
@@ -112,13 +116,17 @@ while nepoch < maxepochs
     info.fest = [info.fest fest];
     
     if verbosity > 10
-        if print_ftrue
-            fprintf(' Epoch %2d: fest = %e, ftrue = %e\n', nepoch, fest, ...
-                fg(M,X,'Type','G','IgnoreLambda',true));
-        else
-            fprintf(' Epoch %2d: fest = %e\n', nepoch, fest);
-        end
+        fprintf(' Epoch %2d: fest = %e', nepoch, fest);
     end
+    if verbosity > 20
+        fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
+            etime(clock,last_time),etime(clock,start_time));
+        last_time = clock;
+    end
+    if print_ftrue
+        fprintf(' [ftrue = %e]',2*fg(M,X,'Type','G','IgnoreLambda',true));
+    end
+    fprintf('\n');
     
     if conv_cond(fest,festold)
         break;
