@@ -115,6 +115,7 @@ while nepoch < maxepochs
     fest = fg_est(M,X,fsubs,'xvals',fvals);
     info.fest = [info.fest fest];
     
+    % Not the cleanest way to print trace. TODO: Clean this up.
     if verbosity > 10
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
     end
