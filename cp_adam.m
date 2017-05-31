@@ -87,7 +87,7 @@ end
 
 %% Main loop
 nepoch = 0;
-info.fest = [];
+info.fest = fest;
 while nepoch < maxepochs
     nepoch = nepoch + 1;
     
