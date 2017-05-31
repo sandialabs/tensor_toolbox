@@ -17,6 +17,7 @@ params.addParameter('rate', 1e-2);
 params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
+params.addParameter('gradcheck', true, @islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -30,6 +31,7 @@ rate        = params.Results.rate;
 gsample_gen = params.Results.gsample_gen;
 print_ftrue = params.Results.print_ftrue;
 conv_cond   = params.Results.conv_cond;
+gradcheck   = params.Results.gradcheck;
 
 %% Welcome
 if verbosity > 10
@@ -82,7 +84,7 @@ while nepoch < maxepochs
         
         % Compute gradients for each mode and take step
         [~,Gest] = fg_est(M,X,gsubs);
-        if any(isinf(cell2mat(Gest)))
+        if gradcheck && any(isinf(cell2mat(Gest)))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         M.u = cellfun(@(u,g) u-rate*g,M.u,Gest,'UniformOutput',false);

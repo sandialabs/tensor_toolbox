@@ -20,6 +20,7 @@ params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'
 params.addParameter('beta1', 0.9);
 params.addParameter('beta2', 0.999);
 params.addParameter('epsilon', 1e-8);
+params.addParameter('gradcheck', true, @islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -36,6 +37,7 @@ conv_cond   = params.Results.conv_cond;
 beta1       = params.Results.beta1;
 beta2       = params.Results.beta2;
 epsilon     = params.Results.epsilon;
+gradcheck   = params.Results.gradcheck;
 
 %% Welcome
 if verbosity > 10
@@ -97,7 +99,7 @@ while nepoch < maxepochs
         
         % Compute gradients and moments for each mode and take a step
         [~,Gest] = fg_est(M,X,gsubs);
-        if any(isinf(cell2mat(Gest)))
+        if gradcheck && any(isinf(cell2mat(Gest)))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         
