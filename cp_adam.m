@@ -116,15 +116,17 @@ while nepoch < maxepochs
     if verbosity > 10
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
     end
+    if verbosity > 10 && print_ftrue
+        fprintf(' ftrue = %e',2*fg(M,X,'Type','G','IgnoreLambda',true));
+    end
     if verbosity > 20
         fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
             etime(clock,last_time),etime(clock,start_time));
         last_time = clock;
     end
-    if print_ftrue
-        fprintf(' [ftrue = %e]',2*fg(M,X,'Type','G','IgnoreLambda',true));
+    if verbosity > 10
+        fprintf('\n');
     end
-    fprintf('\n');
     
     if conv_cond(fest,festold)
         break;
