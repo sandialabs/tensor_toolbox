@@ -16,6 +16,7 @@ params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-2);
 params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
+params.addParameter('save_ftrue', false, @islogical);
 params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
 params.addParameter('gradcheck', true, @islogical);
 params.parse(varargin{:});
@@ -30,6 +31,7 @@ maxepochs   = params.Results.maxepochs;
 rate        = params.Results.rate;
 gsample_gen = params.Results.gsample_gen;
 print_ftrue = params.Results.print_ftrue;
+save_ftrue  = params.Results.save_ftrue;
 conv_cond   = params.Results.conv_cond;
 gradcheck   = params.Results.gradcheck;
 
@@ -70,9 +72,13 @@ if verbosity > 20
     last_time = clock;
 end
 
+info.fest = fest;
+if save_ftrue
+    info.ftrue = 2*fg(M,X,'Type','G','IgnoreLambda',true);
+end
+
 %% Main loop
 nepoch = 0;
-info.fest = fest;
 while nepoch < maxepochs
     nepoch = nepoch + 1;
     
@@ -84,7 +90,7 @@ while nepoch < maxepochs
         
         % Compute gradients for each mode and take step
         [~,Gest] = fg_est(M,X,gsubs);
-        if gradcheck && any(isinf(cell2mat(Gest)))
+        if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         M.u = cellfun(@(u,g) u-rate*g,M.u,Gest,'UniformOutput',false);
@@ -109,6 +115,10 @@ while nepoch < maxepochs
     end
     if verbosity > 10
         fprintf('\n');
+    end
+    
+    if save_ftrue
+        info.ftrue = [info.ftrue 2*fg(M,X,'Type','G','IgnoreLambda',true)];
     end
     
     if conv_cond(fest,festold)

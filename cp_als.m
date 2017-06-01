@@ -13,6 +13,7 @@ function [P,Uinit,output] = cp_als(X,R,varargin)
 %      'dimorder' - Order to loop through dimensions {1:ndims(A)}
 %      'init' - Initial guess [{'random'}|'nvecs'|cell array]
 %      'printitn' - Print fit every n iterations; 0 for no printing {1}
+%      'saveitn' - Store fit every n iterations; 0 for no printing {1}
 %
 %   [P,U0] = CP_ALS(...) also returns the initial guess.
 %
@@ -62,6 +63,7 @@ params.addParamValue('maxiters',50,@(x) isscalar(x) & x > 0);
 params.addParamValue('dimorder',1:N,@(x) isequal(sort(x),1:N));
 params.addParamValue('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
 params.addParamValue('printitn',1,@isscalar);
+params.addParamValue('saveitn',1,@isscalar);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -70,6 +72,7 @@ maxiters = params.Results.maxiters;
 dimorder = params.Results.dimorder;
 init = params.Results.init;
 printitn = params.Results.printitn;
+saveitn = params.Results.saveitn;
 
 %% Error checking 
 
@@ -128,6 +131,7 @@ else
         end
     end
     
+    fits = [];
     for iter = 1:maxiters
         
         fitold = fit;
@@ -177,6 +181,9 @@ else
         if (mod(iter,printitn)==0) || ((printitn>0) && (flag==0))
             fprintf(' Iter %2d: f = %e f-delta = %7.1e\n', iter, fit, fitchange);
         end
+        if (mod(iter,saveitn)==0) || ((saveitn>0) && (flag==0))
+            fits = [fits fit]; %#ok<AGROW>
+        end
         
         % Check for convergence
         if (flag == 0)
@@ -205,3 +212,6 @@ end
 output = struct;
 output.params = params.Results;
 output.iters = iter;
+if saveitn>0
+    output.fits = fits;
+end
