@@ -19,6 +19,7 @@ params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('save_ftrue', false, @islogical);
 params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
 params.addParameter('gradcheck', true, @islogical);
+params.addParameter('objfunc', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -34,6 +35,7 @@ print_ftrue = params.Results.print_ftrue;
 save_ftrue  = params.Results.save_ftrue;
 conv_cond   = params.Results.conv_cond;
 gradcheck   = params.Results.gradcheck;
+objfunc     = params.Results.objfunc;
 
 %% Welcome
 if verbosity > 10
@@ -74,7 +76,7 @@ end
 
 info.fest = fest;
 if save_ftrue
-    info.ftrue = 2*fg(M,X,'Type','G','IgnoreLambda',true);
+    info.ftrue = collapse(tenfun(objfunc,X,full(M)));
 end
 
 %% Main loop
@@ -106,7 +108,7 @@ while nepoch < maxepochs
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
     end
     if verbosity > 10 && print_ftrue
-        fprintf(' ftrue = %e',2*fg(M,X,'Type','G','IgnoreLambda',true));
+        fprintf(' ftrue = %e',collapse(tenfun(objfunc,X,full(M))));
     end
     if verbosity > 20
         fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
@@ -118,7 +120,7 @@ while nepoch < maxepochs
     end
     
     if save_ftrue
-        info.ftrue = [info.ftrue 2*fg(M,X,'Type','G','IgnoreLambda',true)];
+        info.ftrue = [info.ftrue collapse(tenfun(objfunc,X,full(M)))];
     end
     
     if conv_cond(fest,festold)
