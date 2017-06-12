@@ -19,7 +19,8 @@ params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('save_ftrue', false, @islogical);
 params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
 params.addParameter('gradcheck', true, @islogical);
-params.addParameter('objfunc', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
+params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
+params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -35,7 +36,8 @@ print_ftrue = params.Results.print_ftrue;
 save_ftrue  = params.Results.save_ftrue;
 conv_cond   = params.Results.conv_cond;
 gradcheck   = params.Results.gradcheck;
-objfunc     = params.Results.objfunc;
+objfh       = params.Results.objfh;
+gradfh      = params.Results.gradfh;
 
 %% Welcome
 if verbosity > 10
@@ -64,7 +66,7 @@ fsubs = tt_ind2sub(sz, fidx);
 fvals = X(fsubs);
 
 %% Initial function value
-fest = fg_est(M,X,fsubs,'xvals',fvals);
+fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh);
 
 if verbosity > 10
     fprintf('Initial f-est: %e\n', fest);
@@ -76,7 +78,7 @@ end
 
 info.fest = fest;
 if save_ftrue
-    info.ftrue = collapse(tenfun(objfunc,X,full(M)));
+    info.ftrue = collapse(tenfun(objfh,X,full(M)));
 end
 
 %% Main loop
@@ -91,7 +93,7 @@ while nepoch < maxepochs
         gsubs = tt_ind2sub(sz, gidx);
         
         % Compute gradients for each mode and take step
-        [~,Gest] = fg_est(M,X,gsubs);
+        [~,Gest] = fg_est(M,X,gsubs,'objfh',objfh,'gradfh',gradfh);
         if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
@@ -100,7 +102,7 @@ while nepoch < maxepochs
     end
     
     festold = fest;
-    fest = fg_est(M,X,fsubs,'xvals',fvals);
+    fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh);
     info.fest = [info.fest fest];
     
     % Not the cleanest way to print trace. TODO: Clean this up.
@@ -108,7 +110,7 @@ while nepoch < maxepochs
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
     end
     if verbosity > 10 && print_ftrue
-        fprintf(' ftrue = %e',collapse(tenfun(objfunc,X,full(M))));
+        fprintf(' ftrue = %e',collapse(tenfun(objfh,X,full(M))));
     end
     if verbosity > 20
         fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
@@ -120,7 +122,7 @@ while nepoch < maxepochs
     end
     
     if save_ftrue
-        info.ftrue = [info.ftrue collapse(tenfun(objfunc,X,full(M)))];
+        info.ftrue = [info.ftrue collapse(tenfun(objfh,X,full(M)))];
     end
     
     if conv_cond(fest,festold)

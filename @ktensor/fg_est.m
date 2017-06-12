@@ -12,11 +12,15 @@ r = ncomponents(M);
 params = inputParser;
 params.addParameter('xvals',[]);
 params.addParameter('Uexplode',[]);
+params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
+params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
 xvals    = params.Results.xvals;
 Uexplode = params.Results.Uexplode;
+objfh    = params.Results.objfh;
+gradfh   = params.Results.gradfh;
 
 %% Extract entries specified by subs
 if isempty(xvals)
@@ -41,13 +45,13 @@ end
 mvals = sum(tmp,2);
 
 %% Compute mean function value and scale
-fest = mean( (xvals - mvals).^2 ) * prod(n);
+fest = mean(objfh(xvals,mvals)) * prod(n);
 
 %% Compute gradient and scale
 % This is inherently doing an MTTKRP, but we avoid forming the G tensor or
 % calling the MTTKRP function. THis is probably inefficient and also
 % ignores the lambdas (i.e., assumes they are one).
-gvals = -2 * (xvals - mvals);
+gvals = gradfh(xvals,mvals);
 
 KRexplode = cell(size(M.u));
 for k = 1:d
