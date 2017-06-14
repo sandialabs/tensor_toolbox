@@ -17,10 +17,10 @@ params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
 %% Copy from params object
-xvals    = params.Results.xvals;
-Uexplode = params.Results.Uexplode;
-objfh    = params.Results.objfh;
-gradfh   = params.Results.gradfh;
+xvals  = params.Results.xvals;
+Uvals  = params.Results.Uexplode;
+objfh  = params.Results.objfh;
+gradfh = params.Results.gradfh;
 
 %% Extract entries specified by subs
 if isempty(xvals)
@@ -28,20 +28,13 @@ if isempty(xvals)
 end
 
 %% Extract appropriate rows of each factor matrix
-if isempty(Uexplode)
-    Uexplode = cell(d,1);
-    for k = 1:d
-        Uexplode{k} = M.u{k}(subs(:,k),:);
-    end
+if isempty(Uvals)
+    Uvals = Uexplode(M.u,subs);
 end
 
 %% Calculate model values
-tmp = Uexplode{1};
-for k = 2:d
-    tmp = tmp .* Uexplode{k};
-end
-tmp2 = bsxfun(@times,tmp,M.lambda.');
-mvals = sum(tmp2,2);
+KRfull = KRexplode(0,Uvals);
+mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 
 %% Compute mean function value and scale
 fest = mean(objfh(xvals,mvals)) * prod(n);
@@ -51,23 +44,13 @@ fest = mean(objfh(xvals,mvals)) * prod(n);
 % calling the MTTKRP function. THis is probably inefficient.
 gvals = gradfh(xvals,mvals);
 
-KRexplode = cell(size(M.u));
-for k = 1:d
-    KRexplode{k} = ones(size(Uexplode{1}));
-end
-for k = 1:d
-    for kalt = 1:d
-        if k ~= kalt
-            KRexplode{kalt} = KRexplode{kalt} .* Uexplode{k};
-        end
-    end
-end
+Glambda = transpose(sum(bsxfun(@times,KRfull,gvals),1));
 
 Gest = cell(d,1);
 for k = 1:d
     gm = zeros(n(k),r);
-    tmp = bsxfun(@times,KRexplode{k},M.lambda.');
-    gmvals = bsxfun(@times,tmp,gvals);
+    tmp2 = bsxfun(@times,KRexplode(k,Uvals),M.lambda.');
+    gmvals = bsxfun(@times,tmp2,gvals);
     msubs = subs(:,k);
     for r = 1:ncomponents(M)
         gm(:,r) = accumarray(msubs,gmvals(:,r),[n(k),1]);
@@ -75,9 +58,35 @@ for k = 1:d
     Gest{k} = gm / size(subs,1) * prod(n);
 end
 
-tmp2 = bsxfun(@times,tmp,gvals);
-Glambda = sum(tmp2,1).';
-
 %% Output potentially reused values
 info.xvals = xvals;
-info.Uexplode = Uexplode;
+info.Uexplode = Uvals;
+
+end
+
+function KRvals = KRexplode(k,Uvals)
+d = length(Uvals);
+
+if k == 0    % Return full Khatri-Rao
+    KRvals = Uvals{1};
+    for kp = 2:d
+        KRvals = KRvals .* Uvals{kp};
+    end
+else         % Return Khatri-Rao exluding the kth matrix
+    KRvals = ones(size(Uvals{1}));
+    for kp = [1:k-1 k+1:d]
+        KRvals = KRvals .* Uvals{kp};
+    end
+end
+
+end
+
+function Uvals = Uexplode(U,subs)
+d = length(U);
+
+Uvals = cell(d,1);
+for k = 1:d
+    Uvals{k} = U{k}(subs(:,k),:);
+end
+
+end
