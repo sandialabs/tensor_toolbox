@@ -45,10 +45,9 @@ Glambda = transpose(sum(bsxfun(@times,KRfull,gvals),1));
 
 Gest = cell(d,1);
 for k = 1:d
-    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k);
+    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k,subs,n) / size(subs,1) * prod(n);
 end
-Gest = unexplode(Gest,subs,n,size(Uvals{1},2));
-Gest = cellfun(@(g) g / size(subs,1) * prod(n),Gest,'UniformOutput',false);
+
 
 %% Output potentially reused values
 info.xvals = xvals;
@@ -58,12 +57,31 @@ end
 
 %% Utility functions
 
-% This is inherently doing an MTTKRP, but we avoid forming the G tensor or
-% calling the MTTKRP function. THis is probably inefficient.
-function gmvals = mttkrp_explode(Xvals,Uvals,lambda,n)
+% This is probably inefficient.
+function V = mttkrp_explode(Xvals,Uvals,lambda,n,subs,sz)
 
-tmp2 = bsxfun(@times,khatrirao_explode(Uvals([1:n-1,n+1:end])),transpose(lambda));
-gmvals = bsxfun(@times,tmp2,Xvals);
+% Get dimensions and sample indices
+if n == 1
+    R = size(Uvals{2},2);
+else
+    R = size(Uvals{1},2);
+end
+szn = sz(n);
+subsn = subs(:,n);
+
+% Calculate Khatri-Rao values and scale by lambda
+KRvals = khatrirao_explode(Uvals([1:n-1,n+1:end]));
+KRvals = bsxfun(@times,KRvals,transpose(lambda));
+
+% Calculate summands of matrix times matrix sum
+Vvals = bsxfun(@times,KRvals,Xvals);
+
+% Sum up to get mttkrp and place in correct slots
+V = zeros(szn,R);
+for r = 1:R
+    V(:,r) = accumarray(subsn,Vvals(:,r),[szn,1]);
+end
+
 end
 
 function Pvals = khatrirao_explode(Cvals)
@@ -82,16 +100,4 @@ for i = 1:length(C)
     Cvals{i} = C{i}(subs(:,i),:);
 end
 
-end
-
-function V = unexplode(Gmvals,subs,sz,r)
-V = cell(length(Gmvals),1);
-for n = 1:length(Gmvals)
-    gmvals = Gmvals{n};
-    msubs = subs(:,n);
-    V{n} = zeros(sz(n),r);
-    for rp = 1:r
-        V{n}(:,rp) = accumarray(msubs,gmvals(:,rp),[sz(n),1]);
-    end
-end
 end
