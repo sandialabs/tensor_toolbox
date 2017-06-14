@@ -5,12 +5,8 @@ function [fest,GradU,info,GradLambda] = fg_est(M, X, subs, varargin)
 
 %% Process inputs
 
-% Check size match between X and M
 sz = size(M);
 nd = ndims(M);
-if ~isequal(size(X),sz)
-    error('Model and tensor sizes do not match');
-end
 
 params = inputParser;
 params.addParameter('xvals',[]);
@@ -49,7 +45,7 @@ GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
 % Gradient wrt U's
 GradU = cell(nd,1);
 for k = 1:nd
-    GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,subs,sz) / size(subs,1) * prod(sz);
+    GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,sz,subs) / size(subs,1) * prod(sz);
 end
 
 %% Output potentially reused values
@@ -58,10 +54,43 @@ info.Uexplode = Uvals;
 
 end
 
-%% Utility functions
+%% Exploded utilities
+% Functions for working with exploded values.
 
-% This is probably inefficient.
-function V = mttkrp_explode(Xvals,Uvals,lambda,n,subs,sz)
+% Explode cell array of matrices at the indices specified by subs
+% Satisfies:
+%   Cvals{i}(j,:) = C{i}(subs(j,i),:);
+% Namely, the jth row of Cvals{i} is the row of C{i} corresponding to the
+% jth sample specified by subs.
+function Cvals = explode(C,subs)
+
+Cvals = cell(length(C),1);
+for i = 1:length(C)
+    Cvals{i} = C{i}(subs(:,i),:);
+end
+
+end
+
+% Calculate values of exploded Khatri-Rao product from exploded values
+% Satisfies:
+%   Pvals(j,:) = Row of khatrirao(C) corresponding to subs(j,:)
+% Namely, the jth row of Pvals is the row of khatrirao(C) that corresponds
+% to the jth sample specified by subs.
+function Pvals = khatrirao_explode(Cvals)
+
+Pvals = Cvals{1};
+for i = 2:length(Cvals)
+    Pvals = Pvals .* Cvals{i};
+end
+
+end
+
+% Calculate MTTKRP from exploded values. This is probably inefficient.
+% Satisfies
+%   V = mttrkp(X,M,n)
+% where X has Xvals at subs and is zero elsewhere and M = ktensor(lambda,U)
+% is the ktensor associated with Uvals and lambda.
+function V = mttkrp_explode(Xvals,Uvals,lambda,n,sz,subs)
 
 % Get dimensions and sample indices
 if n == 1
@@ -83,24 +112,6 @@ Vvals = bsxfun(@times,KRvals,Xvals);
 V = zeros(szn,R);
 for r = 1:R
     V(:,r) = accumarray(subsn,Vvals(:,r),[szn,1]);
-end
-
-end
-
-function Pvals = khatrirao_explode(Cvals)
-
-Pvals = Cvals{1};
-for i = 2:length(Cvals)
-    Pvals = Pvals .* Cvals{i};
-end
-
-end
-
-function Cvals = explode(C,subs)
-
-Cvals = cell(length(C),1);
-for i = 1:length(C)
-    Cvals{i} = C{i}(subs(:,i),:);
 end
 
 end
