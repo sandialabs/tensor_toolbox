@@ -2,6 +2,44 @@ function [fest,Gest,info] = fg_est(M,X,subs,varargin)
 %FG_EST Objective and gradient function estimation for fitting Ktensor to
 %data. Estimation is done by using a few samples of the data rather than
 %the full data.
+%
+%   [Fest,Gest] = fg_est(M,X,subs) takes a ktensor M, a data tensor X and
+%   a subset subs and returns the estimated value of the scalar loss
+%   function (see loss function definitions below) as Fest and the
+%   estimated gradient with respect to the loss function as G. The gradient
+%   is stored as a ktensor unless modified per the optional parameters
+%   below. The tensors M and X must be the same order and size.
+%
+%   [Fest,Gest] = fg(M,X,subs,'parameter',value,...) also accepts parameter
+%   value pairs as follows:
+%
+%   'objfh' - Handle to objective function. The form should be f(x,m) where
+%   x and m are scalars or vectors. In the vector case, each one should be
+%   processed as if it were a scalar. Default: @(x,m) (x-m).^2
+%
+%   'gradfh' - Handle to gradient function. The form should be g(x,m) where
+%   x and m are scalars or vectors. In the vector case, each one should be
+%   processed as if it were a scalar. Default: @(x,m) -2*(x-m)
+%
+%   'IgnoreLambda' - True says to ignore lambda in the function and
+%   gradient calculations. In this case, G is a cell array whose K-th cell
+%   is the gradient in matrix form with respect to the K-th factor matrix
+%   in M. Default: false.
+%
+%   'GradMode' - Says which gradient to compute. A value K between 1 and
+%   ndims(X) says to compute the gradient with respect to the K-th factor
+%   matrix; in this case, G is a matrix. A value of 0 says to compute the
+%   gradient with respect to lambda; in this case, G is a vector. A value
+%   of -1 says to compute all the gradients; in this case, G is either a
+%   ktensor or a cell array, depending on the value of 'IgnoreLambda'.
+%   Default: -1.
+%
+%   'GradVec' - True says to vectorize the gradient G. For a vector (e.g.,
+%   'GradMode' == 0), this is no change. For a matrix (e.g., 'GradMode' ==
+%   K), this is equivalent to G = G(:). For a cell array (e.g.,
+%   'IgnoreLambda' == true), this is equivalent to
+%      G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false))
+%   For a ktensor, this is equivalent to G = tovec(G). Default: false.
 
 %% Process inputs
 
