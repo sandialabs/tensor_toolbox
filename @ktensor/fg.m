@@ -13,7 +13,7 @@ function [f,G] = fg(M,X,varargin)
 %   'Mask' - Defines a mask tensor M that is 1 for known values and 0 for
 %   missing values. The tensor M can be dense or sparse.
 %
-%   'Func' - Which scalar loss function to use. This should be a
+%   'Type' - Which scalar loss function to use. This should be a
 %   function/gradient pair of the form f(x,m) and g(x,m) where x and m are
 %   scalars or vectors. In the vector case, each one should be processed as
 %   if it were a scalar. Some defaults are predefined.
