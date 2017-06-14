@@ -9,6 +9,8 @@ sz = size(M);
 nd = ndims(M);
 
 params = inputParser;
+params.addParameter('GradMode', -1, @(x) isscalar(x) && all(ismember(x,-1:ndims(X))));
+params.addParameter('GradVec', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('IgnoreLambda', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('xvals',[]);
 params.addParameter('Uexplode',[]);
@@ -16,6 +18,8 @@ params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
+GradMode = params.Results.GradMode;
+GradVec  = params.Results.GradVec;
 IgnoreLambda = params.Results.IgnoreLambda;
 Xvals  = params.Results.xvals;
 Uvals  = params.Results.Uexplode;
@@ -39,7 +43,7 @@ Fvals = objfh(Xvals,Mvals);
 fest  = mean(Fvals,1) * prod(sz);
 
 %% QUIT IF ONLY NEED FUNCTION EVAL
-if nargout <= 1 
+if nargout <= 1
     return;
 end
 
@@ -47,25 +51,42 @@ end
 BigGvals = gradfh(Xvals,Mvals);
 
 % Gradient wrt Lambda
-if ~IgnoreLambda
+if GradMode == 0 || (GradMode == -1 && ~IgnoreLambda)
     GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
-end   
+end
 
 % Gradient wrt U's
 GradU = cell(nd,1);
 for k = 1:nd
-    if IgnoreLambda
-        GradU{k} = mttkrp_explode(BigGvals,Uvals,ones(length(M.lambda),1),k,sz,subs) / size(subs,1) * prod(sz);
-    else
-        GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,sz,subs) / size(subs,1) * prod(sz);
+    if GradMode == k || GradMode == -1
+        if IgnoreLambda
+            GradU{k} = mttkrp_explode(BigGvals,Uvals,ones(length(M.lambda),1),k,sz,subs) / size(subs,1) * prod(sz);
+        else
+            GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,sz,subs) / size(subs,1) * prod(sz);
+        end
     end
 end
 
 %% Assemble gradient
-if IgnoreLambda
-    Gest = GradU;
-else
-    Gest = ktensor(GradLambda, GradU);
+if GradMode == 0
+    Gest = GradLambda;
+elseif GradMode > 0
+    Gest = GradU{GradMode};
+    if GradVec
+        Gest = Gest(:);
+    end
+elseif GradMode == -1
+    if IgnoreLambda
+        Gest = GradU;
+        if GradVec
+            Gest = cell2mat(cellfun(@(x) x(:), Gest, 'UniformOutput', false));
+        end
+    else
+        Gest = ktensor(GradLambda, GradU);
+        if GradVec
+            Gest = tovec(Gest);
+        end
+    end
 end
 
 %% Output potentially reused values
