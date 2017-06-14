@@ -48,8 +48,7 @@ fest = mean(objfh(xvals,mvals)) * prod(n);
 
 %% Compute gradient and scale
 % This is inherently doing an MTTKRP, but we avoid forming the G tensor or
-% calling the MTTKRP function. THis is probably inefficient and also
-% ignores the lambdas (i.e., assumes they are one).
+% calling the MTTKRP function. THis is probably inefficient.
 gvals = gradfh(xvals,mvals);
 
 KRexplode = cell(size(M.u));
