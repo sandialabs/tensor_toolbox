@@ -24,6 +24,7 @@ params.addParameter('epsilon', 1e-8);
 params.addParameter('gradcheck', true, @islogical);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
+params.addParameter('lowbound', -Inf, @isnumeric);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -44,6 +45,7 @@ epsilon     = params.Results.epsilon;
 gradcheck   = params.Results.gradcheck;
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
+lowbound    = params.Results.lowbound;
 
 %% Welcome
 if verbosity > 10
@@ -117,7 +119,7 @@ while nepoch < maxepochs
         v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
         mhat = cellfun(@(mk) mk/(1-beta1^((nepoch-1)*epochiters+iter)),m,'UniformOutput',false);
         vhat = cellfun(@(vk) vk/(1-beta2^((nepoch-1)*epochiters+iter)),v,'UniformOutput',false);
-        M.u = cellfun(@(uk,mhk,vhk) uk-rate*mhk./(sqrt(vhk)+epsilon),M.u,mhat,vhat,'UniformOutput',false);
+        M.u = cellfun(@(uk,mhk,vhk) max(lowbound,uk-rate*mhk./(sqrt(vhk)+epsilon)),M.u,mhat,vhat,'UniformOutput',false);
     end
     
     festold = fest;

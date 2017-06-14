@@ -21,6 +21,7 @@ params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'
 params.addParameter('gradcheck', true, @islogical);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
+params.addParameter('lowbound', -Inf, @isnumeric);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -38,6 +39,7 @@ conv_cond   = params.Results.conv_cond;
 gradcheck   = params.Results.gradcheck;
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
+lowbound    = params.Results.lowbound;
 
 %% Welcome
 if verbosity > 10
@@ -97,7 +99,7 @@ while nepoch < maxepochs
         if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
-        M.u = cellfun(@(u,g) u-rate*g,M.u,Gest,'UniformOutput',false);
+        M.u = cellfun(@(u,g) max(lowbound,u-rate*g),M.u,Gest,'UniformOutput',false);
         
     end
     
