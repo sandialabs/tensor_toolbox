@@ -45,8 +45,10 @@ Glambda = transpose(sum(bsxfun(@times,KRfull,gvals),1));
 
 Gest = cell(d,1);
 for k = 1:d
-    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k,n,subs) / size(subs,1) * prod(n);
+    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k);
 end
+Gest = unexplode(Gest,subs,n,size(Uvals{1},2));
+Gest = cellfun(@(g) g / size(subs,1) * prod(n),Gest,'UniformOutput',false);
 
 %% Output potentially reused values
 info.xvals = xvals;
@@ -58,18 +60,10 @@ end
 
 % This is inherently doing an MTTKRP, but we avoid forming the G tensor or
 % calling the MTTKRP function. THis is probably inefficient.
-function V = mttkrp_explode(Xvals,Uvals,lambda,n,sz,subs)
-
-r = size(Uvals{1},2);
+function gmvals = mttkrp_explode(Xvals,Uvals,lambda,n)
 
 tmp2 = bsxfun(@times,khatrirao_explode(Uvals([1:n-1,n+1:end])),transpose(lambda));
 gmvals = bsxfun(@times,tmp2,Xvals);
-msubs = subs(:,n);
-V = zeros(sz(n),r);
-for rp = 1:r
-    V(:,rp) = accumarray(msubs,gmvals(:,rp),[sz(n),1]);
-end
-
 end
 
 function Pvals = khatrirao_explode(Cvals)
@@ -88,4 +82,16 @@ for i = 1:length(C)
     Cvals{i} = C{i}(subs(:,i),:);
 end
 
+end
+
+function V = unexplode(Gmvals,subs,sz,r)
+V = cell(length(Gmvals),1);
+for n = 1:length(Gmvals)
+    gmvals = Gmvals{n};
+    msubs = subs(:,n);
+    V{n} = zeros(sz(n),r);
+    for rp = 1:r
+        V{n}(:,rp) = accumarray(msubs,gmvals(:,rp),[sz(n),1]);
+    end
+end
 end
