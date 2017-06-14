@@ -81,7 +81,7 @@ fsubs = tt_ind2sub(sz, fidx);
 fvals = X(fsubs);
 
 %% Initial function value
-fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh);
+fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
 
 if verbosity > 10
     fprintf('Initial f-est: %e\n', fest);
@@ -108,7 +108,7 @@ while nepoch < maxepochs
         gsubs = tt_ind2sub(sz, gidx);
         
         % Compute gradients and moments for each mode and take a step
-        [~,Gest] = fg_est(M,X,gsubs,'objfh',objfh,'gradfh',gradfh);
+        [~,Gest] = fg_est(M,X,gsubs,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
         if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
@@ -121,7 +121,7 @@ while nepoch < maxepochs
     end
     
     festold = fest;
-    fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh);
+    fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
     info.fest = [info.fest fest];
     
     % Not the cleanest way to print trace. TODO: Clean this up.

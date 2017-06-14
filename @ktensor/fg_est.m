@@ -1,4 +1,4 @@
-function [fest,GradU,info,GradLambda] = fg_est(M, X, subs, varargin)
+function [fest,Gest,info] = fg_est(M,X,subs,varargin)
 %FG_EST Objective and gradient function estimation for fitting Ktensor to
 %data. Estimation is done by using a few samples of the data rather than
 %the full data.
@@ -9,12 +9,14 @@ sz = size(M);
 nd = ndims(M);
 
 params = inputParser;
+params.addParameter('IgnoreLambda', false, @(x) isscalar(x) && islogical(x));
 params.addParameter('xvals',[]);
 params.addParameter('Uexplode',[]);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
+IgnoreLambda = params.Results.IgnoreLambda;
 Xvals  = params.Results.xvals;
 Uvals  = params.Results.Uexplode;
 objfh  = params.Results.objfh;
@@ -36,16 +38,34 @@ Mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 Fvals = objfh(Xvals,Mvals);
 fest  = mean(Fvals,1) * prod(sz);
 
+%% QUIT IF ONLY NEED FUNCTION EVAL
+if nargout <= 1 
+    return;
+end
+
 %% Gradient calculation
 BigGvals = gradfh(Xvals,Mvals);
 
 % Gradient wrt Lambda
-GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
+if ~IgnoreLambda
+    GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
+end   
 
 % Gradient wrt U's
 GradU = cell(nd,1);
 for k = 1:nd
-    GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,sz,subs) / size(subs,1) * prod(sz);
+    if IgnoreLambda
+        GradU{k} = mttkrp_explode(BigGvals,Uvals,ones(length(M.lambda),1),k,sz,subs) / size(subs,1) * prod(sz);
+    else
+        GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,sz,subs) / size(subs,1) * prod(sz);
+    end
+end
+
+%% Assemble gradient
+if IgnoreLambda
+    Gest = GradU;
+else
+    Gest = ktensor(GradLambda, GradU);
 end
 
 %% Output potentially reused values

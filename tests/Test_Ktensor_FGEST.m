@@ -20,7 +20,7 @@ sz = size(X);
 n = 1000;
 idx = randi(prod(sz), n, 1);
 subs = tt_ind2sub(sz, idx);
-[fest,Gest,stuff] = fg_est(M,X,subs);
+[fest,Gest,stuff] = fg_est(M,X,subs,'IgnoreLambda',true);
 
 fprintf('True function value      = %e\n', ftrue);
 fprintf('Estimated function value = %e (with %d samples)\n', fest, n);
