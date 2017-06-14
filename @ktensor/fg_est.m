@@ -28,11 +28,11 @@ end
 
 %% Extract appropriate rows of each factor matrix
 if isempty(Uvals)
-    Uvals = U_explode(M.u,subs);
+    Uvals = explode(M.u,subs);
 end
 
 %% Calculate model values
-KRfull = KR_explode(Uvals);
+KRfull = khatrirao_explode(Uvals);
 mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 
 %% Compute mean function value and scale
@@ -62,32 +62,30 @@ function V = mttkrp_explode(Xvals,Uvals,lambda,n,sz,subs)
 
 r = size(Uvals{1},2);
 
-V = zeros(sz(n),r);
-tmp2 = bsxfun(@times,KR_explode(Uvals([1:n-1 n+1:end])),transpose(lambda));
+tmp2 = bsxfun(@times,khatrirao_explode(Uvals([1:n-1,n+1:end])),transpose(lambda));
 gmvals = bsxfun(@times,tmp2,Xvals);
 msubs = subs(:,n);
+V = zeros(sz(n),r);
 for rp = 1:r
     V(:,rp) = accumarray(msubs,gmvals(:,rp),[sz(n),1]);
 end
 
 end
 
-function KRvals = KR_explode(Uvals)
-d = length(Uvals);
+function Pvals = khatrirao_explode(Cvals)
 
-KRvals = Uvals{1};
-for kp = 2:d
-    KRvals = KRvals .* Uvals{kp};
+Pvals = Cvals{1};
+for i = 2:length(Cvals)
+    Pvals = Pvals .* Cvals{i};
 end
 
 end
 
-function Uvals = U_explode(U,subs)
-d = length(U);
+function Cvals = explode(C,subs)
 
-Uvals = cell(d,1);
-for k = 1:d
-    Uvals{k} = U{k}(subs(:,k),:);
+Cvals = cell(length(C),1);
+for i = 1:length(C)
+    Cvals{i} = C{i}(subs(:,i),:);
 end
 
 end
