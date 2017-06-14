@@ -1,13 +1,17 @@
-function [fest,Gest,info,Glambda] = fg_est(M, X, subs, varargin)
+function [fest,GradU,info,GradLambda] = fg_est(M, X, subs, varargin)
 %FG_EST Objective and gradient function estimation for fitting Ktensor to
 %data. Estimation is done by using a few samples of the data rather than
 %the full data.
 
-%% Extract problem dimensions
-d = ndims(X);
-n = size(X);
+%% Process inputs
 
-%% Set algorithm parameters from input or by using defaults
+% Check size match between X and M
+sz = size(M);
+nd = ndims(M);
+if ~isequal(size(X),sz)
+    error('Model and tensor sizes do not match');
+end
+
 params = inputParser;
 params.addParameter('xvals',[]);
 params.addParameter('Uexplode',[]);
@@ -15,42 +19,41 @@ params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.parse(varargin{:});
 
-%% Copy from params object
-xvals  = params.Results.xvals;
+Xvals  = params.Results.xvals;
 Uvals  = params.Results.Uexplode;
 objfh  = params.Results.objfh;
 gradfh = params.Results.gradfh;
 
-%% Extract entries specified by subs
-if isempty(xvals)
-    xvals = X(subs);
+%% Extract entries of X and rows of factor matrices specified by subs
+if isempty(Xvals)
+    Xvals = X(subs);
 end
 
-%% Extract appropriate rows of each factor matrix
 if isempty(Uvals)
     Uvals = explode(M.u,subs);
 end
 
-%% Calculate model values
+%% Calculate model values and function value estimate
 KRfull = khatrirao_explode(Uvals);
-mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
+Mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 
-%% Compute mean function value and scale
-fest = mean(objfh(xvals,mvals)) * prod(n);
+Fvals = objfh(Xvals,Mvals);
+fest  = mean(Fvals,1) * prod(sz);
 
-%% Compute gradient and scale
-gvals = gradfh(xvals,mvals);
+%% Gradient calculation
+BigGvals = gradfh(Xvals,Mvals);
 
-Glambda = transpose(sum(bsxfun(@times,KRfull,gvals),1));
+% Gradient wrt Lambda
+GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
 
-Gest = cell(d,1);
-for k = 1:d
-    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k,subs,n) / size(subs,1) * prod(n);
+% Gradient wrt U's
+GradU = cell(nd,1);
+for k = 1:nd
+    GradU{k} = mttkrp_explode(BigGvals,Uvals,M.lambda,k,subs,sz) / size(subs,1) * prod(sz);
 end
 
-
 %% Output potentially reused values
-info.xvals = xvals;
+info.xvals = Xvals;
 info.Uexplode = Uvals;
 
 end
