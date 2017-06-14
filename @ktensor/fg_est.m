@@ -6,7 +6,6 @@ function [fest,Gest,info,Glambda] = fg_est(M, X, subs, varargin)
 %% Extract problem dimensions
 d = ndims(X);
 n = size(X);
-r = ncomponents(M);
 
 %% Set algorithm parameters from input or by using defaults
 params = inputParser;
@@ -29,33 +28,24 @@ end
 
 %% Extract appropriate rows of each factor matrix
 if isempty(Uvals)
-    Uvals = Uexplode(M.u,subs);
+    Uvals = U_explode(M.u,subs);
 end
 
 %% Calculate model values
-KRfull = KRexplode(0,Uvals);
+KRfull = KR_explode(Uvals);
 mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 
 %% Compute mean function value and scale
 fest = mean(objfh(xvals,mvals)) * prod(n);
 
 %% Compute gradient and scale
-% This is inherently doing an MTTKRP, but we avoid forming the G tensor or
-% calling the MTTKRP function. THis is probably inefficient.
 gvals = gradfh(xvals,mvals);
 
 Glambda = transpose(sum(bsxfun(@times,KRfull,gvals),1));
 
 Gest = cell(d,1);
 for k = 1:d
-    gm = zeros(n(k),r);
-    tmp2 = bsxfun(@times,KRexplode(k,Uvals),M.lambda.');
-    gmvals = bsxfun(@times,tmp2,gvals);
-    msubs = subs(:,k);
-    for r = 1:ncomponents(M)
-        gm(:,r) = accumarray(msubs,gmvals(:,r),[n(k),1]);
-    end
-    Gest{k} = gm / size(subs,1) * prod(n);
+    Gest{k} = mttkrp_explode(gvals,Uvals,M.lambda,k,n,subs) / size(subs,1) * prod(n);
 end
 
 %% Output potentially reused values
@@ -64,24 +54,35 @@ info.Uexplode = Uvals;
 
 end
 
-function KRvals = KRexplode(k,Uvals)
+%% Utility functions
+
+% This is inherently doing an MTTKRP, but we avoid forming the G tensor or
+% calling the MTTKRP function. THis is probably inefficient.
+function V = mttkrp_explode(Xvals,Uvals,lambda,n,sz,subs)
+
+r = size(Uvals{1},2);
+
+V = zeros(sz(n),r);
+tmp2 = bsxfun(@times,KR_explode(Uvals([1:n-1 n+1:end])),transpose(lambda));
+gmvals = bsxfun(@times,tmp2,Xvals);
+msubs = subs(:,n);
+for rp = 1:r
+    V(:,rp) = accumarray(msubs,gmvals(:,rp),[sz(n),1]);
+end
+
+end
+
+function KRvals = KR_explode(Uvals)
 d = length(Uvals);
 
-if k == 0    % Return full Khatri-Rao
-    KRvals = Uvals{1};
-    for kp = 2:d
-        KRvals = KRvals .* Uvals{kp};
-    end
-else         % Return Khatri-Rao exluding the kth matrix
-    KRvals = ones(size(Uvals{1}));
-    for kp = [1:k-1 k+1:d]
-        KRvals = KRvals .* Uvals{kp};
-    end
+KRvals = Uvals{1};
+for kp = 2:d
+    KRvals = KRvals .* Uvals{kp};
 end
 
 end
 
-function Uvals = Uexplode(U,subs)
+function Uvals = U_explode(U,subs)
 d = length(U);
 
 Uvals = cell(d,1);
