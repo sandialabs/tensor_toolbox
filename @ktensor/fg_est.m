@@ -1,4 +1,4 @@
-function [fest,Gest,info] = fg_est(M, X, subs, varargin)
+function [fest,Gest,info,Glambda] = fg_est(M, X, subs, varargin)
 %FG_EST Objective and gradient function estimation for fitting Ktensor to
 %data. Estimation is done by using a few samples of the data rather than
 %the full data.
@@ -36,13 +36,12 @@ if isempty(Uexplode)
 end
 
 %% Calculate model values
-% TODO: Note that we've ignored M.lambda here, assuming that it's all ones.
-% Probably need to fix this or check!
 tmp = Uexplode{1};
 for k = 2:d
     tmp = tmp .* Uexplode{k};
 end
-mvals = sum(tmp,2);
+tmp2 = bsxfun(@times,tmp,M.lambda.');
+mvals = sum(tmp2,2);
 
 %% Compute mean function value and scale
 fest = mean(objfh(xvals,mvals)) * prod(n);
@@ -68,13 +67,17 @@ end
 Gest = cell(d,1);
 for k = 1:d
     gm = zeros(n(k),r);
-    gmvals = bsxfun(@times,KRexplode{k},gvals);
+    tmp = bsxfun(@times,KRexplode{k},M.lambda.');
+    gmvals = bsxfun(@times,tmp,gvals);
     msubs = subs(:,k);
     for r = 1:ncomponents(M)
         gm(:,r) = accumarray(msubs,gmvals(:,r),[n(k),1]);
     end
     Gest{k} = gm / size(subs,1) * prod(n);
 end
+
+tmp2 = bsxfun(@times,tmp,gvals);
+Glambda = sum(tmp2,1).';
 
 %% Output potentially reused values
 info.xvals = xvals;
