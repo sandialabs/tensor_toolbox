@@ -1,4 +1,4 @@
-function [M,info] = cp_adam(X,r,varargin)
+function [M,info] = cp_adam(X,r,restart,varargin)
 %CP_ADAM Adaptive Momentum Estimation Stochastic gradient descent for CP
 
 %% Extract number of dimensions and norm of X.
@@ -99,12 +99,12 @@ if save_ftrue
 end
 
 %% Main loop
-nepoch = 0;
+nepoch = 0; niters = 0;
 while nepoch < maxepochs
     nepoch = nepoch + 1;
     
     for iter = 1:epochiters
-        
+        niters = niters + 1;
         % Select subset for stochastic gradient
         gidx = gsample_gen(prod(sz), gsamples, 1);
         gsubs = tt_ind2sub(sz, gidx);
@@ -117,8 +117,8 @@ while nepoch < maxepochs
         
         m = cellfun(@(mk,gk) beta1*mk + (1-beta1)*gk,m,Gest,'UniformOutput',false);
         v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
-        mhat = cellfun(@(mk) mk/(1-beta1^((nepoch-1)*epochiters+iter)),m,'UniformOutput',false);
-        vhat = cellfun(@(vk) vk/(1-beta2^((nepoch-1)*epochiters+iter)),v,'UniformOutput',false);
+        mhat = cellfun(@(mk) mk/(1-beta1^niters),m,'UniformOutput',false);
+        vhat = cellfun(@(vk) vk/(1-beta2^niters),v,'UniformOutput',false);
         M.u = cellfun(@(uk,mhk,vhk) max(lowbound,uk-rate*mhk./(sqrt(vhk)+epsilon)),M.u,mhat,vhat,'UniformOutput',false);
     end
     
@@ -126,6 +126,17 @@ while nepoch < maxepochs
     fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
     info.fest = [info.fest fest];
     
+    % Restart?
+    if restart && festold <= fest
+        for k = 1:n
+            m{k} = zeros(sz(k),r);
+        end
+        for k = 1:n
+            v{k} = zeros(sz(k),r);
+        end
+        niters = 0;
+    end
+
     % Not the cleanest way to print trace. TODO: Clean this up.
     if verbosity > 10
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
