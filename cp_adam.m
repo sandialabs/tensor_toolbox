@@ -1,4 +1,4 @@
-function [M,info] = cp_adam(X,r,restart,varargin)
+function [M,info] = cp_adam(X,r,varargin)
 %CP_ADAM Adaptive Momentum Estimation Stochastic gradient descent for CP
 
 %% Extract number of dimensions and norm of X.
@@ -25,6 +25,7 @@ params.addParameter('gradcheck', true, @islogical);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
+params.addParameter('restart',false, @islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -46,6 +47,7 @@ gradcheck   = params.Results.gradcheck;
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
+restart     = params.Results.restart;
 
 %% Welcome
 if verbosity > 10
@@ -126,17 +128,6 @@ while nepoch < maxepochs
     fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
     info.fest = [info.fest fest];
     
-    % Restart?
-    if restart && festold <= fest
-        for k = 1:n
-            m{k} = zeros(sz(k),r);
-        end
-        for k = 1:n
-            v{k} = zeros(sz(k),r);
-        end
-        niters = 0;
-    end
-
     % Not the cleanest way to print trace. TODO: Clean this up.
     if verbosity > 10
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
@@ -157,6 +148,17 @@ while nepoch < maxepochs
         info.ftrue = [info.ftrue collapse(tenfun(objfh,X,full(M)))];
     end
     
+    % Restart
+    if restart && festold <= fest
+        for k = 1:n
+            m{k} = zeros(sz(k),r);
+        end
+        for k = 1:n
+            v{k} = zeros(sz(k),r);
+        end
+        niters = 0;
+    end
+
     if conv_cond(fest,festold)
         break;
     end
