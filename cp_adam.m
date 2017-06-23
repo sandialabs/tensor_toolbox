@@ -66,6 +66,8 @@ else
     end
 end
 M = ktensor(Uinit);
+M = M * (norm(X)/norm(M));
+M = normalize(M,0);
 
 m = cell(n,1);
 for k = 1:n
@@ -123,7 +125,7 @@ while nepoch < maxepochs
         vhat = cellfun(@(vk) vk/(1-beta2^niters),v,'UniformOutput',false);
         M.u = cellfun(@(uk,mhk,vhk) max(lowbound,uk-rate*mhk./(sqrt(vhk)+epsilon)),M.u,mhat,vhat,'UniformOutput',false);
     end
-    
+
     festold = fest;
     fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
     info.fest = [info.fest fest];
@@ -147,9 +149,11 @@ while nepoch < maxepochs
     if save_ftrue
         info.ftrue = [info.ftrue collapse(tenfun(objfh,X,full(M)))];
     end
-    
+
+    %M = normalize(M,0);
     % Restart
-    if restart && festold <= fest
+    %if restart && festold <= fest
+    if restart
         for k = 1:n
             m{k} = zeros(sz(k),r);
         end
@@ -157,6 +161,12 @@ while nepoch < maxepochs
             v{k} = zeros(sz(k),r);
         end
         niters = 0;
+        M = normalize(M,0);
+    end
+    if festold <= fest
+        %beta1 = 1-(1-beta1)/2;
+        %beta2 = 1-(1-beta2)/2;
+        rate = rate/2;
     end
 
     if conv_cond(fest,festold)
