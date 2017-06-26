@@ -17,7 +17,7 @@ params.addParameter('rate', 1e-3);
 params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('save_ftrue', false, @islogical);
-params.addParameter('conv_cond',@(f,fold) f >= fold,@(c) isa(c,'function_handle'));
+params.addParameter('conv_cond',@(f,fold) f > fold,@(c) isa(c,'function_handle'));
 params.addParameter('beta1', 0.9);
 params.addParameter('beta2', 0.999);
 params.addParameter('epsilon', 1e-8);
@@ -26,6 +26,7 @@ params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
 params.addParameter('restart',false, @islogical);
+params.addParameter('dec_rate',false,@islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -48,6 +49,7 @@ objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
 restart     = params.Results.restart;
+dec_rate    = params.Results.dec_rate;
 
 %% Welcome
 if verbosity > 10
@@ -163,7 +165,7 @@ while nepoch < maxepochs
         niters = 0;
         M = normalize(M,0);
     end
-    if festold <= fest
+    if dec_rate && (fest > festold)
         %beta1 = 1-(1-beta1)/2;
         %beta2 = 1-(1-beta2)/2;
         rate = rate/2;
