@@ -58,6 +58,8 @@ else
     end
 end
 M = ktensor(Uinit);
+M = M * (norm(X)/norm(M));
+M = normalize(M,0);
 
 %% Extract samples for estimating function value
 % TBD: Handle missing data. Currently assumes input is complete. Also note
@@ -102,6 +104,7 @@ while nepoch < maxepochs
         M.u = cellfun(@(u,g) max(lowbound,u-rate*g),M.u,Gest,'UniformOutput',false);
         
     end
+    M = normalize(M,0);
     
     festold = fest;
     fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
