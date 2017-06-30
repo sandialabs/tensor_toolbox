@@ -25,7 +25,7 @@ function info = viz(K, varargin)
 %   'Sameylims' - Use the same ylimits on all axes in the same mode.
 %   -- Titles --
 %   'Modetitles' - Cell array of mode titles. Default:{'Mode 1',...}
-%   'Factortitles' - Factor title as number or weight. Default: 'None'.
+%   'Factortitle' - Factor title as number or weight. Default: 'None'.
 %       o 'Weight' - Print relative lambda value, compared to lambda(1). 
 %       o 'Number' - Print factor number.
 %       o 'None' - No factor titles (default).
