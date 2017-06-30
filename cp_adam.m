@@ -27,6 +27,7 @@ params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
 params.addParameter('restart',false, @islogical);
 params.addParameter('dec_rate',false,@islogical);
+params.addParameter('mask',[],@(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -50,6 +51,7 @@ gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
 restart     = params.Results.restart;
 dec_rate    = params.Results.dec_rate;
+mask        = params.Results.mask;
 
 %% Welcome
 if verbosity > 10
@@ -80,12 +82,22 @@ for k = 1:n
     v{k} = zeros(sz(k),r);
 end
 
+%% Convert mask to sparse tensor if not already
+if ~isempty(mask) && ~isa(mask,'sptensor')
+    warning('Converting dense tensor to sparse');
+    mask = sptensor(mask);
+end
+
 %% Extract samples for estimating function value
-% TBD: Handle missing data. Currently assumes input is complete. Also note
-% that this version assumes that we allows for _repeats_ which may or may
+% TBD: This version assumes that we allows for _repeats_ which may or may
 % not be a good thing.
-fidx  = randi(prod(sz), fsamples, 1);
-fsubs = tt_ind2sub(sz, fidx);
+if ~isempty(mask)
+    fidx  = randi(nnz(mask), fsamples, 1);
+    fsubs = mask.subs(fidx,:);
+else
+    fidx  = randi(prod(sz), fsamples, 1);
+    fsubs = tt_ind2sub(sz, fidx);
+end
 fvals = X(fsubs);
 
 %% Initial function value
@@ -112,8 +124,13 @@ while nepoch < maxepochs
     for iter = 1:epochiters
         niters = niters + 1;
         % Select subset for stochastic gradient
-        gidx = gsample_gen(prod(sz), gsamples, 1);
-        gsubs = tt_ind2sub(sz, gidx);
+        if ~isempty(mask)
+            gidx = gsample_gen(nnz(mask), gsamples, 1);
+            gsubs = mask.subs(gidx,:);
+        else
+            gidx = gsample_gen(prod(sz), gsamples, 1);
+            gsubs = tt_ind2sub(sz, gidx);
+        end
         
         % Compute gradients and moments for each mode and take a step
         [~,Gest] = fg_est(M,X,gsubs,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
