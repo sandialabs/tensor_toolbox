@@ -138,13 +138,6 @@ for k = 1 : nd
         ss = res.Plotsize(k);
     end
 
-    % Grab appropriate colors
-    if isempty(res.Plotcolors{k})
-        cc = [0 0 1];
-    else
-        cc = res.Plotcolors{k};
-    end
-    
     % Extract component, no modifications
     U = K.u{k};
     
@@ -155,6 +148,14 @@ for k = 1 : nd
     yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
 
     for j = 1 : nc
+        % Grab appropriate colors
+        if isempty(res.Plotcolors{k})
+            cc = [0 0 1];
+        elseif ~iscell(res.Plotcolors{k})
+            cc = res.Plotcolors{k};
+        else
+            cc = res.Plotcolors{k}{j};
+        end
         
         xx = 1:size(K,k);
         yy = U(:,j);
