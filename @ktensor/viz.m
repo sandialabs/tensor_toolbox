@@ -168,13 +168,8 @@ for k = 1 : nd
     % Add one extra at end of ticks
     xl = [0 size(K,k)+1];
     
-    % Create y-axes that include zero (or use provided values)
-    if ~isempty(res.YLims{k})
-        yl = res.YLims{k};
-        res.Sameylims(k) = true;
-    else
-        yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
-    end
+    % Create y-axes that include zero
+    yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
     
     for j = 1 : nc
         % Grab appropriate colors
@@ -204,12 +199,18 @@ for k = 1 : nd
         
         % Set y-axes
         if res.Sameylims(k)
-            ylim(FactorAxes(j,k),yl);
+            tmpyl = yl;
         else
             % Create y-axes that include zero
             tmpyl = [ min(-0.01, min(U(:,j))), max( 0.01, max(U(:,j))) ];
-            ylim(FactorAxes(j,k),tmpyl);
         end
+        
+        % Incorporate provided ylims
+        if ~isempty(res.YLims{k})
+            tmpyl(~isinf(res.YLims{k})) = res.YLims{k}(~isinf(res.YLims{k}));
+            disp(tmpyl)
+        end
+        ylim(FactorAxes(j,k),tmpyl);
         
         % Expand y-axes
         if res.YExpand(k) ~= 0
