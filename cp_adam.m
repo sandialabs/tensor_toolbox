@@ -1,5 +1,68 @@
 function [M,info] = cp_adam(X,r,varargin)
-%CP_ADAM Adaptive Momentum Estimation Stochastic gradient descent for CP
+%CP_ADAM Fits a generalized CP model to a tensor via stochastic
+%optimization with adaptive moment estimation (Adam).
+%
+%   P = CP_ADAM(X,R) computes an estimate of the best rank-R generalized
+%   CP model of a tensor X using stochastic optimization with adaptive
+%   moment estimation (Adam). The input X can be a tensor, sptensor,
+%   ktensor, or ttensor. The result P is a ktensor.
+%
+%   P = CP_ADAM(X,R,'param',value,...) specifies optional parameters and
+%   values. Valid parameters and their default values are:
+%   -- General --
+%   'mask' - Tensor indicating missing data (0 = missing, 1 = present). {[]}
+%   'init' - Initial guess [{'random'}|'nvecs'|cell array]
+%   -- Batch sizes --
+%   'fsamples' - Batch size for calculating the function value {1000}
+%   'gsamples' - Batch size for calculating the gradient {1}
+%   'gsample_gen' - Function to generate sample indices {@randi}
+%   -- Iterations/Epochs --
+%   'epochiters' - Number of iterations per epoch {1000}
+%   'maxepochs' - Maximum number of epochs {100}
+%   'conv_cond' - Convergence condition {@(f,fold) f > fold}
+%   -- Rates --
+%   'rate' - Step size {1e-3}
+%   'beta1' - First moment decay {0.9}
+%   'beta2' - Second moment decay {0.999}
+%   'epsilon' - Small value to help with numerics in division {1e-8}
+%   -- Loss function --
+%   'objfh' - Loss function {@(x,m) (x-m).^2}
+%   'gradfh' - Gradient of loss function {@(x,m) -2*(x-m)}
+%   'lowbound' - Low bound constraint {-Inf}
+%   -- Restart/Decreasing rate --
+%   'restart' - Restart moment estimates and normalize at each epoch. {false}
+%   'dec_rate' - Halve the step size at each epoch where the function value
+%                increases. {false}
+%   -- Reporting --
+%   'verbosity' - Verbosity level {11}
+%   'print_ftrue' - Print the true objective function value at each epoch {false}
+%   'save_ftrue' - Save the true objective function value at each epoch {false}
+%   'gradcheck' - Trigger error if the gradient is ever infinite {true}
+%
+%   [P,out] = CP_ADAM(...) also returns a structure with the trace of the
+%   function value.
+%
+%   Examples:
+%   X = sptenrand([5 4 3], 10);
+%   P = cp_adam(X,2);
+%   P = cp_adam(X,2, ...
+%               'objfh',@(x,m) log(m+1)-x.*log(m+1e-7), ...
+%               'gradfh',@(x,m) 1./(m+1)-x./(m+1e-7), ...
+%               'lowbound',1e-6);
+%
+%   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR, CP_SGD, CP_ALS, CP_OPT,
+%   CP_WOPT.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2015, Sandia Corporation.
+
+% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
+% http://www.sandia.gov/~tgkolda/TensorToolbox.
+% Copyright (2015) Sandia Corporation. Under the terms of Contract
+% DE-AC04-94AL85000, there is a non-exclusive license for use of this
+% work by or on behalf of the U.S. Government. Export of this data may
+% require a license from the United States Government.
+% The full license terms can be found in the file LICENSE.txt
 
 %% Extract number of dimensions and norm of X.
 n  = ndims(X);

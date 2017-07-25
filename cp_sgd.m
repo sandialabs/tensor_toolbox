@@ -1,5 +1,58 @@
 function [M,info] = cp_sgd(X,r,varargin)
-%CP_SGD Stochastic gradient descent for CP
+%CP_SGD Fits a generalized CP model to a tensor via stochastic gradient
+%descent.
+%
+%   P = CP_SGD(X,R) computes an estimate of the best rank-R generalized
+%   CP model of a tensor X using stochastic gradient descent. The input
+%   X can be a tensor, sptensor, ktensor, or ttensor. The result P is a
+%   ktensor.
+%
+%   P = CP_SGD(X,R,'param',value,...) specifies optional parameters and
+%   values. Valid parameters and their default values are:
+%   -- General --
+%   'init' - Initial guess [{'random'}|'nvecs'|cell array]
+%   'rate' - Step size {1e-2}
+%   -- Batch sizes --
+%   'fsamples' - Batch size for calculating the function value {1000}
+%   'gsamples' - Batch size for calculating the gradient {1}
+%   'gsample_gen' - Function to generate sample indices {@randi}
+%   -- Iterations/Epochs --
+%   'epochiters' - Number of iterations per epoch {1000}
+%   'maxepochs' - Maximum number of epochs {100}
+%   'conv_cond' - Convergence condition {@(f,fold) f > fold}
+%   -- Loss function --
+%   'objfh' - Loss function {@(x,m) (x-m).^2}
+%   'gradfh' - Gradient of loss function {@(x,m) -2*(x-m)}
+%   'lowbound' - Low bound constraint {-Inf}
+%   -- Reporting --
+%   'verbosity' - Verbosity level {11}
+%   'print_ftrue' - Print the true objective function value at each epoch {false}
+%   'save_ftrue' - Save the true objective function value at each epoch {false}
+%   'gradcheck' - Trigger error if the gradient is ever infinite {true}
+%
+%   [P,out] = CP_SGD(...) also returns a structure with the trace of the
+%   function value.
+%
+%   Examples:
+%   X = sptenrand([5 4 3], 10);
+%   P = cp_sgd(X,2);
+%   P = cp_sgd(X,2, ...
+%              'objfh',@(x,m) log(m+1)-x.*log(m+1e-7), ...
+%              'gradfh',@(x,m) 1./(m+1)-x./(m+1e-7), ...
+%              'lowbound',1e-6);
+%
+%   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR, CP_ADAM.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2015, Sandia Corporation.
+
+% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
+% http://www.sandia.gov/~tgkolda/TensorToolbox.
+% Copyright (2015) Sandia Corporation. Under the terms of Contract
+% DE-AC04-94AL85000, there is a non-exclusive license for use of this
+% work by or on behalf of the U.S. Government. Export of this data may
+% require a license from the United States Government.
+% The full license terms can be found in the file LICENSE.txt
 
 %% Extract number of dimensions and norm of X.
 n  = ndims(X);
