@@ -1,7 +1,7 @@
 function info = viz(K, varargin)
 %VIZ Visualize a ktensor
 %
-%   VIZ(K) visualizes the components of an D-way ktensor with R components
+%   VIZ(K) visualizes the components of a D-way ktensor with R components
 %   in an R x D arrangment of plots. Each column of plots represents the
 %   columns of the associated factor matrix, and each row represents a
 %   single rank-one component.
@@ -23,10 +23,18 @@ function info = viz(K, varargin)
 %   'Plotcolors' - Cell array of colors. Can be single color or array of
 %                  colors for scatter or bar plots.
 %   'Sameylims' - Use the same ylimits on all axes in the same mode.
+%   'YLims' - Cell array of ylimit for each mode. Empty array indicates the
+%             automatic defaults should be used. Default: cell(D,1)
+%   'YExpand' - Expansion fraction of ylimit in each mode.
+%               Default: zeros(D,1)
+%   'XTicks' - Cell array of xticks for each mode. Empty array indicates
+%              the automatic defaults should be used. Default: cell(D,1)
+%   'XTickLabels' - Cell array of xticklabels. Empty array indicates the
+%                   automitic defaults should be used. Default: cell(D,1)
 %   -- Titles --
 %   'Modetitles' - Cell array of mode titles. Default:{'Mode 1',...}
 %   'Factortitle' - Factor title as number or weight. Default: 'None'.
-%       o 'Weight' - Print relative lambda value, compared to lambda(1). 
+%       o 'Weight' - Print relative lambda value, compared to lambda(1).
 %       o 'Number' - Print factor number.
 %       o 'None' - No factor titles (default).
 %   -- Spacing (all proportions in [0,1]) --
@@ -37,6 +45,14 @@ function info = viz(K, varargin)
 %   'Hspaceright' - Space at right. Default: 0.025.
 %   'Vspace' - Vertical space inbetween factor axes. Default: 0.01.
 %   'Hspace' - Horizontal space inbetween factor axes. Default: 0.01.
+%   -- Annotation --
+%   'VLines' - Cell array of locations for vertical lines in each mode.
+%              Default: cell(D,1)
+%   'Circle' - Cell array of locations to put circles in each mode.
+%              Default: cell(D,1)
+%   'CircleRadius' - Circle radius for each mode. Default: zeros(D,1)
+%   'CircleArgs' - Cell array of arguments for the circles in each mode
+%                  (e.g., EdgeColor, LineWidth). Default: cell(D,1)
 %
 %   Return values:
 %   'height' - Height of each plot (as a proportion in [0,1]).
@@ -47,7 +63,7 @@ function info = viz(K, varargin)
 %   'htitle'
 %   'hftitle'
 %   'h'
-%   
+%
 %   Examples:
 %   K = ktensor([3; 2], rand(40,2), rand(50,2), rand(30,2));
 %   viz(K,'Figure',1,'Hspace',0.05,'Vspacebottom',0.075);
@@ -66,7 +82,7 @@ nc = ncomponents(K); % Rank
 
 
 params = inputParser;
-% Figure 
+% Figure
 params.addParameter('Figure', []);
 % Spacing
 params.addParameter('Relmodespace', ones(nd,1)); % Horizontal space for each mode
@@ -84,7 +100,15 @@ params.addParameter('Plottype', repmat({'line'}, [nd 1]));
 params.addParameter('Plotsize', -1 * ones(nd,1)); % Used for scatter dot size or plot linewidth
 params.addParameter('Plotcolors', cell(nd,1));
 params.addParameter('Sameylims', true(nd,1));
-
+params.addParameter('YLims', cell(nd,1));
+params.addParameter('YExpand', zeros(nd,1));
+params.addParameter('XTicks', cell(nd,1));
+params.addParameter('XTickLabels', cell(nd,1));
+% Annotation
+params.addParameter('VLines', cell(nd,1));
+params.addParameter('Circle', cell(nd,1));
+params.addParameter('CircleRadius', zeros(nd,1));
+params.addParameter('CircleArgs', cell(nd,1));
 
 params.parse(varargin{:});
 res = params.Results;
@@ -137,16 +161,21 @@ for k = 1 : nd
         lw = res.Plotsize(k);
         ss = res.Plotsize(k);
     end
-
+    
     % Extract component, no modifications
     U = K.u{k};
     
     % Add one extra at end of ticks
     xl = [0 size(K,k)+1];
-
-    % Create y-axes that include zero
-    yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
-
+    
+    % Create y-axes that include zero (or use provided values)
+    if ~isempty(res.YLims{k})
+        yl = res.YLims{k};
+        res.Sameylims(k) = true;
+    else
+        yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
+    end
+    
     for j = 1 : nc
         % Grab appropriate colors
         if isempty(res.Plotcolors{k})
@@ -160,12 +189,12 @@ for k = 1 : nd
         xx = 1:size(K,k);
         yy = U(:,j);
         hold(FactorAxes(j,k), 'off');
-
+        
         switch res.Plottype{k}
             case 'line'
                 hh = plot(FactorAxes(j,k), xx, yy, 'Linewidth', lw, 'Color', cc);
             case 'scatter'
-                hh = scatter(FactorAxes(j,k), xx, yy, ss, cc, 'filled');              
+                hh = scatter(FactorAxes(j,k), xx, yy, ss, cc, 'filled');
             case 'bar'
                 hh = bar(FactorAxes(j,k), xx, yy, 'EdgeColor', cc, 'FaceColor', cc);
         end
@@ -182,21 +211,38 @@ for k = 1 : nd
             ylim(FactorAxes(j,k),tmpyl);
         end
         
+        % Expand y-axes
+        if res.YExpand(k) ~= 0
+            ylim(FactorAxes(j,k), ...
+                ylim(FactorAxes(j,k)) ...
+                + res.YExpand(k)*[-0.5 0.5]*range(ylim(FactorAxes(j,k))) );
+        end
+        
         % Turn off y-ticks
         set(FactorAxes(j,k),'Ytick',[]);
         
         % Draw a box around the axes
         set(FactorAxes(j,k),'Box','on')
-
+        
+        % Set xticks
+        if ~isempty(res.XTicks{k})
+            xticks(FactorAxes(j,k),res.XTicks{k});
+        end
+        
         % Turn of x-labels if not the bottom plot
         if j < nc
             set(FactorAxes(j,k),'XtickLabel',{});
-        end            
+        end
+        
+        % Set x-labels
+        if j == nc && ~isempty(res.XTickLabels{k})
+            xticklabels(FactorAxes(j,k),res.XTickLabels{k});
+        end
         
         % Draw dashed line at zero
         hold(FactorAxes(j,k), 'on');
         plot(FactorAxes(j,k), xl, [0 0], 'k:', 'Linewidth', 1.5);
-
+        
         % Save handle for main plot
         h(k,j) = hh;
         
@@ -239,7 +285,7 @@ if ~strcmpi(res.Factortitle,'none')
         xpos = 0.9 * res.Hspaceleft;
         ypos = 1 - res.Vspacetop - 0.5 * height - (j-1) * (height + res.Vspace);
         %ypos = 1 - res.Vspacetop - 0.5 * height - (j-1) * (1 + res.Vrelspace) * height;
-        if strcmpi(res.Factortitle,'weight')          
+        if strcmpi(res.Factortitle,'weight')
             txt = sprintf('%3.2f', rellambda(j));
         else
             txt = sprintf('%d', j);
@@ -248,6 +294,29 @@ if ~strcmpi(res.Factortitle,'none')
         set(hftitle(j),'FontSize',14)
     end
 end
+
+%% Add vertical lines
+for k = 1 : nd
+    if ~isempty(res.VLines{k})
+        for j = 1:nc
+            vline(FactorAxes(j,k),res.VLines{k});
+        end
+    end
+end
+
+%% Add circles
+for k = 1 : nd
+    if ~isempty(res.Circle{k})
+        for j = 1 : nc
+            for i = 1:length(res.Circle{k})
+                circle(FactorAxes(j,k), ...
+                    [res.Circle{k}(i),K.u{k}(res.Circle{k}(i),j)], ...
+                    res.CircleRadius(k),res.CircleArgs{k}{:});
+            end
+        end
+    end
+end
+
 %% Save stuff to return
 info.height = height;
 info.width = width;
@@ -258,3 +327,21 @@ info.htitle = htitle;
 info.hftitle = hftitle;
 info.h = h;
 
+end
+
+%% Utility
+function vline(ax,xvals)
+
+for j = 1:length(xvals)
+    plot(ax,[xvals(j) xvals(j)], ylim(ax), 'k:');
+end
+
+end
+
+function circle(ax,center,radius,varargin)
+
+xy_scale = ax.DataAspectRatio([1,2])./ax.PlotBoxAspectRatio([1,2]);
+pos = [(center - radius*xy_scale/2) radius*xy_scale];
+rectangle(ax,'Position',pos,'Curvature',[1 1],varargin{:});
+
+end
