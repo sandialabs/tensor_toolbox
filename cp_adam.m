@@ -145,18 +145,24 @@ for k = 1:n
     v{k} = zeros(sz(k),r);
 end
 
-%% Convert mask to sparse tensor if not already
+%% Extract indices from mask if not sparse tensor
 if ~isempty(mask) && ~isa(mask,'sptensor')
-    warning('Converting dense tensor to sparse');
-    mask = sptensor(mask);
+    fprintf('Extracting indices from mask...');
+    mask_idx = find(double(mask));
+    fprintf('done!\n');
 end
 
 %% Extract samples for estimating function value
 % TBD: This version assumes that we allows for _repeats_ which may or may
 % not be a good thing.
 if ~isempty(mask)
-    fidx  = randi(nnz(mask), fsamples, 1);
-    fsubs = mask.subs(fidx,:);
+    if isa(mask,'sptensor')
+        fidx  = randi(nnz(mask), fsamples, 1);
+        fsubs = mask.subs(fidx,:);
+    else
+        fidx  = randi(length(mask_idx), fsamples, 1);
+        fsubs = tt_ind2sub(sz,mask_idx(fidx));
+    end
 else
     fidx  = randi(prod(sz), fsamples, 1);
     fsubs = tt_ind2sub(sz, fidx);
@@ -188,8 +194,13 @@ while nepoch < maxepochs
         niters = niters + 1;
         % Select subset for stochastic gradient
         if ~isempty(mask)
-            gidx = gsample_gen(nnz(mask), gsamples, 1);
-            gsubs = mask.subs(gidx,:);
+            if isa(mask,'sptensor')
+                gidx = gsample_gen(nnz(mask), gsamples, 1);
+                gsubs = mask.subs(gidx,:);
+            else
+                gidx = gsample_gen(length(mask_idx), gsamples, 1);
+                gsubs = tt_ind2sub(sz,mask_idx(gidx));
+            end
         else
             gidx = gsample_gen(prod(sz), gsamples, 1);
             gsubs = tt_ind2sub(sz, gidx);
