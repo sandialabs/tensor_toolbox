@@ -208,7 +208,6 @@ for k = 1 : nd
         % Incorporate provided ylims
         if ~isempty(res.YLims{k})
             tmpyl(~isinf(res.YLims{k})) = res.YLims{k}(~isinf(res.YLims{k}));
-            disp(tmpyl)
         end
         ylim(FactorAxes(j,k),tmpyl);
         
