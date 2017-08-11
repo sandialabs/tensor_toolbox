@@ -40,6 +40,8 @@
 <tocitem image="$toolbox/matlab/icons/pageicon.gif"
  target="doc/html/T4_cpapr_doc.html">Alternating Poisson Regression for fitting CP to sparse count data</tocitem>
 <tocitem image="$toolbox/matlab/icons/pageicon.gif"
+ target="doc/html/T5_hosvd_algorithm_doc.html">Computing Tucker via the HOSVD</tocitem>
+<tocitem image="$toolbox/matlab/icons/pageicon.gif"
  target="doc/html/V_SSHOPM_doc.html">Shifted Symmetric Higher-Order Power Method (eig_sshopm)</tocitem>
 
 <tocitem target="http://www.sandia.gov/~tgkolda/TensorToolbox/"
