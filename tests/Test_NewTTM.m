@@ -23,7 +23,7 @@ classdef Test_NewTTM < matlab.unittest.TestCase
                 Y1 = ttm(X,U{n},n,[],0);
                 Y2 = ttm(X,U{n},n,[],1);
                 testCase.verifyEqual(size(Y1), size(Y2));
-                testCase.verifyEqual(Y1.data, Y2.data, 'RelTol', 1e-13);
+                testCase.verifyEqual(Y1.data, Y2.data, 'AbsTol', 1e-12);
             end      
         end
         
