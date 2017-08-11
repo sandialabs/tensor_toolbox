@@ -133,7 +133,19 @@ else
     end
 end
 M = ktensor(Uinit);
-M = M * (norm(X)/norm(M));
+if ~isempty(mask) % Calculate estimate of norm from observed entries
+    if isa(mask,'sptensor')
+        normX = sum(X(mask.subs).^2)/nnz(mask)*prod(mask.size);
+    else % When the mask is dense avoid forming sptensor (but still very inefficient)
+        maskmat = logical(double(mask));
+        Xmat    = double(X);
+        normX = sum(Xmat(maskmat).^2)/nnz(maskmat)*numel(maskmat);
+        clear maskmat Xmat;
+    end
+else
+    normX = norm(X);
+end
+M = M * (normX/norm(M));
 M = normalize(M,0);
 
 m = cell(n,1);
@@ -145,7 +157,7 @@ for k = 1:n
     v{k} = zeros(sz(k),r);
 end
 
-%% Extract indices from mask if not sparse tensor
+%% Extract linear indices from mask if not sparse tensor
 if ~isempty(mask) && ~isa(mask,'sptensor')
     fprintf('Extracting indices from mask...');
     mask_idx = find(double(mask));
