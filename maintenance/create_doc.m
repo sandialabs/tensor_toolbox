@@ -44,7 +44,7 @@ end
 %% Create tensor_toolbox_product_page.html
 fprintf('\nGenerating a new tensor_toolbox_product_page.html.\n');
 infid = fopen('tensor_toolbox_product_page_template.html','r');
-outfid = fopen('../tensor_toolbox_product_page.html','w');
+outfid = fopen('../doc/html/tensor_toolbox_product_page.html','w');
 fprintf(outfid,'<!-- DO NOT MODIFY THIS FILE. IT IS AUTOMATICALLY GENERATED. -->\n');
 while 1
     tline = fgetl(infid);
@@ -85,6 +85,7 @@ fclose(infid);
 fclose(outfid);
 %% Publish the HTML 
 % (run last because it creates a lot of variables in the working space)  
+if 0
 fprintf('\nPublishing the documentation.\n');
 for iii = 1:numel(docs)
     %name = ['../doc/' docs(iii).name];
@@ -93,4 +94,5 @@ for iii = 1:numel(docs)
     html = publish(name);
     fprintf('File has been published to %s\n',html);
     keep iii docs
+end
 end
