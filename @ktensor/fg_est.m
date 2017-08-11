@@ -40,6 +40,14 @@ function [fest,Gest,info] = fg_est(M,X,subs,varargin)
 %   'IgnoreLambda' == true), this is equivalent to
 %      G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false))
 %   For a ktensor, this is equivalent to G = tovec(G). Default: false.
+%
+%   'Weights' - Defines a weight tensor W that applies a weight to the
+%   objective function value of each entry.
+%
+%   'xvals' - List of values of X at subs. Shortcuts evaluation of X(subs).
+%   'wvals' - List of values of W at subs. Shortcuts evaluation of W(subs).
+%   'Uexplode' - List of values of exploded U values at subs. Shortcuts
+%                evaluation of Uvals = explode(M.u,subs);
 
 %% Process inputs
 
@@ -54,6 +62,8 @@ params.addParameter('xvals',[]);
 params.addParameter('Uexplode',[]);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
+params.addParameter('Weights',[]);
+params.addParameter('wvals',[]);
 params.parse(varargin{:});
 
 GradMode = params.Results.GradMode;
@@ -63,10 +73,16 @@ Xvals  = params.Results.xvals;
 Uvals  = params.Results.Uexplode;
 objfh  = params.Results.objfh;
 gradfh = params.Results.gradfh;
+W      = params.Results.Weights;
+Wvals  = params.Results.wvals;
 
-%% Extract entries of X and rows of factor matrices specified by subs
+%% Extract entries of X, W and rows of factor matrices specified by subs
 if isempty(Xvals)
     Xvals = X(subs);
+end
+
+if isempty(Wvals) && ~isempty(W)
+    Wvals = W(subs);
 end
 
 if isempty(Uvals)
@@ -78,6 +94,9 @@ KRfull = khatrirao_explode(Uvals);
 Mvals = sum(bsxfun(@times,KRfull,transpose(M.lambda)),2);
 
 Fvals = objfh(Xvals,Mvals);
+if ~isempty(Wvals)
+    Fvals = Wvals.*Fvals;
+end
 fest  = mean(Fvals,1) * prod(sz);
 
 %% QUIT IF ONLY NEED FUNCTION EVAL
@@ -87,10 +106,13 @@ end
 
 %% Gradient calculation
 BigGvals = gradfh(Xvals,Mvals);
+if ~isempty(Wvals)
+    BigGvals = Wvals.*BigGvals;
+end
 
 % Gradient wrt Lambda
 if GradMode == 0 || (GradMode == -1 && ~IgnoreLambda)
-    GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1));
+    GradLambda = transpose(sum(bsxfun(@times,KRfull,BigGvals),1)) / size(subs,1) * prod(sz);
 end
 
 % Gradient wrt U's
@@ -130,6 +152,7 @@ end
 %% Output potentially reused values
 info.xvals = Xvals;
 info.Uexplode = Uvals;
+info.wvals = Wvals;
 
 end
 
