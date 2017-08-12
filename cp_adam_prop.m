@@ -13,6 +13,12 @@ function [subs,wvals,meta] = cp_adam_prop(nsample,sz,mask,meta,X,offset)
 %   wvals provides inverse probabilities that can be used in a weighted sum
 %   to provide an unbiased estimate of the unweighted sum.
 %
+%   To use in cp_adam, pass into 'gsampler' as:
+%
+%     @(nsample,sz,mask,meta) cp_adam_prop(nsample,sz,mask,meta,X,offset)
+%
+%   where X is the data tensor and offset is the chosen offset (e.g., 1e3).
+%
 %   See also CP_ADAM.
 
 % Only handle fully-sampled data for now
