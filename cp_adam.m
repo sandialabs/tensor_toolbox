@@ -15,7 +15,7 @@ function [M,info] = cp_adam(X,r,varargin)
 %   -- Batch sizes --
 %   'fsamples' - Batch size for calculating the function value {1000}
 %   'gsamples' - Batch size for calculating the gradient {1}
-%   'gsample_gen' - Function to generate sample indices {@randi}
+%   'gsampler' - Function to generate gradient samples {@cp_adam_unif}
 %   -- Iterations/Epochs --
 %   'epochiters' - Number of iterations per epoch {1000}
 %   'maxepochs' - Maximum number of epochs {100}
@@ -77,7 +77,7 @@ params.addParameter('fsamples', 1000);
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-3);
-params.addParameter('gsample_gen', @randi, @(x) isa(x,'function_handle'));
+params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('save_ftrue', false, @islogical);
 params.addParameter('conv_cond',@(f,fold) f > fold,@(c) isa(c,'function_handle'));
@@ -101,7 +101,7 @@ fsamples    = params.Results.fsamples;
 epochiters  = params.Results.epochiters;
 maxepochs   = params.Results.maxepochs;
 rate        = params.Results.rate;
-gsample_gen = params.Results.gsample_gen;
+gsampler    = params.Results.gsampler;
 print_ftrue = params.Results.print_ftrue;
 save_ftrue  = params.Results.save_ftrue;
 conv_cond   = params.Results.conv_cond;
@@ -123,31 +123,35 @@ if verbosity > 10
     fprintf('# g-samples: %d\n', gsamples);
 end
 
-%% Initialize factor matrices and momentum matrices
+%% Initialize factor matrices and moment matrices
+% Initialize factor matrices (and normalize if needed)
 if iscell(init)
     Uinit = init;
+    M = ktensor(Uinit);
 else
     Uinit = cell(n,1);
     for k = 1:n
         Uinit{k} = rand(sz(k),r);
     end
-end
-M = ktensor(Uinit);
-if ~isempty(mask) % Calculate estimate of norm from observed entries
-    if isa(mask,'sptensor')
-        normX = sum(X(mask.subs).^2)/nnz(mask)*prod(mask.size);
-    else % When the mask is dense avoid forming sptensor (but still very inefficient)
-        maskmat = logical(double(mask));
-        Xmat    = double(X);
-        normX = sum(Xmat(maskmat).^2)/nnz(maskmat)*numel(maskmat);
-        clear maskmat Xmat;
+    M = ktensor(Uinit);
+    
+    % Normalize
+    if isempty(mask)
+        normX = norm(X);
+    else
+        if isa(mask,'sptensor')
+            normX = sqrt( sum(X(mask.subs).^2) / nnz(mask) * prod(sz) );
+        else % When the mask is dense avoid forming sptensor (but still very inefficient)
+            maskmat = logical(double(mask)); Xmat = double(X);
+            normX = sqrt( sum(Xmat(maskmat).^2) / nnz(mask) * prod(sz) );
+            clear maskmat Xmat;
+        end
     end
-else
-    normX = norm(X);
+    M = M * (normX/norm(M));
+    M = normalize(M,0);
 end
-M = M * (normX/norm(M));
-M = normalize(M,0);
 
+% Initialize moments
 m = cell(n,1);
 for k = 1:n
     m{k} = zeros(sz(k),r);
@@ -157,28 +161,10 @@ for k = 1:n
     v{k} = zeros(sz(k),r);
 end
 
-%% Extract linear indices from mask if not sparse tensor
-if ~isempty(mask) && ~isa(mask,'sptensor')
-    fprintf('Extracting indices from mask...');
-    mask_idx = find(double(mask));
-    fprintf('done!\n');
-end
-
 %% Extract samples for estimating function value
 % TBD: This version assumes that we allows for _repeats_ which may or may
 % not be a good thing.
-if ~isempty(mask)
-    if isa(mask,'sptensor')
-        fidx  = randi(nnz(mask), fsamples, 1);
-        fsubs = mask.subs(fidx,:);
-    else
-        fidx  = randi(length(mask_idx), fsamples, 1);
-        fsubs = tt_ind2sub(sz,mask_idx(fidx));
-    end
-else
-    fidx  = randi(prod(sz), fsamples, 1);
-    fsubs = tt_ind2sub(sz, fidx);
-end
+fsubs = cp_adam_unif(fsamples,sz,mask,[]);
 fvals = X(fsubs);
 
 %% Initial function value
@@ -198,28 +184,17 @@ if save_ftrue
 end
 
 %% Main loop
-nepoch = 0; niters = 0;
+nepoch = 0; niters = 0; gsubs_meta = [];
 while nepoch < maxepochs
     nepoch = nepoch + 1;
     
     for iter = 1:epochiters
         niters = niters + 1;
         % Select subset for stochastic gradient
-        if ~isempty(mask)
-            if isa(mask,'sptensor')
-                gidx = gsample_gen(nnz(mask), gsamples, 1);
-                gsubs = mask.subs(gidx,:);
-            else
-                gidx = gsample_gen(length(mask_idx), gsamples, 1);
-                gsubs = tt_ind2sub(sz,mask_idx(gidx));
-            end
-        else
-            gidx = gsample_gen(prod(sz), gsamples, 1);
-            gsubs = tt_ind2sub(sz, gidx);
-        end
+        [gsubs,wvals,gsubs_meta] = gsampler(gsamples,sz,mask,gsubs_meta);
         
         % Compute gradients and moments for each mode and take a step
-        [~,Gest] = fg_est(M,X,gsubs,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
+        [~,Gest] = fg_est(M,X,gsubs,'wvals',wvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
         if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
