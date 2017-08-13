@@ -14,6 +14,9 @@ function M = update(M,modes,data)
 %   to be used to replace each mode.  This mode is particularly useful when
 %   working with an optimization method that understands only vectors of
 %   unknowns.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2017, Sandia Corporation.
 
 %% Error checking
 if nargin < 3

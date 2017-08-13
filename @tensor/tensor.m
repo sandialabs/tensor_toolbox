@@ -4,7 +4,6 @@
 %   and         - Logical AND (&) for tensors.
 %   collapse    - Collapse tensor along specified dimensions.
 %   contract    - Contract tensor along two dimensions (array trace).
-%   ctranspose  - is not defined for tensors.
 %   disp        - Command window display of a tensor.
 %   display     - Command window display of a tensor.
 %   double      - Convert tensor to double array.
@@ -17,10 +16,12 @@
 %   gt          - Greater than (>) for tensors.
 %   innerprod   - Efficient inner product with a tensor.
 %   isequal     - for tensors.
+%   isscalar    - False for tensors.
 %   issymmetric - Verify that a tensor X is symmetric in specified modes.
 %   ldivide     - Left array divide for tensor.
 %   le          - Less than or equal (<=) for tensor.
 %   lt          - Less than (<) for tensor.
+%   mask        - Extract values as specified by a mask tensor.
 %   minus       - Binary subtraction (-) for tensors.
 %   mldivide    - Slash left division for tensors.
 %   mrdivide    - Slash right division for tensors.

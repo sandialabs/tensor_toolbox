@@ -6,6 +6,7 @@
 %   double    - Convert sumtensor to double array.
 %   full      - Convert a sumtensor to a (dense) tensor.
 %   innerprod - Efficient inner product with a sumtensor.
+%   isscalar  - False for sumtensors.
 %   mttkrp    - Matricized tensor times Khatri-Rao product for sumtensor.
 %   ndims     - Return the number of dimensions for a sumtensor.
 %   norm      - Frobenius norm of a sumtensor.

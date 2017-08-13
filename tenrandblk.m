@@ -1,7 +1,7 @@
-function G = tt_blkcoregen(bsz, bns, verbose)
-%TT_BLKCOREGEN Generate nearly block diagonal tensor.
+function G = tenrandblk(bsz, bns, verbose)
+%TENRANDBLK Generate nearly block diagonal tensor.
 %
-%   G = TT_BLKCOREGEN(BSZ,BNS) creates a tensor G that is block 'diagonal'
+%   G = TENRANDBLK(BSZ,BNS) creates a tensor G that is block 'diagonal'
 %   plus noise. The first argument specifies the size of each block as a
 %   row. The number of rows of BSZ is the number of blocks and the order of
 %   the tensor is the number of columns. The blocks need not be square. The
@@ -14,6 +14,9 @@ function G = tt_blkcoregen(bsz, bns, verbose)
 %   href="matlab:p=what('tensor_toolbox');web(strcat('file:',p.path,'/doc/html/T5_hosvd_algorithm_doc.html'))">example usage</a>.
 %
 %   See also CREATE_PROBLEM
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2017, Sandia Corporation.
 
 %% Check inputs
 

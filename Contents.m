@@ -1,14 +1,17 @@
 % Tensor Toolbox (Sandia National Labs)
-% Version 2.6 06-FEB-2015
+% Version 3.0-dev 12-Aug-2017
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:
-%   Tensor     - Dense tensors.
-%   Sptensor   - Sparse tensors.
-%   Ktensor    - Kruskal decomposed tensors.
-%   TTensor    - Tucker decomposed tensors.
-%   Tenmat     - Tensor as matrix.
-%   Sptenmat   - Sparse tensor as matrix.
+%   tensor     - Dense tensor.
+%   sptensor   - Sparse tensor.
+%   symtensor  - Symmetric tensor.
+%   ktensor    - Kruskal decomposed tensor.
+%   symktensor - Kruskal decomposed symmetric tensor.
+%   sumtensor  - Sum of different types of tensors.
+%   ttensor    - Tucker decomposed tensor.
+%   tenmat     - Tensor as matrix.
+%   sptenmat   - Sparse tensor as matrix.
 % 
 % Tensor Toolbox Functions:
 %   cp_als         - Compute a CP decomposition of any type of tensor.
@@ -23,18 +26,19 @@
 %   eig_sshopm     - Shifted power method for finding real eigenpair of real tensor.
 %   eig_sshopmc    - Shifted power method for real/complex eigenpair of tensor.
 %   export_data    - Export tensor-related data to a file.
+%   hosvd          - Compute sequentially-truncated higher-order SVD (Tucker).
 %   import_data    - Import tensor-related data to a file.
 %   khatrirao      - Khatri-Rao product of matrices.
 %   matrandcong    - Create a random matrix with a fixed congruence.
 %   matrandnorm    - Normalizes columns of X so that each is unit 2-norm.
 %   matrandorth    - Generates random n x n orthogonal real matrix.
-%   parafac_als    - Deprecated. Use CP_ALS instead.
 %   sptendiag      - Creates a sparse tensor with v on the diagonal.
 %   sptenrand      - Sparse uniformly distributed random tensor.
 %   tendiag        - Creates a tensor with v on the diagonal.
 %   teneye         - Create identity tensor of specified size.
 %   tenones        - Ones tensor.
 %   tenrand        - Uniformly distributed pseudo-random tensor.
+%   tenrandblk     - Generate nearly block diagonal tensor.
 %   tenzeros       - Create zeros tensor.
 %   tt_ind2sub     - Multiple subscripts from linear indices.
 %   tt_sub2ind     - Converts multidimensional subscripts to linear indices.

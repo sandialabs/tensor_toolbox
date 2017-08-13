@@ -44,7 +44,7 @@
 <tocitem image="$toolbox/matlab/icons/pageicon.gif"
  target="doc/html/V_SSHOPM_doc.html">Shifted Symmetric Higher-Order Power Method (eig_sshopm)</tocitem>
 
-<tocitem target="http://www.sandia.gov/~tgkolda/TensorToolbox/"
+<tocitem target="https://gitlab.com/tensors/tensor_toolbox"
 image="$toolbox/matlab/icons/webicon.gif">Tensor Toolbox Site</tocitem>
 
 </tocitem>
