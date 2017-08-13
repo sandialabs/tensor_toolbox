@@ -8,6 +8,7 @@
 %   full      - Convert a ttensor to a (dense) tensor.
 %   innerprod - Efficient inner product with a ttensor.
 %   isequal   - True if the part of two ttensor's are numerically equal.
+%   isscalar  - False for ttensors.
 %   mtimes    - Implement scalar multiplication for a ttensor.
 %   mttkrp    - Matricized tensor times Khatri-Rao product for ttensor.
 %   ndims     - Return the number of dimensions for a ttensor.

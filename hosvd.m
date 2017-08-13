@@ -1,5 +1,5 @@
 function T = hosvd(X,tol,varargin)
-%HOVD Compute sequentially-truncated higher-order SVD (Tucker).
+%HOSVD Compute sequentially-truncated higher-order SVD (Tucker).
 %
 %   T = HOSVD(X,TOL) computes a Tucker decomposition with relative error
 %   specified by TOL, i.e., it computes a ttensor T such that 

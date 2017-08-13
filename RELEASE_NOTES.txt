@@ -1,8 +1,20 @@
-Tensor Toolbox version 2.6
+Tensor Toolbox version 3.0-dev
 by Brett W. Bader, Tamara G. Kolda, Jimeng Sun, Evrim Acar, 
 Daniel M. Dunlavy, Eric C. Chi, Jackson Mayo, et al.
-Copyright 2015, Sandia National Laboratories.
-Released February 6, 2015
+Copyright 2017, Sandia National Laboratories.
+Development version as of August 12, 2017
+
+============================================
+Changes from Version 2.6 (February 6, 2015)
+============================================
+- Changed license conditions: now open source BSD license.
+- New KTENSOR/VIZ function for visualizing the factors produced by the
+  CP decomposition.
+- Added new CP_SYM and TUCKER_SYM functions for symmetric tensor
+  decompositions. Added new SYMTENSOR and SYMKTENSOR classes with
+  limited functionality to support symmetric tensors.
+- Added new SUMTENSOR class that works with an implicit sum of tensors
+  without actually forming the result.
 
 ============================================
 Changes from Version 2.5 (February 1, 2012)

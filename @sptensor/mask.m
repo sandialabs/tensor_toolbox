@@ -3,6 +3,9 @@ function vals = mask(X,W)
 %
 %   V = MASK(X,W) extracts the values in X that correspond to nonzero
 %   values in the mask tensor W.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2017, Sandia Corporation.
 
 % Error check
 if any(size(W) > size(X))
