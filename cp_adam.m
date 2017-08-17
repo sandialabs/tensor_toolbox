@@ -14,6 +14,7 @@ function [M,info] = cp_adam(X,r,varargin)
 %   'init' - Initial guess [{'random'}|'nvecs'|cell array]
 %   -- Batch sizes --
 %   'fsamples' - Batch size for calculating the function value {1000}
+%   'fsampler' - Function to generate function value samples {@cp_adam_unif}
 %   'gsamples' - Batch size for calculating the gradient {1}
 %   'gsampler' - Function to generate gradient samples {@cp_adam_unif}
 %   -- Iterations/Epochs --
@@ -77,6 +78,7 @@ params.addParameter('fsamples', 1000);
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs',100);
 params.addParameter('rate', 1e-3);
+params.addParameter('fsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
 params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
 params.addParameter('print_ftrue', false, @islogical);
 params.addParameter('save_ftrue', false, @islogical);
@@ -101,6 +103,7 @@ fsamples    = params.Results.fsamples;
 epochiters  = params.Results.epochiters;
 maxepochs   = params.Results.maxepochs;
 rate        = params.Results.rate;
+fsampler    = params.Results.fsampler;
 gsampler    = params.Results.gsampler;
 print_ftrue = params.Results.print_ftrue;
 save_ftrue  = params.Results.save_ftrue;
@@ -164,7 +167,7 @@ end
 %% Extract samples for estimating function value
 % TBD: This version assumes that we allows for _repeats_ which may or may
 % not be a good thing.
-fsubs = cp_adam_unif(fsamples,sz,mask,[]);
+fsubs = fsampler(fsamples,sz,mask,[]);
 fvals = X(fsubs);
 
 %% Initial function value
