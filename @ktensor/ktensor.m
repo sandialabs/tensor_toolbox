@@ -8,13 +8,14 @@
 %   double       - Convert a ktensor to a double array.
 %   end          - Last index of indexing expression for ktensor.
 %   extract      - Creates a new ktensor with only the specified components.
-%   fg           - Master objective function for optimization of Kruskal model.
 %   fixsigns     - Fix sign ambiguity of a ktensor.
 %   full         - Convert a ktensor to a (dense) tensor.
 %   innerprod    - Efficient inner product with a ktensor.
 %   isequal      - True if each datum of two ktensor's are numerically equal.
+%   isscalar     - False for ktensors.
 %   issymmetric  - Verify that a ktensor X is symmetric in all modes.
 %   ktensor      - Tensor stored as a Kruskal operator (decomposed).
+%   mask         - Extract values as specified by a mask tensor.
 %   minus        - Binary subtraction for ktensor.  
 %   mtimes       - Implement A*B (scalar multiply) for ktensor.
 %   mttkrp       - Matricized tensor times Khatri-Rao product for ktensor.
@@ -37,8 +38,9 @@
 %   ttm          - Tensor times matrix for ktensor.
 %   ttv          - Tensor times vector for ktensor.
 %   uminus       - Unary minus for ktensor. 
+%   update       - Update one or more modes of the ktensor with new data.
 %   uplus        - Unary plus for a ktensor. 
-%   viz          - Visualize a ktensor
+%   viz          - Visualize a ktensor.
 %
 % See also
 %   TENSOR_TOOLBOX

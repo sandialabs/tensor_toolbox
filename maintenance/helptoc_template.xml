@@ -7,7 +7,7 @@
 
 INSERT LIST HERE
 
-<tocitem target="http://www.sandia.gov/~tgkolda/TensorToolbox/"
+<tocitem target="https://gitlab.com/tensors/tensor_toolbox"
 image="$toolbox/matlab/icons/webicon.gif">Tensor Toolbox Site</tocitem>
 
 </tocitem>

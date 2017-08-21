@@ -3,7 +3,7 @@ classdef Test_NewTTM < matlab.unittest.TestCase
     
     
     properties (TestParameter)
-        combo = struct('small3d', [3 10 50], 'small4d', [4 10 25], 'small5d', [5 5 10], 'large3d',[3 200 500]);
+        combo = struct('small3d', [3 10 50], 'small4d', [4 10 25], 'small5d', [5 5 10], 'large3d',[3 100 250]);
         ver = struct('old', 0, 'new', 1);
     end
     

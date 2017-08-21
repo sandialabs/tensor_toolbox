@@ -1,7 +1,11 @@
-%% Create HTML documentation
+%% Create help documentation: XML file and main HTML page.
+% Run this script whenever a *new* documentation file has been added in
+% tensor_toolbox/doc. This will create its entry in the XML file and the
+% main documentation HTML page.
 clear
 
 %% Get list of files
+% This should be run from the 'maintenance' directory.
 fprintf('\nReading the contents of the directory.\n');
 files = dir('../doc');
 if (numel(files) == 0)
@@ -83,7 +87,7 @@ while 1
 end
 fclose(infid);
 fclose(outfid);
-%% Publish the HTML 
+%% Optional: Create all the individual HTML documentation pages.
 % (run last because it creates a lot of variables in the working space)  
 if 0
 fprintf('\nPublishing the documentation.\n');

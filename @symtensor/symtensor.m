@@ -10,8 +10,9 @@
 %   gt          - Greater than (>) for symmetric tensors.
 %   indices     - Compute unique indices of a symmetric tensor.
 %   isequal     - for symmetric tensors.
+%   isscalar    - False for symtensors.
 %   issymmetric - Checks if tensor is symmetric (always true for symtensor).
-%   ldivide     - Left array divide for symmetric tensors.
+%   ldivide     - Left array divide (.\) for symmetric tensors.
 %   le          - Less than or equal (<=) for symmetric tensors.
 %   lt          - Less than (<) for symmetric tensor.
 %   minus       - Binary subtraction (-) for symmetric tensors.
@@ -24,13 +25,13 @@
 %   or          - Logical OR (|) for symmetric tensors.
 %   plus        - Binary addition (+) for symtensors.
 %   power       - Elementwise power (.^) operator for a symmetric tensor.
-%   rdivide     - Right array divide for tensors.
+%   rdivide     - Right array divide (./) for tensors.
 %   size        - Dimensions of a symmetric tensor.
 %   subsasgn    - Subassignment for symtensor.
 %   subsref     - Subreference function for symtensor.
-%   tenfun   - Apply a function to each element in a symmetric tensor.
 %   symtensor   - Symmetric tensor that stores only the unique values.
-%   times       - Array multiplication for symmetric tensors.
+%   tenfun      - Apply a function to each element in a symmetric tensor.
+%   times       - Array multiplication (.*) for symmetric tensors.
 %   uminus      - Unary minus (-) for tensors.
 %   uplus       - Unary plus (+) for symmetric tensors.
 %   xor         - Logical EXCLUSIVE OR for symmetric tensors.

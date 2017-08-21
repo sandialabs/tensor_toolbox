@@ -11,6 +11,7 @@
 %   fg_setup    - Setup for optimization of symmetric Kruskal model.
 %   full        - Convert a symktensor to a symtensor.
 %   isequal     - True if each component of two symktensors is numerically equal.
+%   isscalar    - False for symktensors.
 %   issymmetric - Rhetorical function for a symktensor.
 %   mtimes      - Implement A*B (scalar multiply) for symktensor.
 %   ncomponents - Number of components for a symktensor.
