@@ -9,40 +9,37 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %
 %   P = GCP_SGD(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
-%   -- General --
-%   'mask' - Tensor marking missing data (0 = missing, 1 = present). {[]}
-%   'init' - Initial guess [{'random'}|cell array]
-%   'adam' - Use adaptive moment estimation {true}
-%   -- Batch sizes --
-%   'fsamples' - Batch size for calculating the function value {1000}
-%   'fsampler' - Function to generate function value samples {@cp_adam_unif}
-%   'gsamples' - Batch size for calculating the gradient {1}
-%   'gsampler' - Function to generate gradient samples {@cp_adam_unif}
-%   -- Iterations/Epochs --
-%   'epochiters' - Number of iterations per epoch {1000}
-%   'maxepochs'  - Maximum number of epochs {100}
-%   'conv_cond'  - Convergence condition {@(f,fold) f > fold}
-%   -- Rates --
-%   'rate'    - Step size {1e-3}
-%   'beta1'   - First moment decay (relevant for adam) {0.9}
-%   'beta2'   - Second moment decay (relevant for adam) {0.999}
-%   'epsilon' - Small value to help with numerics in division
-%               (relevant for adam) {1e-8}
-%   -- Loss function --
+%   -- GCP Parameters --
+%   'mask'     - Tensor marking missingness (0 = missing, 1 = present) {[]}
 %   'objfh'    - Loss function {@(x,m) (x-m).^2}
 %   'gradfh'   - Gradient of loss function {@(x,m) -2*(x-m)}
 %   'lowbound' - Low bound constraint {-Inf}
-%   -- Renormalization/Decreasing rate --
-%   'renormalize' - Renormalize at each epoch and restart moment estimates
-%                   (relevant for adam). {false}
-%   'dec_rate'    - Halve the step size at each epoch where the function
-%                   value increases. {false}
+%   -- Stochastic Gradient Steps --
+%   'init'     - Initial guess [{'random'}|cell array]
+%   'gsamples' - Number of samples to calculate the gradient estimate {1}
+%   'gsampler' - Entry sampler for gradient {@cp_adam_unif}
+%   'rate'     - Step size {1e-3}
+%   'adam'     - Use adaptive moment estimation {true}
+%   -- Convergence Criteria --
+%   'epochiters' - Number of iterations per epoch {1000}
+%   'maxepochs'  - Maximum number of epochs {100}
+%   'fsamples'   - Number of samples to calculate the loss function
+%                  estimate {1000}
+%   'fsampler'   - Entry sampler for loss function {@cp_adam_unif}
+%   'conv_cond'  - Convergence condition {@(f,fold) f > fold}
+%   -- Additional parameters for adam --
+%   'beta1'   - First moment decay {0.9}
+%   'beta2'   - Second moment decay {0.999}
+%   'epsilon' - Small value to help with numerics in division {1e-8}
+%   -- Experimental: Renormalization/Decreasing rate --
+%   'renormalize' - Renormalize at each epoch. {false}
+%                   If adam is used, this also restarts moment estimates
+%   'dec_rate'    - Halve the step size at each epoch where the loss
+%                   function value increases. {false}
 %   -- Reporting --
 %   'verbosity'   - Verbosity level {11}
-%   'print_ftrue' - Print the true objective function value at each epoch
-%                   {false}
-%   'save_ftrue'  - Save the true objective function value at each epoch
-%                   {false}
+%   'print_ftrue' - Print true loss function value at each epoch {false}
+%   'save_ftrue'  - Save the true loss function value at each epoch {false}
 %   'gradcheck'   - Trigger error if the gradient is ever infinite {true}
 %
 %   [P,out] = GCP_SGD(...) also returns a structure with the trace of the
@@ -76,29 +73,28 @@ sz = size(X);
 
 %% Set algorithm parameters from input or by using defaults
 params = inputParser;
-% -- General --
+% -- GCP Parameters --
 params.addParameter('mask', [], @(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
-params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
-params.addParameter('adam', true, @islogical);
-% -- Batch sizes --
-params.addParameter('fsamples', 1000);
-params.addParameter('fsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
-params.addParameter('gsamples', 1);
-params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
-% -- Iterations/Epochs --
-params.addParameter('epochiters', 1000);
-params.addParameter('maxepochs', 100);
-params.addParameter('conv_cond', @(f,fold) f > fold, @(c) isa(c,'function_handle'));
-% -- Rates --
-params.addParameter('rate', 1e-3);
-params.addParameter('beta1', 0.9);
-params.addParameter('beta2', 0.999);
-params.addParameter('epsilon', 1e-8);
-% -- Loss function --
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
-% -- Renormalization/Decreasing rate --
+% -- Stochastic Gradient Steps --
+params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
+params.addParameter('gsamples', 1);
+params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
+params.addParameter('rate', 1e-3);
+params.addParameter('adam', true, @islogical);
+% -- Convergence Criteria --
+params.addParameter('epochiters', 1000);
+params.addParameter('maxepochs', 100);
+params.addParameter('fsamples', 1000);
+params.addParameter('fsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
+params.addParameter('conv_cond', @(f,fold) f > fold, @(c) isa(c,'function_handle'));
+% -- Additional parameters for adam --
+params.addParameter('beta1', 0.9);
+params.addParameter('beta2', 0.999);
+params.addParameter('epsilon', 1e-8);
+% -- Experimental: Renormalization/Decreasing rate --
 params.addParameter('renormalize', false, @islogical);
 params.addParameter('dec_rate', false, @islogical);
 % -- Reporting --
@@ -110,29 +106,28 @@ params.addParameter('gradcheck', true, @islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
-% -- General --
+% -- GCP Parameters --
 mask        = params.Results.mask;
-init        = params.Results.init;
-adam        = params.Results.adam;
-% -- Batch sizes --
-fsamples    = params.Results.fsamples;
-fsampler    = params.Results.fsampler;
-gsamples    = params.Results.gsamples;
-gsampler    = params.Results.gsampler;
-% -- Iterations/Epochs --
-epochiters  = params.Results.epochiters;
-maxepochs   = params.Results.maxepochs;
-conv_cond   = params.Results.conv_cond;
-% -- Rates --
-rate        = params.Results.rate;
-beta1       = params.Results.beta1;
-beta2       = params.Results.beta2;
-epsilon     = params.Results.epsilon;
-% -- Loss function --
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
-% -- Renormalization/Decreasing rate --
+% -- Stochastic Gradient Steps --
+init        = params.Results.init;
+gsamples    = params.Results.gsamples;
+gsampler    = params.Results.gsampler;
+rate        = params.Results.rate;
+adam        = params.Results.adam;
+% -- Convergence Criteria --
+epochiters  = params.Results.epochiters;
+maxepochs   = params.Results.maxepochs;
+fsamples    = params.Results.fsamples;
+fsampler    = params.Results.fsampler;
+conv_cond   = params.Results.conv_cond;
+% -- Additional parameters for adam --
+beta1       = params.Results.beta1;
+beta2       = params.Results.beta2;
+epsilon     = params.Results.epsilon;
+% -- Experimental: Renormalization/Decreasing rate --
 renormalize = params.Results.renormalize;
 dec_rate    = params.Results.dec_rate;
 % -- Reporting --
