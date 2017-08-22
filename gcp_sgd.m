@@ -10,7 +10,7 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   P = CP_ADAM(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
 %   -- General --
-%   'mask' - Tensor indicating missing data (0 = missing, 1 = present). {[]}
+%   'mask' - Tensor marking missing data (0 = missing, 1 = present). {[]}
 %   'init' - Initial guess [{'random'}|'nvecs'|cell array]
 %   'adam' - Use adaptive moment estimation {true}
 %   -- Batch sizes --
@@ -20,26 +20,30 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   'gsampler' - Function to generate gradient samples {@cp_adam_unif}
 %   -- Iterations/Epochs --
 %   'epochiters' - Number of iterations per epoch {1000}
-%   'maxepochs' - Maximum number of epochs {100}
-%   'conv_cond' - Convergence condition {@(f,fold) f > fold}
+%   'maxepochs'  - Maximum number of epochs {100}
+%   'conv_cond'  - Convergence condition {@(f,fold) f > fold}
 %   -- Rates --
-%   'rate' - Step size {1e-3}
-%   'beta1' - First moment decay (relevant for adam) {0.9}
-%   'beta2' - Second moment decay (relevant for adam) {0.999}
-%   'epsilon' - Small value to help with numerics in division (relevant for adam) {1e-8}
+%   'rate'    - Step size {1e-3}
+%   'beta1'   - First moment decay (relevant for adam) {0.9}
+%   'beta2'   - Second moment decay (relevant for adam) {0.999}
+%   'epsilon' - Small value to help with numerics in division
+%               (relevant for adam) {1e-8}
 %   -- Loss function --
-%   'objfh' - Loss function {@(x,m) (x-m).^2}
-%   'gradfh' - Gradient of loss function {@(x,m) -2*(x-m)}
+%   'objfh'    - Loss function {@(x,m) (x-m).^2}
+%   'gradfh'   - Gradient of loss function {@(x,m) -2*(x-m)}
 %   'lowbound' - Low bound constraint {-Inf}
 %   -- Renormalization/Decreasing rate --
-%   'renormalize' - Renormalize at each epoch and restart moment estimates (relevant for adam). {false}
-%   'dec_rate' - Halve the step size at each epoch where the function value
-%                increases. {false}
+%   'renormalize' - Renormalize at each epoch and restart moment estimates
+%                   (relevant for adam). {false}
+%   'dec_rate'    - Halve the step size at each epoch where the function
+%                   value increases. {false}
 %   -- Reporting --
-%   'verbosity' - Verbosity level {11}
-%   'print_ftrue' - Print the true objective function value at each epoch {false}
-%   'save_ftrue' - Save the true objective function value at each epoch {false}
-%   'gradcheck' - Trigger error if the gradient is ever infinite {true}
+%   'verbosity'   - Verbosity level {11}
+%   'print_ftrue' - Print the true objective function value at each epoch
+%                   {false}
+%   'save_ftrue'  - Save the true objective function value at each epoch
+%                   {false}
+%   'gradcheck'   - Trigger error if the gradient is ever infinite {true}
 %
 %   [P,out] = GCP_SGD(...) also returns a structure with the trace of the
 %   function value.
