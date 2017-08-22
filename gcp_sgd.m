@@ -167,12 +167,9 @@ end
 
 % Initialize moments
 if adam
-    m = cell(n,1);
+    m = cell(n,1); v = cell(n,1);
     for k = 1:n
         m{k} = zeros(sz(k),r);
-    end
-    v = cell(n,1);
-    for k = 1:n
         v{k} = zeros(sz(k),r);
     end
 end
@@ -255,8 +252,6 @@ while nepoch < maxepochs
         if adam
             for k = 1:n
                 m{k} = zeros(sz(k),r);
-            end
-            for k = 1:n
                 v{k} = zeros(sz(k),r);
             end
             niters = 0;
