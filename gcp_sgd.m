@@ -183,8 +183,6 @@ for k = 1:n
 end
 
 %% Extract samples for estimating function value
-% TBD: This version assumes that we allows for _repeats_ which may or may
-% not be a good thing.
 fsubs = fsampler(fsamples,sz,mask,[]);
 fvals = X(fsubs);
 
@@ -251,9 +249,7 @@ while nepoch < maxepochs
         info.ftrue = [info.ftrue collapse(tenfun(objfh,X,full(M)))];
     end
 
-    %M = normalize(M,0);
     % Restart
-    %if restart && festold <= fest
     if restart
         for k = 1:n
             m{k} = zeros(sz(k),r);
@@ -265,8 +261,6 @@ while nepoch < maxepochs
         M = normalize(M,0);
     end
     if dec_rate && (fest > festold)
-        %beta1 = 1-(1-beta1)/2;
-        %beta2 = 1-(1-beta2)/2;
         rate = rate/2;
     end
 
