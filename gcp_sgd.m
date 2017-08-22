@@ -467,7 +467,9 @@ n = length(sz);
 
 % Calculate probabilities
 if ~isfield(meta,'probs')
-    meta.probs = arrayfun(@(k) offset+collapse(X,setdiff(1:n,k),@sum),1:n,'UniformOutput',false);
+    meta.probs = arrayfun( ...
+        @(k) offset+double(collapse(X,setdiff(1:n,k),@sum)), ...
+        1:n,'UniformOutput',false);
     meta.probs = cellfun(@(p) p / sum(p),meta.probs,'UniformOutput',false);
 end
 
