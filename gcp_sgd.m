@@ -7,7 +7,7 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   moment estimation (Adam). The input X can be a tensor, sptensor,
 %   ktensor, or ttensor. The result P is a ktensor.
 %
-%   P = CP_ADAM(X,R,'param',value,...) specifies optional parameters and
+%   P = GCP_SGD(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
 %   -- General --
 %   'mask' - Tensor marking missing data (0 = missing, 1 = present). {[]}
