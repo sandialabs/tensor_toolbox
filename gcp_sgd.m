@@ -173,13 +173,15 @@ else
 end
 
 % Initialize moments
-m = cell(n,1);
-for k = 1:n
-    m{k} = zeros(sz(k),r);
-end
-v = cell(n,1);
-for k = 1:n
-    v{k} = zeros(sz(k),r);
+if adam
+    m = cell(n,1);
+    for k = 1:n
+        m{k} = zeros(sz(k),r);
+    end
+    v = cell(n,1);
+    for k = 1:n
+        v{k} = zeros(sz(k),r);
+    end
 end
 
 %% Extract samples for estimating function value
@@ -218,11 +220,15 @@ while nepoch < maxepochs
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         
-        m = cellfun(@(mk,gk) beta1*mk + (1-beta1)*gk,m,Gest,'UniformOutput',false);
-        v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
-        mhat = cellfun(@(mk) mk/(1-beta1^niters),m,'UniformOutput',false);
-        vhat = cellfun(@(vk) vk/(1-beta2^niters),v,'UniformOutput',false);
-        M.u = cellfun(@(uk,mhk,vhk) max(lowbound,uk-rate*mhk./(sqrt(vhk)+epsilon)),M.u,mhat,vhat,'UniformOutput',false);
+        if adam
+            m = cellfun(@(mk,gk) beta1*mk + (1-beta1)*gk,m,Gest,'UniformOutput',false);
+            v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
+            mhat = cellfun(@(mk) mk/(1-beta1^niters),m,'UniformOutput',false);
+            vhat = cellfun(@(vk) vk/(1-beta2^niters),v,'UniformOutput',false);
+            M.u = cellfun(@(uk,mhk,vhk) max(lowbound,uk-rate*mhk./(sqrt(vhk)+epsilon)),M.u,mhat,vhat,'UniformOutput',false);
+        else
+            M.u = cellfun(@(uk,gk) max(lowbound,uk-rate*gk),M.u,Gest,'UniformOutput',false);
+        end
     end
 
     festold = fest;
@@ -278,4 +284,6 @@ M = fixsigns(M);
 %% Wrap up
 if verbosity > 10
     fprintf('Goodbye!\n-----\n');
+end
+
 end
