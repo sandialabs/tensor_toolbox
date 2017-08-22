@@ -17,7 +17,8 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   -- Stochastic Gradient Steps --
 %   'init'     - Initial guess [{'random'}|cell array]
 %   'gsamples' - Number of samples to calculate the gradient estimate {1}
-%   'gsampler' - Entry sampler for gradient {@cp_adam_unif}
+%   'gsampler' - Entry sampler for gradient
+%                [{'unif'}|'all'|'strat'|'prop'|function handle]
 %   'rate'     - Step size {1e-3}
 %   'adam'     - Use adaptive moment estimation {true}
 %   -- Convergence Criteria --
@@ -25,12 +26,18 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   'maxepochs'  - Maximum number of epochs {100}
 %   'fsamples'   - Number of samples to calculate the loss function
 %                  estimate {1000}
-%   'fsampler'   - Entry sampler for loss function {@cp_adam_unif}
+%   'fsampler'   - Entry sampler for loss function
+%                  [{'unif'}|'all'|'strat'|'prop'|function handle]
 %   'conv_cond'  - Convergence condition {@(f,fold) f > fold}
 %   -- Additional parameters for adam --
 %   'beta1'   - First moment decay {0.9}
 %   'beta2'   - Second moment decay {0.999}
 %   'epsilon' - Small value to help with numerics in division {1e-8}
+%   -- Additional parameters for stratified sampler --
+%   'prop_nz'  - Proportion of samples that should be nonzero {0.5}
+%   'num_cand' - Number of candidate zeros to pull ahead of time {1e6}
+%   -- Additional parameters for proportional sampler --
+%   'offset' - Offset to make probabilities more balanced {1e3}
 %   -- Experimental: Renormalization/Decreasing rate --
 %   'renormalize' - Renormalize at each epoch. {false}
 %                   If adam is used, this also restarts moment estimates
@@ -72,30 +79,36 @@ n  = ndims(X);
 sz = size(X);
 
 %% Set algorithm parameters from input or by using defaults
-isfunction = @(f) isa(f,'function_handle');
+isfunc    = @(f) isa(f,'function_handle');
+issampler = @(s) isfunc(s) || any(strcmp(s,{'unif','all','strat','prop'}));
 
 params = inputParser;
 % -- GCP Parameters --
 params.addParameter('mask', [], @(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
-params.addParameter('objfh', @(x,m) (x-m).^2, isfunction);
-params.addParameter('gradfh', @(x,m) -2*(x-m), isfunction);
+params.addParameter('objfh', @(x,m) (x-m).^2, isfunc);
+params.addParameter('gradfh', @(x,m) -2*(x-m), isfunc);
 params.addParameter('lowbound', -Inf, @isnumeric);
 % -- Stochastic Gradient Steps --
 params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
 params.addParameter('gsamples', 1);
-params.addParameter('gsampler', 'unif', isfunction);
+params.addParameter('gsampler', 'unif', issampler);
 params.addParameter('rate', 1e-3);
 params.addParameter('adam', true, @islogical);
 % -- Convergence Criteria --
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs', 100);
 params.addParameter('fsamples', 1000);
-params.addParameter('fsampler', @cp_adam_unif, isfunction);
-params.addParameter('conv_cond', @(f,fold) f > fold, isfunction);
+params.addParameter('fsampler', 'unif', issampler);
+params.addParameter('conv_cond', @(f,fold) f > fold, isfunc);
 % -- Additional parameters for adam --
 params.addParameter('beta1', 0.9);
 params.addParameter('beta2', 0.999);
 params.addParameter('epsilon', 1e-8);
+% -- Additional parameters for stratified sampler --
+params.addParameter('prop_nz', 0.5);
+params.addParameter('num_cand', 1e6);
+% -- Additional parameters for proportional sampler --
+params.addParameter('offset', 1e3);
 % -- Experimental: Renormalization/Decreasing rate --
 params.addParameter('renormalize', false, @islogical);
 params.addParameter('dec_rate', false, @islogical);
@@ -129,6 +142,11 @@ conv_cond   = params.Results.conv_cond;
 beta1       = params.Results.beta1;
 beta2       = params.Results.beta2;
 epsilon     = params.Results.epsilon;
+% -- Additional parameters for stratified sampler --
+prop_nz     = params.Results.prop_nz;
+num_cand    = params.Results.num_cand;
+% -- Additional parameters for proportional sampler --
+offset      = params.Results.offset;
 % -- Experimental: Renormalization/Decreasing rate --
 renormalize = params.Results.renormalize;
 dec_rate    = params.Results.dec_rate;
@@ -137,6 +155,41 @@ verbosity   = params.Results.verbosity;
 print_ftrue = params.Results.print_ftrue;
 save_ftrue  = params.Results.save_ftrue;
 gradcheck   = params.Results.gradcheck;
+
+%% Setup samplers
+if ~isfunc(gsampler)
+    switch gsampler
+        case 'unif'  % Uniform sampling of entries
+            gsampler = @samp_unif;
+        case 'all'   % Sampling of all entries
+            gsampler = @samp_all;
+        case 'strat' % Stratified sampling of entries
+            gsampler = @(nsample,sz,mask,meta) ...
+                samp_strat(nsample,sz,mask,meta,X,prop_nz,num_cand);
+        case 'prop'  % Proportional sampling of entries based on slice norm
+            gsampler = @(nsample,sz,mask,meta) ...
+                samp_prop(nsample,sz,mask,meta,X,offset);
+        otherwise
+            error('Sampler not implemented yet');
+    end
+end
+
+if ~isfunc(fsampler)
+    switch fsampler
+        case 'unif'  % Uniform sampling of entries
+            fsampler = @samp_unif;
+        case 'all'   % Sampling of all entries
+            fsampler = @samp_all;
+        case 'strat' % Stratified sampling of entries
+            fsampler = @(nsample,sz,mask,meta) ...
+                samp_strat(nsample,sz,mask,meta,X,prop_nz,num_cand);
+        case 'prop'  % Proportional sampling of entries based on slice norm
+            fsampler = @(nsample,sz,mask,meta) ...
+                samp_prop(nsample,sz,mask,meta,X,offset);
+        otherwise
+            error('Sampler not implemented yet');
+    end
+end
 
 %% Welcome
 if verbosity > 10
@@ -279,6 +332,7 @@ end
 
 end
 
+%% General utilities
 function normX = norm_est(X,mask)
 %NORM_EST Estimate the norm of a tensor that can have missingness.
 
@@ -291,6 +345,142 @@ else
         maskmat = logical(double(mask)); Xmat = double(X);
         normX = sqrt( sum(Xmat(maskmat).^2) / nnz(mask) * prod(sz) );
     end
+end
+
+end
+
+%% Entry samplers
+
+function [subs,wvals,meta] = samp_unif(nsample,sz,mask,meta)
+%SAMP_UNIF Subindices to sample nsample entries of known entries of the
+%tensor sampled uniformly at random (with replacement).
+
+if isempty(mask) % No missing entries
+    subs = zeros(nsample,length(sz));
+    for k = 1:length(sz)
+        subs(:,k) = randi(sz(k),nsample,1);
+    end
+else % Missing entries
+    if isa(mask,'sptensor')
+        idx = randi(nnz(mask), nsample, 1);
+        subs = mask.subs(idx,:);
+    else
+        if ~isfield(meta,'lin_idx') % Extract linear indices for dense
+            meta.lin_idx = find(double(mask));
+        end
+        idx = randi(length(meta.lin_idx),nsample,1);
+        subs = tt_ind2sub(sz,meta.lin_idx(idx));
+    end
+end
+
+wvals = [];
+
+end
+
+function [subs,wvals,meta] = samp_all(~,sz,mask,meta)
+%SAMP_ALL Subindices to sample all known entries of the tensor.
+
+if ~isfield(meta,'allsubs')
+    if isempty(mask) % No missing entries
+        meta.allsubs = tt_ind2sub(sz,1:prod(sz));
+    else % Missing entries
+        meta.allsubs = find(mask);
+    end
+end
+
+subs = meta.allsubs;
+wvals = [];
+meta = [];
+
+end
+
+function [subs,wvals,meta] = samp_strat(nsample,sz,mask,meta,X,prop_nz,num_cand)
+%SAMP_STRAT Subindices to sample nsample entries of a sparse tensor with a
+%fixed number of zeros and fixed number of nonzeros.
+
+% Only handle fully-sampled data for now
+if ~isempty(mask)
+    if ~isfield(meta,'strat_missing_flag')
+        warning('Stratified sampling not yet supported for missing data. Using uniform.');
+    end
+    [subs,wvals,meta] = samp_unif(nsample,sz,mask,meta);
+    meta.strat_missing_flag = true;
+    return;
+end
+
+% Calculate sizes
+nsample_nz = floor(nsample*prop_nz);
+nsample_z  = nsample-nsample_nz;
+
+% Get linear indices of nonzeros
+if ~isfield(meta,'nz_list')
+    meta.nz_list = tt_sub2ind(sz,find(X));
+end
+
+% Generate large list of zeros
+if ~isfield(meta,'z_list') || (meta.z_idx + nsample_z - 1) > length(meta.z_list)
+    meta.z_list = randi(prod(sz),num_cand,1);
+    meta.z_list = meta.z_list(~ismember(meta.z_list,meta.nz_list));
+    meta.z_idx  = 1;
+end
+
+% Choose nonzeros
+idx_nz  = meta.nz_list(randi(length(meta.nz_list),nsample_nz,1));
+prob_nz = nsample_nz/nsample * 1/length(meta.nz_list);
+
+% Choose zeros
+idx_z      = meta.z_list(meta.z_idx:(meta.z_idx+nsample_z-1));
+meta.z_idx = meta.z_idx + nsample;
+prob_z     = nsample_z/nsample * 1/(prod(sz)-length(meta.nz_list));
+
+% Compile values
+subs  = tt_ind2sub(sz,[idx_nz; idx_z]);
+wvals = [1/prob_nz*ones(nsample_nz,1); 1/prob_z*ones(nsample-nsample_nz,1)];
+
+end
+
+function [subs,wvals,meta] = samp_prop(nsample,sz,mask,meta,X,offset)
+%SAMP_PROP Subindices to sample nsample entries of the tensor sampled with
+%probability proportional to the product of the marginal sums (with an
+%added offset)
+%
+%   For example, entry (i,j,k) of a 3-way tensor X is sampled with
+%   probability proportional to
+%
+%     (offset + collapse(X(i,:,:)))
+%       * (offset + collapse(X(:,j,:)))
+%       * (offset + collapse(X(:,:,k)))
+%
+%   Offset can be used to make the probabilities generally more balanced.
+
+% Only handle fully-sampled data for now
+if ~isempty(mask)
+    if ~isfield(meta,'prop_missing_flag')
+        warning('Proportional sampling not yet supported for missing data. Using uniform.');
+    end
+    [subs,wvals,meta] = samp_unif(nsample,sz,mask,meta);
+    meta.prop_missing_flag = true;
+    return;
+end
+
+n = length(sz);
+
+% Calculate probabilities
+if ~isfield(meta,'probs')
+    meta.probs = arrayfun(@(k) offset+collapse(X,setdiff(1:n,k),@sum),1:n,'UniformOutput',false);
+    meta.probs = cellfun(@(p) p / sum(p),meta.probs,'UniformOutput',false);
+end
+
+% Calculate cumulative probabilities
+if ~isfield(meta,'cprobs')
+    meta.cprobs = cellfun(@(p) [0; cumsum(p(1:end-1)); 1],meta.probs,'UniformOutput',false);
+end
+
+subs = zeros(nsample,n);
+wvals = ones(nsample,1);
+for k = 1:n
+    [~,~,subs(:,k)] = histcounts(rand(nsample,1),meta.cprobs{k});
+    wvals = wvals./meta.probs{k}(subs(:,k));
 end
 
 end
