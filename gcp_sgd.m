@@ -11,7 +11,7 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   values. Valid parameters and their default values are:
 %   -- General --
 %   'mask' - Tensor marking missing data (0 = missing, 1 = present). {[]}
-%   'init' - Initial guess [{'random'}|'nvecs'|cell array]
+%   'init' - Initial guess [{'random'}|cell array]
 %   'adam' - Use adaptive moment estimation {true}
 %   -- Batch sizes --
 %   'fsamples' - Batch size for calculating the function value {1000}
@@ -78,7 +78,7 @@ sz = size(X);
 params = inputParser;
 % -- General --
 params.addParameter('mask', [], @(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
-params.addParameter('init', 'random');
+params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
 params.addParameter('adam', true, @islogical);
 % -- Batch sizes --
 params.addParameter('fsamples', 1000);
@@ -153,7 +153,7 @@ end
 if iscell(init)
     Uinit = init;
     M = ktensor(Uinit);
-else
+elseif strcmp(init,'random')
     Uinit = cell(n,1);
     for k = 1:n
         Uinit{k} = rand(sz(k),r);
