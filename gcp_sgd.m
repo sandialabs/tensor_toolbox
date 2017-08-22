@@ -72,24 +72,26 @@ n  = ndims(X);
 sz = size(X);
 
 %% Set algorithm parameters from input or by using defaults
+isfunction = @(f) isa(f,'function_handle');
+
 params = inputParser;
 % -- GCP Parameters --
 params.addParameter('mask', [], @(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
-params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
-params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
+params.addParameter('objfh', @(x,m) (x-m).^2, isfunction);
+params.addParameter('gradfh', @(x,m) -2*(x-m), isfunction);
 params.addParameter('lowbound', -Inf, @isnumeric);
 % -- Stochastic Gradient Steps --
 params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
 params.addParameter('gsamples', 1);
-params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
+params.addParameter('gsampler', 'unif', isfunction);
 params.addParameter('rate', 1e-3);
 params.addParameter('adam', true, @islogical);
 % -- Convergence Criteria --
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs', 100);
 params.addParameter('fsamples', 1000);
-params.addParameter('fsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
-params.addParameter('conv_cond', @(f,fold) f > fold, @(c) isa(c,'function_handle'));
+params.addParameter('fsampler', @cp_adam_unif, isfunction);
+params.addParameter('conv_cond', @(f,fold) f > fold, isfunction);
 % -- Additional parameters for adam --
 params.addParameter('beta1', 0.9);
 params.addParameter('beta2', 0.999);
