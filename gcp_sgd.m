@@ -143,7 +143,7 @@ gradcheck   = params.Results.gradcheck;
 
 %% Welcome
 if verbosity > 10
-    fprintf('\n-----\nWelcome to CP-ADAM\n\n');
+    fprintf('\n-----\nWelcome to GCP-SGD\n\n');
     fprintf('# f-samples: %d\n', fsamples);
     fprintf('# g-samples: %d\n', gsamples);
 end
