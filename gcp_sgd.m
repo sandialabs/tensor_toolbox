@@ -72,53 +72,70 @@ sz = size(X);
 
 %% Set algorithm parameters from input or by using defaults
 params = inputParser;
-params.addParameter('verbosity', 11);
+% -- General --
+params.addParameter('mask', [], @(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
 params.addParameter('init', 'random');
-params.addParameter('gsamples', 1);
+params.addParameter('adam', true, @islogical);
+% -- Batch sizes --
 params.addParameter('fsamples', 1000);
-params.addParameter('epochiters', 1000);
-params.addParameter('maxepochs',100);
-params.addParameter('rate', 1e-3);
 params.addParameter('fsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
+params.addParameter('gsamples', 1);
 params.addParameter('gsampler', @cp_adam_unif, @(x) isa(x,'function_handle'));
-params.addParameter('print_ftrue', false, @islogical);
-params.addParameter('save_ftrue', false, @islogical);
-params.addParameter('conv_cond',@(f,fold) f > fold,@(c) isa(c,'function_handle'));
+% -- Iterations/Epochs --
+params.addParameter('epochiters', 1000);
+params.addParameter('maxepochs', 100);
+params.addParameter('conv_cond', @(f,fold) f > fold, @(c) isa(c,'function_handle'));
+% -- Rates --
+params.addParameter('rate', 1e-3);
 params.addParameter('beta1', 0.9);
 params.addParameter('beta2', 0.999);
 params.addParameter('epsilon', 1e-8);
-params.addParameter('gradcheck', true, @islogical);
+% -- Loss function --
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
-params.addParameter('restart',false, @islogical);
-params.addParameter('dec_rate',false,@islogical);
-params.addParameter('mask',[],@(mask) isa(mask,'sptensor') || isa(mask,'tensor'));
+% -- Restart/Decreasing rate --
+params.addParameter('restart', false, @islogical);
+params.addParameter('dec_rate', false, @islogical);
+% -- Reporting --
+params.addParameter('verbosity', 11);
+params.addParameter('print_ftrue', false, @islogical);
+params.addParameter('save_ftrue', false, @islogical);
+params.addParameter('gradcheck', true, @islogical);
+
 params.parse(varargin{:});
 
 %% Copy from params object
-verbosity   = params.Results.verbosity;
+% -- General --
+mask        = params.Results.mask;
 init        = params.Results.init;
-gsamples    = params.Results.gsamples;
+adam        = params.Results.adam;
+% -- Batch sizes --
 fsamples    = params.Results.fsamples;
+fsampler    = params.Results.fsampler;
+gsamples    = params.Results.gsamples;
+gsampler    = params.Results.gsampler;
+% -- Iterations/Epochs --
 epochiters  = params.Results.epochiters;
 maxepochs   = params.Results.maxepochs;
-rate        = params.Results.rate;
-fsampler    = params.Results.fsampler;
-gsampler    = params.Results.gsampler;
-print_ftrue = params.Results.print_ftrue;
-save_ftrue  = params.Results.save_ftrue;
 conv_cond   = params.Results.conv_cond;
+% -- Rates --
+rate        = params.Results.rate;
 beta1       = params.Results.beta1;
 beta2       = params.Results.beta2;
 epsilon     = params.Results.epsilon;
-gradcheck   = params.Results.gradcheck;
+% -- Loss function --
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
+% -- Restart/Decreasing rate --
 restart     = params.Results.restart;
 dec_rate    = params.Results.dec_rate;
-mask        = params.Results.mask;
+% -- Reporting --
+verbosity   = params.Results.verbosity;
+print_ftrue = params.Results.print_ftrue;
+save_ftrue  = params.Results.save_ftrue;
+gradcheck   = params.Results.gradcheck;
 
 %% Welcome
 if verbosity > 10
