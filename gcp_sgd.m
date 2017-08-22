@@ -24,15 +24,15 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   'conv_cond' - Convergence condition {@(f,fold) f > fold}
 %   -- Rates --
 %   'rate' - Step size {1e-3}
-%   'beta1' - First moment decay (relevant for only adam) {0.9}
-%   'beta2' - Second moment decay (relevant for only adam) {0.999}
-%   'epsilon' - Small value to help with numerics in division (relevant for only adam) {1e-8}
+%   'beta1' - First moment decay (relevant for adam) {0.9}
+%   'beta2' - Second moment decay (relevant for adam) {0.999}
+%   'epsilon' - Small value to help with numerics in division (relevant for adam) {1e-8}
 %   -- Loss function --
 %   'objfh' - Loss function {@(x,m) (x-m).^2}
 %   'gradfh' - Gradient of loss function {@(x,m) -2*(x-m)}
 %   'lowbound' - Low bound constraint {-Inf}
-%   -- Restart/Decreasing rate --
-%   'restart' - Restart moment estimates and normalize at each epoch. {false}
+%   -- Renormalization/Decreasing rate --
+%   'renormalize' - Renormalize at each epoch and restart moment estimates (relevant for adam). {false}
 %   'dec_rate' - Halve the step size at each epoch where the function value
 %                increases. {false}
 %   -- Reporting --
@@ -94,8 +94,8 @@ params.addParameter('epsilon', 1e-8);
 params.addParameter('objfh', @(x,m) (x-m).^2, @(f) isa(f,'function_handle'));
 params.addParameter('gradfh', @(x,m) -2*(x-m), @(f) isa(f,'function_handle'));
 params.addParameter('lowbound', -Inf, @isnumeric);
-% -- Restart/Decreasing rate --
-params.addParameter('restart', false, @islogical);
+% -- Renormalization/Decreasing rate --
+params.addParameter('renormalize', false, @islogical);
 params.addParameter('dec_rate', false, @islogical);
 % -- Reporting --
 params.addParameter('verbosity', 11);
@@ -128,8 +128,8 @@ epsilon     = params.Results.epsilon;
 objfh       = params.Results.objfh;
 gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
-% -- Restart/Decreasing rate --
-restart     = params.Results.restart;
+% -- Renormalization/Decreasing rate --
+renormalize = params.Results.renormalize;
 dec_rate    = params.Results.dec_rate;
 % -- Reporting --
 verbosity   = params.Results.verbosity;
@@ -201,7 +201,7 @@ end
 
 info.fest = fest;
 if save_ftrue
-    info.ftrue = collapse(tenfun(objfh,X,full(M)));    
+    info.ftrue = collapse(tenfun(objfh,X,full(M)));
 end
 
 %% Main loop
@@ -214,12 +214,13 @@ while nepoch < maxepochs
         % Select subset for stochastic gradient
         [gsubs,wvals,gsubs_meta] = gsampler(gsamples,sz,mask,gsubs_meta);
         
-        % Compute gradients and moments for each mode and take a step
+        % Compute gradients for each mode
         [~,Gest] = fg_est(M,X,gsubs,'wvals',wvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
         if gradcheck && any(any(isinf(cell2mat(Gest))))
             error('Infinite gradient reached! (epoch = %g, iter = %g)',nepoch,iter);
         end
         
+        % Take a step
         if adam
             m = cellfun(@(mk,gk) beta1*mk + (1-beta1)*gk,m,Gest,'UniformOutput',false);
             v = cellfun(@(vk,gk) beta2*vk + (1-beta2)*gk.^2,v,Gest,'UniformOutput',false);
@@ -230,46 +231,51 @@ while nepoch < maxepochs
             M.u = cellfun(@(uk,gk) max(lowbound,uk-rate*gk),M.u,Gest,'UniformOutput',false);
         end
     end
-
+    
+    % Estimate objective function value
     festold = fest;
     fest = fg_est(M,X,fsubs,'xvals',fvals,'objfh',objfh,'gradfh',gradfh,'IgnoreLambda',true);
     info.fest = [info.fest fest];
     
-    % Not the cleanest way to print trace. TODO: Clean this up.
+    % Reporting
     if verbosity > 10
         fprintf(' Epoch %2d: fest = %e', nepoch, fest);
-    end
-    if verbosity > 10 && print_ftrue
-        fprintf(' ftrue = %e',collapse(tenfun(objfh,X,full(M))));
-    end
-    if verbosity > 20
-        fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
-            etime(clock,last_time),etime(clock,start_time));
-        last_time = clock;
-    end
-    if verbosity > 10
+        
+        if print_ftrue
+            fprintf(' ftrue = %e',collapse(tenfun(objfh,X,full(M))));
+        end
+        if verbosity > 20
+            fprintf(' (%4.3g seconds, %4.3g seconds elapsed)', ...
+                etime(clock,last_time),etime(clock,start_time));
+            last_time = clock;
+        end
         fprintf('\n');
     end
     
     if save_ftrue
         info.ftrue = [info.ftrue collapse(tenfun(objfh,X,full(M)))];
     end
-
-    % Restart
-    if restart
-        for k = 1:n
-            m{k} = zeros(sz(k),r);
-        end
-        for k = 1:n
-            v{k} = zeros(sz(k),r);
-        end
-        niters = 0;
+    
+    % Renormalization
+    if renormalize
         M = normalize(M,0);
+        if adam
+            for k = 1:n
+                m{k} = zeros(sz(k),r);
+            end
+            for k = 1:n
+                v{k} = zeros(sz(k),r);
+            end
+            niters = 0;
+        end
     end
+    
+    % Decreasing rate
     if dec_rate && (fest > festold)
         rate = rate/2;
     end
-
+    
+    % Check convergence condition
     if conv_cond(fest,festold)
         break;
     end
