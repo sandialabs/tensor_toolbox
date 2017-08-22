@@ -161,18 +161,7 @@ else
     M = ktensor(Uinit);
     
     % Normalize
-    if isempty(mask)
-        normX = norm(X);
-    else
-        if isa(mask,'sptensor')
-            normX = sqrt( sum(X(mask.subs).^2) / nnz(mask) * prod(sz) );
-        else % When the mask is dense avoid forming sptensor (but still very inefficient)
-            maskmat = logical(double(mask)); Xmat = double(X);
-            normX = sqrt( sum(Xmat(maskmat).^2) / nnz(mask) * prod(sz) );
-            clear maskmat Xmat;
-        end
-    end
-    M = M * (normX/norm(M));
+    M = M * (norm_est(X,mask)/norm(M));
     M = normalize(M,0);
 end
 
@@ -294,6 +283,22 @@ M = fixsigns(M);
 %% Wrap up
 if verbosity > 10
     fprintf('Goodbye!\n-----\n');
+end
+
+end
+
+function normX = norm_est(X,mask)
+%NORM_EST Estimate the norm of a tensor that can have missingness.
+
+if isempty(mask)
+    normX = norm(X);
+else
+    if isa(mask,'sptensor')
+        normX = sqrt( sum(X(mask.subs).^2) / nnz(mask) * prod(sz) );
+    else % Avoid forming sptensor when the mask is dense (still inefficient)
+        maskmat = logical(double(mask)); Xmat = double(X);
+        normX = sqrt( sum(Xmat(maskmat).^2) / nnz(mask) * prod(sz) );
+    end
 end
 
 end
