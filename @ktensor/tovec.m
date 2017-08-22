@@ -20,6 +20,9 @@ function x = tovec(K,lambdaflag)
 %   norm(K-Kcopy) %<- Zero (or close to it)
 %
 %   See also KTENSOR, KTENSOR/SIZE, KTENSOR/NCOMPONENTS.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2017, Sandia Corporation.
 
 if ~exist('lambdaflag','var')
     lambdaflag = true;

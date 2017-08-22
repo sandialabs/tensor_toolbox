@@ -1,4 +1,5 @@
-%% Create capability chart for all the tensor toolbox classes
+%% Script to print capability chart for all the tensor toolbox classes.
+% Note that we exclude the tensor-as-matrix style classes.
 
 %% Manual class names
     
@@ -6,9 +7,7 @@ nclasses = 7;
 classnames = {'tensor'; 'sptensor'; 'symtensor'; 'ttensor'; 'ktensor'; 'symktensor'; 'sumtensor'};
 
 
-%%
-
-% get directory contents for each class (omitting constructor)
+%% Get directory contents for each class (omitting constructor)
 classmembers = cell(nclasses,1);
 functionnames = {};
 for i = 1:nclasses

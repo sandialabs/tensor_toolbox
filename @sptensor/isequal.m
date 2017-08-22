@@ -1,5 +1,5 @@
 function z = isequal(x,y)
-%ISEQUAL for sptensors.
+%ISEQUAL Compare spares tensors for equality.
 %
 %   ISEQUAL(A,B) compares the sparse tensors A and B for equality.
 %

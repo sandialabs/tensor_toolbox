@@ -1,5 +1,5 @@
 function info = viz(K, varargin)
-%VIZ Visualize a ktensor
+%VIZ Visualize a ktensor.
 %
 %   VIZ(K) visualizes the components of a D-way ktensor with R components
 %   in an R x D arrangment of plots. Each column of plots represents the
@@ -14,6 +14,7 @@ function info = viz(K, varargin)
 %
 %   -- Figure --
 %   'Figure' - Figure number. Default: [] (new figure).
+%
 %   -- Plot Details --
 %   'Plottype' - Cell array of plot types per mode. Default: {'line',...}.
 %       o 'line' - Normal line plot. Default linewidth is 1.
@@ -31,12 +32,14 @@ function info = viz(K, varargin)
 %              the automatic defaults should be used. Default: cell(D,1)
 %   'XTickLabels' - Cell array of xticklabels. Empty array indicates the
 %                   automitic defaults should be used. Default: cell(D,1)
+%
 %   -- Titles --
 %   'Modetitles' - Cell array of mode titles. Default:{'Mode 1',...}
 %   'Factortitle' - Factor title as number or weight. Default: 'None'.
 %       o 'Weight' - Print relative lambda value, compared to lambda(1).
 %       o 'Number' - Print factor number.
 %       o 'None' - No factor titles (default).
+%
 %   -- Spacing (all proportions in [0,1]) --
 %   'Relmodespace' - Relative vertical space per mode. Default: ones(D,1).
 %   'Vspacetop' - Space at the top, for titles. Default: 0.05.
@@ -60,15 +63,18 @@ function info = viz(K, varargin)
 %   'ModeTitles' - Handles for the D mode titles.
 %   'GlobalAxis' - Handle for main axes in which all others are embedded.
 %   'FactorAxes' - R x D array of handles for the subfigure axes.
-%   'htitle'
-%   'hftitle'
-%   'h'
-%
+%   'htitle' - D-array of the handles to the mode titles (on the top).
+%   'hftitle' - F-array of hanldes to the factor titles (on the left).
+%   'h'- D x R array of handles to the figures for each factor.
+%   
 %   Examples:
 %   K = ktensor([3; 2], rand(40,2), rand(50,2), rand(30,2));
 %   viz(K,'Figure',1,'Hspace',0.05,'Vspacebottom',0.075);
 %
 %   Thanks to Alex Williams for the prototype for this functionality.
+%
+%MATLAB Tensor Toolbox.
+%Copyright 2017, Sandia Corporation.
 
 % TGK: Need to add options around line at zero, marks to use, font sizes, etc.
 
