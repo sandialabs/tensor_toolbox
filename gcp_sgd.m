@@ -1,8 +1,8 @@
-function [M,info] = cp_adam(X,r,varargin)
-%CP_ADAM Fits a generalized CP model to a tensor via stochastic
+function [M,info] = gcp_sgd(X,r,varargin)
+%GCP_SGD Fits a Generalized CP model to a tensor via stochastic
 %optimization with adaptive moment estimation (Adam).
 %
-%   P = CP_ADAM(X,R) computes an estimate of the best rank-R generalized
+%   P = GCP_SGD(X,R) computes an estimate of the best rank-R Generalized
 %   CP model of a tensor X using stochastic optimization with adaptive
 %   moment estimation (Adam). The input X can be a tensor, sptensor,
 %   ktensor, or ttensor. The result P is a ktensor.
@@ -12,6 +12,7 @@ function [M,info] = cp_adam(X,r,varargin)
 %   -- General --
 %   'mask' - Tensor indicating missing data (0 = missing, 1 = present). {[]}
 %   'init' - Initial guess [{'random'}|'nvecs'|cell array]
+%   'adam' - Use adaptive moment estimation {true}
 %   -- Batch sizes --
 %   'fsamples' - Batch size for calculating the function value {1000}
 %   'fsampler' - Function to generate function value samples {@cp_adam_unif}
@@ -23,9 +24,9 @@ function [M,info] = cp_adam(X,r,varargin)
 %   'conv_cond' - Convergence condition {@(f,fold) f > fold}
 %   -- Rates --
 %   'rate' - Step size {1e-3}
-%   'beta1' - First moment decay {0.9}
-%   'beta2' - Second moment decay {0.999}
-%   'epsilon' - Small value to help with numerics in division {1e-8}
+%   'beta1' - First moment decay (relevant for only adam) {0.9}
+%   'beta2' - Second moment decay (relevant for only adam) {0.999}
+%   'epsilon' - Small value to help with numerics in division (relevant for only adam) {1e-8}
 %   -- Loss function --
 %   'objfh' - Loss function {@(x,m) (x-m).^2}
 %   'gradfh' - Gradient of loss function {@(x,m) -2*(x-m)}
@@ -40,18 +41,18 @@ function [M,info] = cp_adam(X,r,varargin)
 %   'save_ftrue' - Save the true objective function value at each epoch {false}
 %   'gradcheck' - Trigger error if the gradient is ever infinite {true}
 %
-%   [P,out] = CP_ADAM(...) also returns a structure with the trace of the
+%   [P,out] = GCP_SGD(...) also returns a structure with the trace of the
 %   function value.
 %
 %   Examples:
 %   X = sptenrand([5 4 3], 10);
-%   P = cp_adam(X,2);
-%   P = cp_adam(X,2, ...
+%   P = gcp_sgd(X,2);
+%   P = gcp_sgd(X,2, ...
 %               'objfh',@(x,m) log(m+1)-x.*log(m+1e-7), ...
 %               'gradfh',@(x,m) 1./(m+1)-x./(m+1e-7), ...
 %               'lowbound',1e-6);
 %
-%   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR, CP_SGD, CP_ALS, CP_OPT,
+%   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR, GCP_OPT, CP_ALS, CP_OPT,
 %   CP_WOPT.
 %
 %MATLAB Tensor Toolbox.
