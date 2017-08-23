@@ -140,6 +140,8 @@ end
 function normX = norm_est(X,mask)
 %NORM_EST Estimate the norm of a tensor that can have missingness.
 
+sz = size(X);
+
 if isempty(mask)
     normX = norm(X);
 else
