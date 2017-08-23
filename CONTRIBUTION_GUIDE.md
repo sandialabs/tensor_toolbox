@@ -11,7 +11,7 @@
 - [ ] Create or update tests in the `tests` directory, especially for bug fixes or newly added code.
 - [ ] For any new files, go to `maintenance` directory and run `create_allcontents` to add the files to the appropriate class file or main contents page.
 - [ ] Update `RELEASE_NOTES.txt` with any significant bug fixes or additions.
-- [ ] Confirm that all tests (including exsiting tests) pass in `tests` directory.
+- [ ] Confirm that all tests (including existing tests) pass in `tests` directory.
 
 
 
