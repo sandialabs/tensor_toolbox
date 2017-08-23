@@ -320,8 +320,8 @@ while nepoch < maxepochs
 end
 
 %% Clean up final result
-% Save final tensor before normalization
-info.M_unnormalized = M;
+% Save final tensor before cleaning it up
+info.M_preclean = M;
 
 % Arrange the final tensor so that the columns are normalized.
 M = arrange(M);
