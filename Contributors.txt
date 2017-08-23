@@ -9,6 +9,7 @@ Casey Battaglino
 Eric C. Chi
 Daniel M. Dunlavy
 Sammy Hansen
+David Hong
 Jackson Mayo
 Todd Plantenga
 Jimeng Sun
