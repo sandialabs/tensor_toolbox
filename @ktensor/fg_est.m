@@ -10,8 +10,8 @@ function [fest,Gest,info] = fg_est(M,X,subs,varargin)
 %   is stored as a ktensor unless modified per the optional parameters
 %   below. The tensors M and X must be the same order and size.
 %
-%   [Fest,Gest] = fg(M,X,subs,'parameter',value,...) also accepts parameter
-%   value pairs as follows:
+%   [Fest,Gest] = fg_est(M,X,subs,'parameter',value,...) also accepts
+%   parameter value pairs as follows:
 %
 %   'objfh' - Handle to objective function. The form should be f(x,m) where
 %   x and m are scalars or vectors. In the vector case, each one should be
