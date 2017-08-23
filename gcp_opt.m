@@ -199,6 +199,7 @@ function [f,G] = fg(M,X,varargin)
 
 %% Process inputs
 
+sz = size(M);
 nd = ndims(M);
 
 params = inputParser;
@@ -216,6 +217,33 @@ IgnoreLambda = params.Results.IgnoreLambda;
 objfh  = params.Results.objfh;
 gradfh = params.Results.gradfh;
 W      = params.Results.Weights;
+
+%% Use fg_est if mask is sparse
+if isa(W,'sptensor')
+    subs = find(W);
+    if nargout <= 1
+        f = fg_est(M,X,subs,'GradMode',GradMode,'GradVec',GradVec, ...
+            'IgnoreLambda',IgnoreLambda,'objfh',objfh,'gradfh',gradfh, ...
+            'wvals',W.vals);
+        f = f * size(subs,1) / prod(sz);
+        return;
+    else
+        [f,G] = fg_est(M,X,subs,'GradMode',GradMode,'GradVec',GradVec, ...
+            'IgnoreLambda',IgnoreLambda,'objfh',objfh,'gradfh',gradfh, ...
+            'wvals',W.vals);
+        f = f * size(subs,1) / prod(sz);
+        
+        if isa(G,'ktensor')
+            G.lambda = G.lambda * size(subs,1) / prod(sz);
+            G.u = cellfun(@(u) u * size(subs,1) / prod(sz),G.u,'UniformOutput',false);
+        elseif iscell(G)
+            G = cellfun(@(u) u * size(subs,1) / prod(sz),G,'UniformOutput',false);
+        else
+            G = G * size(subs,1) / prod(sz);
+        end
+        return;
+    end
+end
 
 %% Calculate function value
 Mfull = full(M);
