@@ -238,8 +238,8 @@ end
 
 % Gradient wrt Lambda
 if GradMode == 0 || (GradMode == -1 && ~IgnoreLambda)
-    KRfull = khatrirao(M.u);
-    GradLambda = KRfull'*tovec(BigG);
+    KRfull = khatrirao(M.u,'r');
+    GradLambda = KRfull'*BigG(:);
 end
 
 % Gradient wrt U's
