@@ -218,7 +218,7 @@ objfh  = params.Results.objfh;
 gradfh = params.Results.gradfh;
 W      = params.Results.Weights;
 
-%% Use fg_est if mask is sparse
+%% Use fg_est if weights are sparse
 if isa(W,'sptensor')
     subs = find(W);
     if nargout <= 1
