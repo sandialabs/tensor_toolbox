@@ -16,7 +16,8 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   'lowbound' - Low bound constraint {-Inf}
 %   -- Stochastic Gradient Steps --
 %   'init'     - Initial guess [{'random'}|cell array]
-%   'gsamples' - Number of samples to calculate the gradient estimate {1}
+%   'gsamples' - Number of samples to calculate the gradient estimate
+%                {2 * max(size(X))* r}
 %   'gsampler' - Entry sampler for gradient
 %                [{'unif'}|'all'|'strat'|'prop'|function handle]
 %   'rate'     - Step size {1e-3}
@@ -25,7 +26,7 @@ function [M,info] = gcp_sgd(X,r,varargin)
 %   'epochiters' - Number of iterations per epoch {1000}
 %   'maxepochs'  - Maximum number of epochs {100}
 %   'fsamples'   - Number of samples to calculate the loss function
-%                  estimate {1000}
+%                  estimate {2^14}
 %   'fsampler'   - Entry sampler for loss function
 %                  [{'unif'}|'all'|'strat'|'prop'|function handle]
 %   'conv_cond'  - Convergence condition {@(f,fold) f > fold}
@@ -90,14 +91,14 @@ params.addParameter('gradfh', @(x,m) -2*(x-m), isfunc);
 params.addParameter('lowbound', -Inf, @isnumeric);
 % -- Stochastic Gradient Steps --
 params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
-params.addParameter('gsamples', 1);
+params.addParameter('gsamples', 2*max(sz)*r);
 params.addParameter('gsampler', 'unif', issampler);
 params.addParameter('rate', 1e-3);
 params.addParameter('adam', true, @islogical);
 % -- Convergence Criteria --
 params.addParameter('epochiters', 1000);
 params.addParameter('maxepochs', 100);
-params.addParameter('fsamples', 1000);
+params.addParameter('fsamples', 2^14);
 params.addParameter('fsampler', 'unif', issampler);
 params.addParameter('conv_cond', @(f,fold) f > fold, isfunc);
 % -- Additional parameters for adam --
