@@ -20,7 +20,7 @@ function [M,info] = gcp_opt(X,r,varargin)
 %   'verbosity' - Verbosity level {11}
 %   'printitn'  - Number of iterations per print {1}
 %
-%   [P,out] = GCP_SGD(...) also returns a structure with additional
+%   [P,out] = GCP_OPT(...) also returns a structure with additional
 %   optimization information.
 %
 %   Examples:
