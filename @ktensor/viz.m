@@ -21,17 +21,11 @@ function info = viz(K, varargin)
 %       o 'bar' - Bar plot.
 %       o 'scatter' - Scatter plot. Default markersize is 10.
 %   'Plotsize' - Array of sizes linewidth of markers. Default:-1*ones(D,1).
-%   'Plotcolors' - Cell array of colors. Can be single color or array of
-%                  colors for scatter or bar plots.
-%   'Sameylims' - Use the same ylimits on all axes in the same mode.
+%   'Plotcolors' - Cell array of size D x 1 of colors. Each entry can be
+%       single color or array of colors of for scatter or bar plots.
+%   'Sameylims' - Same ylimits on all axes in mode. Default true(D,1).
 %   'YLims' - Cell array of ylimit for each mode. Empty array indicates the
 %             automatic defaults should be used. Default: cell(D,1)
-%   'YExpand' - Expansion fraction of ylimit in each mode.
-%               Default: zeros(D,1)
-%   'XTicks' - Cell array of xticks for each mode. Empty array indicates
-%              the automatic defaults should be used. Default: cell(D,1)
-%   'XTickLabels' - Cell array of xticklabels. Empty array indicates the
-%                   automitic defaults should be used. Default: cell(D,1)
 %
 %   -- Titles --
 %   'Modetitles' - Cell array of mode titles. Default:{'Mode 1',...}
@@ -48,14 +42,6 @@ function info = viz(K, varargin)
 %   'Hspaceright' - Space at right. Default: 0.025.
 %   'Vspace' - Vertical space inbetween factor axes. Default: 0.01.
 %   'Hspace' - Horizontal space inbetween factor axes. Default: 0.01.
-%   -- Annotation --
-%   'VLines' - Cell array of locations for vertical lines in each mode.
-%              Default: cell(D,1)
-%   'Circle' - Cell array of locations to put circles in each mode.
-%              Default: cell(D,1)
-%   'CircleRadius' - Circle radius for each mode. Default: zeros(D,1)
-%   'CircleArgs' - Cell array of arguments for the circles in each mode
-%                  (e.g., EdgeColor, LineWidth). Default: cell(D,1)
 %
 %   Return values:
 %   'height' - Height of each plot (as a proportion in [0,1]).
@@ -76,8 +62,23 @@ function info = viz(K, varargin)
 %MATLAB Tensor Toolbox.
 %Copyright 2017, Sandia Corporation.
 
-% TGK: Need to add options around line at zero, marks to use, font sizes, etc.
 
+%% Hidden options
+% TGK: Need to add options around line at zero, marks to use, font sizes, etc.
+%   'YExpand' - Expansion fraction of ylimit in each mode.
+%               Default: zeros(D,1)
+%   'XTicks' - Cell array of xticks for each mode. Empty array indicates
+%              the automatic defaults should be used. Default: cell(D,1)
+%   'XTickLabels' - Cell array of xticklabels. Empty array indicates the
+%                   automitic defaults should be used. Default: cell(D,1)
+%   -- Annotation --
+%   'VLines' - Cell array of locations for vertical lines in each mode.
+%              Default: cell(D,1)
+%   'Circle' - Cell array of locations to put circles in each mode.
+%              Default: cell(D,1)
+%   'CircleRadius' - Circle radius for each mode. Default: zeros(D,1)
+%   'CircleArgs' - Cell array of arguments for the circles in each mode
+%                  (e.g., EdgeColor, LineWidth). Default: cell(D,1)
 
 
 %%
