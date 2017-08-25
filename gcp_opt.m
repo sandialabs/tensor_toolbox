@@ -14,8 +14,8 @@ function [M,info] = gcp_opt(X,r,varargin)
 %   'lowbound' - Low bound constraint {-Inf}
 %   -- Optimization Parameters --
 %   'init'        - Initial guess [{'random'}|cell array]
-%   'maxIts'      - Maximum iterations {100}
-%   'maxTotalIts' - Maximum iterations including linesearch {5000}
+%   'lbfgsb_opts' - Struct with options for lbfgsb
+%                   (see 'help lbfgsb' for details) {struct([])}
 %   -- Reporting --
 %   'verbosity' - Verbosity level {11}
 %   'printitn'  - Number of iterations per print {1}
@@ -60,8 +60,7 @@ params.addParameter('gradfh', @(x,m) -2*(x-m), isfunc);
 params.addParameter('lowbound', -Inf, @isnumeric);
 % -- Optimization Parameters --
 params.addParameter('init', 'random', @(init) iscell(init) || strcmp(init,'random'));
-params.addParameter('maxIts', 100);
-params.addParameter('maxTotalIts', 5000);
+params.addParameter('lbfgsb_opts',struct([]));
 % -- Reporting --
 params.addParameter('verbosity', 11);
 params.addParameter('printitn', 1);
@@ -76,8 +75,7 @@ gradfh      = params.Results.gradfh;
 lowbound    = params.Results.lowbound;
 % -- Optimization Parameters --
 init        = params.Results.init;
-maxIts      = params.Results.maxIts;
-maxTotalIts = params.Results.maxTotalIts;
+lbfgsb_opts = params.Results.lbfgsb_opts;
 % -- Reporting --
 verbosity   = params.Results.verbosity;
 printitn    = params.Results.printitn;
@@ -112,10 +110,11 @@ lower = lowbound*ones(sum(sz) * r,1);
 upper = inf(sum(sz) * r,1);
 
 % Setup optimization
-opts.x0          = tovec(M0,false);
-opts.maxIts      = maxIts;
-opts.maxTotalIts = maxTotalIts;
-opts.printEvery  = printitn;
+if ~isempty(lbfgsb_opts)
+    opts = lbfgsb_opts;
+end
+opts.x0 = tovec(M0,false);
+opts.printEvery = printitn;
 
 [x,~,info] = lbfgsb(fcn, lower, upper, opts);
 M = update(M0,1:n,x);
