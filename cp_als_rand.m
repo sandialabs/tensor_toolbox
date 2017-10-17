@@ -263,8 +263,9 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
         Xfit_mean = mean((Xfit_vals - Ps).^2);
         testfit = 1 - sqrt(Xfit_mean*num_elements)/normX;
     end
+    if printitn>0
     fprintf(' Final fit = %e Final estimated fit = %e \n', fit, testfit);
-    %end
+    end
 
     output = struct;
     output.params = params.Results;
