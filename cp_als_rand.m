@@ -64,16 +64,18 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
 
     %% Set algorithm parameters from input or by using defaults
     params = inputParser;
-    params.addParameter('tol',0,@isscalar);
-    params.addParameter('maxiters',100,@(x) isscalar(x) & x > 0);
-    params.addParameter('dimorder',1:N,@(x) isequal(sort(x),1:N));
     params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
-    params.addParameter('printitn',10,@isscalar);
-    params.addParameter('desired_fit',1,@(x) isscalar(x) & x > 0 & x < 1);
-    params.addParameter('mix',true,@(x) isscalar(x) & x == 0 || x == 1);
-    params.addParameter('num_samples',0,@(x) isscalar(x) & x > 0);
-    params.addParameter('window',0,@(x) isscalar(x) & x >= 0);
-    params.addParameter('fit_samples',2^14,@(x) isscalar(x) & x >= 0);
+    params.addParameter('dimorder', 1:N, @(x) isequal(sort(x),1:N));
+    params.addParameter('printitn', 10, @isscalar);
+    params.addParameter('mix', true, @islogical);
+    params.addParameter('num_samples', ceil(10*R*log2(R)));
+    params.addParameter('maxiters', 1000);
+    params.addParameter('fit_samples', 2^14);
+    params.addParameter('tol', 0, @isscalar);
+    params.addParameter('desired_fit', 1, @(x) isscalar(x) & x > 0 & x <= 1);
+    params.addParameter('epoch', 50)
+    params.addParameter('window', 5);
+    params.addParameter('truefit', false, @islogical);
 
     params.parse(varargin{:});
 
@@ -85,21 +87,14 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
     printitn = params.Results.printitn;
     desired_fit = params.Results.desired_fit;   % cprand will terminate if this fit is reached (default 1)
     do_fft = params.Results.mix;
-    iter_window = params.Results.window;     % if defined, cprand will terminate if fit does not decrease after this many iterations
+    window = params.Results.window;     
+    num_samples = params.Results.num_samples;
     fit_samples = params.Results.fit_samples;
+    epochsize = params.Results.epoch;
+    truefit = params.Results.truefit;
+    
 
-    maxfit = 0;
-    windowcounter = 0;
-
-    % Set number of samples.
-    % Setting samples too low may result in rank-deficiency and a warning will appear.
-    if (params.Results.num_samples > 0)
-        num_samples = params.Results.num_samples;
-    else
-        num_samples = ceil(10*R*log2(R));
-        %fprintf('Warning: num_samples not passed to CPRAND.\n Using (10 * R logR)=%d as default.\n',num_samples); 
-    end
-
+ 
     %% Error checking 
     %% Set up and error checking on initial guess for U.
     if iscell(init)
@@ -139,9 +134,9 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
 
     if printitn>0
         if(do_fft)
-            fprintf('CP-RAND-FFT: ');
+            fprintf('CP-RAND-FFT: \n');
         else
-            fprintf('CP_RAND: ');
+            fprintf('CP_RAND: \n');
         end
     end
 
@@ -149,7 +144,7 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
     fitsamples = min(nnz(X),fit_samples);
     [Xfit_subs, ~] = sample_all_modes(fitsamples, sz);
     Xfit_vals = X(Xfit_subs);
-    %% Main Loop: Iterate until convergence
+
     if (do_fft)
         % Compute random diagonal D_n for each factor
         diag_flips = cell(N,1);
@@ -176,95 +171,100 @@ function [P,Uinit,output] = cp_als_rand(X,R,varargin)
     
     if (do_fft)
         % Mix factor matrices: U{i} = F{i}*D{i}*U{i}
-        for i = 2:N,
+        for i = 2:N
             U_mixed{i} = fft(bsxfun(@times,U{i},diag_flips{i}));
         end
     end
-
+    %% Main Loop: Iterate until convergence
+    maxfit = 0;
+    niwi = 0; % num meta-iterations without improvement
     % ALS Loop
     for iter = 1:maxiters
         fitold = fit;
-        % Iterate over all N modes of the tensor
-        for n = dimorder(1:end)
-
-            mixinfo.dofft = do_fft;
-            mixinfo.signflips = diag_flips;
-            [Unew, ~, ~]= dense_sample_mttkrp(X_mixed,U_mixed,n,num_samples,mixinfo);
-
-            if issparse(Unew)
-                Unew = full(Unew);   % for the case R=1
-            end
-
-            % Normalize each vector to prevent singularities in coefmatrix
-            if iter == 1
-                lambda = sqrt(sum(abs(Unew).^2,1))'; %2-norm
-            else
-                lambda = max( max(abs(Unew),[],1), 1 )'; %max-norm
-            end      
-
-            Unew = bsxfun(@rdivide, Unew, lambda');
-            U_mixed{n} = Unew;
-            if (do_fft)
-                U{n} = real(bsxfun(@times, ifft(Unew), diag_flips{n}));
-            else
-                U{n} = Unew;
+        
+        for e = 1:epochsize            
+            % Iterate over all N modes of the tensor
+            for n = dimorder(1:end)
+                
+                mixinfo.dofft = do_fft;
+                mixinfo.signflips = diag_flips;
+                [Unew, ~, ~]= dense_sample_mttkrp(X_mixed,U_mixed,n,num_samples,mixinfo);
+                
+                if issparse(Unew)
+                    Unew = full(Unew);   % for the case R=1
+                end
+                
+                % Normalize each vector to prevent singularities in coefmatrix
+                if iter == 1
+                    lambda = sqrt(sum(abs(Unew).^2,1))'; %2-norm
+                else
+                    lambda = max( max(abs(Unew),[],1), 1 )'; %max-norm
+                end
+                
+                Unew = bsxfun(@rdivide, Unew, lambda');
+                U_mixed{n} = Unew;
+                if (do_fft)
+                    U{n} = real(bsxfun(@times, ifft(Unew), diag_flips{n}));
+                else
+                    U{n} = Unew;
+                end
             end
         end
 
         P = ktensor(lambda, U);
-        if (mod(iter,printitn)==0 || iter_window > 0)
-            if normX == 0
-                fit = norm(P)^2 - 2 * innerprod(X,P);
-            else
-                Ps = sample_ktensor(P, Xfit_subs);
-                diff_mean = mean((Xfit_vals - Ps).^2);
-                fit = 1 - sqrt(diff_mean*num_elements)/normX;
-            end
-            fitchange = abs(fitold - fit);
-
-            if (iter_window > 0)
-                if fit > maxfit
-                    windowcounter = 0;
-                    maxfit = fit;
-                else
-                    windowcounter = windowcounter + 1;
-                end
-            end
-
-            %SCP convergence criteria
-            if (fit > desired_fit) || (windowcounter > iter_window) || (iter > 1) && ((fitchange < fitchangetol))
-                flag = 0;
-            else
-                flag = 1;
-            end
-            
-            if (mod(iter,printitn)==0) %|| ((printitn>0) && (flag==0))
-                fprintf(' Iter %2d: f = %e f-delta = %7.1e\n', iter, fit, fitchange); 
-            end
-            
-            % Check for convergence
-            if (flag == 0)
-                break;
-            end        
+        if normX == 0
+            fit = norm(P)^2 - 2 * innerprod(X,P);
+        else
+            Pfit_vals = sample_ktensor(P, Xfit_subs);
+            elem_mean = mean((Xfit_vals - Pfit_vals).^2);
+            normDiff = sqrt(elem_mean * num_elements); % Approximate!
+            fit = 1 -  normDiff / normX;
         end
-    end   
+                
+        if fit > maxfit + fitchangetol
+            niwi = 0;
+            maxfit = fit;
+            Psave = P; % Keep the best one seen so far!
+        else
+            niwi = niwi + 1;
+        end
+        
+        if (fit > desired_fit) || (niwi >= window) 
+            flag = 0;
+        else
+            flag = 1;
+        end
+        
+        if (mod(iter,printitn)==0) || ((printitn>0) && (flag==0))
+            fprintf(' Iter %2dx%d: f = %e niwi = %d\n', iter, epochsize, fit, niwi);
+        end
+        
+        % Check for convergence
+        if (flag == 0)
+            break;
+        end
+    end
     %% Clean up final result
     % Arrange the final tensor so that the columns are normalized.
+    P = Psave;
     P = arrange(P);
     P = fixsigns(P); % Fix the signs
 
-    %if printitn>0
-    if normX == 0
-        fit = norm(P)^2 - 2 * innerprod(X,P);
+    if truefit
+        if normX == 0
+            fit = norm(P)^2 - 2 * innerprod(X,P);
+        else
+            normresidual = sqrt( normX^2 + norm(P)^2 - 2 * innerprod(X,P) );
+            fit = 1 - (normresidual / normX);%fraction explained by model
+            Pfit_vals = sample_ktensor(P, Xfit_subs);
+            Xfit_mean = mean((Xfit_vals - Pfit_vals).^2);
+            testfit = 1 - sqrt(Xfit_mean*num_elements)/normX;
+        end
+        if printitn > 0
+            fprintf(' Final fit = %e Final estimated fit = %e \n', fit, testfit);
+        end
     else
-        normresidual = sqrt( normX^2 + norm(P)^2 - 2 * innerprod(X,P) );
-        fit = 1 - (normresidual / normX);%fraction explained by model
-        Ps = sample_ktensor(P, Xfit_subs);
-        Xfit_mean = mean((Xfit_vals - Ps).^2);
-        testfit = 1 - sqrt(Xfit_mean*num_elements)/normX;
-    end
-    if printitn>0
-    fprintf(' Final fit = %e Final estimated fit = %e \n', fit, testfit);
+        fit = -1;
     end
 
     output = struct;
