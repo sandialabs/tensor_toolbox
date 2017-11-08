@@ -24,8 +24,13 @@
 %   uminus    - Unary minus for ttensor.
 %   uplus     - Unary plus for ttensor.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'ttensor_doc.html')))">Documentation page for Tucker tensor class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function t = ttensor(varargin)
 %TTENSOR Tensor stored as a Tucker operator (decomposed).

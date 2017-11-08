@@ -1,4 +1,4 @@
-%SPTENMAT
+%SPTENMAT Store sparse tensor as a sparse matrix.
 %
 %SPTENMAT Methods:
 %   aatx     - Implicitly compute A * A' * x for sptenmat.
@@ -17,8 +17,13 @@
 %   uminus   - Unary minus (-) for sptenmat.
 %   uplus    - Unary plus (+) for sptenmat.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'sptenmat_doc.html')))">Documentation page for sparse tensor-as-matrix class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function a = sptenmat(varargin)
 %SPTENMAT Matricized sparse tensor stored as a sparse 2D array.

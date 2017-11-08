@@ -54,8 +54,21 @@
 %   uplus     - Unary plus (+) for sptensor.
 %   xor       - Logical XOR for sptensors.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'sptensor_doc.html')))">Documentation page for Sparse Tensor Class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%   How to cite the sptensor class:
+%   * BW Bader and TG Kolda. Efficient MATLAB Computations with Sparse
+%     and Factored Tensors, SIAM J Scientific Computing 30:205-231, 2007.
+%     <a href="http:dx.doi.org/10.1137/060676489"
+%     >DOI: 10.1137/060676489</a>. <a href="matlab:web(strcat('file://',...
+%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%     'bibtex.html#TTB_Sparse')))">[BibTeX]</a>
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function t = sptensor(varargin)
 %SPTENSOR Create a sparse tensor.

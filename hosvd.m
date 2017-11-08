@@ -17,13 +17,13 @@ function T = hosvd(X,tol,varargin)
 %      'sequential' - Use sequentially-truncated version: Default: true.
 %      'ranks' - Specify ranks (rather than computing). Default: [].
 %
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   hosvd_doc.html')))">Documentation page for HOSVD</a>
+%
 %   See also TUCKER_ALS, TTENSOR
 %
-%   Additional documentation: <a
-%   href="matlab:p=what('tensor_toolbox');web(strcat('file:',p.path,'/doc/html/T5_hosvd_algorithm_doc.html'))">Computer Tucker via the HOSVD</a>
-%
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 %% Read paramters
 d = ndims(X);

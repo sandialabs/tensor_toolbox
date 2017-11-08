@@ -42,8 +42,13 @@
 %   uplus        - Unary plus for a ktensor. 
 %   viz          - Visualize a ktensor.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'ktensor_doc.html')))">Documentation page for Kruskal tensor class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function t = ktensor(varargin)
 %KTENSOR Tensor stored as a Kruskal operator (decomposed).
