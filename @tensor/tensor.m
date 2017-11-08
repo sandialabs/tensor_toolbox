@@ -57,8 +57,22 @@
 %   uplus       - Unary plus (+) for tensors.
 %   xor         - Logical EXCLUSIVE OR for tensors.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'tensor_doc.html')))">Documentation page for tensor class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%   Reference:
+%   * BW Bader and TG Kolda. Algorithm 862: MATLAB Tensor Classes for Fast
+%     Algorithm Prototyping, ACM Trans Mathematical Software 32:635-653, 2006.
+%     <a href="http://dx.doi.org/10.1145/1186785.1186794"
+%     >DOI:10.1145/1186785.1186794</a>. <a href="matlab:web(strcat('file://',...
+%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%     'bibtex.html#TTB_Dense')))">[BibTeX]</a>
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
+
 
 function t = tensor(varargin)
 %TENSOR Create tensor.
@@ -91,8 +105,7 @@ function t = tensor(varargin)
 %
 %   See also TENSOR, TENSOR/NDIMS.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2015, Sandia Corporation.
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 % This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
 % http://www.sandia.gov/~tgkolda/TensorToolbox.

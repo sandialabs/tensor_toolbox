@@ -15,6 +15,10 @@ function Y = collapse(X,dims,fun)
 %   Y = collapse(X,[2 3]) %<-- sum of entries in each mode-1 slice
 %   Y = collapse(X,[1 2],@max) %<-- max entry in each mode-3 slice
 %
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
+%
 %   See also TENSOR, TENSOR/SCALE.
 %
 %MATLAB Tensor Toolbox.

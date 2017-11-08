@@ -18,8 +18,13 @@
 %   uminus    - Unary minus for sumtensor.
 %   uplus     - Unary plus for sumtensor.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'sumtensor_doc.html')))">Documentation page for sum of tensors class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function t = sumtensor(varargin)
 %SUMTENSOR Tensor stored as sum of tensors.

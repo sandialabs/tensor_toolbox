@@ -18,7 +18,9 @@ sparse, and structured tensors using MATLAB's object-oriented features:
 The Tensor Toolbox for MATLAB is open source, but we ask that you please cite 
 the appropriate references ([listed below](#how-to-cite)) so that we can continue to show the 
 relevance of this work. Your contributions are warmly welcomed as well; please 
-see the [contribution guide](CONTRIBUTION_GUIDE.md).
+see the [contribution guide](CONTRIBUTION_GUIDE.md). 
+Previous contributors are listed in [contributors](CONTRIBUTORS.md). 
+Full details of the license can be found in [license](LICENSE.txt).
 
 ### What's new in Version 3.0?
 
@@ -289,5 +291,5 @@ software, as highlighted in the image below.
 
 ![Navigating MATLAB Help Screen](doc/images/helpscreen.PNG "Navigating MATLAB Help Screen")
 
-
+Copyright 2017, Sandia Corporation.
 
