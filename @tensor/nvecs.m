@@ -19,6 +19,10 @@ function u = nvecs(X,n,r,opts)
 %   X = tensor(randn(3,2,3));
 %   nvecs(X,3,2)
 %
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'nvecs_doc.html')))">Documentation page for n-vecs</a>
+%
 %   See also TENSOR, TENMAT, EIGS.
 %
 %MATLAB Tensor Toolbox.

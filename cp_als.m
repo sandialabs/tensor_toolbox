@@ -1,12 +1,12 @@
 function [P,Uinit,output] = cp_als(X,R,varargin)
 %CP_ALS Compute a CP decomposition of any type of tensor.
 %
-%   P = CP_ALS(X,R) computes an estimate of the best rank-R
+%   M = CP_ALS(X,R) computes an estimate of the best rank-R
 %   CP model of a tensor X using an alternating least-squares
 %   algorithm.  The input X can be a tensor, sptensor, ktensor, or
-%   ttensor. The result P is a ktensor.
+%   ttensor. The result M is a ktensor.
 %
-%   P = CP_ALS(X,R,'param',value,...) specifies optional parameters and
+%   M = CP_ALS(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
 %      'tol' - Tolerance on difference in fit {1.0e-4}
 %      'maxiters' - Maximum number of iterations {50}
@@ -14,12 +14,12 @@ function [P,Uinit,output] = cp_als(X,R,varargin)
 %      'init' - Initial guess [{'random'}|'nvecs'|cell array]
 %      'printitn' - Print fit every n iterations; 0 for no printing {1}
 %
-%   [P,U0] = CP_ALS(...) also returns the initial guess.
+%   [M,U0] = CP_ALS(...) also returns the initial guess.
 %
-%   [P,U0,out] = CP_ALS(...) also returns additional output that contains
+%   [M,U0,out] = CP_ALS(...) also returns additional output that contains
 %   the input parameters.
 %
-%   Note: The "fit" is defined as 1 - norm(X-full(P))/norm(X) and is
+%   Note: The "fit" is defined as 1 - norm(X-full(M))/norm(X) and is
 %   loosely the proportion of the data described by the CP model, i.e., a
 %   fit of 1 is perfect.
 %
@@ -29,12 +29,16 @@ function [P,Uinit,output] = cp_als(X,R,varargin)
 %
 %   Examples:
 %   X = sptenrand([5 4 3], 10);
-%   P = cp_als(X,2);
-%   P = cp_als(X,2,'dimorder',[3 2 1]);
-%   P = cp_als(X,2,'dimorder',[3 2 1],'init','nvecs');
-%   U0 = {rand(5,2),rand(4,2),[]}; %<-- Initial guess for factors of P
-%   [P,U0,out] = cp_als(X,2,'dimorder',[3 2 1],'init',U0);
-%   P = cp_als(X,2,out.params); %<-- Same params as previous run
+%   M = cp_als(X,2);
+%   M = cp_als(X,2,'dimorder',[3 2 1]);
+%   M = cp_als(X,2,'dimorder',[3 2 1],'init','nvecs');
+%   U0 = {rand(5,2),rand(4,2),[]}; %<-- Initial guess for factors of M
+%   [M,U0,out] = cp_als(X,2,'dimorder',[3 2 1],'init',U0);
+%   M = cp_als(X,2,out.params); %<-- Same params as previous run
+%
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'cp_als_doc.html')))">Documentation page for CP-ALS</a>
 %
 %   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR.
 %
@@ -57,11 +61,11 @@ normX = norm(X);
 
 %% Set algorithm parameters from input or by using defaults
 params = inputParser;
-params.addParamValue('tol',1e-4,@isscalar);
-params.addParamValue('maxiters',50,@(x) isscalar(x) & x > 0);
-params.addParamValue('dimorder',1:N,@(x) isequal(sort(x),1:N));
-params.addParamValue('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
-params.addParamValue('printitn',1,@isscalar);
+params.addParameter('tol',1e-4,@isscalar);
+params.addParameter('maxiters',50,@(x) isscalar(x) & x > 0);
+params.addParameter('dimorder',1:N,@(x) isequal(sort(x),1:N));
+params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
+params.addParameter('printitn',1,@isscalar);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -79,7 +83,7 @@ if iscell(init)
     if numel(Uinit) ~= N
         error('OPTS.init does not have %d cells',N);
     end
-    for n = dimorder(2:end);
+    for n = dimorder(2:end)
         if ~isequal(size(Uinit{n}),[size(X,n) R])
             error('OPTS.init{%d} is the wrong size',n);
         end

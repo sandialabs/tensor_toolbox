@@ -18,7 +18,9 @@ sparse, and structured tensors using MATLAB's object-oriented features:
 The Tensor Toolbox for MATLAB is open source, but we ask that you please cite 
 the appropriate references ([listed below](#how-to-cite)) so that we can continue to show the 
 relevance of this work. Your contributions are warmly welcomed as well; please 
-see the [contribution guide](CONTRIBUTION_GUIDE.md).
+see the [contribution guide](CONTRIBUTION_GUIDE.md). 
+Previous contributors are listed in [contributors](CONTRIBUTORS.md). 
+Full details of the license can be found in [license](LICENSE.txt).
 
 ### What's new in Version 3.0?
 
@@ -34,7 +36,6 @@ We have also fixed many bugs. View the [RELEASE_NOTES.txt](RELEASE_NOTES.txt) fi
 
 If you have used the Tensor Toolbox in your work in any way, 
 please cite the software itself along with at least one publication or preprint. 
-BibTeX for each item can be seen by clicking "[BibTeX]". 
 Thanks very much for your support.
 
 __General software reference, should always be cited:__
@@ -42,14 +43,18 @@ Brett W. Bader, Tamara G. Kolda and others.
 MATLAB Tensor Toolbox Version 3.0-dev, 
 Available online, August 2017. 
 URL: https://gitlab.com/tensors/tensor_toolbox. 
-_Consider adding short hash for the exact version that was used._ 
+_Consider adding the short hash for the exact version that was used. 
+If you clone the repository, use the command 
+`git log --pretty=format:'%h' -n 1`. 
+If you download, the long hash is baked into the filename, but you need only use 
+the first 8 characters._ 
 
 ``` bibtex
 @misc{TTB_Software,
   author = {Brett W. Bader and Tamara G. Kolda and others},
   title = {MATLAB Tensor Toolbox Version 3.0-dev},
   howpublished = {Available online},
-  month = {August},
+  month = aug,
   year = {2017},
   url = {https://gitlab.com/tensors/tensor_toolbox}
 }
@@ -66,7 +71,7 @@ DOI: 10.1145/1186785.1186794.
   author = {Brett W. Bader and Tamara G. Kolda},
   title = {Algorithm 862: {MATLAB} tensor classes for fast algorithm prototyping},
   journal = {ACM Transactions on Mathematical Software},
-  month = {December},
+  month = dec,
   year = {2006},
   volume = {32},
   number = {4},
@@ -85,30 +90,12 @@ SIAM Journal on Scientific Computing 30(1):205-231, December 2007. DOI: 10.1137/
   author = {Brett W. Bader and Tamara G. Kolda},
   title = {Efficient {MATLAB} computations with sparse and factored tensors},
   journal = {SIAM Journal on Scientific Computing},
-  month = {December},
+  month = dec,
   year = {2007},
   volume = {30},
   number = {1},
   pages = {205--231},
   doi = {10.1137/060676489}
-}
-```
-
-__Citation for Memory-Efficient Tucker (`tucker_me` and `ttm_me`):__
-T. G. Kolda and J. Sun.
-Scalable Tensor Decompositions for Multi-aspect Data Mining,
-ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining,
-pp. 363-372, December 2008. DOI: 10.1109/ICDM.2008.89.
-
-``` bibtex
-@inproceedings{TTB_MET,
-  author = {Tamara G. Kolda and Jimeng Sun},
-  title = {Scalable Tensor Decompositions for Multi-aspect Data Mining},
-  booktitle = {ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining},
-  month = {December},
-  year = {2008},
-  pages = {363--372},
-  doi = {10.1109/ICDM.2008.89}
 }
 ```
 
@@ -122,7 +109,7 @@ Journal of Chemometrics 25(2):67-86, February 2011. DOI: 10.1002/cem.1335.
   author = {Evrim Acar and Daniel M. Dunlavy and Tamara G. Kolda},
   title = {A Scalable Optimization Approach for Fitting Canonical Tensor Decompositions},
   journal = {Journal of Chemometrics},
-  month = {February},
+  month = feb,
   year = {2011},
   volume = {25},
   number = {2},
@@ -142,7 +129,7 @@ DOI: 10.1016/j.chemolab.2010.08.004.
   author = {Evrim Acar and Daniel M. Dunlavy and Tamara G. Kolda and Morten M{\o}rup},
   title = {Scalable Tensor Factorizations for Incomplete Data},
   journal = {Chemometrics and Intelligent Laboratory Systems},
-  month = {March},
+  month = mar,
   year = {2011},
   volume = {106},
   number = {1},
@@ -161,7 +148,7 @@ SIAM Journal on Matrix Analysis and Applications 32(4):1095-1124, October 2011. 
   author = {Tamara G. Kolda and Jackson R. Mayo},
   title = {Shifted Power Method for Computing Tensor Eigenpairs},
   journal = {SIAM Journal on Matrix Analysis and Applications},
-  month = {October},
+  month = oct,
   year = {2011},
   volume = {32},
   number = {4},
@@ -236,7 +223,7 @@ journal = {Mathematical Programming B},
 volume = {151}, 
 number = {1}, 
 pages = {225-248}, 
-month = {April}, 
+month = apr, 
 year = {2015},
 doi = {10.1007/s10107-015-0895-0},
 }
@@ -251,12 +238,35 @@ arXiv:1701.06600, January 2017
 @misc{TTB_CPRALS,  
 author = {Casey Battaglino and Grey Ballard and Tamara G. Kolda}, 
 title = {A Practical Randomized {CP} Tensor Decomposition}, 
-month = {January}, 
+month = jan, 
 year = {2017},
 eprint = {1701.06600},
 eprintclass = {cs.NA},
 }
 ```
+
+
+__Citation for Memory-Efficient Tucker (`tucker_me` and `ttm_me`):__
+T. G. Kolda and J. Sun.
+Scalable Tensor Decompositions for Multi-aspect Data Mining,
+ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining,
+pp. 363-372, December 2008. DOI: 10.1109/ICDM.2008.89.
+_This code is no longer included with the toolbox but can be found in 
+Version 2.6._
+
+``` bibtex
+@inproceedings{TTB_MET,
+  author = {Tamara G. Kolda and Jimeng Sun},
+  title = {Scalable Tensor Decompositions for Multi-aspect Data Mining},
+  booktitle = {ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining},
+  month = dec,
+  year = {2008},
+  pages = {363--372},
+  doi = {10.1109/ICDM.2008.89}
+}
+```
+
+
 ## Getting started and using the software
 
 ### Download
@@ -281,5 +291,5 @@ software, as highlighted in the image below.
 
 ![Navigating MATLAB Help Screen](doc/images/helpscreen.PNG "Navigating MATLAB Help Screen")
 
-
+Copyright 2017, Sandia Corporation.
 

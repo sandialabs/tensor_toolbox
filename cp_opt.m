@@ -36,8 +36,9 @@ function [P, P0, output] = cp_opt(Z,R,varargin)
 %   Optimization Approach for Fitting Canonical Tensor Decompositions,
 %   J. Chemometrics 25(2):67-86, February 2011 (doi:10.1002/cem.1335)
 %
-%   For example usage, see the <a href="matlab:doc('tensor_toolbox')">documentation for the tensor_toolbox</a> 
-%   and click on "All-at-once optimization for CP tensor decomposition".
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'cp_opt_doc.html')))">Documentation page for CP-OPT</a>
 %
 %   See also TENSOR, SPTENSOR, KTENSOR.
 %
@@ -70,8 +71,8 @@ end
 
 %% Set parameters
 params = inputParser;
-params.addParamValue('alg', 'ncg', @(x) ismember(x,{'ncg','tn','lbfgs'}));
-params.addParamValue('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
+params.addParameter('alg', 'ncg', @(x) ismember(x,{'ncg','tn','lbfgs'}));
+params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
 params.addOptional('alg_options', '', @isstruct);
 params.parse(varargin{:});
 

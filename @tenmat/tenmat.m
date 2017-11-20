@@ -18,8 +18,13 @@
 %   uminus     - Unary minus (-) for tenmat.
 %   uplus      - Unary plus (+) for tenmat.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'tenmat_doc.html')))">Documentation page for tensor-as-matrix class</a>
+%
+%   See also TENSOR_TOOLBOX
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function A = tenmat(varargin)
 %TENMAT Create a matricized tensor.

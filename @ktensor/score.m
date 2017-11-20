@@ -47,6 +47,11 @@ function [best_score, A, flag, best_perm] = score(A,B,varargin)
 %   score(A, B, 'greedy', false) %<--Check all permutations
 %   score(A, B, 'lambda_penalty', false) %<--Without lambda penalty
 %
+%   This method is described in G. Tomasi and R. Bro, A Comparison of
+%   Algorithms for Fitting the PARAFAC Model, Computational Statistics &
+%   Data Analysis, Vol. 50, No. 7, pp. 1700-1734, April 2006,
+%   doi:10.1016/j.csda.2004.11.013.
+%  
 %   See also KTENSOR.
 %
 %MATLAB Tensor Toolbox.
