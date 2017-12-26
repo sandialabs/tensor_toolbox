@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-12"><meta name="DC.source" content="cp_als_doc.m"><style type="text/css">
+      --><title>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-26"><meta name="DC.source" content="cp_als_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -108,9 +108,9 @@ CP_ALS:
  Iter 35: f = 9.743319e-01 f-delta = 1.1e-04
  Iter 36: f = 9.744252e-01 f-delta = 9.3e-05
  Final f = 9.744252e-01 
-</pre><p>We typically can achieve a final fit of f = 0.97. The method stops when the change in the fit becomes less than the specified tolerance, which defaults to 1-e4.</p><h2 id="4">Visualize the results</h2><p>Use the <tt>ktensor/viz</tt> function to visualize the results.</p><pre class="codeinput">vizopts = {<span class="string">'Plottype'</span>,{<span class="string">'bar'</span>,<span class="string">'line'</span>,<span class="string">'line'</span>},<span class="keyword">...</span>
-    <span class="string">'Modetitles'</span>,{<span class="string">'Concentration'</span>,<span class="string">'Emission'</span>,<span class="string">'Excitation'</span>},<span class="keyword">...</span>
-    <span class="string">'Factortitle'</span>,<span class="string">'Weight'</span>,<span class="string">'Vspacebottom'</span>,0.10,<span class="string">'Hspace'</span>,0.04,<span class="string">'Hspaceleft'</span>,0.08};
+</pre><p>We typically can achieve a final fit of f = 0.97. The method stops when the change in the fit becomes less than the specified tolerance, which defaults to 1-e4.</p><h2 id="4">Visualize the results</h2><p>Use the <tt>ktensor/viz</tt> function to visualize the results.</p><pre class="codeinput">vizopts = {<span class="string">'PlotCommands'</span>,{<span class="string">'bar'</span>,<span class="string">'line'</span>,<span class="string">'line'</span>},<span class="keyword">...</span>
+    <span class="string">'ModeTitles'</span>,{<span class="string">'Concentration'</span>,<span class="string">'Emission'</span>,<span class="string">'Excitation'</span>},<span class="keyword">...</span>
+    <span class="string">'BottomSpace'</span>,0.10,<span class="string">'HorzSpace'</span>,0.04,<span class="string">'Normalize'</span>,0};
 info1 = viz(M1,<span class="string">'Figure'</span>,1,vizopts{:});
 </pre><img vspace="5" hspace="5" src="cp_als_doc_01.png" alt=""> <h2 id="5">Run again with a different initial guess, output the initial guess.</h2><p>This time we have two outputs. The first output is the solution as a ktensor. The second output is a cell array containing the initial guess. Since the first mode is not needed, it is omitted from the cell array.</p><pre class="codeinput">[M2bad,U2] = cp_als(X,3);
 </pre><pre class="codeoutput">
@@ -437,11 +437,10 @@ M1 = cp_als(X,3); %<- Call the method
 
 %% Visualize the results
 % Use the |ktensor/viz| function to visualize the results.
-vizopts = {'Plottype',{'bar','line','line'},...
-    'Modetitles',{'Concentration','Emission','Excitation'},...
-    'Factortitle','Weight','Vspacebottom',0.10,'Hspace',0.04,'Hspaceleft',0.08};
+vizopts = {'PlotCommands',{'bar','line','line'},...
+    'ModeTitles',{'Concentration','Emission','Excitation'},...
+    'BottomSpace',0.10,'HorzSpace',0.04,'Normalize',0};
 info1 = viz(M1,'Figure',1,vizopts{:});
-
 
 %% Run again with a different initial guess, output the initial guess.
 % This time we have two outputs. The first output is the solution as a
