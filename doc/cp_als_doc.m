@@ -32,11 +32,10 @@ M1 = cp_als(X,3); %<- Call the method
 
 %% Visualize the results
 % Use the |ktensor/viz| function to visualize the results.
-vizopts = {'Plottype',{'bar','line','line'},...
-    'Modetitles',{'Concentration','Emission','Excitation'},...
-    'Factortitle','Weight','Vspacebottom',0.10,'Hspace',0.04,'Hspaceleft',0.08};
+vizopts = {'PlotCommands',{'bar','line','line'},...
+    'ModeTitles',{'Concentration','Emission','Excitation'},...
+    'BottomSpace',0.10,'HorzSpace',0.04,'Normalize',0};
 info1 = viz(M1,'Figure',1,vizopts{:});
-
 
 %% Run again with a different initial guess, output the initial guess.
 % This time we have two outputs. The first output is the solution as a
