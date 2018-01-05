@@ -28,8 +28,13 @@
 %   uminus      - Unary minus for symktensor. 
 %   uplus       - Unary plus for a symktensor. 
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'symktensor_doc.html')))">Documentation page for symmetric Kruskal tensor class</a>
+%
+%   See also TENSOR_TOOLBOX, SYMTENSOR
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function t = symktensor(varargin)
 %SYMKTENSOR Tensor stored as a symmetric Kruskal operator (decomposed).

@@ -1,8 +1,8 @@
-% Tensor Toolbox (Sandia National Labs)
-% Version 3.0-dev 12-Aug-2017
-% Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
+%Tensor Toolbox (Sandia National Labs)
+%Version 3.0-dev 09-Sep-2017
+%Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
-% Tensor Toolbox Classes:
+%Tensor Toolbox Classes:
 %   tensor     - Dense tensor.
 %   sptensor   - Sparse tensor.
 %   symtensor  - Symmetric tensor.
@@ -13,7 +13,7 @@
 %   tenmat     - Tensor as matrix.
 %   sptenmat   - Sparse tensor as matrix.
 % 
-% Tensor Toolbox Functions:
+%Tensor Toolbox Functions:
 %   cp_als         - Compute a CP decomposition of any type of tensor.
 %   cp_apr         - Compute nonnegative CP with alternating Poisson regression.
 %   cp_nmu         - Compute nonnegative CP with multiplicative updates.
@@ -44,3 +44,28 @@
 %   tt_sub2ind     - Converts multidimensional subscripts to linear indices.
 %   tucker_als     - Higher-order orthogonal iteration.
 %   tucker_sym     - Symmetric Tucker approximation.
+%
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'index.html')))">Documentation page for Tensor Toolbox</a>
+%
+%   References:
+%   * BW Bader, TG Kolda, et al. Tensor Toolbox for MATLAB, Ver 3.0-DEV, 2017.
+%     <a href="http://www.tensortoolbox.org">http://www.tensortoolbox.org</a>. <a
+%     href="matlab:web(strcat('file://',...
+%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%     'bibtex.html#TTB_Software')))">[BibTeX]</a>
+%   * BW Bader and TG Kolda. Algorithm 862: MATLAB Tensor Classes for Fast
+%     Algorithm Prototyping, ACM Trans Mathematical Software 32:635-653, 2006.
+%     <a href="http://dx.doi.org/10.1145/1186785.1186794"
+%     >DOI:10.1145/1186785.1186794</a>. <a href="matlab:web(strcat('file://',...
+%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%     'bibtex.html#TTB_Dense')))">[BibTeX]</a>
+%   * BW Bader and TG Kolda. Efficient MATLAB Computations with Sparse
+%     and Factored Tensors, SIAM J Scientific Computing 30:205-231, 2007.
+%     <a href="http:dx.doi.org/10.1137/060676489"
+%     >DOI: 10.1137/060676489</a>. <a href="matlab:web(strcat('file://',...
+%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%     'bibtex.html#TTB_Sparse')))">[BibTeX]</a>
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.

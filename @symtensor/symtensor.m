@@ -36,8 +36,13 @@
 %   uplus       - Unary plus (+) for symmetric tensors.
 %   xor         - Logical EXCLUSIVE OR for symmetric tensors.
 %
-% See also
-%   TENSOR_TOOLBOX
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'symtensor_doc.html')))">Documentation page for symmetric tensor class</a>
+%
+%   See also TENSOR_TOOLBOX, TENSOR/SYMMETRIZE, SYMKTENSOR, CP_SYM
+%
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 function [t,I] = symtensor(varargin)
 %SYMTENSOR Symmetric tensor that stores only the unique values.
@@ -66,12 +71,9 @@ function [t,I] = symtensor(varargin)
 %   S = symtensor(@rand,3,7); % Random, order 3, dim 7
 %   S = symtensor(@ones,4,7); % Ones of order 4, dim 7
 %
-%   <a href="matlab:p=what('tensor_toolbox');web(strcat('file:',p.path,'/doc/html/A3_symtensor_doc.html'))">Reference web page for symtensor class</a>
-%
 %   See also TENSOR/SYMMETRIZE, SYMKTENSOR, CP_SYM
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
 % This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
 % http://www.sandia.gov/~tgkolda/TensorToolbox.

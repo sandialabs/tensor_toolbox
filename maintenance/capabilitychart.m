@@ -35,12 +35,15 @@ end
 
 %% Print out results
 cnl = cellfun(@length,classnames);
-fprintf('function     ');
-for i = 1:nclasses
-    fprintf('%s ', classnames{i});
-end
-fprintf('\n');
+
 for i = 1:nfunctions
+    if mod(i,20)==1
+        fprintf('function     ');
+        for i = 1:nclasses
+            fprintf('%s ', classnames{i});
+        end
+        fprintf('\n');
+    end
     fprintf('%-12s', functionnames{i});
     for j = 1:nclasses
         for k = 1:4
