@@ -141,7 +141,7 @@ for k = 1:nd
     elseif strcmpi(PlotCommands{k},'bar')
         PlotCommands{k} = @(x,y) bar(x,y,'EdgeColor','b','FaceColor','b');
     elseif strcmpi(PlotCommands{k},'scatter')
-        PlotCommands{k} = @(x,y) bar(x,y,10,'b','filled');
+        PlotCommands{k} = @(x,y) scatter(x,y,10,'b','filled');
     end
 end
         

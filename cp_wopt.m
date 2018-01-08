@@ -121,7 +121,7 @@ else
         end
     else
         for n=1:N
-            P0{n} = matrandnorm(feval(init,n,R));
+            P0{n} = matrandnorm(feval(init,sz(n),R));
         end
     end
 end
