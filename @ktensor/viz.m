@@ -40,9 +40,9 @@ function info = viz(K, varargin)
 %   'width' - Width of each plot (as a proportion in [0,1]).
 %   'ModeTitles' - Handles for the D mode titles.
 %   'GlobalAxis' - Handle for main axes in which all others are embedded.
-%   'FactorAxes' - R x D array of handles for the subfigure axes.
+%   'FactorAxes' - D x R array of handles for the subfigure axes.
 %   'ModeTitleHandles' - D-array of the handles to the mode titles (on the top).
-%   'CompTitleHandles' - F-array of hanldes to the factor titles (on the left).
+%   'CompTitleHandles' - R-array of handles to the factor titles (on the left).
 %   'PlotHandles'- D x R array of handles to the figures for each factor.
 %
 %   Examples:
@@ -234,7 +234,7 @@ else
 end
 
 %% Print component titles along the left side
-CompTitleHanldes = gobjects(nc,1);
+CompTitleHandles = gobjects(nc,1);
 if ~strcmpi(res.FactorTitles,'none')
     axes(GlobalAxis);
     rellambda = abs (K.lambda / K.lambda(1));
@@ -246,8 +246,8 @@ if ~strcmpi(res.FactorTitles,'none')
         else
             txt = sprintf('%d', j);
         end
-        CompTitleHanldes(j) = text(xpos,ypos,txt,'VerticalAlignment','Middle','HorizontalAlignment','Right');
-        set(CompTitleHanldes(j),'FontSize',14)
+        CompTitleHandles(j) = text(xpos,ypos,txt,'VerticalAlignment','Middle','HorizontalAlignment','Right');
+        set(CompTitleHandles(j),'FontSize',14)
     end
 end
 %% Save stuff to return
@@ -256,6 +256,6 @@ info.width = width;
 info.GlobalAxis = GlobalAxis;
 info.FactorAxes = FactorAxes;
 info.ModeTitleHandles = ModeTitleHandles;
-info.CompTitleHandles = CompTitleHanldes;
+info.CompTitleHandles = CompTitleHandles;
 info.PlotHandles = h;
 
