@@ -23,6 +23,10 @@ function [P, P0, output] = cp_wopt(Z,W,R,varargin)
 %      'zeros'  All zeros
 %      'nvecs'  Selected as leading left singular vectors of X(n)
 %
+%   'opt' - Optimization method, defaults to 'lbfgsb' which is
+%   bound-constrained L-BFGS-B. See the full documentation for other
+%   options.
+%
 %   'opt_options' - Optimization method options, passed as a structure.
 %   Type 'help lbfgsb' to see the options. (Note that the 'opts.x0' option
 %   is overwritten using the choice for 'init', above.) 
@@ -101,8 +105,8 @@ if do_zeroing
     tic;
     Z = Z.*W;
     ztime = toc;
-    fprintf('Total time for zeroing is %g seconds. ', ztime);
-    fprintf('(If this is done in preprocessing, set ''skip_zeroing'' to false.)\n');
+    fprintf('Time for zeroing out masked entries of data tensor is %.2e seconds.\n', ztime);
+    fprintf('(If zeroing is done in preprocessing, set ''skip_zeroing'' to true.)\n');
 end
 
 %% Initialization
@@ -202,6 +206,7 @@ if use_lbfgsb
     [xx,ff,out] = lbfgsb(funhandle, lower, upper, opts);
     P = ktensor(tt_cp_vec_to_fac(xx, Z));
     output.ExitMsg = out.lbfgs_message1;
+    output.f = ff;
     %output.Fit = 100 * (1 - ff /(0.5 * normZsqr));
     output.OptOut = out;
 else
