@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Weighted optimization for CP tensor decomposition with incomplete data</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-11-20"><meta name="DC.source" content="cp_wopt_poblano_doc.m"><style type="text/css">
+      --><title>Weighted optimization for CP tensor decomposition with incomplete data</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-04-02"><meta name="DC.source" content="cp_wopt_poblano_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -118,12 +118,24 @@ ncg_opts =
 
 </pre><h2 id="5">Call the <tt>cp_wopt</tt> method</h2><p>Here is an example call to the cp_opt method. By default, each iteration prints the least squares fit function value (being minimized) and the norm of the gradient. The meaning of any line search warnings can be checked via <a href="matlab:doc('cvsrch')">doc cvsrch</a>.</p><pre class="codeinput">[M,~,output] = cp_wopt(X, P, R, <span class="string">'init'</span>, M_init, <span class="keyword">...</span>
     <span class="string">'opt'</span>, <span class="string">'ncg'</span>, <span class="string">'opt_options'</span>, ncg_opts);
-</pre><pre class="codeoutput"> Iter  FuncEvals       F(X)          ||G(X)||/N        
+</pre><pre class="codeoutput">Running CP-WOPT...
+Time for zeroing out masked entries of data tensor is 7.52e-04 seconds.
+(If zeroing is done in preprocessing, set 'skip_zeroing' to true.)
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
 ------ --------- ---------------- ----------------
-     0         1     374.26790941       0.65590926
-    10        46       3.57726689       0.00336129
-    20        67       3.57690364       0.00000328
-    23        73       3.57690364       0.00000045
+     0         1      42.12686745       0.23070139
+    10        37       3.20399740       0.01068598
+    20        74       1.86647166       0.01496155
+    30       102       1.75795458       0.00124314
+    40       122       1.75699489       0.00030707
+    50       164       1.59387469       0.03315542
+    60       202       0.62497618       0.03131283
+    70       229       0.34450247       0.00826425
+    80       254       0.31352609       0.00161307
+    90       275       0.31288321       0.00018934
+   100       295       0.31287112       0.00003616
+   110       315       0.31287061       0.00000820
+   120       335       0.31287058       0.00000100
 </pre><h2 id="6">Check the output</h2><p>It's important to check the output of the optimization method. In particular, it's worthwhile to check the exit flag. A zero (0) indicates successful termination with the gradient smaller than the specified StopTol, and a three (3) indicates a successful termination where the change in function value is less than RelFuncTol. The meaning of any other flags can be checked via <a href="matlab:doc('poblano_params')">doc poblano_params</a>.</p><pre class="codeinput">exitflag = output.ExitFlag
 </pre><pre class="codeoutput">
 exitflag =
@@ -134,7 +146,7 @@ exitflag =
 </pre><pre class="codeoutput">
 scr =
 
-    0.9970
+    0.9841
 
 </pre><h2 id="8">Create a SPARSE example problem with missing data.</h2><p>Here we have 95% missing data and 10% noise.</p><pre class="codeinput">R = 2;
 info = create_problem(<span class="string">'Size'</span>, [150 100 50], <span class="string">'Num_Factors'</span>, R, <span class="keyword">...</span>
@@ -188,14 +200,23 @@ ncg_opts =
 
 </pre><h2 id="11">Call the <tt>cp_wopt</tt> method</h2><p>Here is an example call to the cp_opt method. By default, each iteration prints the least squares fit function value (being minimized) and the norm of the gradient. The meaning of any line search warnings can be checked via <a href="matlab:doc('cvsrch')">doc cvsrch</a>.</p><pre class="codeinput">[M,~,output] = cp_wopt(X, P, R, <span class="string">'init'</span>, M_init, <span class="keyword">...</span>
     <span class="string">'opt'</span>, <span class="string">'ncg'</span>, <span class="string">'opt_options'</span>, ncg_opts);
-</pre><pre class="codeoutput"> Iter  FuncEvals       F(X)          ||G(X)||/N        
+</pre><pre class="codeoutput">Running CP-WOPT...
+Time for zeroing out masked entries of data tensor is 3.01e-02 seconds.
+(If zeroing is done in preprocessing, set 'skip_zeroing' to true.)
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
 ------ --------- ---------------- ----------------
-     0         1    3426.39943675       0.03843106
-    10        56     857.87769452       0.01116724
-    20        96     853.52691691       0.02914402
-    30       152      58.61174326       0.10260668
-    40       183      33.31175483       0.00006238
-    48       199      33.31174452       0.00000077
+     0         1     561.51059983       0.01729762
+    10        51      17.54710510       0.00825676
+    20        82      16.81335392       0.00164784
+    30       112      16.63583752       0.00182422
+    40       149      16.09905940       0.00369331
+    50       186      12.61496613       0.01236469
+    60       223       5.78600003       0.00503093
+    70       251       5.42873077       0.00059175
+    80       274       5.42075260       0.00006912
+    90       294       5.42061561       0.00001694
+   100       314       5.42061124       0.00000194
+   102       318       5.42061122       0.00000084
 </pre><h2 id="12">Check the output</h2><p>It's important to check the output of the optimization method. In particular, it's worthwhile to check the exit flag. A zero (0) indicates successful termination with the gradient smaller than the specified StopTol, and a three (3) indicates a successful termination where the change in function value is less than RelFuncTol. The meaning of any other flags can be checked via <a href="matlab:doc('poblano_params')">doc poblano_params</a>.</p><pre class="codeinput">exitflag = output.ExitFlag
 </pre><pre class="codeoutput">
 exitflag =
@@ -206,7 +227,7 @@ exitflag =
 </pre><pre class="codeoutput">
 scr =
 
-    0.9993
+    0.9972
 
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
