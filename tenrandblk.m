@@ -15,8 +15,7 @@ function G = tenrandblk(bsz, bns, verbose)
 %
 %   See also CREATE_PROBLEM
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
 
 %% Check inputs
 

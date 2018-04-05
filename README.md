@@ -244,8 +244,6 @@ eprint = {1701.06600},
 eprintclass = {cs.NA},
 }
 ```
-
-
 __Citation for Memory-Efficient Tucker (`tucker_me` and `ttm_me`):__
 T. G. Kolda and J. Sun.
 Scalable Tensor Decompositions for Multi-aspect Data Mining,
