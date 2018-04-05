@@ -5,7 +5,7 @@ Primary POC: Tamara G. Kolda, tgkolda@sandia.gov
 * Brett W. Bader - Original author
 * Grey Ballard - Various fixes
 * Robert Bassett - Cleaning up symmetric tensor methods and classes (`cp_sym`, `symtensor`, `symktensor`)
-* Casey Battaglino - Randomized CP (`cp_als_rand`)
+* Casey Battaglino - Randomized CP (`cp_arls`)
 * Eric C. Chi - Alternating Poisson Regression with Mulitplicative Updates (`cp_apr`)
 * Daniel M. Dunlavy - CP with optimization and missing data (`cp_opt`, `cp_wopt`)
 * Samantha Hansen - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
