@@ -13,3 +13,4 @@ Primary POC: Tamara G. Kolda, tgkolda@sandia.gov
 * Todd Plantenga - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * Jimeng Sun - Memory-efficient Tucker (distributed with version 2.6 or earlier)
 * Alex Williams - Ktensor/viz method (`ktensor/viz`)
+* Shaden Smith - Faster fitness computation in `cp_als`.
