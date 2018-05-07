@@ -102,6 +102,9 @@ end
 U = Uinit;
 fit = 0;
 
+% Store the last MTTKRP result to accelerate fitness computation.
+U_mttkrp = zeros(size(X, dimorder(end)), R);
+
 if printitn>0
   fprintf('\nCP_ALS:\n');
 end
@@ -132,6 +135,10 @@ else
             
             % Calculate Unew = X_(n) * khatrirao(all U except n, 'r').
             Unew = mttkrp(X,U,n);
+            % Save the last MTTKRP result for fitness check.
+            if n == dimorder(end)
+              U_mttkrp = Unew;
+            end
             
             % Compute the matrix of coefficients for linear system
             Y = prod(UtU(:,:,[1:n-1 n+1:N]),3);
@@ -154,10 +161,13 @@ else
         end
         
         P = ktensor(lambda,U);
+
+        % This is equivalent to innerprod(X,P).
+        iprod = sum(sum(P.U{dimorder(end)} .* U_mttkrp) .* lambda');
         if normX == 0
-            fit = norm(P)^2 - 2 * innerprod(X,P);
+            fit = norm(P)^2 - 2 * iprod;
         else
-            normresidual = sqrt( normX^2 + norm(P)^2 - 2 * innerprod(X,P) );
+            normresidual = sqrt( normX^2 + norm(P)^2 - 2 * iprod );
             fit = 1 - (normresidual / normX); %fraction explained by model
         end
         fitchange = abs(fitold - fit);
