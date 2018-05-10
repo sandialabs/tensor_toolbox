@@ -24,7 +24,8 @@ if ~exist('name','var')
 end
 
 fprintf('%s is a ktensor of size %s\n', name, tt_size2str(size(t)));
-fprintf('\t%s.lambda = %s\n',name, ['[ ' num2str(t.lambda') ' ]'] );
+output = tt_matrix2cellstr(t.lambda');
+fprintf('\t%s.lambda = [ %s ]\n',name, output{:});
 
 if (ndims(t) > 0)
     for j = 1 : ndims(t)
