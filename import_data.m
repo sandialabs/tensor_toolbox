@@ -100,7 +100,7 @@ data = fscanf(fid, '%e', n);
 
 function [subs, vals] = import_sparse_array(fid, n, nz)
 % Import sparse data subs and vals from coordinate format data
-data = textscan(fid,[repmat('%d',1,n) '%n']);
+data = textscan(fid,[repmat('%f',1,n) '%n']);
 subs = cell2mat(data(1:n));
 vals = data{n+1};
 if (size(subs,1) ~= nz)
