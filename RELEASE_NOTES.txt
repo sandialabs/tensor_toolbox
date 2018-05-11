@@ -19,6 +19,7 @@ Changes from Version 2.6 (February 6, 2015)
   squares fitting for the CP decomposition per Battaglino et al.
 - Removed memory-efficient Tucker (met) code.
 - Fixed formatting of lambda in ktensor/disp.
+- Fixed type of subs in import_data for sptensor data.
 
 ============================================
 Changes from Version 2.5 (February 1, 2012)
