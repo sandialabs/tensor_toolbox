@@ -27,7 +27,7 @@ Update `RELEASE_NOTES.txt` with any significant bug fixes or additions.
 Update `CONTRIBUTORS.md` with your name and a brief description of the contributions.
 
 - [ ] **Pass All Tests**
-Confirm that all tests (including exsiting tests) pass in `tests` directory.
+Confirm that all tests (including existing tests) pass in `tests` directory.
 
 - [ ] **Merge Request** At any point, create a work-in-progress merge request, referencing the issue number and with this checklist and WIP in the header.
 
