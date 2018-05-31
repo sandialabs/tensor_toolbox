@@ -1,4 +1,4 @@
-function [best_score, A, flag, best_perm] = score(A,B,varargin)
+function [best_score, A, flag, best_perm] = score_new(A,B,varargin)
 %SCORE Checks if two ktensors match except for permutation.
 %   
 %   SCORE(A,B) returns the score of the match between A and B where
@@ -36,9 +36,10 @@ function [best_score, A, flag, best_perm] = score(A,B,varargin)
 %      'threshold' - Threshold specified in the formula above for
 %      determining a match. Default: 0.99^N where N = ndims(A)
 %
-%      'greedy' - Boolean indicating whether or not to consider all
-%      possible matchings (exponentially expensive) or just do a greedy
-%      matching. Default: true
+%      'greedy' - Boolean indicating whether or not to solve the problem
+%      exactly or just do a greedy matching. Default: false
+%      The exact algorithm uses a weighted bipartite matching local
+%      function.
 %
 %   Examples
 %   A = ktensor([2; 1; 2], rand(3,3), rand(4,3), rand(5,3));
@@ -66,6 +67,7 @@ function [best_score, A, flag, best_perm] = score(A,B,varargin)
 % The full license terms can be found in the file LICENSE.txt
 
 %  E. Acar & T. Kolda, 2010.
+%  Update by G. Ballard, B. Cobb, & S. Ma 2018
 
 %% Make sure A and B are ktensors
 if ~isa(A,'ktensor')
@@ -92,9 +94,9 @@ end
 
 %% Parse parameters
 params = inputParser;
-params.addParamValue('lambda_penalty', true, @islogical);
-params.addParamValue('greedy', true, @islogical);
-params.addParamValue('threshold', 0.99^N, @(x)(x<1));
+params.addParameter('lambda_penalty', true, @islogical);
+params.addParameter('greedy', false, @islogical);
+params.addParameter('threshold', 0.99^N, @(x)(x<1));
 params.parse(varargin{:});
 
 %% Make sure columns of factor matrices in A and B are normalized
@@ -149,37 +151,136 @@ if (params.Results.greedy)
     best_perm(RB+1:RA) = foo(~tf);
     A = arrange(A, best_perm);
     return;
-end
 
-%% Compute all possible matchings
-% Creates a matrix P where each row is a possible matching of components in
-% A to components of B. We assume A has at least as many components as B.
-idx = nchoosek(1:RA,RB);
-M = [];
-for i = 1:size(idx,1)
-    M = [M; perms(idx(i,:))]; %#ok<AGROW>
-end
 
-%% Calculate the congruences for each matching
-scores = zeros(size(M));
-for i = 1:size(M,1)
-    for r = 1:RB
-        scores(i,r) = C(M(i,r),r);
-    end
-end
-
-%% Figure out the best matching based on sum's across the components
-score = sum(scores,2)/RB;
-[best_score, max_score_id] = max(score);
-if min(scores(max_score_id,:)) >= params.Results.threshold
-    flag = 1;
+%% Option to perform optimal matching in polynomial time
 else
-    flag = 0;
-end
-best_match = M(max_score_id,:);
-best_perm = [best_match setdiff(1:RA, best_match)];
+    
+    % compute the best matching and scores using local function
+    [matching,scores] = wbm(C); 
+    best_score = sum(scores);
+    
+    % add unmatched indices to best permutation
+    best_perm = [matching(:,1)',find(~ismember(1:RA,matching(:,1)))];
 
-%% Rearrange the components of A according to the best matching
-A = arrange(A, best_perm);
+    % check if minimum score in matching is greater than threshold
+    if min(scores) >= params.Results.threshold
+        flag = 1;
+    else
+        flag = 0;
+    end
+    % Rearrange the components of A according to the best matching
+    A = arrange(A, best_perm);
+    best_score=best_score/RB;
+    return;
+end
+
+
+
+end
+
+function [matching, weights] = wbm(LR,varargin)
+%WBM solves the weighted bipartite matching problem
+%   
+%   WBM(LR) returns the pairs of vertex indices of the optimal matching of
+%   the bipartite graph with biadjacency matrix LR (vertex indices of 
+%   matching correspond to row and column indices of LR)
+%
+%   [matching, weights] = WBM(...) also returns the weights of the edges in
+%   the matching
+%
+%   WBM(LR,'param',value) takes the following parameters...
+%
+%      'max' - Boolean indicating whether to compute the maximum matching
+%      or the minimum matching. Default: true
+%
+%   This method is described in textbook (pp. 404-414) by Jon Kleinberg and 
+%   Eva Tardos. 2005. Algorithm Design. Addison-Wesley Longman, USA.
+%
+%   The idea of the algorithm is to build a bipartite digraph with edge
+%   weights specified by LR.  We add a source vertex s and a sink vertex t,
+%   and initially all edges are directed from s to L to R to t.  Each step
+%   of the algorithm consists of finding the shortest augmenting path from 
+%   s to t to increase the size of the matching by 1.  Edges currently in
+%   the matching are directed from R to L and have negative weight.
+%   Matched vertices are also disconnected from s and t.  Because some
+%   edges are negative, the Bellman-Ford algorithm is used inside MATLAB's
+%   built-in shortestpath function.  The worst-case running time in theory  
+%   is O( min( m^3n, mn^3 ) ), which can be improved by maintaining all
+%   non-negative edge weights (and using Dijkstra's algorithm), but in 
+%   practice the time is dominated by manipulation of the graph rather than
+%   finding the shortest paths.
+
+    %% Parse parameters
+    params = inputParser;
+    params.addParameter('max', true, @islogical);
+    params.parse(varargin{:});
+
+    % preprocess if max matching desired (alg designed for min matching)
+    if params.Results.max
+        % negate entries and add constant value to make positive
+        maxVal = max(max(LR));
+        LR = maxVal - LR + 1; 
+    end
+    
+    % check to make sure that all entries are positive
+    if any(LR <= 0)
+        error('WBM: expected input matrix to have positive entries')
+    end
+
+    % extract size of the input
+    [n,m]=size(LR);
+
+    % initialize the adjacency matrix with 2 extra nodes
+    A = zeros(n+m+2);
+    s = m+n+1;
+    t = m+n+2;
+    A(1:n,n+1:n+m) = LR;
+    A(s,1:n) = 1;
+    A(n+1:n+m,t) = 1;
+
+    % create bipartite graph to use MATLAB's built-in graph functions
+    G = digraph(A);
+
+    % repeatedly find shortest augmenting path and add to matching
+    for j = 1:min(n,m)
+
+        % get shortest path
+        v = shortestpath(G,s,t);
+
+        % get indices of edges along path (ignoring s and t)
+        idx = findedge(G,v(2:end-2),v(3:end-1));
+
+        % negate the edges along path
+        G.Edges.Weight(idx) = -G.Edges.Weight(idx);
+
+        % flip direction of edges along path
+        G = flipedge(G,idx);
+
+        % remove edges between s and t and newly matched vertices
+        G = rmedge(G,[s,v(end-1)],[v(2) , t]);
+    end
+
+    % extract the indices of edges in matching (all have negative weight)
+    idx = find(G.Edges.Weight < 0);
+
+    % extract matching from G based upon idx 
+    matching = G.Edges.EndNodes(idx,:);
+    
+    % flip order and adjust index to be row by col
+    temp = matching(:,2);
+    matching(:,2) = matching(:,1) - n;
+    matching(:,1) = temp;
+
+    % return original (positive) weights of edges in matching
+    weights = -G.Edges.Weight(idx);
+
+    % for max case readjust cost based on preprocessing values
+    if params.Results.max
+        weights = maxVal - weights + 1;
+    end
+        
+end
+
 
 
