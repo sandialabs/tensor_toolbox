@@ -2,7 +2,7 @@ Tensor Toolbox version 3.0-dev
 by Brett W. Bader, Tamara G. Kolda, Jimeng Sun, Evrim Acar, 
 Daniel M. Dunlavy, Eric C. Chi, Jackson Mayo, et al.
 Copyright 2017, Sandia National Laboratories.
-Development version as of August 12, 2017
+Development version as of June 1, 2018
 
 ============================================
 Changes from Version 2.6 (February 6, 2015)
@@ -20,6 +20,7 @@ Changes from Version 2.6 (February 6, 2015)
 - Removed memory-efficient Tucker (met) code.
 - Fixed formatting of lambda in ktensor/disp.
 - Fixed type of subs in import_data for sptensor data.
+- Improved efficiency of exact ktensor/score function.
 
 ============================================
 Changes from Version 2.5 (February 1, 2012)
