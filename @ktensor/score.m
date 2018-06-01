@@ -134,45 +134,42 @@ if (params.Results.greedy)
     
     best_perm = zeros(1,RA);
     best_score = 0;
+    flag = 1;
     for r = 1:RB
         [~,idx] = max(C(:));
         [i,j] = ind2sub([RA RB], idx);
         best_score = best_score + C(i,j);
+        if C(i,j) < params.Results.threshold
+            flag = 0;
+        end
         C(i,:) = -10;
         C(:,j) = -10;
         best_perm(j) = i;
     end
     best_score = best_score / RB;
-    flag = 1;
     
     % Rearrange the components of A according to the best matching
     foo = 1:RA;
     tf = ismember(foo,best_perm);
     best_perm(RB+1:RA) = foo(~tf);
     A = arrange(A, best_perm);
-    return;
-
 
 %% Option to perform optimal matching in polynomial time
 else
     
     % compute the best matching and scores using local function
     [matching,scores] = wbm(C); 
-    best_score = sum(scores);
+    best_score = sum(scores)/RB;
     
     % add unmatched indices to best permutation
     best_perm = [matching(:,1)',find(~ismember(1:RA,matching(:,1)))];
 
     % check if minimum score in matching is greater than threshold
-    if min(scores) >= params.Results.threshold
-        flag = 1;
-    else
-        flag = 0;
-    end
+    flag = double(min(scores) >= params.Results.threshold);
+
     % Rearrange the components of A according to the best matching
     A = arrange(A, best_perm);
-    best_score=best_score/RB;
-    return;
+    
 end
 
 
