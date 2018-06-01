@@ -30,14 +30,15 @@ classdef Test_Ktensor_Score < matlab.unittest.TestCase
         end
         
         function Recovered(testCase)
+            rng(1);
             m = 10; n = 8;
             K=ktensor({randn(10,m),randn(12,m),randn(15,m),randn(17,m)});
-            % assuming dimensions give uniquness, cp_als should recover n 
-            % of the m original factors, up to a threshold of .9 or so
+            % cp_als should recover n of the m original factors, up to a 
+            % threshold of .9 or so
             S=cp_als(full(K),n,'init','nvecs','printitn',0);
             [scr,~,flag,~] = score(K,S,'greedy',false,'threshold',.9);
             testCase.verifyEqual(1, flag); % threshold specifies min compontent-wise score
-            testCase.verifyGreaterThanOrEqual(scr, .9); % scr is a weighted average of comp-wise scores
+            testCase.verifyGreaterThanOrEqual(scr, .98); % scr is a weighted average of comp-wise scores
         end
             
         
