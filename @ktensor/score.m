@@ -1,4 +1,4 @@
-function [best_score, A, flag, best_perm] = score_new(A,B,varargin)
+function [best_score, A, flag, best_perm] = score(A,B,varargin)
 %SCORE Checks if two ktensors match except for permutation.
 %   
 %   SCORE(A,B) returns the score of the match between A and B where
@@ -52,6 +52,8 @@ function [best_score, A, flag, best_perm] = score_new(A,B,varargin)
 %   Algorithms for Fitting the PARAFAC Model, Computational Statistics &
 %   Data Analysis, Vol. 50, No. 7, pp. 1700-1734, April 2006,
 %   doi:10.1016/j.csda.2004.11.013.
+%
+%   Note: The local function wbm requires MATLAB version R2015b.
 %  
 %   See also KTENSOR.
 %
@@ -207,6 +209,8 @@ function [matching, weights] = wbm(LR,varargin)
 %   non-negative edge weights (and using Dijkstra's algorithm), but in 
 %   practice the time is dominated by manipulation of the graph rather than
 %   finding the shortest paths.
+%
+%   The MATLAB graph functions were introduced in version R2015b.
 
     %% Parse parameters
     params = inputParser;
