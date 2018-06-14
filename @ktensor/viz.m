@@ -89,9 +89,9 @@ params.parse(varargin{:});
 res = params.Results;
 
 %% Clean up tensor
-if res.Normalize ~= 0
+if res.Normalize > 0
     fprintf('ktensor/viz: Normalizing factors and sorting components according to the %d-norm.\n', res.Normalize);
-    normalize(K,'sort',res.Normalize);
+    K = normalize(K,'sort',res.Normalize);
 end
 
 %% Create new figure or reset old figure
