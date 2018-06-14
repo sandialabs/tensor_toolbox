@@ -82,7 +82,9 @@ params.addParameter('ModeTitles', 'default');
 params.addParameter('FactorTitles', 'weight'); % Default is 'none'. Options are 'weight' or 'number'
 % Plots
 params.addParameter('PlotCommands', repmat({@(x,y) plot(x,y,'LineWidth',1,'Color','b');}, [nd 1]));
-params.addParameter('SameYlims', true(nd,1));
+params.addParameter('Ylims', repmat({'same'},[nd 1]));
+params.addParameter('YTicks',false);
+params.addParameter('BaseFontSize',14);
 
 
 params.parse(varargin{:});
@@ -125,7 +127,7 @@ for k = 1 : nd
         xpos = res.LeftSpace + (k-1) * res.HorzSpace + sum(width(1:k-1));
         ypos = 1 - res.TopSpace - height - (j-1) * (height + res.VertSpace);
         FactorAxes(k,j) = axes('Position',[xpos ypos width(k) height]);
-        FactorAxes(k,j).FontSize = 14;
+        FactorAxes(k,j).FontSize = res.BaseFontSize;
     end
 end
 
@@ -155,7 +157,7 @@ for k = 1 : nd
     xl = [0 size(K,k)+1];
 
     % Create y-axes that include zero
-    yl = [min( 0, min(U(:)) ), max( 0, max(U(:)) )];
+    yl = [min( -0.01, min(U(:)) ), max( 0.01, max(U(:)) )];
 
     for j = 1 : nc
         
@@ -174,19 +176,23 @@ for k = 1 : nd
         xlim(FactorAxes(k,j),xl);
         
         % Set y-axes
-        if res.SameYlims(k)
+        if isequal(res.Ylims{k}, 'same')
             ylim(FactorAxes(k,j),yl);
-        else
+        elseif isequal(res.Ylims{k},'addzero')
             % Create y-axes that include zero
             tmpyl = [ min(-0.01, min(U(:,j))), max( 0.01, max(U(:,j))) ];
             ylim(FactorAxes(k,j),tmpyl);
+        elseif isnumeric(res.Ylims{k}) && isequal(size(res.Ylims{k}),[2 1])
+            ylim(res.Ylims{k});
         end
         
         % Turn off y-label
         set(FactorAxes(k,j), 'Ylabel', []);
         
         % Turn off y-ticks
-        set(FactorAxes(k,j),'Ytick',[]);
+        if ~res.YTicks
+            set(FactorAxes(k,j),'Ytick',[]);
+        end
         
         % Draw a box around the axes
         set(FactorAxes(k,j),'Box','on')
@@ -204,7 +210,7 @@ for k = 1 : nd
         h{k,j} = hh;
         
         % Make the fonts on the xtick labels big
-        set(FactorAxes(k,j),'FontSize',14)
+        set(FactorAxes(k,j),'FontSize',res.BaseFontSize)
     end
 end
 
@@ -228,7 +234,7 @@ else
         %xpos = res.LeftSpace + (k-1) * (width + res.HorzSpace) + 0.5 * width;
         ypos = 1 - res.TopSpace;
         ModeTitleHandles(k) = text(xpos,ypos,ModeTitles{k},'VerticalAlignment','Bottom','HorizontalAlignment','Center');
-        set(ModeTitleHandles(k),'FontSize',16)
+        set(ModeTitleHandles(k),'FontSize',res.BaseFontSize+2)
         set(ModeTitleHandles(k),'FontWeight','bold')
     end
 end
@@ -239,15 +245,15 @@ if ~strcmpi(res.FactorTitles,'none')
     axes(GlobalAxis);
     rellambda = abs (K.lambda / K.lambda(1));
     for j = 1:nc
-        xpos = 0.9 * res.LeftSpace;
+        xpos = 0.1 * res.LeftSpace;
         ypos = 1 - res.TopSpace - 0.5 * height - (j-1) * (height + res.VertSpace);
         if strcmpi(res.FactorTitles,'weight')          
             txt = sprintf('%3.2f', rellambda(j));
         else
             txt = sprintf('%d', j);
         end
-        CompTitleHandles(j) = text(xpos,ypos,txt,'VerticalAlignment','Middle','HorizontalAlignment','Right');
-        set(CompTitleHandles(j),'FontSize',14)
+        CompTitleHandles(j) = text(xpos,ypos,txt,'VerticalAlignment','Middle','HorizontalAlignment','Left');
+        set(CompTitleHandles(j),'FontSize',res.BaseFontSize)
     end
 end
 %% Save stuff to return
