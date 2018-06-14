@@ -32,8 +32,15 @@ function info = viz(K, varargin)
 %   'RightSpace' - Space at right. Default: 0.025.
 %   'VertSpace' - Vertical space inbetween factor axes. Default: 0.01.
 %   'HorzSpace' - Horizontal space inbetween factor axes. Default: 0.01.
-%   'SameYlims' - Use the same y-limits on all axes in the same mode.
-%                 Default: true.
+%   'YLims' - Choose one per mode:
+%             o 'same' - Same y-limits on all axes in the same mode
+%             o 'addzero' - Adjust limits so that zero is shown
+%             o [xl yl] - Specific limits
+%             o [] - No modification to what is done by the plot routine
+%             Default: repmat({'same'},[nd 1]).
+%   'YTicks' - Boolean for showing yticks or not. Default: false. (Note
+%              that if this is true, then need to increase 'HorzSpace'.)
+%   'BaseFontSize' - Smallest font size. Default: 14.
 %
 %   Return values:
 %   'height' - Height of each plot (as a proportion in [0,1]).
@@ -82,7 +89,7 @@ params.addParameter('ModeTitles', 'default');
 params.addParameter('FactorTitles', 'weight'); % Default is 'none'. Options are 'weight' or 'number'
 % Plots
 params.addParameter('PlotCommands', repmat({@(x,y) plot(x,y,'LineWidth',1,'Color','b');}, [nd 1]));
-params.addParameter('Ylims', repmat({'same'},[nd 1]));
+params.addParameter('YLims', repmat({'same'},[nd 1]));
 params.addParameter('YTicks',false);
 params.addParameter('BaseFontSize',14);
 
@@ -176,14 +183,14 @@ for k = 1 : nd
         xlim(FactorAxes(k,j),xl);
         
         % Set y-axes
-        if isequal(res.Ylims{k}, 'same')
+        if isequal(res.YLims{k}, 'same')
             ylim(FactorAxes(k,j),yl);
-        elseif isequal(res.Ylims{k},'addzero')
+        elseif isequal(res.YLims{k},'addzero')
             % Create y-axes that include zero
             tmpyl = [ min(-0.01, min(U(:,j))), max( 0.01, max(U(:,j))) ];
             ylim(FactorAxes(k,j),tmpyl);
-        elseif isnumeric(res.Ylims{k}) && isequal(size(res.Ylims{k}),[2 1])
-            ylim(res.Ylims{k});
+        elseif isnumeric(res.YLims{k}) && isequal(size(res.YLims{k}),[2 1])
+            ylim(res.YLims{k});
         end
         
         % Turn off y-label
