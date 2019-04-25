@@ -29,22 +29,23 @@ switch s(1).type
         switch s(1).subs
             case 'lambda'
                 a = tt_subsubsref(t.lambda,s);
-            case {'u','U'}
+            case {'u','U','a','A'}
                 a = tt_subsubsref(t.u,s);
             otherwise
                 error(['No such field: ', s(1).subs]);
         end
     case '()'
         if length(s.subs) == 1
-            sub = s.subs{1};
-            a = 0;
-            for k = 1 : length(t.lambda)
-                b = t.lambda(k);
-                for i = 1 : length(sub)
-                    b = b * t.u{i}(sub(i),k);
-                end
-                a  = a + b;
-            end            
+            subs = s.subs{1};
+            r = length(t.lambda);
+            ns = size(subs,1);
+            d = size(subs,2);
+            b = repmat(reshape(t.lambda,1,r),ns,1);
+            for k = 1:d
+                tmp = b;
+                b = tmp .* t.u{k}(subs(:,k),:);
+            end
+            a = sum(b,2);
         else
             a = 0;
             for k = 1 : length(t.lambda)
