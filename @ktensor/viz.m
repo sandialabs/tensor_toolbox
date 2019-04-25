@@ -21,7 +21,8 @@ function info = viz(K, varargin)
 %   'FactorTitles' - Choices are 'Weight' (relative), 'Number' or 'None'. 
 %   'Normalize' - Automatically normalizes the factor matrix columns and
 %                 sorts the components by weight. Options: -1 (none), 1
-%                 (1-norm), 2 (2-norm). Default: 2.
+%                 (1-norm), 2 (2-norm). Can also be a function handle to an
+%                 appropriate function. Default: 2. 
 %
 %   Detailed optional parameters:
 %
@@ -38,6 +39,7 @@ function info = viz(K, varargin)
 %             o [xl yl] - Specific limits
 %             o [] - No modification to what is done by the plot routine
 %             Default: repmat({'same'},[nd 1]).
+%   'ShowZero' - Show dashed line at zero? Default: true(nd,1).
 %   'YTicks' - Boolean for showing yticks or not. Default: false. (Note
 %              that if this is true, then need to increase 'HorzSpace'.)
 %   'BaseFontSize' - Smallest font size. Default: 14.
@@ -90,6 +92,7 @@ params.addParameter('FactorTitles', 'weight'); % Default is 'none'. Options are 
 % Plots
 params.addParameter('PlotCommands', repmat({@(x,y) plot(x,y,'LineWidth',1,'Color','b');}, [nd 1]));
 params.addParameter('YLims', repmat({'same'},[nd 1]));
+params.addParameter('ShowZero',true(nd,1));
 params.addParameter('YTicks',false);
 params.addParameter('BaseFontSize',14);
 
@@ -98,7 +101,9 @@ params.parse(varargin{:});
 res = params.Results;
 
 %% Clean up tensor
-if res.Normalize > 0
+if isa(res.Normalize,'function_handle')
+    K = res.Normalize(K);
+elseif res.Normalize > 0
     fprintf('ktensor/viz: Normalizing factors and sorting components according to the %d-norm.\n', res.Normalize);
     K = normalize(K,'sort',res.Normalize);
 end
@@ -189,8 +194,10 @@ for k = 1 : nd
             % Create y-axes that include zero
             tmpyl = [ min(-0.01, min(U(:,j))), max( 0.01, max(U(:,j))) ];
             ylim(FactorAxes(k,j),tmpyl);
-        elseif isnumeric(res.YLims{k}) && isequal(size(res.YLims{k}),[2 1])
-            ylim(res.YLims{k});
+        elseif isnumeric(res.YLims{k}) && isequal(size(res.YLims{k}),[1 2])
+            ylim(FactorAxes(k,j),res.YLims{k});
+        else
+            fprintf('Do nothing to FactorAxes\n');
         end
         
         % Turn off y-label
@@ -210,9 +217,11 @@ for k = 1 : nd
         end            
         
         % Draw dashed line at zero
-        hold(FactorAxes(k,j), 'on');
-        plot(FactorAxes(k,j), xl, [0 0], 'k:', 'Linewidth', 1.5);
-
+        if res.ShowZero(k)
+            hold(FactorAxes(k,j), 'on');
+            plot(FactorAxes(k,j), xl, [0 0], 'k:', 'Linewidth', 1.5);
+        end
+        
         % Save handle for main plot
         h{k,j} = hh;
         
