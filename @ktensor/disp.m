@@ -25,7 +25,8 @@ end
 
 fprintf('%s is a ktensor of size %s\n', name, tt_size2str(size(t)));
 output = tt_matrix2cellstr(t.lambda');
-fprintf('\t%s.lambda = [ %s ]\n',name, output{:});
+fprintf('\t%s.lambda = \n',name);
+fprintf('\t\t%s\n',output{:});
 
 if (ndims(t) > 0)
     for j = 1 : ndims(t)
