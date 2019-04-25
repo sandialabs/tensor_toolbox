@@ -42,6 +42,7 @@
 %   scale     - Scale along specified dimensions for sparse tensors.
 %   size      - Sparse tensor dimensions.
 %   spmatrix  - Converts a two-way sparse tensor to sparse matrix.
+%   spones    - Replace nonzero sparse tensor elements with ones.
 %   sptensor  - Create a sparse tensor.
 %   squeeze   - Remove singleton dimensions from a sparse tensor.
 %   subsasgn  - Subscripted assignment for sparse tensor.
