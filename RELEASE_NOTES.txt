@@ -17,6 +17,8 @@ Changes from Version 2.6 (February 6, 2015)
   without actually forming the result.
 - Added new CP-ARLS method that does alternating *RANDOMIZED* least
   squares fitting for the CP decomposition per Battaglino et al.
+- Add SPTENSOR/SPONES function that replaces nonzero sparse tensor
+  elements with ones.
 - Removed memory-efficient Tucker (met) code.
 - Fixed formatting of lambda in ktensor/disp.
 - Fixed type of subs in import_data for sptensor data.
