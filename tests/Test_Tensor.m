@@ -670,9 +670,16 @@ classdef Test_Tensor < matlab.unittest.TestCase
                 r = randi(sz(n));
                 U = nvecs(X, n, r);
                 [U1,~,~] = svds(double(tenmat(X,n)),r);
-                for i = 1:r
-                    if dot(U(:,i),U1(:,i)) < 0
-                        U1(:,i) = -1 * U1(:,i);
+                % Greedy sort
+                for i=1:size(U1,2)
+                    [~, j] = max(abs(U(:,i)'*U1(:,i:end)));
+                    if (j ~= 1)
+                        % Swap to remaining closest match.
+                        U1(:, [i i+j-1]) = U1(:, [i+j-1 i]);
+                    end
+                    if (U(:,i)'*U1(:,i)<0)
+                        % Fix direction.
+                        U1(:,i) = -U1(:,i);
                     end
                 end
                 testCase.verifyEqual(U, U1, 'RelTol', 1e-8);

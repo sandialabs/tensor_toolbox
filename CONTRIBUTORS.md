@@ -7,9 +7,10 @@ Primary POC: Tamara G. Kolda, tgkolda@sandia.gov
 * Robert Bassett - Cleaning up symmetric tensor methods and classes (`cp_sym`, `symtensor`, `symktensor`)
 * Casey Battaglino - Randomized CP (`cp_arls`)
 * Eric C. Chi - Alternating Poisson Regression with Mulitplicative Updates (`cp_apr`)
-* Jed Duersch - Improved K-tensor full ('ktensor/full')
+* Jed Duersch - Improved K-tensor full ('ktensor/full') and Generalized CP (`gcp_opt`)
 * Daniel M. Dunlavy - CP with optimization and missing data (`cp_opt`, `cp_wopt`), various fixes
 * Samantha Hansen - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
+* David Hong - Generalized CP (`gcp_opt`)
 * Jackson Mayo - Eigenvalue methods (`eig_sshopm`, `eig_sshopmc`, `eig_geap`)
 * Todd Plantenga - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * Jimeng Sun - Memory-efficient Tucker (distributed with version 2.6 or earlier)

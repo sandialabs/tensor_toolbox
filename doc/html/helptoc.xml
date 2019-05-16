@@ -31,6 +31,7 @@
     <tocitem target="cp_opt_doc.html">All-at-once Optimization (OPT)</tocitem>
     <tocitem target="cp_wopt_doc.html">Incomplete Data (WOPT)</tocitem>
     <tocitem target="cp_apr_doc.html">Alternating Poisson Regression (APR)</tocitem>
+    <tocitem target="gcp_opt_doc.html">Generalized CP Decomposition (GCP-OPT)</tocitem>
 </tocitem>
 <tocitem target="tucker.html">Tucker Decompositions
     <tocitem target="hosvd_doc.html">Higher-order SVD (HOSVD)</tocitem>

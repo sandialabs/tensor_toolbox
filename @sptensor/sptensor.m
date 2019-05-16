@@ -243,7 +243,8 @@ if (nargin == 1)
 
 end % nargin == 1
 
-% SPECIAL CASE for INTERACTION WITH MEX FILES
+% SPECIAL CASE for INTERACTION WITH MEX FILES OR DIRECT CREATION OF
+% SPTENSOR WITHOUT ANY SORTING OR OTHER STANDARD CHECKS
 if (nargin == 4) && (isnumeric(varargin{4})) && (varargin{4} == 0)
 
     % Store everything
