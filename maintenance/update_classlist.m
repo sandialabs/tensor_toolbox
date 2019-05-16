@@ -25,6 +25,7 @@ function update_classlist(varargin)
 params = inputParser;
 params.addParameter('Class',[]);
 params.addParameter('Debug',false);
+params.addParameter('Copyright',false);
 params.parse(varargin{:});
 
 classlist = params.Results.Class;
@@ -49,7 +50,7 @@ for j = 1:numel(classlist)
     fnametmp = fullfile(classdir,strcat('tmp_',classname,'.m'));
     
     % Extract directory contents
-    C = create_dircontents(classdir);
+    C = create_dircontents(classdir,'Copyright',params.Results.Copyright);
     
     % Write to main class file
     fprintf('Replacing list of functions in file %s\n', fname);

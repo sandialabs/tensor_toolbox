@@ -27,6 +27,7 @@
 %   mrdivide    - Slash right division for tensors.
 %   mtimes      - tensor-scalar multiplication.
 %   mttkrp      - Matricized tensor times Khatri-Rao product for tensor.
+%   mttkrps     - Sequence of MTTKRP calculations for dense tensor.
 %   ndims       - Return the number of dimensions of a tensor.
 %   ne          - Not equal (~=) for tensors.
 %   nnz         - Number of nonzeros for tensors. 

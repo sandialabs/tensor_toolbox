@@ -14,7 +14,8 @@
   - [ ] Add a pointer to this documentation file in `doc\html\helptoc.xml`
   - [ ] Add pointers in any related higher-level files, e.g., a new method for CP should be referenced in the `cp.html` file
   - [ ] Add link to HTML documentation from help comments in function
-
+  - [ ] Update search database by running: builddocsearchdb('[full path to tensor_toolbox/doc/html directory]')
+  
 - [ ] **Tests** Create or update tests in the `tests` directory, especially for bug fixes or strongly encouraged for new code.
 
 - [ ] **Contents** If new functions were added to a class, go to the `maintenance` directory and run `update_classlist('Class',XXX)` to add the new functions to the class XXX help information. If new functions were added at 
