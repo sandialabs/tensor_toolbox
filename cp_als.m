@@ -13,6 +13,7 @@ function [P,Uinit,output] = cp_als(X,R,varargin)
 %      'dimorder' - Order to loop through dimensions {1:ndims(A)}
 %      'init' - Initial guess [{'random'}|'nvecs'|cell array]
 %      'printitn' - Print fit every n iterations; 0 for no printing {1}
+%      'fixsigns' - Call fixsigns at end of iterations {true}
 %
 %   [M,U0] = CP_ALS(...) also returns the initial guess.
 %
@@ -57,6 +58,7 @@ params.addParameter('maxiters',50,@(x) isscalar(x) & x > 0);
 params.addParameter('dimorder',1:N,@(x) isequal(sort(x),1:N));
 params.addParameter('init', 'random', @(x) (iscell(x) || ismember(x,{'random','nvecs'})));
 params.addParameter('printitn',1,@isscalar);
+params.addParameter('fixsigns',true,@islogical);
 params.parse(varargin{:});
 
 %% Copy from params object
@@ -195,7 +197,9 @@ end
 % Arrange the final tensor so that the columns are normalized.
 P = arrange(P);
 % Fix the signs
-P = fixsigns(P);
+if params.Results.fixsigns
+    P = fixsigns(P);
+end
 
 if printitn>0
     if normX == 0
