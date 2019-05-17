@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-26"><meta name="DC.source" content="cp_als_doc.m"><style type="text/css">
+      --><title>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-05-17"><meta name="DC.source" content="cp_als_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</h1><!--introduction--><p>The function <tt>cp_als</tt> computes an estimate of the best rank-R CP model of a tensor X using the well-known alternating least-squares algorithm (see, e.g., Kolda and Bader, SIAM Review, 2009, for more information).  The input X can be almost any type of tensor inclusing a <tt>tensor</tt>, <tt>sptensor</tt>, <tt>ktensor</tt>, or <tt>ttensor</tt>. The output CP model is a <tt>ktensor</tt>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Load some data</a></li><li><a href="#2">Basic call to the method, specifying the data tensor and its rank</a></li><li><a href="#4">Visualize the results</a></li><li><a href="#5">Run again with a different initial guess, output the initial guess.</a></li><li><a href="#6">Increase the maximium number of iterations</a></li><li><a href="#8">Compare the two solutions</a></li><li><a href="#9">Rerun with same initial guess</a></li><li><a href="#10">Changing the output frequency</a></li><li><a href="#11">Suppress all output</a></li><li><a href="#12">Use HOSVD initial guess</a></li><li><a href="#14">Change the order of the dimensions in CP</a></li><li><a href="#16">Change the tolerance</a></li><li><a href="#17">Recommendations</a></li></ul></div><h2 id="1">Load some data</h2><p>We use the well-known <i>amino acids data set</i> from Andersson and Bro. It contains fluorescence measurements of 5 samples containing 3 amino acids: Tryptophan, Tyrosine, and Phenylalanine.Each amino acid corresponds to a rank-one component. The tensor is of size 5 x 51 x 201 from  5 samples, 51 excitations, and 201 emissions. Further details can be found here: <a href="http://www.models.life.ku.dk/Amino_Acid_fluo">http://www.models.life.ku.dk/Amino_Acid_fluo</a>. Please cite the following paper for this data: Rasmus Bro, PARAFAC: Tutorial and applications, Chemometrics and Intelligent Laboratory Systems, 1997, 38, 149-171. This dataset can be found in the <tt>doc</tt> directory.</p><pre class="codeinput">load <span class="string">aminoacids</span>
+  </style></head><body><div class="content"><h1>Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition</h1><!--introduction--><p>The function <tt>cp_als</tt> computes an estimate of the best rank-R CP model of a tensor X using the well-known alternating least-squares algorithm (see, e.g., Kolda and Bader, SIAM Review, 2009, for more information).  The input X can be almost any type of tensor inclusing a <tt>tensor</tt>, <tt>sptensor</tt>, <tt>ktensor</tt>, or <tt>ttensor</tt>. The output CP model is a <tt>ktensor</tt>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Load some data</a></li><li><a href="#2">Basic call to the method, specifying the data tensor and its rank</a></li><li><a href="#4">Visualize the results</a></li><li><a href="#5">Run again with a different initial guess, output the initial guess.</a></li><li><a href="#6">Increase the maximium number of iterations</a></li><li><a href="#8">Compare the two solutions</a></li><li><a href="#9">Rerun with same initial guess</a></li><li><a href="#10">Changing the output frequency</a></li><li><a href="#11">Suppress all output</a></li><li><a href="#12">Use HOSVD initial guess</a></li><li><a href="#14">Change the order of the dimensions in CP</a></li><li><a href="#16">Change the tolerance</a></li><li><a href="#17">Control sign ambiguity of factor matrices</a></li><li><a href="#18">Recommendations</a></li></ul></div><h2 id="1">Load some data</h2><p>We use the well-known <i>amino acids data set</i> from Andersson and Bro. It contains fluorescence measurements of 5 samples containing 3 amino acids: Tryptophan, Tyrosine, and Phenylalanine.Each amino acid corresponds to a rank-one component. The tensor is of size 5 x 51 x 201 from  5 samples, 51 excitations, and 201 emissions. Further details can be found here: <a href="http://www.models.life.ku.dk/Amino_Acid_fluo">http://www.models.life.ku.dk/Amino_Acid_fluo</a>. Please cite the following paper for this data: Rasmus Bro, PARAFAC: Tutorial and applications, Chemometrics and Intelligent Laboratory Systems, 1997, 38, 149-171. This dataset can be found in the <tt>doc</tt> directory.</p><pre class="codeinput">load <span class="string">aminoacids</span>
 </pre><h2 id="2">Basic call to the method, specifying the data tensor and its rank</h2><p>This uses a <i>random</i> initial guess. At each iteration, it reports the 'fit' which is defined as <tt>1-(norm(X-M)/norm(X))</tt> and is loosely the proportion of the data described by the CP model, i.e., a fit of 1 is perfect.</p><pre class="codeinput">rng(3) <span class="comment">%&lt;- Setting random seed for reproducibility of this script</span>
 M1 = cp_als(X,3); <span class="comment">%&lt;- Call the method</span>
 </pre><pre class="codeoutput">
@@ -331,7 +331,7 @@ CP_ALS:
 
 ans =
 
-    1.0000
+     1
 
 </pre><h2 id="10">Changing the output frequency</h2><p>Using the <tt>'printitn'</tt> option to change the output frequency.</p><pre class="codeinput">M2alt2 = cp_als(X,3,<span class="string">'maxiters'</span>,100,<span class="string">'init'</span>,U2,<span class="string">'printitn'</span>,10);
 </pre><pre class="codeoutput">
@@ -387,7 +387,7 @@ CP_ALS:
 
 ans =
 
-     1
+    1.0000
 
 </pre><h2 id="16">Change the tolerance</h2><p>It's also possible to loosen or tighten the tolerance on the change in the fit. You may need to increase the number of iterations for it to converge.</p><pre class="codeinput">M5 = cp_als(X,3,<span class="string">'init'</span>,<span class="string">'nvecs'</span>,<span class="string">'tol'</span>,1e-6,<span class="string">'maxiters'</span>,1000,<span class="string">'printitn'</span>,10);
 </pre><pre class="codeoutput">
@@ -401,7 +401,28 @@ CP_ALS:
  Iter 70: f = 9.749430e-01 f-delta = 1.4e-06
  Iter 73: f = 9.749461e-01 f-delta = 8.8e-07
  Final f = 9.749461e-01 
-</pre><h2 id="17">Recommendations</h2><div><ul><li>Run multiple times with different guesses and select the solution with the best fit.</li><li>Try different ranks and choose the solution that is the best descriptor for your data based on the combination of the fit and the interpretaton of the factors, e.g., by visualizing the results.</li></ul></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><h2 id="17">Control sign ambiguity of factor matrices</h2><p>The default behavior of <tt>cp_als</tt> is to make a call to <tt>fixsigns</tt> to fix the sign ambiguity of the factor matrices. You can turn off this behavior by passing the <tt>'fixsigns'</tt> parameter value of <tt>false</tt> when calling <tt>cp_als</tt>.</p><pre class="codeinput">X = ktensor([1;1], {[1, 1; 1, -10],[1, 1; 1, -10]});
+M = cp_als(X, 2, <span class="string">'printitn'</span>, 0, <span class="string">'init'</span>, X.U) <span class="comment">% &lt;-default behavior, fixsigns called</span>
+M = cp_als(X, 2, <span class="string">'printitn'</span>, 0, <span class="string">'init'</span>, X.U, <span class="string">'fixsigns'</span>, false) <span class="comment">% &lt;-fixsigns not called</span>
+</pre><pre class="codeoutput">M is a ktensor of size 2 x 2
+	M.lambda = 
+		  101.0000    2.0000
+	M.U{1} = 
+		   -0.0995    0.7071
+		    0.9950    0.7071
+	M.U{2} = 
+		   -0.0995    0.7071
+		    0.9950    0.7071
+M is a ktensor of size 2 x 2
+	M.lambda = 
+		  101.0000    2.0000
+	M.U{1} = 
+		    0.0995    0.7071
+		   -0.9950    0.7071
+	M.U{2} = 
+		    0.0995    0.7071
+		   -0.9950    0.7071
+</pre><h2 id="18">Recommendations</h2><div><ul><li>Run multiple times with different guesses and select the solution with the best fit.</li><li>Try different ranks and choose the solution that is the best descriptor for your data based on the combination of the fit and the interpretaton of the factors, e.g., by visualizing the results.</li></ul></div><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition
 % The function |cp_als| computes an estimate of the best rank-R
@@ -506,6 +527,14 @@ score(M4,M4alt)
 % the fit. You may need to increase the number of iterations for it to
 % converge.
 M5 = cp_als(X,3,'init','nvecs','tol',1e-6,'maxiters',1000,'printitn',10);
+
+%% Control sign ambiguity of factor matrices
+% The default behavior of |cp_als| is to make a call to |fixsigns| to fix
+% the sign ambiguity of the factor matrices. You can turn off this behavior
+% by passing the |'fixsigns'| parameter value of |false| when calling |cp_als|.
+X = ktensor([1;1], {[1, 1; 1, -10],[1, 1; 1, -10]});
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U) % <-default behavior, fixsigns called
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U, 'fixsigns', false) % <-fixsigns not called
 
 %% Recommendations
 % * Run multiple times with different guesses and select the solution with

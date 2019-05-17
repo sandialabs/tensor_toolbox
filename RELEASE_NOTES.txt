@@ -26,6 +26,7 @@ Changes from Version 2.6 (February 6, 2015)
 - Removed memory-efficient Tucker (met) code.
 - Fixed formatting of lambda in ktensor/disp.
 - Fixed type of subs in import_data for sptensor data.
+- Made call to fixsigns in cp_als optional.
 
 ============================================
 Changes from Version 2.5 (February 1, 2012)

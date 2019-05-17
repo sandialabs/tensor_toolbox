@@ -102,6 +102,14 @@ score(M4,M4alt)
 % converge.
 M5 = cp_als(X,3,'init','nvecs','tol',1e-6,'maxiters',1000,'printitn',10);
 
+%% Control sign ambiguity of factor matrices
+% The default behavior of |cp_als| is to make a call to |fixsigns| to fix
+% the sign ambiguity of the factor matrices. You can turn off this behavior
+% by passing the |'fixsigns'| parameter value of |false| when calling |cp_als|.
+X = ktensor([1;1], {[1, 1; 1, -10],[1, 1; 1, -10]});
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U) % <-default behavior, fixsigns called
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U, 'fixsigns', false) % <-fixsigns not called
+
 %% Recommendations
 % * Run multiple times with different guesses and select the solution with
 % the best fit. 
