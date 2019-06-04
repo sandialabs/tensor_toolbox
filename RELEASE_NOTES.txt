@@ -1,8 +1,6 @@
-Tensor Toolbox version 3.0-dev
-by Brett W. Bader, Tamara G. Kolda, Jimeng Sun, Evrim Acar, 
-Daniel M. Dunlavy, Eric C. Chi, Jackson Mayo, et al.
-Copyright 2017, Sandia National Laboratories.
-Development version as of August 12, 2017
+Tensor Toolbox version 3.1
+by Brett W. Bader, Tamara G. Kolda, Evrim Acar, Daniel M. Dunlavy, et al.
+Copyright 2019, Sandia National Laboratories.
 
 ============================================
 Changes from Version 2.6 (February 6, 2015)
