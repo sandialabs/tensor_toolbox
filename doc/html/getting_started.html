@@ -22,9 +22,10 @@
       <p>The software has recently moved to GITLAB:
 	<a href="http://gitlab.com/tensors/tensor_toolbox"
 	   >http://gitlab.com/tensors/tensor_toolbox</a>.
-	The latest development realease can be obtained here by
-	cloning or downloading.  There is not yet an official release
-	3.0.  Version 2.6 and earlier can be obtained
+       Official releases can be obtained by visiting the <a href="https://gitlab.com/tensors/tensor_toolbox/releases">Releases</a> page.
+	The latest development realease can be obtained by
+	cloning or downloading from the main GITLAB page.  
+    Version 2.6 and earlier can be obtained
 	<a href="http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.6.html"
 	   >here</a>.</p>
       
@@ -55,16 +56,21 @@
       <p class="center"><img src="helpscreen.PNG" alt="Navigating
       MATLAB Help Screen" title="Navigating MATLAB Help Screen" /></p>
 
-      <h3 id="whats-new">What's new in Version 3.0?</h3>
+      <h3 id="whats-new">What's new in Version 3.1?</h3>
       
-      <p>Version 3.0 adds</p>
+      <p>Version 3.1 adds</p>
       
       <ul>
-	<li>New location on GITLAB
-	<li>New classes and functions for symmetric
-	tensors: <tt>symtensor</tt>, <tt>symktensor</tt>, <tt>cp_sym</tt></li>
-	<li>New class for sums of different tensor types: <tt>sumtensor</tt></li>	
-	<li>Function to compute HOSVD and ST-HOSVD: <tt>hosvd</tt></li>
+          <li>New location on GITLAB plus open source BSD licence.
+              <li>New classes and functions for symmetric
+              tensors: <tt>symtensor</tt>, <tt>symktensor</tt>, <tt>cp_sym</tt>, <tt>tucker_sym</tt></li>
+              <li>New class for sums of different tensor types: <tt>sumtensor</tt></li>	
+              <li>Function to compute HOSVD and ST-HOSVD: <tt>hosvd</tt></li>
+          <li>New function for CP with alternating <em>randomized</em> least squares(also known as CPRAND): <tt>cp_arls</tt></li> 
+          <li>New generalized CP, including stochastic version: <tt>gcp_opt</tt></li>
+          <li>New method for creating binary problems where the nonnegative model tensor represents the <em>odds</em> of seeing a one: <tt>create_problem_binary</tt>
+          <li>Added methods to create all-ones sparse tensor that has the same pattern as a given sparse tensor: <tt>sptensor/spones</tt></li>
+          <li>New function to vizualize CP-decompoised Kruskal tensors: <tt>ktensor/viz</tt> </li>
       </ul>
       
       <p>We have also fixed many bugs. View the

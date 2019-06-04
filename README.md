@@ -1,4 +1,4 @@
-# MATLAB Tensor Toolbox, Version 3.0-dev
+# MATLAB Tensor Toolbox, Version 3.1
 
 Tensors (also known as multidimensional arrays or N-way arrays) are used in a 
 variety of applications ranging from chemometrics to network analysis. 
@@ -40,8 +40,8 @@ Thanks very much for your support.
 
 __General software reference, should always be cited:__
 Brett W. Bader, Tamara G. Kolda and others. 
-MATLAB Tensor Toolbox Version 3.0-dev, 
-Available online, August 2017. 
+MATLAB Tensor Toolbox Version 3.1, 
+Available online, June 2019. 
 URL: https://gitlab.com/tensors/tensor_toolbox. 
 _Consider adding the short hash for the exact version that was used. 
 If you clone the repository, use the command 
@@ -269,8 +269,10 @@ Version 2.6._
 
 ### Download
 
-Version 3.0-dev can be obtained here by cloning or downloading using the buttons 
-above. There is not yet an official release 3.0.
+The latest release can be obtained by clicking 
+[Releases](https://gitlab.com/tensors/tensor_toolbox/releases) at left.
+The latest development version can be obtained here by cloning or 
+downloading using the buttons above. 
 Version 2.6 and earlier can be obtained 
 [here](http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.6.html).
 
@@ -289,5 +291,5 @@ software, as highlighted in the image below.
 
 ![Navigating MATLAB Help Screen](doc/images/helpscreen.PNG "Navigating MATLAB Help Screen")
 
-Copyright 2017, Sandia Corporation.
+Copyright 2019, Sandia Corporation.
 
