@@ -3,6 +3,11 @@ by Brett W. Bader, Tamara G. Kolda, Evrim Acar, Daniel M. Dunlavy, et al.
 Copyright 2019, Sandia National Laboratories.
 
 ============================================
+Changes from Version 3.1 (June 4, 2019)
+============================================
+- Adding support for KTENSOR in EXPORT_DATA.
+
+============================================
 Changes from Version 2.6 (February 6, 2015)
 ============================================
 - Changed license conditions: now open source BSD license.
