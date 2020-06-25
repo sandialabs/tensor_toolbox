@@ -121,7 +121,12 @@ if (params.Results.lambda_penalty)
         la = A.lambda(ra);
         for rb = 1:RB
             lb = B.lambda(rb);
-            P(ra,rb) = 1 - (abs(la-lb) / max(abs(la),abs(lb)));
+            if (la == 0) && (lb == 0)
+                % if both lambda values are zero (0), they match
+                P(ra, rb) = 1;
+            else
+                P(ra,rb) = 1 - (abs(la-lb) / max(abs(la),abs(lb)));
+            end
         end
     end
     C = P.*C;
