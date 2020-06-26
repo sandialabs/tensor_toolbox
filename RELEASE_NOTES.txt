@@ -7,6 +7,7 @@ Changes from Version 3.1 (June 4, 2019)
 ============================================
 - Adding support for KTENSOR in EXPORT_DATA.
 - Fixing bug in KTENSOR/SCORE with zero lambdas in both inputs.
+- Adding SPTENMAT check on valid input. 
 
 ============================================
 Changes from Version 2.6 (February 6, 2015)
