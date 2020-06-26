@@ -196,6 +196,8 @@ end
 
 if (nargin < 2)  ||  (nargin > 3)
   error('Incorrect number of arguments.');
+elseif (nargin == 2) && (~isa(varargin{1},'sptensor'))
+  error('sptenmat:InvalidInput', 'Input is not a sparse tensor.');
 end
 
 % Save the size of T and the number of dimensions
