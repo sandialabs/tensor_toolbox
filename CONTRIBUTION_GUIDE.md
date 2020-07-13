@@ -4,7 +4,7 @@
 
 - [ ] **Issue** Before the merge request, submit an issue for the change, providing as much detailed information as possible. For bug reports, please provide enough information to reproduce the problem. 
 
-- [ ] **Fork** Create a branch or fork of the code and make your changes.
+- [ ] **Fork** Create a branch or fork of the code and make your changes. It's helpful if you create a branch on your fork.
 
 - [ ] **Help Comments** Create or update comments for the m-files, following the style of the existing files. Be sure to explain all code options.
 
@@ -30,6 +30,13 @@ Update `CONTRIBUTORS.md` with your name and a brief description of the contribut
 - [ ] **Pass All Tests**
 Confirm that all tests (including existing tests) pass in `tests` directory.
 
-- [ ] **Merge Request** At any point, create a work-in-progress merge request, referencing the issue number and with this checklist and WIP in the header.
+- [ ] **Merge Request** At any point, create a work-in-progress merge request, referencing the issue number and with this checklist and WIP in the header. To do this within the GITLAB website...
+  * Start in your private branch
+  * Go to Respoitory->Branches, select "Merge request"
+  * On the "New Merge Request" screen, select "Change branches"
+  * For the Target branch, enter `tensors/tensor_toolbox` and `master`
+  * Give a description of the merge request, referencing any issues or other information.
+  * Include _this_ checklist as the first comment on the merge request.
+  
 
 
