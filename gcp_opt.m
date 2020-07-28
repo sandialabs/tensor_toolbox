@@ -187,7 +187,7 @@ if ~isempty(fh) && ~isempty(gh)
         error('Must specify ''func'' and ''grad'' if either one is specified');
     end
     if isempty(lb)
-        lb = -infty;
+        lb = -Inf;
     end
     type = 'user-specified';
 else     
