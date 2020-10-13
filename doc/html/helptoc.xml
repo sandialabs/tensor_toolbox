@@ -26,12 +26,14 @@
     <tocitem target="identities_doc.html">Identities</tocitem>
 </tocitem>
 <tocitem target="cp.html">CP Decompositions
-    <tocitem target="cp_als_doc.html">Alternating Least Squares (ALS)</tocitem>
-    <tocitem target="cp_arls_doc.html">Alternating Randomized Least Squares (ARLS)</tocitem>
-    <tocitem target="cp_opt_doc.html">All-at-once Optimization (OPT)</tocitem>
-    <tocitem target="cp_wopt_doc.html">Incomplete Data (WOPT)</tocitem>
+    <tocitem target="cp_als_doc.html">Alternating Least Squares (CP-ALS)</tocitem>
+    <tocitem target="cp_arls_doc.html">Alternating Randomized Least Squares (CP-ARLS)</tocitem>
+    <tocitem target="cp_opt_doc.html">All-at-once Optimization (CP-OPT)</tocitem>
+    <tocitem target="cp_wopt_doc.html">Incomplete Data (CP-WOPT)</tocitem>
     <tocitem target="cp_apr_doc.html">Alternating Poisson Regression (APR)</tocitem>
-    <tocitem target="gcp_opt_doc.html">Generalized CP Decomposition (GCP-OPT)</tocitem>
+    <tocitem target="gcp_opt_doc.html">Generalized CP (GCP-OPT)</tocitem>
+    <tocitem target="cp_sym_doc.html">Symmetric (CP-SYM)</tocitem>
+    <tocitem target="cp_isym_doc.html">Implicit Symmetric (CP-ISYM)</tocitem>
 </tocitem>
 <tocitem target="tucker.html">Tucker Decompositions
     <tocitem target="hosvd_doc.html">Higher-order SVD (HOSVD)</tocitem>

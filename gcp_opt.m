@@ -25,7 +25,7 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %      'adam' - Momentum-based SGD method
 %   If X is dense, any of the three options can be used, and 'lbfgsb' is
 %   the default. The X is sparse, only 'sgd' and 'adam' (default) are
-%   options. Each method has specific parameters, see the document for
+%   options. Each method has specific parameters, see the documentation for
 %   details.
 %
 %   M = GCP_OPT(X,R,...,'mask',W) specifies a mask W that is 0 for missing
@@ -54,10 +54,6 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %     Tensor Decomposition. SIAM Review, 2019.  
 %   * T. G. Kolda, D. Hong, J. Duersch. Stochastic Gradients for
 %     Large-Scale Tensor Decomposition, 2019.
-%
-%   %   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'gcp_opt_doc.html')))">Documentation page for GCP-OPT</a>
 %
 %   See also CP_OPT, CP_APR.
 %
