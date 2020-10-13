@@ -5,9 +5,13 @@ Copyright 2019, Sandia National Laboratories.
 ============================================
 Changes from Version 3.1 (June 4, 2019)
 ============================================
-- Adding support for KTENSOR in EXPORT_DATA.
+- Added support for KTENSOR in EXPORT_DATA.
 - Fixing bug in KTENSOR/SCORE with zero lambdas in both inputs.
-- Adding SPTENMAT check on valid input. 
+- Added SPTENMAT check on valid input. 
+- Added new functionality for implicit symmetric CP tensor
+  computation, including new top-level function CP_ISYM.
+- Added interfaces to various optimization methods, including
+  our own implementation of ADAM. 
 
 ============================================
 Changes from Version 2.6 (February 6, 2015)

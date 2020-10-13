@@ -17,7 +17,7 @@
   </listitem>
   <listitem>
     <label>Tensor Toolbox Web Site</label>
-    <callback>web http://www.sandia.gov/~tgkolda/TensorToolbox</callback>
+    <callback>web http://www.tensortoolbox.org/</callback>
     <icon>$toolbox/matlab/icons/webicon.gif</icon>
   </listitem>
 </list>

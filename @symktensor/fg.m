@@ -16,7 +16,7 @@ function [F,G] = fg(Model,Data)
 %   [f,g] = fg(model,data);
 %   f - norm(A - full(model)).^2 % Should be zero or close to it
 %
-%   See also symktensor, sym_cp, symktensor/fg_setup, symktensor/tovec.
+%   See also symktensor, cp_sym, symktensor/fg_setup, symktensor/tovec.
 %
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.

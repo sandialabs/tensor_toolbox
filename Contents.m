@@ -1,5 +1,5 @@
 % Tensor Toolbox (Sandia National Labs)
-% Version 3.1 04-Jun-2019
+% Version 3.1 13-Oct-2020
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:
@@ -17,6 +17,7 @@
 %   cp_als                - Compute a CP decomposition of any type of tensor.
 %   cp_apr                - Compute nonnegative CP with alternating Poisson regression.
 %   cp_arls               - CP decomposition of dense tensor via randomized least squares.
+%   cp_isym               - Implicit symmetric CP for tensors formed from outer products.
 %   cp_nmu                - Compute nonnegative CP with multiplicative updates.
 %   cp_opt                - Fits a CP model to a tensor via optimization.
 %   cp_sym                - Fit a symmetric P model to the symmetric input tensor.
