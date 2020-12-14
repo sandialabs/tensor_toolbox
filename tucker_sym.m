@@ -5,7 +5,8 @@ function [T,Xinit] = tucker_sym(S,R,varargin)
 %   the symmetric tensor S, according to the specified dimension R. The
 %   result returned in T is a ttensor (with all factors equal), i.e.,
 %   T = G x_1 X x_2 X ... x_N X where X is the optimal factor matrix and G
-%   is the corresponding core.  
+%   is the corresponding core.  Note that S must be a tensor, not a
+%   symtensor. Additionally, S must be _exactly_ symmetric.
 %
 %   T = TUCKER_SYM(S,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
@@ -17,7 +18,7 @@ function [T,Xinit] = tucker_sym(S,R,varargin)
 %
 %   [T,X0] = TUCKER_SYM(...) also returns the initial guess.
 %
-%   See also TUCKER_SYM.
+%   See also TENSOR/SYMMETRIZE.
 %
 %   Reference: Phillip A. Regalia, Monotonically Convergent Algorithms for
 %   Symmetric Tensor Approximation, Linear Algebra and its Applications
@@ -27,12 +28,16 @@ function [T,Xinit] = tucker_sym(S,R,varargin)
 
 
 %% Input checking
+if ~isa(S,'tensor')
+    error('First input must be a tensor object')
+end
+
 if ~issymmetric(S)
-    error('S must be symmetric');
+    error('Input tensor must be symmetric');
 end
 
 if numel(R) ~= 1
-    error('R must be a scalar');
+    error('Second input must be a scalar');
 end
 
 N = ndims(S);
