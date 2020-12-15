@@ -37,7 +37,7 @@ function [best_score, A, flag, best_perm] = score(A,B,varargin)
 %      determining a match. Default: 0.99^N where N = ndims(A)
 %
 %      'greedy' - Boolean indicating whether or not to solve the problem
-%      exactly or just do a greedy matching. Default: false
+%      exactly or just do a greedy matching. Default: true
 %      The exact algorithm uses a weighted bipartite matching local
 %      function.
 %
@@ -97,7 +97,7 @@ end
 %% Parse parameters
 params = inputParser;
 params.addParameter('lambda_penalty', true, @islogical);
-params.addParameter('greedy', false, @islogical);
+params.addParameter('greedy', true, @islogical);
 params.addParameter('threshold', 0.99^N, @(x)(x<1));
 params.parse(varargin{:});
 
