@@ -152,7 +152,7 @@ end
 % If cc is a row vector, then transpose to work as a column vector
 % (otherwise 'find' returns row vectors)
 if size(cc,1) == 1
-    [jj,ii,newvals] = find(cc');
+    [jj,ii,newvals] = find(cc.');
 else
     [ii,jj,newvals] = find(cc);
 end
