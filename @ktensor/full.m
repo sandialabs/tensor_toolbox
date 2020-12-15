@@ -37,7 +37,7 @@ else
         % This unrolls modes 1:minS into rows and minS+1:end into columns
         % of the column-major matrix data which is then converted into a
         % tensor without permutation.
-        data = khatrirao(t.u(1:minS),'r') * diag(t.lambda) * khatrirao(t.u(minS+1:end),'r')';
+        data = khatrirao(t.u(1:minS),'r') * diag(t.lambda) * khatrirao(t.u(minS+1:end),'r').';
     end
 end
 
