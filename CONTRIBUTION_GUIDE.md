@@ -1,5 +1,11 @@
 # Tensor Toolbox Contribution Guide
 
+## Getting Started
+
+We do not accept Developer requests, but we do accept Reporter requests.
+Before you can make a contribution, you need to create a **fork** of this repository.
+Then you will be able to make a merge request following the instructions below.
+
 ## Checklist
 
 - [ ] **Issue** Before the merge request, submit an issue for the change, providing as much detailed information as possible. For bug reports, please provide enough information to reproduce the problem. 
