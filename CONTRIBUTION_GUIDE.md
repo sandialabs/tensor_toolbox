@@ -8,7 +8,7 @@ Then you will be able to make a merge request following the instructions below.
 
 ## Checklist
 
-- [ ] **Issue** Before the merge request, submit an issue for the change, providing as much detailed information as possible. For bug reports, please provide enough information to reproduce the problem. 
+- [ ] **Issue** Please link to any relevant issues that this merge request fixes.
 
 - [ ] **Fork** Create a branch or fork of the code and make your changes. It's helpful if you create a branch on your fork.
 
@@ -31,7 +31,7 @@ top level, go to `maintenance` and run `update_topcontents` to update the Conten
 Update `RELEASE_NOTES.txt` with any significant bug fixes or additions.
 
 - [ ] **Contributors List**
-Update `CONTRIBUTORS.md` with your name and a brief description of the contributions.
+Update `CONTRIBUTORS.md` with your name and a brief description of the contribution.
 
 - [ ] **Pass All Tests**
 Confirm that all tests (including existing tests) pass in `tests` directory.
@@ -42,7 +42,7 @@ Confirm that all tests (including existing tests) pass in `tests` directory.
   * On the "New Merge Request" screen, select "Change branches"
   * For the Target branch, enter `tensors/tensor_toolbox` and `master`
   * Give a description of the merge request, referencing any issues or other information.
-  * Include _this_ checklist as the first comment on the merge request.
+  * Include _this_ checklist as the _first comment_ on the merge request.
   
 
 
