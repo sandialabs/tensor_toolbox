@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Multiplying tensors</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-09"><meta name="DC.source" content="multiply_doc.m"><style type="text/css">
+      --><title>Multiplying Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="multiply_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Multiplying tensors</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Tensor times vector (ttv for tensor)</a></li><li><a href="#13">Sparse tensor times vector (ttv for sptensor)</a></li><li><a href="#18">Kruskal tensor times vector (ttv for ktensor)</a></li><li><a href="#23">Tucker tensor times vector (ttv for ttensor)</a></li><li><a href="#28">Tensor times matrix (ttm for tensor)</a></li><li><a href="#33">Sparse tensor times matrix (ttm for sptensor)</a></li><li><a href="#41">Matricized Khatri-Rao product of a tensor.</a></li><li><a href="#42">Kruskal tensor times matrix (ttm for ktensor)</a></li><li><a href="#47">Tucker tensor times matrix (ttm for ttensor)</a></li><li><a href="#52">Tensor times tensor (ttt for tensor)</a></li><li><a href="#57">Sparse tensor times sparse tensor (ttt for sptensor)</a></li><li><a href="#63">Inner product (innerprod)</a></li><li><a href="#65">Contraction on tensors (contract for tensor)</a></li><li><a href="#74">Relationships among ttv, ttm, and ttt</a></li><li><a href="#82">Frobenius norm of a tensor</a></li></ul></div><h2 id="1">Tensor times vector (ttv for tensor)</h2><p>Compute a tensor times a vector (or vectors) in one (or more) modes.</p><pre class="codeinput">rand(<span class="string">'state'</span>,0);
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Multiplying Tensors</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="working.html">Working with Tensors</a>
+&#62;&#62; <a href="multiply_doc.html">Multiplying Tensors</a>
+</p>
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Tensor times vector (ttv for tensor)</a></li><li><a href="#13">Sparse tensor times vector (ttv for sptensor)</a></li><li><a href="#18">Kruskal tensor times vector (ttv for ktensor)</a></li><li><a href="#23">Tucker tensor times vector (ttv for ttensor)</a></li><li><a href="#28">Tensor times matrix (ttm for tensor)</a></li><li><a href="#33">Sparse tensor times matrix (ttm for sptensor)</a></li><li><a href="#41">Matricized Khatri-Rao product of a tensor.</a></li><li><a href="#42">Kruskal tensor times matrix (ttm for ktensor)</a></li><li><a href="#47">Tucker tensor times matrix (ttm for ttensor)</a></li><li><a href="#52">Tensor times tensor (ttt for tensor)</a></li><li><a href="#57">Sparse tensor times sparse tensor (ttt for sptensor)</a></li><li><a href="#63">Inner product (innerprod)</a></li><li><a href="#65">Contraction on tensors (contract for tensor)</a></li><li><a href="#74">Relationships among ttv, ttm, and ttt</a></li><li><a href="#82">Frobenius norm of a tensor</a></li></ul></div><h2 id="1">Tensor times vector (ttv for tensor)</h2><p>Compute a tensor times a vector (or vectors) in one (or more) modes.</p><pre class="codeinput">rand(<span class="string">'state'</span>,0);
 X = tenrand([5,3,4,2]); <span class="comment">%&lt;-- Create a dense tensor.</span>
 A = rand(5,1); B = rand(3,1); C = rand(4,1); D = rand(2,1); <span class="comment">%&lt;-- Some vectors.</span>
 </pre><pre class="codeinput">Y = ttv(X, A, 1) <span class="comment">%&lt;-- X times A in mode 1.</span>
@@ -90,23 +98,14 @@ A = rand(5,1); B = rand(3,1); C = rand(4,1); D = rand(2,1); <span class="comment
 	    1.0471    1.2250    1.5317    1.2519
 	    1.4225    1.2897    1.1595    0.5775
 </pre><pre class="codeinput">Y = ttv(X, {A,B,C,D}, [1 2 3 4]) <span class="comment">%&lt;-- All-mode multiply produces a scalar.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     7.8707
-
 </pre><pre class="codeinput">Y = ttv(X, {D,C,B,A}, [4 3 2 1]) <span class="comment">%&lt;-- Same as above.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     7.8707
-
 </pre><pre class="codeinput">Y = ttv(X, {A,B,C,D}) <span class="comment">%&lt;-- Same as above.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     7.8707
-
 </pre><pre class="codeinput">Y = ttv(X, {C,D}, [3 4]) <span class="comment">%&lt;-- X times C in mode-3 &amp; D in mode-4.</span>
 </pre><pre class="codeoutput">Y is a tensor of size 5 x 3
 	Y(:,:) = 
@@ -160,11 +159,8 @@ Y =
 	(3,1,2)    0.0005
 	(3,3,1)    0.0039
 </pre><pre class="codeinput">Y = ttv(X, {A,B,C,D}, [1 2 3 4]) <span class="comment">%&lt;-- All-mode multiply.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     0.1196
-
 </pre><pre class="codeinput">Y = ttv(X, {C,D}, [3 4]) <span class="comment">%&lt;-- X times C in mode-3 &amp; D in mode-4.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 5 x 3 with 5 nonzeros
 	(2,3)    0.0009
@@ -182,7 +178,8 @@ Y =
 </pre><h2 id="18">Kruskal tensor times vector (ttv for ktensor)</h2><p>The special structure of a ktensor allows an efficient implementation of vector multiplication. The result is a ktensor or a scalar.</p><pre class="codeinput">X = ktensor([10;1],rand(5,2),rand(3,2),rand(4,2),rand(2,2)); <span class="comment">%&lt;-- Ktensor.</span>
 Y = ttv(X, A, 1) <span class="comment">%&lt;-- X times A in mode 1. Result is a ktensor.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 3 x 4 x 2
-	Y.lambda = [ 5.9997      1.1433 ]
+	Y.lambda = 
+		    5.9997    1.1433
 	Y.U{1} = 
 		    0.6927    0.4418
 		    0.0841    0.3533
@@ -196,20 +193,15 @@ Y = ttv(X, A, 1) <span class="comment">%&lt;-- X times A in mode 1. Result is a 
 		    0.8928    0.2548
 		    0.2731    0.8656
 </pre><pre class="codeinput">norm(full(Y) - ttv(full(X),A,1)) <span class="comment">%&lt;-- Result is the same as dense case.</span>
-</pre><pre class="codeoutput">
-ans =
-
-   6.6844e-16
-
+</pre><pre class="codeoutput">ans =
+   7.0654e-16
 </pre><pre class="codeinput">Y = ttv(X, {A,B,C,D}) <span class="comment">%&lt;-- All-mode multiply -- scalar result.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     4.8677
-
 </pre><pre class="codeinput">Y = ttv(X, {C,D}, [3 4]) <span class="comment">%&lt;-- X times C in mode-3 &amp; D in mode-4.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 5 x 3
-	Y.lambda = [ 6.0729     0.78558 ]
+	Y.lambda = 
+		    6.0729    0.7856
 	Y.U{1} = 
 		    0.6124    0.5869
 		    0.6085    0.0576
@@ -222,7 +214,8 @@ Y =
 		    0.4544    0.1536
 </pre><pre class="codeinput">Y = ttv(X, {A,B,D}, [1 2 4]) <span class="comment">%&lt;-- 3-way multiplication.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 4
-	Y.lambda = [ 3.6628     0.93892 ]
+	Y.lambda = 
+		    3.6628    0.9389
 	Y.U{1} = 
 		    0.6756    0.5548
 		    0.6992    0.1210
@@ -251,17 +244,11 @@ Y = ttv(X, A, 1) <span class="comment">%&lt;-- X times A in mode 1.</span>
 		    0.1660    0.1911
 		    0.1556    0.4225
 </pre><pre class="codeinput">norm(full(Y) - ttv(full(X),A, 1)) <span class="comment">%&lt;-- Same as dense case.</span>
-</pre><pre class="codeoutput">
-ans =
-
-   4.7266e-16
-
+</pre><pre class="codeoutput">ans =
+   6.2311e-16
 </pre><pre class="codeinput">Y = ttv(X, {A,B,C,D}, [1 2 3 4]) <span class="comment">%&lt;-- All-mode multiply -- scalar result.</span>
-</pre><pre class="codeoutput">
-Y =
-
+</pre><pre class="codeoutput">Y =
     3.8758
-
 </pre><pre class="codeinput">Y = ttv(X, {C,D}, [3 4]) <span class="comment">%&lt;-- X times C in mode-3 &amp; D in mode-4.</span>
 </pre><pre class="codeoutput">Y is a ttensor of size 5 x 3
 	Y.core is a tensor of size 2 x 2
@@ -541,11 +528,8 @@ Y = ttm(X, A', 1, <span class="string">'t'</span>)    <span class="comment">%&lt
 	(4,3,2,2)    0.1799
 	(4,3,3,2)    0.7447
 </pre><pre class="codeinput">norm(full(Y) - ttm(full(X),A, 1) ) <span class="comment">%&lt;-- Same as dense case.</span>
-</pre><pre class="codeoutput">
-ans =
-
-     0
-
+</pre><pre class="codeoutput">ans =
+   5.5511e-17
 </pre><pre class="codeinput">Y = ttm(X, {A,B,C,D}, [1 2 3 4]); <span class="comment">%&lt;-- 4-way multiply.</span>
 Y = ttm(X, {D,C,B,A}, [4 3 2 1]); <span class="comment">%&lt;-- Same as above.</span>
 Y = ttm(X, {A,B,C,D});            <span class="comment">%&lt;-- Same as above.</span>
@@ -757,19 +741,16 @@ M = permute(X.data, [n:size(X,n), 1:n-1]);
 M = reshape(M,size(X,n),[]); <span class="comment">%&lt;--Matricized tensor data</span>
 
 norm(M*KRP-mttkrp(X,U,n)) &lt; 1e-14 <span class="comment">%&lt;--They are equal, within machine precision</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
   logical
-
    1
-
 </pre><h2 id="42">Kruskal tensor times matrix (ttm for ktensor)</h2><p>The special structure of a ktensor allows an efficient implementation of matrix multiplication. The arguments are the same as for the dense case.</p><pre class="codeinput">X = ktensor({rand(5,1) rand(3,1) rand(4,1) rand(2,1)});
 </pre><pre class="codeinput">Y = ttm(X, A, 1);         <span class="comment">%&lt;-- X times A in mode-1.</span>
 Y = ttm(X, {A,B,C,D}, 1); <span class="comment">%&lt;-- Same as above.</span>
 Y = ttm(X, A', 1, <span class="string">'t'</span>)    <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 4 x 3 x 4 x 2
-	Y.lambda = [ 1 ]
+	Y.lambda = 
+		     1
 	Y.U{1} = 
 		    0.9195
 		    1.0464
@@ -792,7 +773,8 @@ Y = ttm(X, {D,C,B,A}, [4 3 2 1]); <span class="comment">%&lt;-- Same as above.</
 Y = ttm(X, {A,B,C,D});            <span class="comment">%&lt;-- Same as above.</span>
 Y = ttm(X, {A',B',C',D'}, <span class="string">'t'</span>)    <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 4 x 4 x 3 x 3
-	Y.lambda = [ 1 ]
+	Y.lambda = 
+		     1
 	Y.U{1} = 
 		    0.9195
 		    1.0464
@@ -814,7 +796,8 @@ Y = ttm(X, {A',B',C',D'}, <span class="string">'t'</span>)    <span class="comme
 </pre><pre class="codeinput">Y = ttm(X, {C,D}, [3 4]);    <span class="comment">%&lt;-- X times C in mode-3 &amp; D in mode-4.</span>
 Y = ttm(X, {A,B,C,D}, [3 4]) <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 5 x 3 x 3 x 3
-	Y.lambda = [ 1 ]
+	Y.lambda = 
+		     1
 	Y.U{1} = 
 		    0.9971
 		    0.3462
@@ -838,7 +821,8 @@ Y = ttm(X, {A,B,C,D}, [1 2 4]); <span class="comment">%&lt;-- Same as above.</sp
 Y = ttm(X, {A,B,D}, -3);        <span class="comment">%&lt;-- Same as above.</span>
 Y = ttm(X, {A,B,C,D}, -3)       <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a ktensor of size 4 x 4 x 4 x 3
-	Y.lambda = [ 1 ]
+	Y.lambda = 
+		     1
 	Y.U{1} = 
 		    0.9195
 		    1.0464
@@ -1003,29 +987,17 @@ Y = ttm(X, {A,B,C,D}, -3)       <span class="comment">%&lt;-- Same as above.</sp
 </pre><h2 id="52">Tensor times tensor (ttt for tensor)</h2><pre class="codeinput">X = tensor(rand(4,2,3)); Y = tensor(rand(3,4,2));
 Z = ttt(X,Y); <span class="comment">%&lt;-- Outer product of X and Y.</span>
 size(Z)
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      4     2     3     3     4     2
-
 </pre><pre class="codeinput">Z = ttt(X,X,1:3) <span class="comment">%&lt;-- Inner product of X with itself.</span>
-</pre><pre class="codeoutput">
-Z =
-
+</pre><pre class="codeoutput">Z =
     8.9942
-
 </pre><pre class="codeinput">Z = ttt(X,Y,[1 2 3],[2 3 1]) <span class="comment">%&lt;-- Inner product of X &amp; Y.</span>
-</pre><pre class="codeoutput">
-Z =
-
+</pre><pre class="codeoutput">Z =
     6.3410
-
 </pre><pre class="codeinput">Z = innerprod(X,permute(Y, [2 3 1])) <span class="comment">%&lt;-- Same as above.</span>
-</pre><pre class="codeoutput">
-Z =
-
+</pre><pre class="codeoutput">Z =
     6.3410
-
 </pre><pre class="codeinput">Z = ttt(X,Y,[1 3],[2 1]) <span class="comment">%&lt;-- Product of X &amp; Y along specified dims.</span>
 </pre><pre class="codeoutput">Z is a tensor of size 2 x 2
 	Z(:,:) = 
@@ -1044,17 +1016,11 @@ Z = ttt(X,Y) <span class="comment">%&lt;--Outer product of X and Y.</span>
 	(3,2,1,3,1,1)    0.3867
 	(3,2,1,3,4,1)    0.4147
 </pre><pre class="codeinput">norm(full(Z)-ttt(full(X),full(Y))) <span class="comment">%&lt;-- Same as dense.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
-
 </pre><pre class="codeinput">Z = ttt(X,X,1:3) <span class="comment">%&lt;-- Inner product of X with itself.</span>
-</pre><pre class="codeoutput">
-Z =
-
+</pre><pre class="codeoutput">Z =
     2.2738
-
 </pre><pre class="codeinput">X = sptenrand([2 3],1); Y = sptenrand([3 2],1);
 Z = ttt(X, Y) <span class="comment">%&lt;-- Sparse result.</span>
 </pre><pre class="codeoutput">Z is a sparse tensor of size 2 x 3 x 3 x 2 with 1 nonzeros
@@ -1081,11 +1047,8 @@ Z = ttt(X, Y) <span class="comment">%&lt;-- Dense result.</span>
 	         0    0.1293    0.1009
 	    0.4559    0.1924    0.0305
 </pre><pre class="codeinput">Z = ttt(X,Y,[1 2],[2 1]) <span class="comment">%&lt;-- inner product of X &amp; Y</span>
-</pre><pre class="codeoutput">
-Z =
-
+</pre><pre class="codeoutput">Z =
     0.5770
-
 </pre><h2 id="63">Inner product (innerprod)</h2><p>The function <tt>innerprod</tt> efficiently computes the inner product between two tensors X and Y.  The code does this efficiently depending on what types of tensors X and Y.</p><pre class="codeinput">X = tensor(rand(2,2,2))
 Y = ktensor({rand(2,2),rand(2,2),rand(2,2)})
 </pre><pre class="codeoutput">X is a tensor of size 2 x 2 x 2
@@ -1096,7 +1059,8 @@ Y = ktensor({rand(2,2),rand(2,2),rand(2,2)})
 	    0.0986    0.0271
 	    0.6809    0.3208
 Y is a ktensor of size 2 x 2 x 2
-	Y.lambda = [ 1  1 ]
+	Y.lambda = 
+		     1     1
 	Y.U{1} = 
 		    0.0525    0.3839
 		    0.3696    0.3359
@@ -1107,21 +1071,15 @@ Y is a ktensor of size 2 x 2 x 2
 		    0.1800    0.7903
 		    0.7162    0.3313
 </pre><pre class="codeinput">z = innerprod(X,Y)
-</pre><pre class="codeoutput">
-z =
-
+</pre><pre class="codeoutput">z =
     0.3010
-
 </pre><h2 id="65">Contraction on tensors (contract for tensor)</h2><p>The function <tt>contract</tt> sums the entries of X along dimensions I and J.  Contraction is a generalization of matrix trace. In other words, the trace is performed along the two-dimensional slices defined by dimensions I and J. It is possible to implement tensor multiplication as an outer product followed by a contraction.</p><pre class="codeinput">X = sptenrand([4 3 2],5);
 Y = sptenrand([3 2 4],5);
 </pre><pre class="codeinput">Z1 = ttt(X,Y,1,3); <span class="comment">%&lt;-- Normal tensor multiplication</span>
 </pre><pre class="codeinput">Z2 = contract(ttt(X,Y),1,6); <span class="comment">%&lt;-- Outer product + contract</span>
 </pre><pre class="codeinput">norm(Z1-Z2) <span class="comment">%&lt;-- Should be zero</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
-
 </pre><p>Using <tt>contract</tt> on either sparse or dense tensors gives the same result</p><pre class="codeinput">X = sptenrand([4 2 3 4],20);
 Z1 = contract(X,1,4)        <span class="comment">% sparse version of contract</span>
 </pre><pre class="codeoutput">Z1 is a tensor of size 2 x 3
@@ -1134,11 +1092,8 @@ Z1 = contract(X,1,4)        <span class="comment">% sparse version of contract</
 	    0.0047    0.2498    0.2491
 	    0.5821    0.4739    0.3943
 </pre><pre class="codeinput">norm(full(Z1) - Z2) <span class="comment">%&lt;-- Should be zero</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
-
 </pre><p>The result may be dense or sparse, depending on its density.</p><pre class="codeinput">X = sptenrand([4 2 3 4],8);
 Y = contract(X,1,4) <span class="comment">%&lt;-- should be sparse</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 2 x 3 with 2 nonzeros
@@ -1172,11 +1127,8 @@ A = rand(4,1);
 	    0.5032    1.3496
 </pre><p>Tensor outer product may be used in conjuction with contract to produce the result of <tt>ttm</tt>.  Please note that this is more expensive than using <tt>ttm</tt>.</p><pre class="codeinput">Z = ttt(tensor(A),X);
 size(Z)
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      4     1     4     3     2
-
 </pre><pre class="codeinput">Y3 = contract(Z,1,3)
 </pre><pre class="codeoutput">Y3 is a tensor of size 1 x 3 x 2
 	Y3(:,:,1) = 
@@ -1198,20 +1150,15 @@ norm(full(X))
 	(3,2,2)    0.8002
 	(3,3,1)    0.9895
 	(4,1,1)    0.8698
-
 ans =
-
     1.9206
-
-
 ans =
-
     1.9206
-
 </pre><pre class="codeinput">X = ktensor({rand(4,2),rand(3,2)})
 norm(X)
 </pre><pre class="codeoutput">X is a ktensor of size 4 x 3
-	X.lambda = [ 1  1 ]
+	X.lambda = 
+		     1     1
 	X.U{1} = 
 		    0.8201    0.6458
 		    0.9506    0.2407
@@ -1221,11 +1168,8 @@ norm(X)
 		    0.7440    0.7862
 		    0.5461    0.8098
 		    0.4219    0.6288
-
 ans =
-
     2.6010
-
 </pre><pre class="codeinput">X = ttensor(tensor(rand(2,2)),{rand(4,2),rand(3,2)})
 norm(X)
 </pre><pre class="codeoutput">X is a ttensor of size 4 x 3
@@ -1242,14 +1186,20 @@ norm(X)
 		    0.8048    0.1238
 		    0.5318    0.0792
 		    0.3100    0.3897
-
 ans =
-
     1.0605
-
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Multiplying tensors
+%% Multiplying Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="multiply_doc.html">Multiplying Tensors</a>
+% </p>
+% </html>
+%
 
 %% Tensor times vector (ttv for tensor)
 % Compute a tensor times a vector (or vectors) in one (or more) modes.

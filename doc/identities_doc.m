@@ -1,13 +1,21 @@
-%% Identities and relationships of tensors
+%% Identities and Relationships of Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="identities_doc.html">Identities</a>
+% </p>
+% </html>
+%
 % There are many mathematical relationships, identities, and
 % connections among tensors.  These identities are presented here and
 % show the versatility of the Tensor Toolbox.
 % The propositions indicated below are references to the following
 % report:
 %
-% T.G. Kolda, "Multilinear operators for higher-order decompositions",
-% Tech. Rep. SAND2006-2081, Sandia National Laboratories, April 2006,
-% http://csmr.ca.sandia.gov/~tgkolda/pubs/index.html#SAND2006-2081.
+% T.G. Kolda, Multilinear Operators for Higher-order Decompositions,
+% Tech. Rep. SAND2006-2081, Sandia National Laboratories, 2006
 
 %% N-mode product properties
 % Create some data.

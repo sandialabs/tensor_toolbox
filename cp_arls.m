@@ -39,9 +39,9 @@ function [P,Uinit,output] = cp_arls(X,R,varargin)
 %   info = create_problem('Size',[100 100 100],'Num_Factors',2);
 %   M = cp_arls(info.Data,2);
 %
-%   REFERENCE: C. Battaglino, G. Ballard, T. G. Kolda. A Practical
-%   Randomized CP Tensor Decomposition, to appear in SIAM J. Matrix
-%   Analysis and Applications, 2017. http://arxiv.org/abs/1701.06600
+%   REFERENCE: C. Battaglino, G. Ballard, T. G. Kolda, A Practical
+%   Randomized CP Tensor Decomposition, SIAM J. Matrix Analysis and
+%   Applications, 39(2):876-901, 2018, https://doi.org/10.1137/17M1112303.
 %
 %   <a href="matlab:web(strcat('file://',...
 %   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...

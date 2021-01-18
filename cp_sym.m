@@ -45,9 +45,9 @@ function [Model,Info] = cp_sym(A,P,varargin)
 %   o optopt - Optimization parameters. (See 'alg_options' above.)
 %   o runtime - Time for running optimization method.
 %
-%   Reference: T. G. Kolda. Numerical Optimization for Symmetric Tensor
-%   Decomposition. Mathematical Programming B, Vol. 151, No. 1, pp.
-%   225-248, 2015. https://doi.org/10.1007/s10107-015-0895-0 
+%   Reference: T. G. Kolda, Numerical Optimization for Symmetric Tensor
+%   Decomposition, Mathematical Programming B, Vol. 151, No. 1, pp.
+%   225-248, 2015, https://doi.org/10.1007/s10107-015-0895-0 
 %
 %   <a href="matlab:web(strcat('file://',...
 %   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...

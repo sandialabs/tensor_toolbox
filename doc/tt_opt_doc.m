@@ -1,4 +1,13 @@
-%% Tensor Toolbox Optimization Methods for Developers
+%% Developer Information for Optimization Methods in Tensor Toolbox
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a> 
+% &#62;&#62; <a href="tt_opt_doc.html">Developer Information</a> 
+% </p>
+% </html>
+%
 % This page contains information for developers who want to use the
 % optimization method interfaces contained in Tensor Toolbox. These
 % interfaces are meant to standardize across packages with very different
@@ -105,7 +114,7 @@ fprintf('||x-xopt||/||xopt|| = %e\n', norm(x-xopt)/norm(xopt));
 %% Adam (internal to Tensor Toolbox)
 % Adam is a stochastic optimization method, so it's not especially fair to
 % compare it to the other methods. But we do it anyways.
-rng(1)
+rng('default')
 [x,f,info] = tt_opt_adam(xinit, fh, gh,'subiters',500,'maxfails',2,'maxiters',20000,'printitn',500,'fdesc','Function: exact','gdesc','Gradient: exact');
 %%
 % Check how close to optimal

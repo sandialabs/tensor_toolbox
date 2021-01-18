@@ -1,4 +1,13 @@
-%% Tucker tensors
+%% Tucker Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="ttensor_doc.html">Tucker Tensors</a>
+% </p>
+% </html>
+%
 % Tucker format is a decomposition of a tensor X as the product of a core
 % tensor G and matrices (e.g., A,B,C) in each dimension. In other words, a
 % tensor X is expressed as:

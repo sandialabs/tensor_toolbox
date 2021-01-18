@@ -50,10 +50,12 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %   'gcp_opt_doc.html')))">Documentation page for GCP_OPT</a>
 %
 %   REFERENCES: 
-%   * D. Hong, T. G. Kolda, J. A. Duersch. Generalized Canonical Polyadic
-%     Tensor Decomposition. SIAM Review, 2019.  
-%   * T. G. Kolda, D. Hong, J. Duersch. Stochastic Gradients for
-%     Large-Scale Tensor Decomposition, 2019.
+%   * D. Hong, T. G. Kolda, J. A. Duersch, Generalized Canonical
+%     Polyadic Tensor Decomposition, SIAM Review, 62:133-163, 2020,
+%     https://doi.org/10.1137/18M1203626     
+%   * T. G. Kolda, D. Hong, Stochastic Gradients for Large-Scale Tensor
+%     Decomposition. SIAM J. Mathematics of Data Science, 2:1066-1095,
+%     2020, https://doi.org/10.1137/19m1266265
 %
 %   See also CP_OPT, CP_APR.
 %

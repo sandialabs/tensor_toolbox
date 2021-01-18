@@ -1,4 +1,13 @@
-%% Sums of structured tensors
+%% Sum of Structured Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="sumtensor_doc.html">Sum of Structured Tensors</a>
+% </p>
+% </html>
+%
 % When certain operations are performed on a tensor which is formed as a 
 % sum of tensors, it can be beneficial to avoid explicitly forming the sum.
 % For example, if a tensor is formed as a sum of a low rank tensor and a 
@@ -88,7 +97,7 @@ norm(T)
 % In order avoid this default behavior and return the Frobenius norm of a 
 % sumtensor, it can be converted to a tensor using |full|.
 norm(full(T))
-%% Use cp_als to find a CP decomposition of a sumtensor
+%% Use CP-ALS to find a CP decomposition of a sumtensor
 % One of the primary motivations for defining the |sumtensor| class is for
 % efficient decomposition. In particular, when trying to find a CP
 % decomposition of a tensor using alternating least squares, the

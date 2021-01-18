@@ -16,7 +16,7 @@ Then you will be able to make a merge request following the instructions below.
 
 - [ ] **HTML Documentation** For any major new functionality, please follow the following steps.
   - [ ] Add HTML documentation in the `doc\html` directory with the name `XXX_doc.html`
-  - [ ] Use the MATLAB `publish` command to create a new file in `doc\html` 
+  - [ ] Publish the documentation into `doc\html` via `cd doc; publish('XXX_doc.m','stylesheet','ttb.xsl')`
   - [ ] Add a pointer to this documentation file in `doc\html\helptoc.xml`
   - [ ] Add pointers in any related higher-level files, e.g., a new method for CP should be referenced in the `cp.html` file
   - [ ] Add link to HTML documentation from help comments in function
@@ -28,7 +28,7 @@ Then you will be able to make a merge request following the instructions below.
 top level, go to `maintenance` and run `update_topcontents` to update the Contents.m file at the top level.
 
 - [ ] **Release Notes** 
-Update `RELEASE_NOTES.txt` with any significant bug fixes or additions.
+Update `README.txt` (under "Changes from [MOST RECENT VERSION]") with any significant bug fixes or additions.
 
 - [ ] **Contributors List**
 Update `CONTRIBUTORS.md` with your name and a brief description of the contribution.

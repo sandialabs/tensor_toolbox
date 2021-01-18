@@ -1,14 +1,23 @@
 %% Implicit Symmetric CP Decomposition for Symmetric K-Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_isym_doc.html">CP-ISYM</a>
+% </p>
+% </html>
+%
 % The function |cp_isym| computes the symmetric CP
 % decomposition of a symmetric tensor that is in symmetric k-tensor format,
 % meaning that it is the sum of symmetric outer products and stored as a
 % |symktensor| object.
 % The decomposition is described in the following reference:
 %
-% * S. Sherman, T. G. Kolda. Estimating Higher-Order Moments Using
-%   Symmetric Tensor Decomposition. SIAM Journal on Matrix Analysis and 
-%   Applications, Vol. 41, No. 3, pp. 1369-1387, 19 pages, 2020. 
-%   <https://doi.org/10.1137/19m1299633 https://doi.org/10.1137/19m1299633>
+% * S. Sherman, T. G. Kolda, Estimating Higher-Order Moments Using
+%   Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and 
+%   Applications, 41:1369-1387, 2020,
+%   <https://doi.org/10.1137/19m1299633>
 
 %% Requirements
 % This code requires an optimization solver. Our examples use the L-BFGS-B

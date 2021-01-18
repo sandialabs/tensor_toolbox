@@ -1,4 +1,14 @@
-%% Converting sparse tensors to matrices and vice versa
+%% Converting Sparse Tensors to Matrices and Vice Versa
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="converting.html">Converting Between Tensors and Matrices</a>
+% &#62;&#62; <a href="sptenmat_doc.html">Sparse Tensor as a Sparse Matrix</a>
+% </p>
+% </html>
+%
 % We show how to convert a sptensor to a matrix stored in _coordinate_
 % format and with extra information so that it can be converted back to a
 % sptensor.

@@ -1,4 +1,13 @@
-%% Sparse tensors
+%% Sparse Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="sptensor_doc.html">Sparse Tensors</a>
+% </p>
+% </html>
+%
 % MATLAB has no native ability to store sparse multidimensional arrays,
 % only sparse matrices. Moreover, the compressed sparse column storage
 % format for MATLAB sparse matrices is not readily adaptable to sparse
@@ -6,9 +15,9 @@
 % format. The |sptensor| class is best described in the following
 % reference:
 %
-% * B. W. Bader and T. G. Kolda. *Efficient MATLAB Computations with Sparse
-%   and Factored Tensors*, _SIAM J. Scientific Computing_ 30:205-231, 2007.
-%   <http:dx.doi.org/10.1137/060676489 DOI:10.1137/060676489>. <bibtex.html#TTB_Sparse [BibTeX]>
+% * B. W. Bader and T. G. Kolda. Efficient MATLAB Computations with Sparse
+%   and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007.
+%   <http:dx.doi.org/10.1137/060676489>. 
 %
 %% Creating a sptensor 
 % A sparse tensor can be created by passing in a list of subscripts and

@@ -6,7 +6,7 @@
 <matlabrelease>R2018a</matlabrelease>
 <name>Tensor</name>
 <type>toolbox</type>
-<icon>$toolbox/matlab/icons/unknownicon.gif</icon>
+<icon>$toolbox/matlab/</icon>
 <help_location>doc/html</help_location>
 
 <list>

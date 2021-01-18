@@ -60,7 +60,7 @@ function [M, Minit, output] = cp_apr(X, R, varargin)
 %
 %   REFERENCES: 
 %   * E. C. Chi and T. G. Kolda. On Tensors, Sparsity, and Nonnegative
-%     Factorizations, SIAM J. Matrix Analysis,  33(4):1272-1299, Dec. 2012,
+%     Factorizations, SIAM J. Matrix Analysis, 33(4):1272-1299, Dec. 2012,
 %     http://dx.doi.org/10.1137/110859063  
 %   * S. Hansen, T. Plantenga and T. G. Kolda, Newton-Based Optimization
 %     for Kullback-Leibler Nonnegative Tensor Factorizations, 

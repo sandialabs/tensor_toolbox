@@ -1,5 +1,14 @@
-%% Collapsing and scaling tensors
-% The tensor and sptensor classes support that notion of collapsing and
+%% Collapsing and Scaling Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="collapse_scale_doc.html">Collapsing and Scaling Tensors</a>
+% </p>
+% </html>
+%
+% The |tensor| and |sptensor| classes support the notion of collapsing and
 % scaling dimensions.
 
 %% Examples of collapsing a tensor

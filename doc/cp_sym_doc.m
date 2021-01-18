@@ -1,4 +1,13 @@
 %% Symmetric CP Decomposition for Symmetric Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_sym_doc.html">CP-SYM</a>
+% </p>
+% </html>
+%
 % The function |cp_sym| computes the symmetric CP decomposition of a
 % symmetric tensor. 
 % A *symmetric* tensor is invariant under any permutation
@@ -11,9 +20,10 @@
 % stored as a |symktensor| object.
 % The symmetric CP decompsition is described in the following reference:
 %
-% * T. G. Kolda. Numerical Optimization for Symmetric Tensor Decomposition.
-% Mathematical Programming B, Vol. 151, No. 1, pp. 225-248, 2015.
-% <https://doi.org/10.1007/s10107-015-0895-0 doi:10.1007/s10107-015-0895-0>  
+% * T. G. Kolda, Numerical Optimization for Symmetric Tensor Decomposition,
+% Mathematical Programming B, 151:225-248, 2015,
+% <https://doi.org/10.1007/s10107-015-0895-0>  
+
 %% Requirements
 % Some of these codes requires an optimizaton solver to use. We recommend
 % installing at least one of the following:

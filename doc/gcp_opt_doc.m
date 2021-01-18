@@ -1,22 +1,31 @@
 %% Generalized CP (GCP) Tensor Decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="gcp_opt_doc.html">GCP-OPT</a>
+% </p>
+% </html>
+%
 % This document outlines usage and examples for the generalized CP (GCP)
 % tensor decomposition implmented in |gcp_opt|. 
 % GCP allows alternate objective functions besides sum of squared errors,
 % which is the standard for CP.
 % The code support both dense and sparse input tensors, but the sparse
 % input tensors require randomized optimization methods. For some examples,
-% see also <gcp_opt_amino_doc.html GCP-OPT Examples with Amino Acids
+% see also <gcp_opt_amino_doc.html GCP-OPT and Amino Acids
 % Dataset>.
 %
 % GCP is described in greater detail in the manuscripts: 
 %
-% * D. Hong, T. G. Kolda, J. A. Duersch.
-%   _Generalized Canonical Polyadic Tensor Decomposition_. 
-%   <http://arXiv.org/abs/1808.07452 arXiv:1808.07452>,
-%   2018.  To appear in SIAM Review, 2019.
-% * T. G. Kolda, D. Hong, J. Duersch. _Stochastic Gradients for
-%     Large-Scale Tensor Decomposition_, 2019.
-
+% * D. Hong, T. G. Kolda, J. A. Duersch, Generalized Canonical
+%   Polyadic Tensor Decomposition, SIAM Review, 62:133-163, 2020,
+%   <https://doi.org/10.1137/18M1203626>
+% * T. G. Kolda, D. Hong, Stochastic Gradients for Large-Scale Tensor
+%   Decomposition. SIAM J. Mathematics of Data Science, 2:1066-1095,
+%   2020, <https://doi.org/10.1137/19m1266265>
+%
 %% Basic Usage
 % The idea of GCP is to use alternative objective functions. As such, the
 % most important thing to specify is the objective function. 
@@ -170,7 +179,7 @@
 % We set up the example with known low-rank structure. Here |nc| is the
 % rank and |sz| is the size.
 clear
-rng(4)
+rng('default')
 nc = 2; 
 sz = [50 60 70]; 
 info = create_problem('Size',sz,'Num_Factors',nc);
