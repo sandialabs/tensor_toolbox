@@ -1,4 +1,13 @@
 %% All-at-once optimization for CP tensor decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_opt_doc.html">CP-OPT</a>
+% </p>
+% </html>
+%
 % We explain how to use |cp_opt| function which implements the *CP-OPT*
 % method that fits the CP model using _direct_ or _all-at-once_
 % optimization. This is in contrast to the |cp_als| function which
@@ -6,10 +15,10 @@
 % optimization. The CP-OPT method is described in the
 % following reference: 
 %
-% * E. Acar, D. M. Dunlavy and T. G. Kolda, *A Scalable
-% Optimization Approach for Fitting Canonical Tensor Decompositions*,
-% _J. Chemometrics_ 25(2):67-86, February 2011
-% <http://doi.org/10.1002/cem.1335 (doi:10.1002/cem.1335)>
+% * E. Acar, D. M. Dunlavy and T. G. Kolda, A Scalable
+% Optimization Approach for Fitting Canonical Tensor Decompositions,
+% J. Chemometrics, 25(2):67-86, 2011,
+% <http://doi.org/10.1002/cem.1335>
 
 
 %% Third-party optimization software

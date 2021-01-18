@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Implicit Symmetric CP Decomposition for Symmetric K-Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-10-13"><meta name="DC.source" content="cp_isym_doc.m"><style type="text/css">
+      --><title>Implicit Symmetric CP Decomposition for Symmetric K-Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="cp_isym_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Implicit Symmetric CP Decomposition for Symmetric K-Tensors</h1><!--introduction--><p>The function <tt>cp_isym</tt> computes the symmetric CP decomposition of a symmetric tensor that is in symmetric k-tensor format, meaning that it is the sum of symmetric outer products and stored as a <tt>symktensor</tt> object. The decomposition is described in the following reference:</p><div><ul><li>S. Sherman, T. G. Kolda. Estimating Higher-Order Moments Using   Symmetric Tensor Decomposition. SIAM Journal on Matrix Analysis and   Applications, Vol. 41, No. 3, pp. 1369-1387, 19 pages, 2020.   <a href="https://doi.org/10.1137/19m1299633">https://doi.org/10.1137/19m1299633</a></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li><li><a href="#2">Create a sample problem based on a Gaussian mixture model.</a></li><li><a href="#7">Recommend multiple runs of CP-ISYM</a></li><li><a href="#9">Options for CP-ISYM with L-BFGS-B (default) optimization solver</a></li><li><a href="#15">Options for CP-ISYM with L-BFGS optimization solver from Poblano</a></li><li><a href="#16">Options for CP-ISYM with Quasi-Newton optimization solver from Optimization Toolbox</a></li><li><a href="#17">Options for CP-ISYM with Adam stochastic optimization solver</a></li></ul></div><h2 id="1">Requirements</h2><p>This code requires an optimization solver. Our examples use the L-BFGS-B optimization method; see <a href="opt_options_doc.html">Optimization Options</a> for details of installation and usage as well as other options for optimization solvers.</p><h2 id="2">Create a sample problem based on a Gaussian mixture model.</h2><p>Here we used the third-order moment (d=3), for a problem with random variables of dimension n=100. We take a mixture of r=5 Gaussians and collect p=750 observations.</p><pre class="codeinput">d = 3;
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Implicit Symmetric CP Decomposition for Symmetric K-Tensors</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="cp.html">CP Decompositions</a>
+&#62;&#62; <a href="cp_isym_doc.html">CP-ISYM</a>
+</p>
+</p><p>The function <tt>cp_isym</tt> computes the symmetric CP decomposition of a symmetric tensor that is in symmetric k-tensor format, meaning that it is the sum of symmetric outer products and stored as a <tt>symktensor</tt> object. The decomposition is described in the following reference:</p><div><ul><li>S. Sherman, T. G. Kolda, Estimating Higher-Order Moments Using   Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and   Applications, 41:1369-1387, 2020,   <a href="https://doi.org/10.1137/19m1299633">https://doi.org/10.1137/19m1299633</a></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li><li><a href="#2">Create a sample problem based on a Gaussian mixture model.</a></li><li><a href="#7">Recommend multiple runs of CP-ISYM</a></li><li><a href="#9">Options for CP-ISYM with L-BFGS-B (default) optimization solver</a></li><li><a href="#15">Options for CP-ISYM with L-BFGS optimization solver from Poblano</a></li><li><a href="#16">Options for CP-ISYM with Quasi-Newton optimization solver from Optimization Toolbox</a></li><li><a href="#17">Options for CP-ISYM with Adam stochastic optimization solver</a></li></ul></div><h2 id="1">Requirements</h2><p>This code requires an optimization solver. Our examples use the L-BFGS-B optimization method; see <a href="opt_options_doc.html">Optimization Options</a> for details of installation and usage as well as other options for optimization solvers.</p><h2 id="2">Create a sample problem based on a Gaussian mixture model.</h2><p>Here we used the third-order moment (d=3), for a problem with random variables of dimension n=100. We take a mixture of r=5 Gaussians and collect p=750 observations.</p><pre class="codeinput">d = 3;
 n = 100;
 r = 5;
 p = 250*r;
@@ -134,27 +142,27 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     1, f(x) = 1.798804e-04, ||grad||_infty = 1.54e-02, 3.22e-03
-Iter     2, f(x) = 2.009885e-06, ||grad||_infty = 1.15e-03, 4.01e-03
-Iter     3, f(x) = 1.320009e-06, ||grad||_infty = 7.90e-04, 4.96e-03
-Iter     4, f(x) = 9.160013e-07, ||grad||_infty = 2.02e-04, 6.46e-03
-Iter     5, f(x) = 6.929470e-07, ||grad||_infty = 1.16e-04, 8.45e-03
-Iter     6, f(x) = 2.975243e-07, ||grad||_infty = 2.70e-04, 9.76e-03
-Iter     7, f(x) = 1.647469e-07, ||grad||_infty = 1.26e-04, 1.11e-02
-Iter     8, f(x) = 1.401774e-07, ||grad||_infty = 6.75e-05, 1.24e-02
-Iter     9, f(x) = 1.275847e-07, ||grad||_infty = 7.95e-05, 1.38e-02
-Iter    10, f(x) = 7.883570e-08, ||grad||_infty = 1.39e-04, 1.59e-02
-Iter    11, f(x) = 5.170653e-08, ||grad||_infty = 3.19e-05, 1.74e-02
-Iter    12, f(x) = 3.582501e-08, ||grad||_infty = 1.63e-05, 1.88e-02
-Iter    13, f(x) = 1.921946e-08, ||grad||_infty = 9.09e-05, 2.05e-02
-Iter    14, f(x) = 6.336888e-09, ||grad||_infty = 4.28e-05, 2.24e-02
+Iter     1, f(x) = 1.798804e-04, ||grad||_infty = 1.54e-02, 4.50e-03
+Iter     2, f(x) = 2.009885e-06, ||grad||_infty = 1.15e-03, 5.64e-03
+Iter     3, f(x) = 1.320009e-06, ||grad||_infty = 7.90e-04, 6.92e-03
+Iter     4, f(x) = 9.160013e-07, ||grad||_infty = 2.02e-04, 8.24e-03
+Iter     5, f(x) = 6.929470e-07, ||grad||_infty = 1.16e-04, 9.59e-03
+Iter     6, f(x) = 2.975243e-07, ||grad||_infty = 2.70e-04, 1.09e-02
+Iter     7, f(x) = 1.647469e-07, ||grad||_infty = 1.26e-04, 1.23e-02
+Iter     8, f(x) = 1.401774e-07, ||grad||_infty = 6.75e-05, 1.37e-02
+Iter     9, f(x) = 1.275847e-07, ||grad||_infty = 7.95e-05, 1.50e-02
+Iter    10, f(x) = 7.883570e-08, ||grad||_infty = 1.39e-04, 1.70e-02
+Iter    11, f(x) = 5.170653e-08, ||grad||_infty = 3.19e-05, 1.83e-02
+Iter    12, f(x) = 3.582501e-08, ||grad||_infty = 1.63e-05, 1.95e-02
+Iter    13, f(x) = 1.921946e-08, ||grad||_infty = 9.09e-05, 2.10e-02
+Iter    14, f(x) = 6.336888e-09, ||grad||_infty = 4.28e-05, 2.22e-02
 Iter    15, f(x) = 3.691645e-09, ||grad||_infty = 3.04e-05, 2.37e-02
-Iter    16, f(x) = 2.252858e-09, ||grad||_infty = 9.17e-06, 2.48e-02
+Iter    16, f(x) = 2.252858e-09, ||grad||_infty = 9.17e-06, 2.51e-02
 End Main Loop
 
 Final f: 2.2529e-09
-Setup time: 0.00065 seconds
-Optimization time: 0.025 seconds
+Setup time: 0.0024 seconds
+Optimization time: 0.026 seconds
 Iterations: 16
 Total iterations: 35
 Exit condition: CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_&lt;=_PGTOL.
@@ -171,27 +179,27 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     1, f(x) = 1.798804e-04, ||grad||_infty = 1.54e-02, 3.74e-03
-Iter     2, f(x) = 2.009885e-06, ||grad||_infty = 1.15e-03, 4.76e-03
-Iter     3, f(x) = 1.320009e-06, ||grad||_infty = 7.90e-04, 5.95e-03
-Iter     4, f(x) = 9.160013e-07, ||grad||_infty = 2.02e-04, 7.11e-03
-Iter     5, f(x) = 6.929470e-07, ||grad||_infty = 1.16e-04, 8.32e-03
-Iter     6, f(x) = 2.975243e-07, ||grad||_infty = 2.70e-04, 1.15e-02
-Iter     7, f(x) = 1.647469e-07, ||grad||_infty = 1.26e-04, 1.29e-02
-Iter     8, f(x) = 1.401774e-07, ||grad||_infty = 6.75e-05, 1.43e-02
-Iter     9, f(x) = 1.275847e-07, ||grad||_infty = 7.95e-05, 1.55e-02
-Iter    10, f(x) = 7.883570e-08, ||grad||_infty = 1.39e-04, 1.68e-02
-Iter    11, f(x) = 5.170653e-08, ||grad||_infty = 3.19e-05, 1.92e-02
-Iter    12, f(x) = 3.582501e-08, ||grad||_infty = 1.63e-05, 2.06e-02
-Iter    13, f(x) = 1.921946e-08, ||grad||_infty = 9.09e-05, 2.17e-02
-Iter    14, f(x) = 6.336888e-09, ||grad||_infty = 4.28e-05, 2.30e-02
-Iter    15, f(x) = 3.691645e-09, ||grad||_infty = 3.04e-05, 2.44e-02
-Iter    16, f(x) = 2.252858e-09, ||grad||_infty = 9.17e-06, 2.79e-02
+Iter     1, f(x) = 1.798804e-04, ||grad||_infty = 1.54e-02, 4.42e-03
+Iter     2, f(x) = 2.009885e-06, ||grad||_infty = 1.15e-03, 5.64e-03
+Iter     3, f(x) = 1.320009e-06, ||grad||_infty = 7.90e-04, 7.02e-03
+Iter     4, f(x) = 9.160013e-07, ||grad||_infty = 2.02e-04, 8.23e-03
+Iter     5, f(x) = 6.929470e-07, ||grad||_infty = 1.16e-04, 1.00e-02
+Iter     6, f(x) = 2.975243e-07, ||grad||_infty = 2.70e-04, 1.14e-02
+Iter     7, f(x) = 1.647469e-07, ||grad||_infty = 1.26e-04, 1.26e-02
+Iter     8, f(x) = 1.401774e-07, ||grad||_infty = 6.75e-05, 1.39e-02
+Iter     9, f(x) = 1.275847e-07, ||grad||_infty = 7.95e-05, 1.53e-02
+Iter    10, f(x) = 7.883570e-08, ||grad||_infty = 1.39e-04, 1.67e-02
+Iter    11, f(x) = 5.170653e-08, ||grad||_infty = 3.19e-05, 1.80e-02
+Iter    12, f(x) = 3.582501e-08, ||grad||_infty = 1.63e-05, 1.93e-02
+Iter    13, f(x) = 1.921946e-08, ||grad||_infty = 9.09e-05, 2.06e-02
+Iter    14, f(x) = 6.336888e-09, ||grad||_infty = 4.28e-05, 2.19e-02
+Iter    15, f(x) = 3.691645e-09, ||grad||_infty = 3.04e-05, 2.31e-02
+Iter    16, f(x) = 2.252858e-09, ||grad||_infty = 9.17e-06, 2.46e-02
 End Main Loop
 
 Final f: 2.2529e-09
-Setup time: 0.00073 seconds
-Optimization time: 0.028 seconds
+Setup time: 0.0016 seconds
+Optimization time: 0.025 seconds
 Iterations: 16
 Total iterations: 35
 Exit condition: CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_&lt;=_PGTOL.
@@ -209,24 +217,24 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     1, f(x) = -2.108869e-01, ||grad||_infty = 5.67e-02, 2.79e-03
-Iter     2, f(x) = -2.551309e-01, ||grad||_infty = 4.68e-02, 5.65e-03
-Iter     3, f(x) = -2.954389e-01, ||grad||_infty = 1.44e-02, 7.48e-03
-Iter     4, f(x) = -2.983326e-01, ||grad||_infty = 1.31e-02, 8.33e-03
-Iter     5, f(x) = -2.998836e-01, ||grad||_infty = 5.63e-03, 9.47e-03
-Iter     6, f(x) = -3.003519e-01, ||grad||_infty = 5.88e-04, 1.06e-02
-Iter     7, f(x) = -3.003573e-01, ||grad||_infty = 7.43e-05, 1.22e-02
-Iter     8, f(x) = -3.003574e-01, ||grad||_infty = 5.83e-05, 1.46e-02
-Iter     9, f(x) = -3.003576e-01, ||grad||_infty = 6.35e-05, 1.60e-02
-Iter    10, f(x) = -3.003578e-01, ||grad||_infty = 7.69e-05, 1.70e-02
-Iter    11, f(x) = -3.003579e-01, ||grad||_infty = 6.13e-05, 1.94e-02
-Iter    12, f(x) = -3.003580e-01, ||grad||_infty = 1.96e-05, 2.07e-02
-Iter    13, f(x) = -3.003580e-01, ||grad||_infty = 2.51e-05, 2.20e-02
-Iter    14, f(x) = -3.003580e-01, ||grad||_infty = 3.02e-06, 2.32e-02
+Iter     1, f(x) = -2.108869e-01, ||grad||_infty = 5.67e-02, 3.00e-03
+Iter     2, f(x) = -2.551309e-01, ||grad||_infty = 4.68e-02, 5.40e-03
+Iter     3, f(x) = -2.954389e-01, ||grad||_infty = 1.44e-02, 7.86e-03
+Iter     4, f(x) = -2.983326e-01, ||grad||_infty = 1.31e-02, 8.97e-03
+Iter     5, f(x) = -2.998836e-01, ||grad||_infty = 5.63e-03, 1.03e-02
+Iter     6, f(x) = -3.003519e-01, ||grad||_infty = 5.88e-04, 1.20e-02
+Iter     7, f(x) = -3.003573e-01, ||grad||_infty = 7.43e-05, 1.36e-02
+Iter     8, f(x) = -3.003574e-01, ||grad||_infty = 5.83e-05, 1.49e-02
+Iter     9, f(x) = -3.003576e-01, ||grad||_infty = 6.35e-05, 1.62e-02
+Iter    10, f(x) = -3.003578e-01, ||grad||_infty = 7.69e-05, 1.76e-02
+Iter    11, f(x) = -3.003579e-01, ||grad||_infty = 6.13e-05, 2.02e-02
+Iter    12, f(x) = -3.003580e-01, ||grad||_infty = 1.96e-05, 2.14e-02
+Iter    13, f(x) = -3.003580e-01, ||grad||_infty = 2.51e-05, 2.26e-02
+Iter    14, f(x) = -3.003580e-01, ||grad||_infty = 3.02e-06, 2.38e-02
 End Main Loop
 
 Final f: -3.0036e-01
-Setup time: 0.00095 seconds
+Setup time: 0.0013 seconds
 Optimization time: 0.024 seconds
 Iterations: 14
 Total iterations: 33
@@ -245,18 +253,18 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     5, f(x) = 4.265680e-02, ||grad||_infty = 1.81e-02, 7.04e-03
-Iter    10, f(x) = 2.260594e-02, ||grad||_infty = 1.28e-02, 1.11e-02
-Iter    15, f(x) = 1.363733e-02, ||grad||_infty = 1.88e-02, 1.46e-02
-Iter    20, f(x) = 1.381487e-03, ||grad||_infty = 1.22e-02, 1.96e-02
-Iter    25, f(x) = 5.283198e-05, ||grad||_infty = 1.45e-03, 2.38e-02
-Iter    30, f(x) = 6.142064e-07, ||grad||_infty = 1.11e-04, 2.75e-02
-Iter    35, f(x) = 1.823079e-08, ||grad||_infty = 1.78e-05, 3.10e-02
-Iter    39, f(x) = 8.114700e-10, ||grad||_infty = 3.67e-06, 3.44e-02
+Iter     5, f(x) = 4.265680e-02, ||grad||_infty = 1.81e-02, 6.42e-03
+Iter    10, f(x) = 2.260594e-02, ||grad||_infty = 1.28e-02, 1.04e-02
+Iter    15, f(x) = 1.363733e-02, ||grad||_infty = 1.88e-02, 1.48e-02
+Iter    20, f(x) = 1.381487e-03, ||grad||_infty = 1.22e-02, 1.95e-02
+Iter    25, f(x) = 5.283198e-05, ||grad||_infty = 1.45e-03, 2.32e-02
+Iter    30, f(x) = 6.142064e-07, ||grad||_infty = 1.11e-04, 2.67e-02
+Iter    35, f(x) = 1.823079e-08, ||grad||_infty = 1.78e-05, 3.09e-02
+Iter    39, f(x) = 8.114700e-10, ||grad||_infty = 3.67e-06, 3.46e-02
 End Main Loop
 
 Final f: 8.1147e-10
-Setup time: 0.00083 seconds
+Setup time: 0.00097 seconds
 Optimization time: 0.035 seconds
 Iterations: 39
 Total iterations: 86
@@ -275,14 +283,14 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     5, f(x) = 1.568859e+00, ||grad||_infty = 2.43e+03, 4.60e-03
-Iter    10, f(x) = 3.002914e-01, ||grad||_infty = 1.21e-02, 7.46e-03
-Iter    11, f(x) = 3.002914e-01, ||grad||_infty = 1.68e-03, 8.08e-03
+Iter     5, f(x) = 1.568859e+00, ||grad||_infty = 2.43e+03, 4.85e-03
+Iter    10, f(x) = 3.002914e-01, ||grad||_infty = 1.21e-02, 9.12e-03
+Iter    11, f(x) = 3.002914e-01, ||grad||_infty = 1.68e-03, 9.79e-03
 End Main Loop
 
 Final f: 3.0029e-01
-Setup time: 0.00062 seconds
-Optimization time: 0.0084 seconds
+Setup time: 0.0032 seconds
+Optimization time: 0.01 seconds
 Iterations: 11
 Total iterations: 24
 Exit condition: CONVERGENCE: REL_REDUCTION_OF_F_&lt;=_FACTR*EPSMCH.
@@ -300,31 +308,31 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=25, ftol=1e-14, gtol=1e-08, maxiters = 10000, subiters = 10
 
 Begin Main Loop
-Iter     5, f(x) = 1.568859e+00, ||grad||_infty = 2.43e+03, 5.60e-03
-Iter    10, f(x) = 3.002914e-01, ||grad||_infty = 8.83e-03, 9.38e-03
-Iter    15, f(x) = 3.002914e-01, ||grad||_infty = 9.08e-04, 1.38e-02
-Iter    20, f(x) = 3.002914e-01, ||grad||_infty = 1.39e-02, 1.79e-02
-Iter    25, f(x) = 3.002914e-01, ||grad||_infty = 1.59e-01, 2.28e-02
-Iter    30, f(x) = 3.002899e-01, ||grad||_infty = 1.81e+00, 2.72e-02
-Iter    35, f(x) = 2.191333e-01, ||grad||_infty = 3.14e+02, 3.65e-02
-Iter    40, f(x) = 1.203681e-01, ||grad||_infty = 4.07e+03, 4.33e-02
-Iter    45, f(x) = 1.116589e-01, ||grad||_infty = 7.46e+02, 4.83e-02
-Iter    50, f(x) = 1.041222e-01, ||grad||_infty = 4.91e+01, 5.67e-02
-Iter    55, f(x) = 1.034506e-01, ||grad||_infty = 1.35e-03, 6.01e-02
-Iter    60, f(x) = 1.034506e-01, ||grad||_infty = 4.54e-02, 6.37e-02
-Iter    65, f(x) = 1.034504e-01, ||grad||_infty = 5.71e-01, 6.75e-02
-Iter    70, f(x) = 1.034220e-01, ||grad||_infty = 6.39e+00, 7.34e-02
-Iter    75, f(x) = 1.021516e-01, ||grad||_infty = 1.85e+02, 7.84e-02
-Iter    80, f(x) = 8.415741e-02, ||grad||_infty = 5.40e+02, 8.30e-02
-Iter    85, f(x) = 8.404990e-02, ||grad||_infty = 6.41e+00, 8.80e-02
-Iter    90, f(x) = 8.404952e-02, ||grad||_infty = 1.19e-01, 9.28e-02
-Iter    95, f(x) = 8.404951e-02, ||grad||_infty = 9.01e-03, 9.72e-02
-Iter    97, f(x) = 8.404951e-02, ||grad||_infty = 5.18e-05, 9.92e-02
+Iter     5, f(x) = 1.568859e+00, ||grad||_infty = 2.43e+03, 4.86e-03
+Iter    10, f(x) = 3.002914e-01, ||grad||_infty = 8.83e-03, 8.24e-03
+Iter    15, f(x) = 3.002914e-01, ||grad||_infty = 9.08e-04, 1.36e-02
+Iter    20, f(x) = 3.002914e-01, ||grad||_infty = 1.39e-02, 1.75e-02
+Iter    25, f(x) = 3.002914e-01, ||grad||_infty = 1.59e-01, 2.18e-02
+Iter    30, f(x) = 3.002899e-01, ||grad||_infty = 1.81e+00, 2.69e-02
+Iter    35, f(x) = 2.191333e-01, ||grad||_infty = 3.14e+02, 3.63e-02
+Iter    40, f(x) = 1.203681e-01, ||grad||_infty = 4.07e+03, 4.29e-02
+Iter    45, f(x) = 1.116589e-01, ||grad||_infty = 7.46e+02, 5.05e-02
+Iter    50, f(x) = 1.041222e-01, ||grad||_infty = 4.91e+01, 6.26e-02
+Iter    55, f(x) = 1.034506e-01, ||grad||_infty = 1.35e-03, 6.81e-02
+Iter    60, f(x) = 1.034506e-01, ||grad||_infty = 4.54e-02, 7.33e-02
+Iter    65, f(x) = 1.034504e-01, ||grad||_infty = 5.71e-01, 7.93e-02
+Iter    70, f(x) = 1.034220e-01, ||grad||_infty = 6.39e+00, 8.47e-02
+Iter    75, f(x) = 1.021516e-01, ||grad||_infty = 1.85e+02, 9.17e-02
+Iter    80, f(x) = 8.415741e-02, ||grad||_infty = 5.40e+02, 9.89e-02
+Iter    85, f(x) = 8.404990e-02, ||grad||_infty = 6.41e+00, 1.05e-01
+Iter    90, f(x) = 8.404952e-02, ||grad||_infty = 1.19e-01, 1.12e-01
+Iter    95, f(x) = 8.404951e-02, ||grad||_infty = 9.01e-03, 1.18e-01
+Iter    97, f(x) = 8.404951e-02, ||grad||_infty = 5.18e-05, 1.21e-01
 End Main Loop
 
 Final f: 8.4050e-02
-Setup time: 0.00063 seconds
-Optimization time: 0.099 seconds
+Setup time: 0.00064 seconds
+Optimization time: 0.12 seconds
 Iterations: 97
 Total iterations: 214
 Exit condition: CONVERGENCE: REL_REDUCTION_OF_F_&lt;=_FACTR*EPSMCH.
@@ -353,8 +361,8 @@ Begin Main Loop
 End Main Loop
 
 Final f: 1.6075e-05
-Setup time: 0.0024 seconds
-Optimization time: 0.078 seconds
+Setup time: 0.0018 seconds
+Optimization time: 0.087 seconds
 Iterations: 26
 Total iterations: 73
 Exit condition: Successful termination based on StopTol
@@ -470,8 +478,8 @@ the selected value of the optimality tolerance.
 End Main Loop
 
 Final f: 5.1269e-08
-Setup time: 0.006 seconds
-Optimization time: 0.45 seconds
+Setup time: 1.1 seconds
+Optimization time: 0.63 seconds
 Iterations: 79
 Total iterations: 88
 Exit condition: Gradient norm smaller than tolerance
@@ -505,8 +513,8 @@ Epoch  7: f~ = -2.996104e-01, step = 0.001, nfails = 2 (resetting to solution fr
 End Main Loop
 
 Final f~: -3.0013e-01
-Setup time: 0.00 seconds
-Optimization time: 0.23 seconds
+Setup time: 0.01 seconds
+Optimization time: 0.40 seconds
 Number of epochs: 7
 Total iterations: 700
 Exit condition: Number of failed epochs &gt; 1
@@ -540,8 +548,8 @@ Epoch  7: f = 3.981757e-04, step = 0.001, nfails = 2 (resetting to solution from
 End Main Loop
 
 Final f: 1.6015e-04
-Setup time: 0.00 seconds
-Optimization time: 0.25 seconds
+Setup time: 0.01 seconds
+Optimization time: 0.41 seconds
 Number of epochs: 7
 Total iterations: 700
 Exit condition: Number of failed epochs &gt; 1
@@ -574,7 +582,7 @@ End Main Loop
 
 Final f: 6.1907e-03
 Setup time: 0.00 seconds
-Optimization time: 0.22 seconds
+Optimization time: 0.26 seconds
 Number of epochs: 4
 Total iterations: 1000
 Exit condition: Number of failed epochs &gt; 1
@@ -621,8 +629,8 @@ Epoch 19: f = 1.304975e-04, step = 1e-06, nfails = 5 (resetting to solution from
 End Main Loop
 
 Final f: 1.3047e-04
-Setup time: 0.00 seconds
-Optimization time: 1.06 seconds
+Setup time: 0.01 seconds
+Optimization time: 1.41 seconds
 Number of epochs: 19
 Total iterations: 4750
 Exit condition: Number of failed epochs &gt; 4
@@ -675,27 +683,36 @@ Epoch 26: f = 7.074476e-05, step = 0.0001, nfails = 2 (resetting to solution fro
 End Main Loop
 
 Final f: 6.1491e-05
-Setup time: 0.00 seconds
-Optimization time: 1.57 seconds
+Setup time: 0.01 seconds
+Optimization time: 1.13 seconds
 Number of epochs: 26
 Total iterations: 2600
 Exit condition: Number of failed epochs &gt; 1
 
 		*** Final F: 6.15e-05, Score: 0.96 ***
 
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
 %% Implicit Symmetric CP Decomposition for Symmetric K-Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_isym_doc.html">CP-ISYM</a>
+% </p>
+% </html>
+%
 % The function |cp_isym| computes the symmetric CP
 % decomposition of a symmetric tensor that is in symmetric k-tensor format,
 % meaning that it is the sum of symmetric outer products and stored as a
 % |symktensor| object.
 % The decomposition is described in the following reference:
 %
-% * S. Sherman, T. G. Kolda. Estimating Higher-Order Moments Using
-%   Symmetric Tensor Decomposition. SIAM Journal on Matrix Analysis and 
-%   Applications, Vol. 41, No. 3, pp. 1369-1387, 19 pages, 2020. 
-%   <https://doi.org/10.1137/19m1299633 https://doi.org/10.1137/19m1299633>
+% * S. Sherman, T. G. Kolda, Estimating Higher-Order Moments Using
+%   Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and 
+%   Applications, 41:1369-1387, 2020,
+%   <https://doi.org/10.1137/19m1299633>
 
 %% Requirements
 % This code requires an optimization solver. Our examples use the L-BFGS-B
@@ -874,5 +891,6 @@ fprintf('\n\t\t*** Final F: %.2e, Score: %.2f ***\n\n', f_implicit(M,X,norm(X)^2
 rng(5)
 [M,info] = cp_isym(X,r,'method','adam','fsamp','exact','Xnormsqr','exact','rate',1e-3);
 fprintf('\n\t\t*** Final F: %.2e, Score: %.2f ***\n\n', f_implicit(M,X,norm(X)^2), score(M,Mtrue));
+
 ##### SOURCE END #####
 --></body></html>

@@ -1,4 +1,13 @@
 %% Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_als_doc.html">CP-ALS</a>
+% </p>
+% </html>
+%
 % The function |cp_als| computes an estimate of the best rank-R
 % CP model of a tensor X using the well-known alternating least-squares
 % algorithm (see, e.g., Kolda and Bader, SIAM Review, 2009, for more
@@ -23,7 +32,7 @@ load aminoacids
 % This uses a _random_ initial guess. At each iteration, it reports the 'fit'
 % which is defined as |1-(norm(X-M)/norm(X))| and is loosely the proportion
 % of the data described by the CP model, i.e., a fit of 1 is perfect.
-rng(3) %<- Setting random seed for reproducibility of this script
+rng('default') %<- Setting random seed for reproducibility of this script
 M1 = cp_als(X,3); %<- Call the method
 %%
 % We typically can achieve a final fit of f = 0.97. The method stops when

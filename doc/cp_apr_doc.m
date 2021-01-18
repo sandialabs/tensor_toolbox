@@ -1,9 +1,19 @@
 %% Alternating Poisson Regression for fitting CP to sparse count data
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_apr_doc.html">CP-APR</a>
+% </p>
+% </html>
+%
+% Reference: E. C. Chi, T. G. Kolda, On Tensors, Sparsity, and Nonnegative Factorizations,
+% SIAM J. Matrix Analysis and Applications, 33:1272-1299, 2012, https://doi.org/10.1137/110859063.
+%
 
 %% Set up a sample problem
-% We follow the general procedure outlined by E. C. Chi and T. G. Kolda, 
-% On Tensors, Sparsity, and Nonnegative Factorizations, arXiv:1112.2414
-% [math.NA], December 2011 (http://arxiv.org/abs/1112.2414).
+% We follow the general procedure outlined by Chi and Kolda (2013).
 
 % Pick the size and rank
 sz = [100 80 60];

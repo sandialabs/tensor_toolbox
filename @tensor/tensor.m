@@ -65,12 +65,9 @@
 %   See also TENSOR_TOOLBOX
 %
 %   Reference:
-%   * BW Bader and TG Kolda. Algorithm 862: MATLAB Tensor Classes for Fast
-%     Algorithm Prototyping, ACM Trans Mathematical Software 32:635-653, 2006.
-%     <a href="http://dx.doi.org/10.1145/1186785.1186794"
-%     >DOI:10.1145/1186785.1186794</a>. <a href="matlab:web(strcat('file://',...
-%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%     'bibtex.html#TTB_Dense')))">[BibTeX]</a>
+%   * B.W. Bader and T.G. Kolda. Algorithm 862: MATLAB Tensor Classes for
+%     Fast Algorithm Prototyping, ACM Trans. Mathematical Software,
+%     32:635-653, 2006, http://dx.doi.org/10.1145/1186785.1186794.
 %
 %MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 

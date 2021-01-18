@@ -1,4 +1,13 @@
-%% Multiplying tensors
+%% Multiplying Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="multiply_doc.html">Multiplying Tensors</a>
+% </p>
+% </html>
+%
 
 %% Tensor times vector (ttv for tensor)
 % Compute a tensor times a vector (or vectors) in one (or more) modes.

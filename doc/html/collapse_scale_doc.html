@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Collapsing and scaling tensors</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-09"><meta name="DC.source" content="collapse_scale_doc.m"><style type="text/css">
+      --><title>Collapsing and Scaling Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-12"><meta name="DC.source" content="collapse_scale_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,107 +68,113 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Collapsing and scaling tensors</h1><!--introduction--><p>The tensor and sptensor classes support that notion of collapsing and scaling dimensions.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Examples of collapsing a tensor</a></li><li><a href="#6">Alternate accumulation functions for tensor</a></li><li><a href="#8">Examples of collapsing a sptensor</a></li><li><a href="#13">Alternate accumulation functions for sptensor</a></li><li><a href="#15">Scaling a tensor in different modes</a></li><li><a href="#21">Scaling a sptensor in different modes</a></li></ul></div><h2 id="1">Examples of collapsing a tensor</h2><pre class="codeinput">X = tenrand([4 3 2]) <span class="comment">%&lt;-- Generate some data.</span>
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Collapsing and Scaling Tensors</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="working.html">Working with Tensors</a>
+&#62;&#62; <a href="collapse_scale_doc.html">Collapsing and Scaling Tensors</a>
+</p>
+</p><p>The <tt>tensor</tt> and <tt>sptensor</tt> classes support the notion of collapsing and scaling dimensions.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Examples of collapsing a tensor</a></li><li><a href="#6">Alternate accumulation functions for tensor</a></li><li><a href="#8">Examples of collapsing a sptensor</a></li><li><a href="#13">Alternate accumulation functions for sptensor</a></li><li><a href="#15">Scaling a tensor in different modes</a></li><li><a href="#21">Scaling a sptensor in different modes</a></li></ul></div><h2 id="1">Examples of collapsing a tensor</h2><pre class="codeinput">X = tenrand([4 3 2]) <span class="comment">%&lt;-- Generate some data.</span>
 </pre><pre class="codeoutput">X is a tensor of size 4 x 3 x 2
 	X(:,:,1) = 
-	    0.9473    0.6743    0.6155
-	    0.8133    0.9271    0.0034
-	    0.9238    0.3438    0.9820
-	    0.1990    0.5945    0.8995
+	    0.5700    0.9278    0.8453
+	    0.8867    0.6551    0.3683
+	    0.9025    0.2050    0.1861
+	    0.9622    0.2478    0.5658
 	X(:,:,2) = 
-	    0.6928    0.2999    0.0974
-	    0.4397    0.8560    0.3974
-	    0.7010    0.1121    0.3333
-	    0.6097    0.2916    0.9442
+	    0.6551    0.6102    0.2893
+	    0.8380    0.8876    0.5269
+	    0.0822    0.3187    0.7263
+	    0.0506    0.5006    0.4659
 </pre><pre class="codeinput">Y = collapse(X,[2 3]) <span class="comment">%&lt;-- Sum of entries in each mode-1 slice.</span>
 </pre><pre class="codeoutput">Y is a tensor of size 4
 	Y(:) = 
-	    3.3272
-	    3.4369
-	    3.3961
-	    3.5385
+	    3.8977
+	    4.1626
+	    2.4208
+	    2.7929
 </pre><pre class="codeinput">Y = collapse(X,-1) <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a tensor of size 4
 	Y(:) = 
-	    3.3272
-	    3.4369
-	    3.3961
-	    3.5385
+	    3.8977
+	    4.1626
+	    2.4208
+	    2.7929
 </pre><pre class="codeinput">Z = collapse(X,2) <span class="comment">%&lt;-- Sum of entries in each row fiber.</span>
 </pre><pre class="codeoutput">Z is a tensor of size 4 x 2
 	Z(:,:) = 
-	    2.2371    1.0901
-	    1.7438    1.6931
-	    2.2497    1.1464
-	    1.6930    1.8455
+	    2.3430    1.5546
+	    1.9101    2.2525
+	    1.2936    1.1272
+	    1.7758    1.0171
 </pre><pre class="codeinput">collapse(X,1:3) <span class="comment">%&lt;-- Sum of all entries.</span>
 </pre><pre class="codeoutput">
 ans =
 
-   13.6987
+   13.2740
 
 </pre><h2 id="6">Alternate accumulation functions for tensor</h2><pre class="codeinput">Y = collapse(X,[1 2],@max) <span class="comment">%&lt;-- Max entry in each mode-3 slice.</span>
 </pre><pre class="codeoutput">Y is a tensor of size 2
 	Y(:) = 
-	    0.9820
-	    0.9442
+	    0.9622
+	    0.8876
 </pre><pre class="codeinput">Z = collapse(X,-3,@mean) <span class="comment">%&lt;-- Average entry in each mode-3 slice.</span>
 </pre><pre class="codeoutput">Z is a tensor of size 2
 	Z(:) = 
-	    0.6603
-	    0.4813
+	    0.6102
+	    0.4960
 </pre><h2 id="8">Examples of collapsing a sptensor</h2><pre class="codeinput">X = sptenrand([4 3 2],6) <span class="comment">%&lt;-- Generate some data.</span>
 </pre><pre class="codeoutput">X is a sparse tensor of size 4 x 3 x 2 with 6 nonzeros
-	(1,1,2)    0.7221
-	(1,3,1)    0.9685
-	(2,1,1)    0.1557
-	(4,1,1)    0.1630
-	(4,2,1)    0.3134
-	(4,2,2)    0.0294
+	(1,1,2)    0.9194
+	(1,3,1)    0.9742
+	(3,1,1)    0.9788
+	(4,2,1)    0.4579
+	(4,3,1)    0.1540
+	(4,3,2)    0.9585
 </pre><pre class="codeinput">Y = collapse(X,[2 3]) <span class="comment">%&lt;-- Sum of entries in each mode-1 slice.</span>
 </pre><pre class="codeoutput">
 Y =
 
-    1.6906
-    0.1557
+    1.8936
          0
-    0.5057
+    0.9788
+    1.5704
 
 </pre><pre class="codeinput">Y = collapse(X,-1) <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">
 Y =
 
-    1.6906
-    0.1557
+    1.8936
          0
-    0.5057
+    0.9788
+    1.5704
 
 </pre><pre class="codeinput">Z = collapse(X,2) <span class="comment">%&lt;-- Sum of entries in each row fiber.</span>
 </pre><pre class="codeoutput">Z is a sparse tensor of size 4 x 2 with 5 nonzeros
-	(1,1)    0.9685
-	(1,2)    0.7221
-	(2,1)    0.1557
-	(4,1)    0.4764
-	(4,2)    0.0294
+	(1,1)    0.9742
+	(1,2)    0.9194
+	(3,1)    0.9788
+	(4,1)    0.6119
+	(4,2)    0.9585
 </pre><pre class="codeinput">collapse(X,1:3) <span class="comment">%&lt;-- Sum of all entries.</span>
 </pre><pre class="codeoutput">
 ans =
 
-    2.3520
+    4.4428
 
 </pre><h2 id="13">Alternate accumulation functions for sptensor</h2><pre class="codeinput">Y = collapse(X,[1 2],@min) <span class="comment">%&lt;-- Min *nonzero* entry in each mode-3 slice.</span>
 </pre><pre class="codeoutput">
 Y =
 
-    0.1557
-    0.0294
+    0.1540
+    0.9194
 
 </pre><pre class="codeinput">Z = collapse(X,-3,@mean) <span class="comment">%&lt;-- Average *nonzero* entry in each mode-3 slice.</span>
 </pre><pre class="codeoutput">
 Z =
 
-    0.4001
-    0.3758
+    0.6412
+    0.9389
 
 </pre><h2 id="15">Scaling a tensor in different modes</h2><pre class="codeinput">X = tenones([3,4,5]); <span class="comment">%&lt;-- Generate data</span>
 S = 10 * [1:5]'; Y = scale(X,S,3) <span class="comment">%&lt;-- Scale in mode-3</span>
@@ -303,92 +311,101 @@ S = 10 * [1:5]'; Y = scale(X,S,3) <span class="comment">%&lt;-- Scale in mode-3<
 	    51    54    57    60
 </pre><h2 id="21">Scaling a sptensor in different modes</h2><pre class="codeinput">X = ones(sptenrand([3 4 5], 10)) <span class="comment">%&lt;-- Generate data.</span>
 </pre><pre class="codeoutput">X is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)     1
-	(1,1,4)     1
-	(1,2,4)     1
+	(1,3,1)     1
 	(1,3,5)     1
-	(1,4,4)     1
-	(2,1,4)     1
-	(2,3,5)     1
-	(3,1,2)     1
+	(2,1,2)     1
+	(2,2,1)     1
+	(2,3,3)     1
+	(3,2,1)     1
+	(3,2,4)     1
+	(3,3,4)     1
 	(3,4,3)     1
 	(3,4,5)     1
 </pre><pre class="codeinput">S = 10 * [1:5]'; Y = scale(X,S,3) <span class="comment">%&lt;-- Scale in one mode.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)    10
-	(1,1,4)    40
-	(1,2,4)    40
+	(1,3,1)    10
 	(1,3,5)    50
-	(1,4,4)    40
-	(2,1,4)    40
-	(2,3,5)    50
-	(3,1,2)    20
+	(2,1,2)    20
+	(2,2,1)    10
+	(2,3,3)    30
+	(3,2,1)    10
+	(3,2,4)    40
+	(3,3,4)    40
 	(3,4,3)    30
 	(3,4,5)    50
 </pre><pre class="codeinput">S = tensor(10 * [1:5]',5); Y = scale(X,S,3) <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)    10
-	(1,1,4)    40
-	(1,2,4)    40
+	(1,3,1)    10
 	(1,3,5)    50
-	(1,4,4)    40
-	(2,1,4)    40
-	(2,3,5)    50
-	(3,1,2)    20
+	(2,1,2)    20
+	(2,2,1)    10
+	(2,3,3)    30
+	(3,2,1)    10
+	(3,2,4)    40
+	(3,3,4)    40
 	(3,4,3)    30
 	(3,4,5)    50
 </pre><pre class="codeinput">S = tensor(1:12,[3 4]); Y = scale(X,S,[1 2]) <span class="comment">%&lt;-- Scale in two modes.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)     1
-	(1,1,4)     1
-	(1,2,4)     4
+	(1,3,1)     7
 	(1,3,5)     7
-	(1,4,4)    10
-	(2,1,4)     2
-	(2,3,5)     8
-	(3,1,2)     3
+	(2,1,2)     2
+	(2,2,1)     5
+	(2,3,3)     8
+	(3,2,1)     6
+	(3,2,4)     6
+	(3,3,4)     9
 	(3,4,3)    12
 	(3,4,5)    12
 </pre><pre class="codeinput">S = tensor(1:12,[3 4]); Y = scale(X,S,-3) <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)     1
-	(1,1,4)     1
-	(1,2,4)     4
+	(1,3,1)     7
 	(1,3,5)     7
-	(1,4,4)    10
-	(2,1,4)     2
-	(2,3,5)     8
-	(3,1,2)     3
+	(2,1,2)     2
+	(2,2,1)     5
+	(2,3,3)     8
+	(3,2,1)     6
+	(3,2,4)     6
+	(3,3,4)     9
 	(3,4,3)    12
 	(3,4,5)    12
 </pre><pre class="codeinput">Z = scale(X,Y,1:3) <span class="comment">%&lt;-- Scale by a sparse tensor.</span>
 </pre><pre class="codeoutput">Z is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)     1
-	(1,1,4)     1
-	(1,2,4)     4
+	(1,3,1)     7
 	(1,3,5)     7
-	(1,4,4)    10
-	(2,1,4)     2
-	(2,3,5)     8
-	(3,1,2)     3
+	(2,1,2)     2
+	(2,2,1)     5
+	(2,3,3)     8
+	(3,2,1)     6
+	(3,2,4)     6
+	(3,3,4)     9
 	(3,4,3)    12
 	(3,4,5)    12
 </pre><pre class="codeinput">X .* Y <span class="comment">%&lt;-- Same as above.</span>
 </pre><pre class="codeoutput">ans is a sparse tensor of size 3 x 4 x 5 with 10 nonzeros
-	(1,1,1)     1
-	(1,1,4)     1
-	(1,2,4)     4
+	(1,3,1)     7
 	(1,3,5)     7
-	(1,4,4)    10
-	(2,1,4)     2
-	(2,3,5)     8
-	(3,1,2)     3
+	(2,1,2)     2
+	(2,2,1)     5
+	(2,3,3)     8
+	(3,2,1)     6
+	(3,2,4)     6
+	(3,3,4)     9
 	(3,4,3)    12
 	(3,4,5)    12
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Collapsing and scaling tensors
-% The tensor and sptensor classes support that notion of collapsing and
+%% Collapsing and Scaling Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="collapse_scale_doc.html">Collapsing and Scaling Tensors</a>
+% </p>
+% </html>
+%
+% The |tensor| and |sptensor| classes support the notion of collapsing and
 % scaling dimensions.
 
 %% Examples of collapsing a tensor

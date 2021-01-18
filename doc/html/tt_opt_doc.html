@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Tensor Toolbox Optimization Methods for Developers</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-10-13"><meta name="DC.source" content="tt_opt_doc.m"><style type="text/css">
+      --><title>Developer Information for Optimization Methods in Tensor Toolbox</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="tt_opt_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Tensor Toolbox Optimization Methods for Developers</h1><!--introduction--><p>This page contains information for developers who want to use the optimization method interfaces contained in Tensor Toolbox. These interfaces are meant to standardize across packages with very different ways of calling the functions, different parameter names, etc. For optimzation algorithm installation instructions and parameter options, see <a href="opt_options_doc.html">Documentation for Tensor Toolbox Optimization Methods</a>.</p><p>The above-referenced document is for general users. The information below is for developers of Tensor Toolbox methods that want to use these standardized optimization algorithms.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Test optimization problem</a></li><li><a href="#4">Sandia Poblano Toolbox L-BFGS</a></li><li><a href="#8">Stephen Becker L-BFGS-B</a></li><li><a href="#12">MATLAB Optimization Toolbox <tt>fminunc</tt> (Quasi-Newton Method)</a></li><li><a href="#16">Adam (internal to Tensor Toolbox)</a></li></ul></div><h2 id="1">Test optimization problem</h2><p>We use a simple but notoriously difficult test function to demonstrate the optimization methods, a variation on Rosenbrock:</p><p><img src="tt_opt_doc_eq15475690191391708038.png" alt="$$f(x) = (x_1 - 1)^2 + 4 \sum_{i=2}^n (x_i - x_{i-1}^2)^2$$" style="width:225px;height:41px;"></p><p>This function is implemented in <tt>optfunc</tt> which takes <tt>true</tt> as a second argument to return only the gradient. The number of parameters (n) is automatically determined by the method. The optimum is the all-ones vector. The code for the function is as follows:</p><pre class="language-matlab">
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Developer Information for Optimization Methods in Tensor Toolbox</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a>
+&#62;&#62; <a href="tt_opt_doc.html">Developer Information</a>
+</p>
+</p><p>This page contains information for developers who want to use the optimization method interfaces contained in Tensor Toolbox. These interfaces are meant to standardize across packages with very different ways of calling the functions, different parameter names, etc. For optimzation algorithm installation instructions and parameter options, see <a href="opt_options_doc.html">Documentation for Tensor Toolbox Optimization Methods</a>.</p><p>The above-referenced document is for general users. The information below is for developers of Tensor Toolbox methods that want to use these standardized optimization algorithms.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Test optimization problem</a></li><li><a href="#4">Sandia Poblano Toolbox L-BFGS</a></li><li><a href="#8">Stephen Becker L-BFGS-B</a></li><li><a href="#12">MATLAB Optimization Toolbox <tt>fminunc</tt> (Quasi-Newton Method)</a></li><li><a href="#16">Adam (internal to Tensor Toolbox)</a></li></ul></div><h2 id="1">Test optimization problem</h2><p>We use a simple but notoriously difficult test function to demonstrate the optimization methods, a variation on Rosenbrock:</p><p><img src="tt_opt_doc_eq15475690191391708038.png" alt="$$f(x) = (x_1 - 1)^2 + 4 \sum_{i=2}^n (x_i - x_{i-1}^2)^2$$" style="width:225px;height:41px;"></p><p>This function is implemented in <tt>optfunc</tt> which takes <tt>true</tt> as a second argument to return only the gradient. The number of parameters (n) is automatically determined by the method. The optimum is the all-ones vector. The code for the function is as follows:</p><pre class="language-matlab">
 <span class="keyword">function</span> [f,g] = optfunc(x,gradonly)
 <span class="comment">%OPTFUNC Example function for testing optimization software.</span>
 
@@ -139,8 +147,8 @@ Begin Main Loop
 End Main Loop
 
 Final f: 4.2823e-11
-Setup time: 0.012 seconds
-Optimization time: 0.048 seconds
+Setup time: 0.0037 seconds
+Optimization time: 0.034 seconds
 Iterations: 13
 Total iterations: 32
 Exit condition: Successful termination based on StopTol
@@ -171,8 +179,8 @@ Begin Main Loop
 End Main Loop
 
 Final f: 3.6076e-27
-Setup time: 0.021 seconds
-Optimization time: 0.086 seconds
+Setup time: 0.0099 seconds
+Optimization time: 0.067 seconds
 Iterations: 59
 Total iterations: 131
 Exit condition: Relative change in F &lt; RelFuncTol
@@ -186,27 +194,27 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-10, gtol=1e-05, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     1, f(x) = 1.263359e+00, ||grad||_infty = 1.20e+01, 7.78e-03
-Iter     2, f(x) = 2.814196e-01, ||grad||_infty = 4.85e+00, 7.90e-03
-Iter     3, f(x) = 6.099619e-02, ||grad||_infty = 1.11e+00, 1.07e-02
-Iter     4, f(x) = 2.574744e-02, ||grad||_infty = 7.85e-01, 1.23e-02
-Iter     5, f(x) = 5.050682e-03, ||grad||_infty = 4.27e-01, 1.26e-02
-Iter     6, f(x) = 1.585758e-03, ||grad||_infty = 2.84e-01, 1.28e-02
-Iter     7, f(x) = 1.701942e-04, ||grad||_infty = 6.15e-02, 1.30e-02
-Iter     8, f(x) = 5.353674e-05, ||grad||_infty = 1.69e-02, 1.43e-02
-Iter     9, f(x) = 2.318400e-05, ||grad||_infty = 1.39e-02, 1.45e-02
-Iter    10, f(x) = 2.569928e-06, ||grad||_infty = 9.27e-03, 1.48e-02
-Iter    11, f(x) = 3.586768e-07, ||grad||_infty = 3.46e-03, 1.52e-02
-Iter    12, f(x) = 2.598817e-08, ||grad||_infty = 7.97e-04, 1.53e-02
-Iter    13, f(x) = 2.466644e-09, ||grad||_infty = 2.50e-04, 1.55e-02
-Iter    14, f(x) = 5.126655e-10, ||grad||_infty = 7.74e-05, 1.56e-02
-Iter    15, f(x) = 8.969330e-11, ||grad||_infty = 7.19e-05, 1.58e-02
-Iter    16, f(x) = 9.642045e-12, ||grad||_infty = 1.23e-05, 1.60e-02
+Iter     1, f(x) = 1.263359e+00, ||grad||_infty = 1.20e+01, 1.15e-03
+Iter     2, f(x) = 2.814196e-01, ||grad||_infty = 4.85e+00, 1.27e-03
+Iter     3, f(x) = 6.099619e-02, ||grad||_infty = 1.11e+00, 1.59e-03
+Iter     4, f(x) = 2.574744e-02, ||grad||_infty = 7.85e-01, 1.83e-03
+Iter     5, f(x) = 5.050682e-03, ||grad||_infty = 4.27e-01, 2.04e-03
+Iter     6, f(x) = 1.585758e-03, ||grad||_infty = 2.84e-01, 2.31e-03
+Iter     7, f(x) = 1.701942e-04, ||grad||_infty = 6.15e-02, 2.54e-03
+Iter     8, f(x) = 5.353674e-05, ||grad||_infty = 1.69e-02, 2.76e-03
+Iter     9, f(x) = 2.318400e-05, ||grad||_infty = 1.39e-02, 2.97e-03
+Iter    10, f(x) = 2.569928e-06, ||grad||_infty = 9.27e-03, 3.18e-03
+Iter    11, f(x) = 3.586768e-07, ||grad||_infty = 3.46e-03, 3.71e-03
+Iter    12, f(x) = 2.598817e-08, ||grad||_infty = 7.97e-04, 3.84e-03
+Iter    13, f(x) = 2.466644e-09, ||grad||_infty = 2.50e-04, 4.04e-03
+Iter    14, f(x) = 5.126655e-10, ||grad||_infty = 7.74e-05, 4.23e-03
+Iter    15, f(x) = 8.969330e-11, ||grad||_infty = 7.19e-05, 4.41e-03
+Iter    16, f(x) = 9.642045e-12, ||grad||_infty = 1.23e-05, 4.61e-03
 End Main Loop
 
 Final f: 9.6420e-12
-Setup time: 0.0041 seconds
-Optimization time: 0.016 seconds
+Setup time: 0.0014 seconds
+Optimization time: 0.005 seconds
 Iterations: 16
 Total iterations: 35
 Exit condition: CONVERGENCE: REL_REDUCTION_OF_F_&lt;=_FACTR*EPSMCH.
@@ -220,25 +228,25 @@ Lower bound: -Inf, Upper bound: Inf
 Parameters: m=5, ftol=1e-24, gtol=1e-12, maxiters = 1000, subiters = 10
 
 Begin Main Loop
-Iter     5, f(x) = 5.050682e-03, ||grad||_infty = 4.27e-01, 9.29e-04
-Iter    10, f(x) = 2.569928e-06, ||grad||_infty = 9.27e-03, 1.25e-03
-Iter    15, f(x) = 8.969330e-11, ||grad||_infty = 7.19e-05, 1.60e-03
-Iter    20, f(x) = 1.343287e-12, ||grad||_infty = 9.30e-07, 1.90e-03
-Iter    25, f(x) = 1.306474e-12, ||grad||_infty = 3.38e-09, 2.23e-03
-Iter    30, f(x) = 1.306458e-12, ||grad||_infty = 1.11e-08, 2.52e-03
-Iter    35, f(x) = 1.304805e-12, ||grad||_infty = 1.56e-07, 2.89e-03
-Iter    40, f(x) = 1.037402e-12, ||grad||_infty = 1.33e-06, 3.18e-03
-Iter    45, f(x) = 6.552398e-16, ||grad||_infty = 1.06e-07, 3.52e-03
-Iter    50, f(x) = 1.720279e-19, ||grad||_infty = 2.17e-09, 3.82e-03
-Iter    55, f(x) = 2.298904e-21, ||grad||_infty = 1.61e-11, 4.11e-03
-Iter    60, f(x) = 1.714203e-21, ||grad||_infty = 7.02e-11, 4.41e-03
-Iter    65, f(x) = 7.255157e-24, ||grad||_infty = 1.64e-11, 4.80e-03
-Iter    67, f(x) = 2.032944e-26, ||grad||_infty = 4.58e-13, 4.96e-03
+Iter     5, f(x) = 5.050682e-03, ||grad||_infty = 4.27e-01, 1.41e-03
+Iter    10, f(x) = 2.569928e-06, ||grad||_infty = 9.27e-03, 1.98e-03
+Iter    15, f(x) = 8.969330e-11, ||grad||_infty = 7.19e-05, 2.75e-03
+Iter    20, f(x) = 1.343287e-12, ||grad||_infty = 9.30e-07, 3.35e-03
+Iter    25, f(x) = 1.306474e-12, ||grad||_infty = 3.38e-09, 4.05e-03
+Iter    30, f(x) = 1.306458e-12, ||grad||_infty = 1.11e-08, 4.65e-03
+Iter    35, f(x) = 1.304805e-12, ||grad||_infty = 1.56e-07, 5.31e-03
+Iter    40, f(x) = 1.037402e-12, ||grad||_infty = 1.33e-06, 5.93e-03
+Iter    45, f(x) = 6.552398e-16, ||grad||_infty = 1.06e-07, 6.58e-03
+Iter    50, f(x) = 1.720279e-19, ||grad||_infty = 2.17e-09, 7.09e-03
+Iter    55, f(x) = 2.298904e-21, ||grad||_infty = 1.61e-11, 7.61e-03
+Iter    60, f(x) = 1.714203e-21, ||grad||_infty = 7.02e-11, 8.28e-03
+Iter    65, f(x) = 7.255157e-24, ||grad||_infty = 1.64e-11, 9.30e-03
+Iter    67, f(x) = 2.032944e-26, ||grad||_infty = 4.58e-13, 9.63e-03
 End Main Loop
 
 Final f: 2.0329e-26
-Setup time: 0.002 seconds
-Optimization time: 0.0051 seconds
+Setup time: 0.0013 seconds
+Optimization time: 0.01 seconds
 Iterations: 67
 Total iterations: 140
 Exit condition: CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_&lt;=_PGTOL.
@@ -284,8 +292,8 @@ the selected value of the optimality tolerance.
 End Main Loop
 
 Final f: 8.7274e-09
-Setup time: 0.029 seconds
-Optimization time: 0.062 seconds
+Setup time: 0.014 seconds
+Optimization time: 0.065 seconds
 Iterations: 19
 Total iterations: 20
 Exit condition: Gradient norm smaller than tolerance
@@ -369,14 +377,14 @@ the selected value of the optimality tolerance.
 End Main Loop
 
 Final f: 8.8253e-23
-Setup time: 0.0038 seconds
-Optimization time: 0.012 seconds
+Setup time: 0.041 seconds
+Optimization time: 0.074 seconds
 Iterations: 53
 Total iterations: 54
 Exit condition: Gradient norm smaller than tolerance
 </pre><p>With tigher tolerances, we again get closer to optimal</p><pre class="codeinput">fprintf(<span class="string">'||x-xopt||/||xopt|| = %e\n'</span>, norm(x-xopt)/norm(xopt));
 </pre><pre class="codeoutput">||x-xopt||/||xopt|| = 2.531186e-10
-</pre><h2 id="16">Adam (internal to Tensor Toolbox)</h2><p>Adam is a stochastic optimization method, so it's not especially fair to compare it to the other methods. But we do it anyways.</p><pre class="codeinput">rng(1)
+</pre><h2 id="16">Adam (internal to Tensor Toolbox)</h2><p>Adam is a stochastic optimization method, so it's not especially fair to compare it to the other methods. But we do it anyways.</p><pre class="codeinput">rng(<span class="string">'default'</span>)
 [x,f,info] = tt_opt_adam(xinit, fh, gh,<span class="string">'subiters'</span>,500,<span class="string">'maxfails'</span>,2,<span class="string">'maxiters'</span>,20000,<span class="string">'printitn'</span>,500,<span class="string">'fdesc'</span>,<span class="string">'Function: exact'</span>,<span class="string">'gdesc'</span>,<span class="string">'Gradient: exact'</span>);
 </pre><pre class="codeoutput">
 Adam Stochastic Optimization
@@ -398,7 +406,7 @@ End Main Loop
 
 Final f: 1.7803e-06
 Setup time: 0.01 seconds
-Optimization time: 0.24 seconds
+Optimization time: 0.29 seconds
 Number of epochs: 32
 Total iterations: 16000
 Exit condition: Number of failed epochs &gt; 2
@@ -439,15 +447,24 @@ End Main Loop
 
 Final f: 4.9634e-14
 Setup time: 0.00 seconds
-Optimization time: 23.46 seconds
+Optimization time: 38.99 seconds
 Number of epochs: 4838
 Total iterations: 2419000
 Exit condition: Number of failed epochs &gt; 6
 </pre><p>Check how close to optimal</p><pre class="codeinput">fprintf(<span class="string">'||x-xopt||/||xopt|| = %e\n'</span>, norm(x-xopt)/norm(xopt));
 </pre><pre class="codeoutput">||x-xopt||/||xopt|| = 4.335430e-05
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Tensor Toolbox Optimization Methods for Developers
+%% Developer Information for Optimization Methods in Tensor Toolbox
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a> 
+% &#62;&#62; <a href="tt_opt_doc.html">Developer Information</a> 
+% </p>
+% </html>
+%
 % This page contains information for developers who want to use the
 % optimization method interfaces contained in Tensor Toolbox. These
 % interfaces are meant to standardize across packages with very different
@@ -554,7 +571,7 @@ fprintf('||x-xopt||/||xopt|| = %e\n', norm(x-xopt)/norm(xopt));
 %% Adam (internal to Tensor Toolbox)
 % Adam is a stochastic optimization method, so it's not especially fair to
 % compare it to the other methods. But we do it anyways.
-rng(1)
+rng('default')
 [x,f,info] = tt_opt_adam(xinit, fh, gh,'subiters',500,'maxfails',2,'maxiters',20000,'printitn',500,'fdesc','Function: exact','gdesc','Gradient: exact');
 %%
 % Check how close to optimal

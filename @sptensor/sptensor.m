@@ -62,12 +62,9 @@
 %   See also TENSOR_TOOLBOX
 %
 %   How to cite the sptensor class:
-%   * BW Bader and TG Kolda. Efficient MATLAB Computations with Sparse
-%     and Factored Tensors, SIAM J Scientific Computing 30:205-231, 2007.
-%     <a href="http:dx.doi.org/10.1137/060676489"
-%     >DOI: 10.1137/060676489</a>. <a href="matlab:web(strcat('file://',...
-%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%     'bibtex.html#TTB_Sparse')))">[BibTeX]</a>
+%   * B.W. Bader and T.G. Kolda. Efficient MATLAB Computations with Sparse
+%     and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007,
+%     http:dx.doi.org/10.1137/060676489. 
 %
 %MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 

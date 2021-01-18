@@ -1,11 +1,19 @@
-%% Tensor Toolbox Optimization Methods
+%% Optimization Methods for Tensor Toolbox
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a> 
+% </p>
+% </html>
+%
 % Most MATLAB optimization methods have different interfaces or none at all.
 % In Tensor Toolbox, we are adopting wrappers for moderate consistency, and
 % these will be called from within other Tensor Toolbox functions. Here we
 % outline the choices, their installation instructions, and then the
 % user-tunable parameters.
 %
-% A few genearal notes:
+% A few general notes:
 %
 % * These methods all require explicit initial guesses as well as handles for
 %   the function and gradient calculations. These are handled by the calling routines.
@@ -13,7 +21,7 @@
 %   by the user because they will be set by the calling routine.
 %
 % For more information on the details of these methods, see
-% <tt_opt_doc.html Developer Information for Tensor Toolbox Optimization Methods>.
+% <tt_opt_doc.html Developer Information for Optimization Methods in Tensor Toolbox>.
 
 %% |lbfgsb|: Limited-Memory Quasi-Newton with Bound Constraints 
 % In most methods, setting |'opt'| to |'lbfgsb'| will enable this method,

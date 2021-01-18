@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Symmetric CP Decomposition for Symmetric Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-10-13"><meta name="DC.source" content="cp_sym_doc.m"><style type="text/css">
+      --><title>Symmetric CP Decomposition for Symmetric Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="cp_sym_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Symmetric CP Decomposition for Symmetric Tensors</h1><!--introduction--><p>The function <tt>cp_sym</tt> computes the symmetric CP decomposition of a symmetric tensor. A <b>symmetric</b> tensor is invariant under any permutation of the indices. For a general dense <tt>tensor</tt>, we can verify its symmetry via the <tt>issymmetric</tt> function. An arbitrary dense tensor can be symmetrized by the <tt>symmetrize</tt> function. A symmetric tensor can also be stored as a <tt>symtensor</tt>. The <b>symmetric CP decomposition</b> needs only a <i>single</i> factor matrix (which is reused in every mode) and a weight/sign vector.  This can be stored as a <tt>symktensor</tt> object. The symmetric CP decompsition is described in the following reference:</p><div><ul><li>T. G. Kolda. Numerical Optimization for Symmetric Tensor Decomposition. Mathematical Programming B, Vol. 151, No. 1, pp. 225-248, 2015. <a href="https://doi.org/10.1007/s10107-015-0895-0">doi:10.1007/s10107-015-0895-0</a></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li><li><a href="#2">Create a sample problem</a></li><li><a href="#5">Run CP-SYM using L-BFGS from Poblano Toolbox</a></li><li><a href="#6">Run CP-SYM using FMINCON from Optimization Toolbox</a></li></ul></div><h2 id="1">Requirements</h2><p>Some of these codes requires an optimizaton solver to use. We recommend installing at least one of the following:</p><div><ul><li><a href="https://github.com/sandialabs/poblano_toolbox"><b>Poblano</b> Toolbox, Version 1.1</a></li></ul></div><h2 id="2">Create a sample problem</h2><pre class="codeinput">d = 3; <span class="comment">% order</span>
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Symmetric CP Decomposition for Symmetric Tensors</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="cp.html">CP Decompositions</a>
+&#62;&#62; <a href="cp_sym_doc.html">CP-SYM</a>
+</p>
+</p><p>The function <tt>cp_sym</tt> computes the symmetric CP decomposition of a symmetric tensor. A <b>symmetric</b> tensor is invariant under any permutation of the indices. For a general dense <tt>tensor</tt>, we can verify its symmetry via the <tt>issymmetric</tt> function. An arbitrary dense tensor can be symmetrized by the <tt>symmetrize</tt> function. A symmetric tensor can also be stored as a <tt>symtensor</tt>. The <b>symmetric CP decomposition</b> needs only a <i>single</i> factor matrix (which is reused in every mode) and a weight/sign vector.  This can be stored as a <tt>symktensor</tt> object. The symmetric CP decompsition is described in the following reference:</p><div><ul><li>T. G. Kolda, Numerical Optimization for Symmetric Tensor Decomposition, Mathematical Programming B, 151:225-248, 2015, <a href="https://doi.org/10.1007/s10107-015-0895-0">https://doi.org/10.1007/s10107-015-0895-0</a></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Requirements</a></li><li><a href="#2">Create a sample problem</a></li><li><a href="#5">Run CP-SYM using L-BFGS from Poblano Toolbox</a></li><li><a href="#6">Run CP-SYM using FMINCON from Optimization Toolbox</a></li></ul></div><h2 id="1">Requirements</h2><p>Some of these codes requires an optimizaton solver to use. We recommend installing at least one of the following:</p><div><ul><li><a href="https://github.com/sandialabs/poblano_toolbox"><b>Poblano</b> Toolbox, Version 1.1</a></li></ul></div><h2 id="2">Create a sample problem</h2><pre class="codeinput">d = 3; <span class="comment">% order</span>
 n = 10; <span class="comment">% size</span>
 r = 2; <span class="comment">% true rank</span>
 
@@ -79,13 +87,9 @@ X = info.Data;
 M_true = info.Soln;
 S_true = symktensor(M_true); <span class="comment">% Convert from ktensor to symktensor</span>
 </pre><p>Check that the tensor is symmetric</p><pre class="codeinput">issymmetric(X)
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
   logical
-
    1
-
 </pre><p>With even a small amount of noise, the gradient at the ideal solution can actually be large. This should be kept in mind when setting optimization termination conditions.</p><pre class="codeinput">[f,g] = fg_explicit(S_true, X, norm(X)^2);
 fprintf(<span class="string">'Relative error || full(S_true) - X || / || X ||: %g\n'</span>, norm(full(M_true)-X)/norm(X));
 fprintf(<span class="string">'Function value at true solution: %g\n'</span>, f);
@@ -204,9 +208,18 @@ satisfied to within the default value of the constraint tolerance.
 Final function value: 0.36
 Check similarity score (1=perfect): 0.99
 
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
 %% Symmetric CP Decomposition for Symmetric Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_sym_doc.html">CP-SYM</a>
+% </p>
+% </html>
+%
 % The function |cp_sym| computes the symmetric CP decomposition of a
 % symmetric tensor. 
 % A *symmetric* tensor is invariant under any permutation
@@ -219,9 +232,10 @@ Check similarity score (1=perfect): 0.99
 % stored as a |symktensor| object.
 % The symmetric CP decompsition is described in the following reference:
 %
-% * T. G. Kolda. Numerical Optimization for Symmetric Tensor Decomposition.
-% Mathematical Programming B, Vol. 151, No. 1, pp. 225-248, 2015.
-% <https://doi.org/10.1007/s10107-015-0895-0 doi:10.1007/s10107-015-0895-0>  
+% * T. G. Kolda, Numerical Optimization for Symmetric Tensor Decomposition,
+% Mathematical Programming B, 151:225-248, 2015,
+% <https://doi.org/10.1007/s10107-015-0895-0>  
+
 %% Requirements
 % Some of these codes requires an optimizaton solver to use. We recommend
 % installing at least one of the following:

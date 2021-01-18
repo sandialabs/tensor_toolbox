@@ -1,11 +1,20 @@
-%% Weighted optimization for CP tensor decomposition with incomplete data
-% We explain how to use the CP Weighted Optimization (CP-WOPR) method
-% implements in |cp_wopt|. The method is described in the following article:
+%% Weighted Optimization for CP Tensor Decomposition with Incomplete Data
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_wopt_doc.html">CP-WOPT</a>
+% </p>
+% </html>
+%
+% We explain how to use the CP Weighted Optimization (CP-WOPT) method
+% implemented in |cp_wopt|. The method is described in the following article:
 %
 % * E. Acar, D. M. Dunlavy, T. G. Kolda and M. Mørup, 
-% *Scalable Tensor Factorizations for Incomplete Data*, 
-% _Chemometrics and Intelligent Laboratory Systems_ 106(1):41-56, March 2011
-% (doi:10.1016/j.chemolab.2010.08.004) 
+%   Scalable Tensor Factorizations for Incomplete Data, 
+%   Chemometrics and Intelligent Laboratory Systems, 106(1):41-56, 2011,
+%   http://dx.doi.org/10.1016/j.chemolab.2010.08.004.
 
 %% Third-party optimization software
 % The |cp_wopt| method uses third-party optimization software to do the

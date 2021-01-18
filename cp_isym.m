@@ -34,10 +34,9 @@ function [M,info,M0,varargin] = cp_isym(X,r,varargin)
 %
 %   See also SYMKTENSOR/FG_IMPLICIT.
 %
-%   Reference: S. Sherman, T. G. Kolda. Estimating Higher-Order Moments
-%   Using Symmetric Tensor Decomposition. SIAM Journal on Matrix Analysis
-%   and Applications, accepted for publication, 2020.
-%   http://arxiv.org/abs/1911.03813   
+%   Reference: S. Sherman, T. G. Kolda, Estimating Higher-Order Moments
+%   Using Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and
+%   Applications, 41:1369-1387, 2020, https://doi.org/10.1137/19m1299633 
 %
 %MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
 

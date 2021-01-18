@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Sparse tensors</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-09"><meta name="DC.source" content="sptensor_doc.m"><style type="text/css">
+      --><title>Sparse Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="sptensor_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Sparse tensors</h1><!--introduction--><p>MATLAB has no native ability to store sparse multidimensional arrays, only sparse matrices. Moreover, the compressed sparse column storage format for MATLAB sparse matrices is not readily adaptable to sparse tensors. Instead, the <tt>sptensor</tt> class stores the data in coordinate format.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating a sptensor</a></li><li><a href="#4">Specifying the accumulation method for the constructor</a></li><li><a href="#6">Creating a one-dimensional sptensor.</a></li><li><a href="#8">Creating an all-zero sptensor</a></li><li><a href="#10">Constituent parts of a sptensor</a></li><li><a href="#13">Creating a sparse tensor from its constituent parts</a></li><li><a href="#14">Creating an empty sptensor</a></li><li><a href="#15">Use sptenrand to create a random sptensor</a></li><li><a href="#17">Use squeeze to remove singleton dimensions from a sptensor</a></li><li><a href="#18">Use full or tensor to convert a sptensor to a (dense) tensor</a></li><li><a href="#20">Use sptensor to convert a (dense) tensor to a sptensor</a></li><li><a href="#21">Use double to convert a sptensor to a (dense) multidimensional array</a></li><li><a href="#22">Use find to extract nonzeros from a tensor and then create a sptensor</a></li><li><a href="#23">Use ndims and size to get the size of a sptensor</a></li><li><a href="#26">Use nnz to get the number of nonzeros of a sptensor</a></li><li><a href="#27">Subscripted reference for a sptensor</a></li><li><a href="#37">Subscripted assignment for a sptensor</a></li><li><a href="#43">Use end as the last index.</a></li><li><a href="#44">Use elemfun to manipulate the nonzeros of a sptensor</a></li><li><a href="#49">Basic operations (plus, minus, times, etc.) on a sptensor</a></li><li><a href="#59">Use permute to reorder the modes of a sptensor</a></li><li><a href="#63">Displaying a tensor</a></li></ul></div><h2 id="1">Creating a sptensor</h2><p>A sparse tensor can be created by passing in a list of subscripts and values. For example, here we pass in three subscripts and a scalar value. The resuling sparse tensor has three nonzero entries, and the size is the size of the largest subscript in each dimension.</p><pre class="codeinput">rand(<span class="string">'state'</span>,0); <span class="comment">%&lt;-- Setup for the script</span>
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Sparse Tensors</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="tensor_types.html">Tensor Types</a>
+&#62;&#62; <a href="sptensor_doc.html">Sparse Tensors</a>
+</p>
+</p><p>MATLAB has no native ability to store sparse multidimensional arrays, only sparse matrices. Moreover, the compressed sparse column storage format for MATLAB sparse matrices is not readily adaptable to sparse tensors. Instead, the <tt>sptensor</tt> class stores the data in coordinate format. The <tt>sptensor</tt> class is best described in the following reference:</p><div><ul><li>B. W. Bader and T. G. Kolda. Efficient MATLAB Computations with Sparse   and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007.   <a href="http:dx.doi.org/10.1137/060676489">http:dx.doi.org/10.1137/060676489</a>.</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating a sptensor</a></li><li><a href="#4">Specifying the accumulation method for the constructor</a></li><li><a href="#6">Creating a one-dimensional sptensor.</a></li><li><a href="#8">Creating an all-zero sptensor</a></li><li><a href="#10">Constituent parts of a sptensor</a></li><li><a href="#13">Creating a sparse tensor from its constituent parts</a></li><li><a href="#14">Creating an empty sptensor</a></li><li><a href="#15">Use sptenrand to create a random sptensor</a></li><li><a href="#17">Use squeeze to remove singleton dimensions from a sptensor</a></li><li><a href="#18">Use full or tensor to convert a sptensor to a (dense) tensor</a></li><li><a href="#20">Use sptensor to convert a (dense) tensor to a sptensor</a></li><li><a href="#21">Use double to convert a sptensor to a (dense) multidimensional array</a></li><li><a href="#22">Use find to extract nonzeros from a tensor and then create a sptensor</a></li><li><a href="#23">Use ndims and size to get the size of a sptensor</a></li><li><a href="#26">Use nnz to get the number of nonzeros of a sptensor</a></li><li><a href="#27">Subscripted reference for a sptensor</a></li><li><a href="#37">Subscripted assignment for a sptensor</a></li><li><a href="#43">Use end as the last index.</a></li><li><a href="#44">Use elemfun to manipulate the nonzeros of a sptensor</a></li><li><a href="#49">Basic operations (plus, minus, times, etc.) on a sptensor</a></li><li><a href="#59">Use permute to reorder the modes of a sptensor</a></li><li><a href="#63">Displaying a tensor</a></li></ul></div><h2 id="1">Creating a sptensor</h2><p>A sparse tensor can be created by passing in a list of subscripts and values. For example, here we pass in three subscripts and a scalar value. The resuling sparse tensor has three nonzero entries, and the size is the size of the largest subscript in each dimension.</p><pre class="codeinput">rand(<span class="string">'state'</span>,0); <span class="comment">%&lt;-- Setup for the script</span>
 subs = [1,1,1;1,2,1;3,4,2]; <span class="comment">%&lt;-- Subscripts of the nonzeros.</span>
 vals = [1; 2; 3]; <span class="comment">%&lt;-- The values of the nonzeros.</span>
 X = sptensor(subs,vals) <span class="comment">%&lt;-- Create a sparse tensor with 3 nonzeros.</span>
@@ -117,31 +125,22 @@ X = sptensor(subs,2*ones(6,1),[4 4 4],myfun) <span class="comment">%&lt;-- Custo
 </pre><pre class="codeoutput">X is an all-zero sparse tensor of size 10 x 10 x 10
 </pre><h2 id="10">Constituent parts of a sptensor</h2><pre class="codeinput">X = sptenrand([40 30 20],5); <span class="comment">%&lt;-- Create data.</span>
 X.subs <span class="comment">%&lt;-- Subscripts of nonzeros.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      8    27     3
     25    13     2
     30    13     1
     32    29     8
     37    28    17
-
 </pre><pre class="codeinput">X.vals <span class="comment">%&lt;-- Corresponding nonzero values.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
     0.2028
     0.1987
     0.6038
     0.2722
     0.1988
-
 </pre><pre class="codeinput">X.size <span class="comment">%&lt;-- The size.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
     40    30    20
-
 </pre><h2 id="13">Creating a sparse tensor from its constituent parts</h2><pre class="codeinput">Y = sptensor(X.subs,X.vals,X.size) <span class="comment">%&lt;-- Copies X.</span>
 </pre><pre class="codeoutput">Y is a sparse tensor of size 40 x 30 x 20 with 5 nonzeros
 	( 8,27, 3)    0.2028
@@ -205,18 +204,12 @@ Y = full(X) <span class="comment">%&lt;-- Convert it to a (dense) tensor.</span>
 	(1,1,1)     1
 	(2,2,2)     1
 </pre><h2 id="21">Use double to convert a sptensor to a (dense) multidimensional array</h2><pre class="codeinput">Y = double(X) <span class="comment">%&lt;-- Creates a MATLAB array.</span>
-</pre><pre class="codeoutput">
-Y(:,:,1) =
-
+</pre><pre class="codeoutput">Y(:,:,1) =
      1     0
      0     0
-
-
 Y(:,:,2) =
-
      0     0
      0     1
-
 </pre><h2 id="22">Use find to extract nonzeros from a tensor and then create a sptensor</h2><p>The <tt>find</tt> command can be used to extract specific elements and then convert those into a sptensor.</p><pre class="codeinput">X = tensor(rand(5,4,2),[5 4 2]) <span class="comment">%&lt;-- Create a tensor.</span>
 S = find(X &gt; 0.9) <span class="comment">%&lt;-- Extract subscipts of values greater than 0.9.</span>
 V = X(S) <span class="comment">%&lt;-- Extract the corresponding values.</span>
@@ -234,107 +227,71 @@ Y = sptensor(S,V,[5 4 2]) <span class="comment">%&lt;-- Create a new tensor.</sp
 	    0.3200    0.2679    0.8392    0.6299
 	    0.9601    0.4399    0.6288    0.3705
 	    0.7266    0.9334    0.1338    0.5751
-
 S =
-
      1     4     1
      2     4     1
      4     1     2
      5     2     2
-
-
 V =
-
     0.9708
     0.9901
     0.9601
     0.9334
-
 Y is a sparse tensor of size 5 x 4 x 2 with 4 nonzeros
 	(1,4,1)    0.9708
 	(2,4,1)    0.9901
 	(4,1,2)    0.9601
 	(5,2,2)    0.9334
 </pre><h2 id="23">Use ndims and size to get the size of a sptensor</h2><pre class="codeinput">ndims(Y) <span class="comment">%&lt;-- Number of dimensions or modes.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      3
-
 </pre><pre class="codeinput">size(Y) <span class="comment">%&lt;-- Size of Y.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      5     4     2
-
 </pre><pre class="codeinput">size(Y,3) <span class="comment">%&lt;-- Size of mode 3 of Y.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      2
-
 </pre><h2 id="26">Use nnz to get the number of nonzeros of a sptensor</h2><pre class="codeinput">nnz(Y) <span class="comment">%&lt;-- Number of nonzeros in Y.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      4
-
 </pre><h2 id="27">Subscripted reference for a sptensor</h2><pre class="codeinput">X = sptensor([4,4,4;2,2,1;2,3,2],[3;5;1],[4 4 4]) <span class="comment">%&lt;-- Create a sptensor.</span>
 </pre><pre class="codeoutput">X is a sparse tensor of size 4 x 4 x 4 with 3 nonzeros
 	(2,2,1)     5
 	(2,3,2)     1
 	(4,4,4)     3
 </pre><pre class="codeinput">X(1,2,1) <span class="comment">%&lt;-- Extract the (1,2,1) element, which is zero.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
-
 </pre><pre class="codeinput">X(4,4,4) <span class="comment">%&lt;-- Extract the (4,4,4) element, which is nonzero.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      3
-
 </pre><pre class="codeinput">X(1:2,2:4,:) <span class="comment">%&lt;-- Extract a 2 x 3 x 4 subtensor.</span>
 </pre><pre class="codeoutput">ans is a sparse tensor of size 2 x 3 x 4 with 2 nonzeros
 	(2,1,1)     5
 	(2,2,2)     1
 </pre><pre class="codeinput">X([1 1 1; 2 2 1]) <span class="comment">%&lt;-- Extract elements by subscript.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
      5
-
 </pre><pre class="codeinput">X([1;6]) <span class="comment">%&lt;-- Same as above but with linear indices.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      0
      5
-
 </pre><p>As with a tensor, subscriped reference may be ambiguous for one-dimensional tensors.</p><pre class="codeinput">X = sptensor([1;3;5],1,7) <span class="comment">%&lt;-- Create a sparse tensor.</span>
 </pre><pre class="codeoutput">X is a sparse tensor of size 7 with 3 nonzeros
 	(1)     1
 	(3)     1
 	(5)     1
 </pre><pre class="codeinput">X(3) <span class="comment">%&lt;-- Fully specified, single elements are always returned as scalars.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1
-
 </pre><pre class="codeinput">X([3;6]) <span class="comment">%&lt;-- Returns a subtensor.</span>
 </pre><pre class="codeoutput">ans is a sparse tensor of size 2 with 1 nonzeros
 	(1)     1
 </pre><pre class="codeinput">X([3;6],<span class="string">'extract'</span>) <span class="comment">%&lt;-- Same as above *but* returns an array.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1
      0
-
 </pre><h2 id="37">Subscripted assignment for a sptensor</h2><pre class="codeinput">X = sptensor([30 40 20]) <span class="comment">%&lt;-- Create an emtpy 30 x 40 x 20 sptensor.</span>
 </pre><pre class="codeoutput">X is an all-zero sparse tensor of size 30 x 40 x 20
 </pre><pre class="codeinput">X(30,40,20) = 7 <span class="comment">%&lt;-- Assign a single element.</span>
@@ -578,14 +535,29 @@ disp(X)
 	(1,1,1)    4.2223
 	(4,3,2)    0.0000
 	(2,2,2)    0.0000
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Sparse tensors
+%% Sparse Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="sptensor_doc.html">Sparse Tensors</a>
+% </p>
+% </html>
+%
 % MATLAB has no native ability to store sparse multidimensional arrays,
 % only sparse matrices. Moreover, the compressed sparse column storage
 % format for MATLAB sparse matrices is not readily adaptable to sparse
 % tensors. Instead, the |sptensor| class stores the data in coordinate
-% format.
+% format. The |sptensor| class is best described in the following
+% reference:
+%
+% * B. W. Bader and T. G. Kolda. Efficient MATLAB Computations with Sparse
+%   and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007.
+%   <http:dx.doi.org/10.1137/060676489>. 
+%
 %% Creating a sptensor 
 % A sparse tensor can be created by passing in a list of subscripts and
 % values. For example, here we pass in three subscripts and a scalar value.

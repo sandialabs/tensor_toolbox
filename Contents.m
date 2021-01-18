@@ -1,5 +1,5 @@
 % Tensor Toolbox (Sandia National Labs)
-% Version 3.1 13-Oct-2020
+% Version 3.2-a 18-Jan-2021
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:

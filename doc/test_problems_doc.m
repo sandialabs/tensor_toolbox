@@ -1,4 +1,13 @@
-%% Creating test problems and initial guesses
+%% Creating Test Problems and Initial Guesses
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="test_problems_doc.html">Creating Test Problems</a>
+% </p>
+% </html>
+%
 % We demonstrate how to use Tensor Toolbox |create_problem| and
 % |create_guess| functions to create test problems for fitting algorithms. 
 

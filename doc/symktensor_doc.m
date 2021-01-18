@@ -1,4 +1,13 @@
-%% Symmetric Kruskal tensors
+%% Symmetric Kruskal Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="symktensor_doc.html">Symmetric Kruskal Tensors</a>
+% </p>
+% </html>
+%
 % A symmetric Kruskal tensor is a decomposition of a tensor into a sum of
 % vector outer products. The symmetric structure means that each term in 
 % the summand is the outer product of a single vector with itself $m$ times, 

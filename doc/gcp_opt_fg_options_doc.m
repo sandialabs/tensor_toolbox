@@ -1,14 +1,23 @@
 %% Function Types for GCP
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="gcp_opt_doc.html">GCP-OPT</a>
+% &#62;&#62; <a href="gcp_opt_gf_options_doc.html">Function Types for GCP</a>
+% </p>
+% </html>
+%
 % The GCP capability of the Tensor Toolbox allows the user to specify a fit
 % function. There are a number of ''standard'' choices that we provide via
 % the helper function |tt_gcp_fg_setup| function. These choices are
 % presented in detail below. Motivations and details for these choices can
 % be found in: 
 %
-% * D. Hong, T. G. Kolda, J. A. Duersch.
-%   _Generalized Canonical Polyadic Tensor Decomposition_. 
-%   <http://arXiv.org/abs/1808.07452 arXiv:1808.07452>,
-%   2018.  To appear in SIAM Review, 2019.
+% * D. Hong, T. G. Kolda, J. A. Duersch, Generalized Canonical
+%   Polyadic Tensor Decomposition, SIAM Review, 62:133-163, 2020,
+%   <https://doi.org/10.1137/18M1203626>
 %
 % These choices can be passed directly to gcp_opt via the 'type' option. To
 % test the options, call the hidden function:

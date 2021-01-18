@@ -1,4 +1,13 @@
 %% Computing Tucker via the HOSVD
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tucker.html">Tucker Decompositions</a> 
+% &#62;&#62; <a href="hosvd_doc.html">HOSVD</a>
+% </p>
+% </html>
+%
 
 %% Higher-order Singular Value Decomposition (HOSVD) and Sequentially-truncased HOSVD (ST-HOSVD)
 % The HOSVD computes a Tucker decomposition of a tensor via a simple
@@ -17,14 +26,14 @@
 %
 %
 % * L. R. Tucker, Some mathematical notes on three-mode factor analysis,
-%   _Psychometrika_ 31:279-311, 1966, doi:10.1007/BF02289464
+%   Psychometrika, 31:279-311, 1966, http://dx.doi.org/10.1007/BF02289464
 % * L. D. Lathauwer, B. D. Moor and J. Vandewalle, A multilinear singular
-%   value decomposition, _SIAM J. Matrix Analysis and Applications_
-%   21(4):1253-1278, 2000, doi:10.1137/S0895479896305696  
+%   value decomposition, SIAM J. Matrix Analysis and Applications,
+%   21(4):1253-1278, 2000, http://dx.doi.org/10.1137/S0895479896305696  
 % * N. Vannieuwenhoven, R. Vandebril and K. Meerbergen, A New Truncation
-%   Strategy for the Higher-Order Singular Value Decomposition, _SIAM J.
-%   Scientific Computing_ 34(2):A1027-A1052, 2012,
-%   doi:10.1137/110836067    
+%   Strategy for the Higher-Order Singular Value Decomposition, SIAM J.
+%   Scientific Computing, 34(2):A1027-A1052, 2012,
+%   http://dx.doi.org/10.1137/110836067    
 %
 
 %% Simple example of usage

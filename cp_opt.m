@@ -34,7 +34,7 @@ function [P, P0, output] = cp_opt(Z,R,varargin)
 %
 %   REFERENCE: E. Acar, D. M. Dunlavy and T. G. Kolda, A Scalable
 %   Optimization Approach for Fitting Canonical Tensor Decompositions,
-%   J. Chemometrics 25(2):67-86, February 2011 (doi:10.1002/cem.1335)
+%   J. Chemometrics, 25(2):67-86, 2011, http://doi.org/10.1002/cem.1335.
 %
 %   <a href="matlab:web(strcat('file://',...
 %   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...

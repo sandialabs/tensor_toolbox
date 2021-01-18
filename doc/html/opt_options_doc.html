@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Tensor Toolbox Optimization Methods</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-10-13"><meta name="DC.source" content="opt_options_doc.m"><style type="text/css">
+      --><title>Optimization Methods for Tensor Toolbox</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="opt_options_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,12 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Tensor Toolbox Optimization Methods</h1><!--introduction--><p>Most MATLAB optimization methods have different interfaces or none at all. In Tensor Toolbox, we are adopting wrappers for moderate consistency, and these will be called from within other Tensor Toolbox functions. Here we outline the choices, their installation instructions, and then the user-tunable parameters.</p><p>A few genearal notes:</p><div><ul><li>These methods all require explicit initial guesses as well as handles for   the function and gradient calculations. These are handled by the calling routines.</li><li>The parameters marked with asterisks should generally not be modified   by the user because they will be set by the calling routine.</li></ul></div><p>For more information on the details of these methods, see <a href="tt_opt_doc.html">Developer Information for Tensor Toolbox Optimization Methods</a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><tt>lbfgsb</tt>: Limited-Memory Quasi-Newton with Bound Constraints</a></li><li><a href="#2"><tt>lbfgs</tt>: Limited-Memory Quasi-Newton</a></li><li><a href="#3"><tt>fminunc</tt>: Optimizaton Toolbox Quasi-Newton Method</a></li><li><a href="#4"><tt>adam</tt>: Stochastic Gradient Descent with Momentum</a></li></ul></div><h2 id="1"><tt>lbfgsb</tt>: Limited-Memory Quasi-Newton with Bound Constraints</h2><p>In most methods, setting <tt>'opt'</tt> to <tt>'lbfgsb'</tt> will enable this method, and then any of the settings in the table below can be modified by passing these as additional options to the method.</p><p>
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Optimization Methods for Tensor Toolbox</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a>
+</p>
+</p><p>Most MATLAB optimization methods have different interfaces or none at all. In Tensor Toolbox, we are adopting wrappers for moderate consistency, and these will be called from within other Tensor Toolbox functions. Here we outline the choices, their installation instructions, and then the user-tunable parameters.</p><p>A few general notes:</p><div><ul><li>These methods all require explicit initial guesses as well as handles for   the function and gradient calculations. These are handled by the calling routines.</li><li>The parameters marked with asterisks should generally not be modified   by the user because they will be set by the calling routine.</li></ul></div><p>For more information on the details of these methods, see <a href="tt_opt_doc.html">Developer Information for Optimization Methods in Tensor Toolbox</a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><tt>lbfgsb</tt>: Limited-Memory Quasi-Newton with Bound Constraints</a></li><li><a href="#2"><tt>lbfgs</tt>: Limited-Memory Quasi-Newton</a></li><li><a href="#3"><tt>fminunc</tt>: Optimizaton Toolbox Quasi-Newton Method</a></li><li><a href="#4"><tt>adam</tt>: Stochastic Gradient Descent with Momentum</a></li></ul></div><h2 id="1"><tt>lbfgsb</tt>: Limited-Memory Quasi-Newton with Bound Constraints</h2><p>In most methods, setting <tt>'opt'</tt> to <tt>'lbfgsb'</tt> will enable this method, and then any of the settings in the table below can be modified by passing these as additional options to the method.</p><p>
 <table>
 <tr><td>Name</td><td>Description</td><td>Default</td></tr>
 <tr><td><tt>lower</tt></td><td>Lower bounds, can be vector or scalar</td><td><tt>-Inf</tt></td></tr>
@@ -124,16 +131,24 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <tr><td><tt>gdesc</tt> (*)</td><td>Description of stochastic gradient computation</td><td>none</td></tr>
 <tr><td><tt>fexact</tt> (*)</td><td>Boolean if function is computed exactly</td><td>true</td></tr>
 </table>
-</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+</p><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Tensor Toolbox Optimization Methods
+%% Optimization Methods for Tensor Toolbox
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="opt_options_doc.html">Optimization Methods</a> 
+% </p>
+% </html>
+%
 % Most MATLAB optimization methods have different interfaces or none at all.
 % In Tensor Toolbox, we are adopting wrappers for moderate consistency, and
 % these will be called from within other Tensor Toolbox functions. Here we
 % outline the choices, their installation instructions, and then the
 % user-tunable parameters.
 %
-% A few genearal notes:
+% A few general notes:
 %
 % * These methods all require explicit initial guesses as well as handles for
 %   the function and gradient calculations. These are handled by the calling routines.
@@ -141,7 +156,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %   by the user because they will be set by the calling routine.
 %
 % For more information on the details of these methods, see
-% <tt_opt_doc.html Developer Information for Tensor Toolbox Optimization Methods>.
+% <tt_opt_doc.html Developer Information for Optimization Methods in Tensor Toolbox>.
 
 %% |lbfgsb|: Limited-Memory Quasi-Newton with Bound Constraints 
 % In most methods, setting |'opt'| to |'lbfgsb'| will enable this method,
