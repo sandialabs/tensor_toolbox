@@ -35,6 +35,10 @@ function [lambda,x,flag,its,x0] = eig_sshopm(A,varargin)
 %     Computing Generalized Tensor Eigenpairs, SIAM J. Matrix Analysis and
 %     Applications, 35:1563-1582, 2014, http://dx.doi.org/0.1137/140951758    
 %
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'sshopm_doc.html')))">Documentation page for SSHOPM</a>
+%
 %   See also EIG_GEAP, EIG_SSHOPMC, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %
 %MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
