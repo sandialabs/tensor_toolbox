@@ -15,10 +15,7 @@ Release notes follow below.
 ## Changes from Version 3.1 (June 4, 2019)
 
 - Overhaul of documentation (see !53)
-  * This `README.md` file now contains the release notes. The prior contents of this file are in the web pages.
-  * Naviation added to all HTML help files. (MATLAB's help has navigation, but this does not appear in the Tensor Toolbox website, so this navidation makes that possible.)
-  * Added stylesheet for MATLAB-published HTML pages, which inserts a banner  and make other improvements to the layout.
-  * Created instructions for releases and documentation in `MAINTENANCE` directory.
+- Added [HTML documentation](doc/html/eig_geap_doc.html) for `eig_geap.m` (see !54)
 - Added support to export a `ktensor` in [`export_data.m`](export_data.m).
 - Fixing bug in [`@ktensor/score.m`](@ktensor/score.m) with zero lambdas in both inputs.
 - Added [`sptenmat` constructor](@sptenmat/sptenmat.m) check on valid input. 

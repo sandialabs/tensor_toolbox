@@ -33,6 +33,7 @@
 </tocitem>
 <tocitem target="eigen.html">Tensor Eigenproblem
     <tocitem target="sshopm_doc.html">Shifted Symmetric Higher-order Power Method</tocitem>
+    <tocitem target="eig_geap_doc.html">Shifted Power Method for Generalized Eigenproblem</tocitem>
 </tocitem>
 <tocitem target="working.html">Working with Tensors
     <tocitem target="multiply_doc.html">Multiplying Tensors</tocitem>
