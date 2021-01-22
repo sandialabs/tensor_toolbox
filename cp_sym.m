@@ -12,14 +12,10 @@ function [Model,Info] = cp_sym(A,P,varargin)
 %   Several optimization methods can be used, depending on what toolboxes
 %   and codes are available. The MATLAB optimization toolbox provides
 %   FMINUNC and FMINCON. The POBLANO package provides limited-memory BFGS
-%   (LBFGS), Nonlinear CG (NCG), and Truncated Newton (TN). Finally, we
-%   provide limited support for SNOPT, which uses a sequential quadratic
-%   programming algorithm. We recommend 'lbfgs' from the POBLANO package as
-%   the best choice for unconstrained and 'SNOPT' as the best choice for
-%   constrained.
+%   (LBFGS), Nonlinear CG (NCG), and Truncated Newton (TN).
 %
-%   o 'alg'         - Optimiation algorithm. Choices: {'fminun','fmincon',
-%                     'lbfgs','ncg','tn','snopt'}. Default: 'lbfgs'.
+%   o 'alg'         - Optimiation algorithm. Choices: {'fminunc','fmincon',
+%                     'lbfgs','ncg','tn'}. Default: 'lbfgs'.
 %   o 'alg_options' - Options that are passed to the optimization
 %                     algorithm. 
 % 
@@ -48,6 +44,14 @@ function [Model,Info] = cp_sym(A,P,varargin)
 %   o optalg - Optimization algorithm. (See 'alg' above.)
 %   o optopt - Optimization parameters. (See 'alg_options' above.)
 %   o runtime - Time for running optimization method.
+%
+%   Reference: T. G. Kolda, Numerical Optimization for Symmetric Tensor
+%   Decomposition, Mathematical Programming B, Vol. 151, No. 1, pp.
+%   225-248, 2015, https://doi.org/10.1007/s10107-015-0895-0 
+%
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'cp_sym_doc.html')))">Documentation page for CP-SYM</a>
 %
 %   See also SYMKTENSOR, TENSOR/ISSYMMETRIC, SYMKTENSOR/FG,
 %   SYMKTENSOR/FG_SETUP.
@@ -83,6 +87,8 @@ Model0 = params.Results.init;
 %% Setup
 if isempty(Model0)
     Model0 = symktensor(P,A); %random initialization. With rand, i.e. U(0,1)
+elseif isnumeric(Model0)
+    Model0 = symktensor(ones(P,1),Model0,P);
 end
 
 starttime = tic;

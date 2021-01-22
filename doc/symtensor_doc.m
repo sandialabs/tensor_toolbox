@@ -1,4 +1,13 @@
-%% Symmetric tensors
+%% Symmetric Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="symtensor_doc.html">Symmetric Tensors</a>
+% </p>
+% </html>
+%
 % A symmetric tensor is a tensor that is invariant under all permutations
 % of its modes.  Because many of the elements of a symmetric tensor are
 % guaranteed to be equal, we can simplify the storage requirements by only

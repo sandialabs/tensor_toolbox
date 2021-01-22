@@ -1,293 +1,405 @@
-# MATLAB Tensor Toolbox, Version 3.0-dev
+# Tensor Toolbox for MATLAB, Version 3.2-a
+Current development version  
+by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
+Sandia National Laboratories
 
-Tensors (also known as multidimensional arrays or N-way arrays) are used in a 
-variety of applications ranging from chemometrics to network analysis. 
-The Tensor Toolbox provides the following classes for manipulating dense, 
-sparse, and structured tensors using MATLAB's object-oriented features:
+The **Tensor Toolbox for MATLAB** is open source software; see [LICENSE.txt](LICENSE.txt) for the terms of the license (2-clause BSD). 
 
-* `tensor` - Dense tensors, extending MATLAB's native mutlidimensional array capabilities.
-* `sptensor` - Sparse tensors, only stores the nonzeros and their indices.
-* `symtensor` - Symmetric tensor, only stores the unique entries.
-* `ttensor` - Tucker decomposed tensor, stored as a core and factor matrices.
-* `ktensor` - Kruskal decomposed tensor, stored as weight and factor matrices.
-* `symktensor` - Kruskal decomposed _symmetric_ tensor, stored as weight and factor matrix.
-* `sumtensor` - Sum of different types of tensors, never formed explicitly.
-* `tenmat` - Tensor as a matrix, with extra information so that it can be converted back into a tensor.
-* `sptenmat` - Store an sptensor as a sparse matrix in coordinate format, with extra information so that it can be converted back into an sptensor.
+For a list of contributors, see [CONTRIBUTORS.md](CONTRIBUTORS.md).
+For instructions on contributing, see [CONTRIBUTION_GUIDE.md](CONTRIBUTION_GUIDE.md).
 
-The Tensor Toolbox for MATLAB is open source, but we ask that you please cite 
-the appropriate references ([listed below](#how-to-cite)) so that we can continue to show the 
-relevance of this work. Your contributions are warmly welcomed as well; please 
-see the [contribution guide](CONTRIBUTION_GUIDE.md). 
-Previous contributors are listed in [contributors](CONTRIBUTORS.md). 
-Full details of the license can be found in [license](LICENSE.txt).
+For all other information, including download and usage instructions, see [www.tensortoolbox.org](https://www.tensortoolbox.org/).
 
-### What's new in Version 3.0?
+Release notes follow below.
 
-Version 3.0 adds
+## Changes from Version 3.1 (June 4, 2019)
 
-* New classes and functions for symmetric tensors: `symtensor`, `symktensor`, `cp_sym`
-* New class for sums of different tensor types: `sumtensor`
-* Function to compute HOSVD and ST-HOSVD: `hosvd`
-
-We have also fixed many bugs. View the [RELEASE_NOTES.txt](RELEASE_NOTES.txt) file for details.
-
-## How to cite
-
-If you have used the Tensor Toolbox in your work in any way, 
-please cite the software itself along with at least one publication or preprint. 
-Thanks very much for your support.
-
-__General software reference, should always be cited:__
-Brett W. Bader, Tamara G. Kolda and others. 
-MATLAB Tensor Toolbox Version 3.0-dev, 
-Available online, August 2017. 
-URL: https://gitlab.com/tensors/tensor_toolbox. 
-_Consider adding the short hash for the exact version that was used. 
-If you clone the repository, use the command 
-`git log --pretty=format:'%h' -n 1`. 
-If you download, the long hash is baked into the filename, but you need only use 
-the first 8 characters._ 
-
-``` bibtex
-@misc{TTB_Software,
-  author = {Brett W. Bader and Tamara G. Kolda and others},
-  title = {MATLAB Tensor Toolbox Version 3.0-dev},
-  howpublished = {Available online},
-  month = aug,
-  year = {2017},
-  url = {https://gitlab.com/tensors/tensor_toolbox}
-}
-```
-
-__Default citation for dense computations:__
-B. W. Bader and T. G. Kolda.
-Algorithm 862: MATLAB tensor classes for fast algorithm prototyping,
-ACM Transactions on Mathematical Software 32(4):635-653, December 2006.
-DOI: 10.1145/1186785.1186794. 
-
-``` bibtex
-@article{TTB_Dense,
-  author = {Brett W. Bader and Tamara G. Kolda},
-  title = {Algorithm 862: {MATLAB} tensor classes for fast algorithm prototyping},
-  journal = {ACM Transactions on Mathematical Software},
-  month = dec,
-  year = {2006},
-  volume = {32},
-  number = {4},
-  pages = {635--653},
-  doi = {10.1145/1186785.1186794}
-}
-```
-
-__Default citation for sparse computations:__
-B. W. Bader and T. G. Kolda.
-Efficient MATLAB computations with sparse and factored tensors,
-SIAM Journal on Scientific Computing 30(1):205-231, December 2007. DOI: 10.1137/060676489. 
-
-``` bibtex
-@article{TTB_Sparse,
-  author = {Brett W. Bader and Tamara G. Kolda},
-  title = {Efficient {MATLAB} computations with sparse and factored tensors},
-  journal = {SIAM Journal on Scientific Computing},
-  month = dec,
-  year = {2007},
-  volume = {30},
-  number = {1},
-  pages = {205--231},
-  doi = {10.1137/060676489}
-}
-```
-
-__Citation for all-at-once optimization for CP factorization (`cp_opt`):__
-E. Acar, D. M. Dunlavy and T. G. Kolda.
-A Scalable Optimization Approach for Fitting Canonical Tensor Decompositions,
-Journal of Chemometrics 25(2):67-86, February 2011. DOI: 10.1002/cem.1335. 
-
-``` bibtex
-@article{TTB_CPOPT,
-  author = {Evrim Acar and Daniel M. Dunlavy and Tamara G. Kolda},
-  title = {A Scalable Optimization Approach for Fitting Canonical Tensor Decompositions},
-  journal = {Journal of Chemometrics},
-  month = feb,
-  year = {2011},
-  volume = {25},
-  number = {2},
-  pages = {67--86},
-  doi = {10.1002/cem.1335}
-}
-```
-
-__Citation for CP factorization with missing data (`cp_wopt`):__
-E. Acar, D. M. Dunlavy, T. G. Kolda and M. Mørup.
-Scalable Tensor Factorizations for Incomplete Data,
-Chemometrics and Intelligent Laboratory Systems 106(1):41-56, March 2011.
-DOI: 10.1016/j.chemolab.2010.08.004. 
-
-``` bibtex
-@article{TTB_CPWOPT,
-  author = {Evrim Acar and Daniel M. Dunlavy and Tamara G. Kolda and Morten M{\o}rup},
-  title = {Scalable Tensor Factorizations for Incomplete Data},
-  journal = {Chemometrics and Intelligent Laboratory Systems},
-  month = mar,
-  year = {2011},
-  volume = {106},
-  number = {1},
-  pages = {41--56},
-  doi = {10.1016/j.chemolab.2010.08.004}
-}
-```
-
-__Citation for Shifted Symmetric Higher-Order Power Method for Tensor Eigenvalues (`eig_sshopm`):__
-T. G. Kolda and J. R. Mayo.
-Shifted Power Method for Computing Tensor Eigenpairs,
-SIAM Journal on Matrix Analysis and Applications 32(4):1095-1124, October 2011. DOI: 10.1137/100801482. 
-
-``` bibtex
-@article{TTB_SSHOPM,
-  author = {Tamara G. Kolda and Jackson R. Mayo},
-  title = {Shifted Power Method for Computing Tensor Eigenpairs},
-  journal = {SIAM Journal on Matrix Analysis and Applications},
-  month = oct,
-  year = {2011},
-  volume = {32},
-  number = {4},
-  pages = {1095-1124},
-  doi = {10.1137/100801482}
-}
-```
-
-__Citation for Method for Generalized Tensor Eigenvalues (`eig_geap`):__
-T. G. Kolda and J. R. Mayo.
-An Adaptive Shifted Power Method for Computing Generalized Tensor Eigenpairs,
-SIAM Journal on Matrix Analysis and Applications 35(4):1563-1581, December 2014.
-DOI: 10.1137/100801482. 
-
-``` bibtex
-@Article{TTB_EIGGEAP,
-  title                    = {An Adaptive Shifted Power Method for Computing Generalized Tensor Eigenpairs},
-  author                   = {Tamara G. Kolda and Jackson R. Mayo},
-  doi                      = {10.1137/140951758},
-  journal                  = {SIAM Journal on Matrix Analysis and Applications},
-  number                   = {4},
-  volume                   = {35},
-  year                     = {2014},
-  month                    = dec,
-  pages                    = {1563--1581},
-  url                      = {http://epubs.siam.org/toc/sjmael/35/4},
-}
-```
-
-__Citations for on Poisson Tensor Factorization (`cp_apr`)__
-1. E. C. Chi and T. G. Kolda.
-On Tensors, Sparsity, and Nonnegative Factorizations,
-SIAM Journal on Matrix Analysis and Applications 33(4):1272-1299, December 2012.
-2. S. Hansen, T. Plantenga and T. G. Kolda.
-Newton-Based Optimization for Kullback-Leibler Nonnegative Tensor Factorizations,
-Optimization Methods and Software 30(5):1002-1029, April 2015. 
-
-``` bibtex
-@Article{TTB_CPAPR,
-  title                    = {On Tensors, Sparsity, and Nonnegative Factorizations},
-  author                   = {Eric C. Chi and Tamara G. Kolda},
-  doi                      = {10.1137/110859063},
-  journal                  = {SIAM Journal on Matrix Analysis and Applications},
-  number                   = {4},
-  volume                   = {33},
-  year                     = {2012},
-  month                    = dec,
-  pages                    = {1272-1299},
-}
-
-@Article{TTB_CPAPRB,
-  author = {Samantha Hansen and Todd Plantenga and Tamara G. Kolda}, 
-  title = {Newton-Based Optimization for {Kullback-Leibler} Nonnegative Tensor Factorizations}, 
-  journal = {Optimization Methods and Software}, 
-  volume = {30}, 
-  number = {5}, 
-  pages = {1002-1029},
-  month = {April}, 
-  year = {2015},
-  doi = {10.1080/10556788.2015.1009977},
-} 
-```
-__Citation for Symmetric CP (`cp_sym`):__
-T. G. Kolda, 
-Numerical Optimization for Symmetric Tensor Decomposition, 
-Mathematical Programming B 151(1):225-248, April 2015, doi:10.1007/s10107-015-0895-0
-``` bibtex
-@article{TTB_CPSYM,  
-author = {Tamara G. Kolda}, 
-title = {Numerical Optimization for Symmetric Tensor Decomposition}, 
-journal = {Mathematical Programming B}, 
-volume = {151}, 
-number = {1}, 
-pages = {225-248}, 
-month = apr, 
-year = {2015},
-doi = {10.1007/s10107-015-0895-0},
-}
-```
-
-__Citation for CP with randomized least squares (`cp_rals`):__
-C. Battaglino, G. Ballard and T. G. Kolda, 
-A Practical Randomized CP Tensor Decomposition, 
-arXiv:1701.06600, January 2017
-
-```bibtex
-@misc{TTB_CPRALS,  
-author = {Casey Battaglino and Grey Ballard and Tamara G. Kolda}, 
-title = {A Practical Randomized {CP} Tensor Decomposition}, 
-month = jan, 
-year = {2017},
-eprint = {1701.06600},
-eprintclass = {cs.NA},
-}
-```
-__Citation for Memory-Efficient Tucker (`tucker_me` and `ttm_me`):__
-T. G. Kolda and J. Sun.
-Scalable Tensor Decompositions for Multi-aspect Data Mining,
-ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining,
-pp. 363-372, December 2008. DOI: 10.1109/ICDM.2008.89.
-_This code is no longer included with the toolbox but can be found in 
-Version 2.6._
-
-``` bibtex
-@inproceedings{TTB_MET,
-  author = {Tamara G. Kolda and Jimeng Sun},
-  title = {Scalable Tensor Decompositions for Multi-aspect Data Mining},
-  booktitle = {ICDM 2008: Proceedings of the 8th IEEE International Conference on Data Mining},
-  month = dec,
-  year = {2008},
-  pages = {363--372},
-  doi = {10.1109/ICDM.2008.89}
-}
-```
+- Overhaul of documentation (see !53)
+- Added [HTML documentation](doc/html/eig_geap_doc.html) for `eig_geap.m` (see !54)
+- Added support to export a `ktensor` in [`export_data.m`](export_data.m).
+- Fixing bug in [`@ktensor/score.m`](@ktensor/score.m) with zero lambdas in both inputs.
+- Added [`sptenmat` constructor](@sptenmat/sptenmat.m) check on valid input. 
+- Added new functionality for implicit symmetric CP tensor
+  computation, including new top-level function [`cp_isym`](cp_isym.m).
+- Added interfaces to various optimization methods, including
+  our own implementation of ADAM. 
 
 
-## Getting started and using the software
+## Changes from Version 2.6 (February 6, 2015)
 
-### Download
+- Changed license conditions: now open source BSD license.
+- New KTENSOR/VIZ function for visualizing the factors produced by the
+  CP decomposition.
+- Added new CP_SYM and TUCKER_SYM functions for symmetric tensor
+  decompositions. Added new SYMTENSOR and SYMKTENSOR classes with
+  limited functionality to support symmetric tensors.
+- Added new SUMTENSOR class that works with an implicit sum of tensors
+  without actually forming the result.
+- Added new CP-ARLS method that does alternating *RANDOMIZED* least
+  squares fitting for the CP decomposition per Battaglino et al.
+- New GCP_OPT method for generalized CP.
+- New CREATE_PROBLEM_BINARY method for generating problems where the
+  low-rank model corresponds to the odds of a 1.
+- Improve KTENSOR/FULL function.
+- Added SPTENSOR/SPONES function that replaces nonzero sparse tensor
+  elements with ones.
+- Removed memory-efficient Tucker (met) code.
+- Fixed formatting of lambda in ktensor/disp.
+- Fixed type of subs in import_data for sptensor data.
+- Made call to fixsigns in cp_als optional.
 
-Version 3.0-dev can be obtained here by cloning or downloading using the buttons 
-above. There is not yet an official release 3.0.
-Version 2.6 and earlier can be obtained 
-[here](http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.6.html).
+## Changes from Version 2.5 (February 1, 2012)
 
-### Installation
-1. Unpack the files, if necessary
-2. Start MATLAB
-3. Within MATLAB, navigate to the `tensor_toolbox` directory and execute the following commands:
-    1. `addpath(pwd)`
-    2. `savepath`
+Top Level
 
-### Getting help
-At any time, type `help tensor_toolbox` for help on classes or functions. 
-You can also find a getting started guide via MATLAB's help system. Launch help
-by pressing the question mark button and look for Tensor Toolbox under supplemental
-software, as highlighted in the image below.
+- Added new EIG_GEAP function for computing generalized tensor
+  eigenpairs. Renamed SSHOPM to EIG_SSHOPM and added support for
+  adaptive shift (now the default).  Renamed SSHOPMC to EIG_SSHOPMC.
+- Major updates to CP_APR, including changing the default to use
+  2nd-order optimization per paper of Hansen, Plantenga, & Kolda. See
+  method help for more information. 
+- Minor changes to CP_ALS: (1) Fixed bug in normalization step. (2)
+  Updated some calculations per work of Phan Anh Huy. (3) Forced
+  printing of last iteration so long as printitn > 0.
+- Updated MTTKRP and KHATRIRAO, per work of Phan Anh Huy.
+- Fixed bug in CREATE_PROBLEM for 'Sparse_Generation'.
+- Added SPTENSOR support EXPORT_DATA and IMPORT_DATA. Added KTENSOR
+  support to IMPORT_DATA.
+- Updated random number generator references to the new MATLAB
+  implementsion in CREATE_PROBLEM and CREATE_GUESS.
+- Added instructions for adding MET to the pat in INSTALL.txt.
+- Fixed function name for TT_FAC_TO_VEC per Evrim Acar bug report.
+- Added new function MATRANDNORM.
+- Renamed TT_CCONG to MATRANDCONG, TT_RANDORTHMATH to MATRANDORTH.
+- Removed TT_ASSIGNMENT_TYPE, TT_COMBINATOR, TT_CP_W*,
+  TT_CREATE_MISSING_DATA_PATTERN. 
+- Modernized documentation with class support.
 
-![Navigating MATLAB Help Screen](doc/images/helpscreen.PNG "Navigating MATLAB Help Screen")
+Class: ktensor
 
-Copyright 2017, Sandia Corporation.
+- Fixed SUBSREF to properly handle lists of indices.
+- Only call ARRANGE from NORMALIZE if there are multiple
+  components. Force ARRANGE to produce dense matrices. Fixes bug
+  reported by Jason Mattax on 3/1/2012.
+- Fixed comments for NORMALIZE, SUBSREF.
+- Added ISSYMMETRIC and SYMMETRIZE functions.
+- Constructor can now take SYMKTENSOR as an input.
+
+Class: sptensor
+
+- Fixed bug in SUBSASGN discovered by Sebastien Bratieres pertaining
+  to empty tensors.
+
+Class: tensor
+
+- Fixed bug in ISSYMMETRIC with respect to groups.
+
+Acknowledgments:
+
+- The function @symtensor/private/multinomial.m is from Mukhtar Ullah
+  and was distributed via the MATLAB file exchange.
+
+## Changes from Version 2.4 (March 22, 2010)
+
+Top Level
+
+- The "algorithms" directory has been eliminated. All routines are now
+  at the root level, meaning that only one directory has to be added
+  to the path to get all of Tensor Toolbox's standard functionality. 
+- Added new CREATE_PROBLEM and CREATE_GUESS routines that can be used
+  to generate test problems and initial guesses. These were first used
+  at the AIM 2010 Tensor Decomposition workshop. Added TT_RANDORTHMAT,
+  a helper function for creating problems.
+- Added new SSHOPM and SSHOPMC code for Shifted Symmetric Higher-Order
+  Power Method for computing tensor eigenpairs.
+- Added new CP_APR method for Poisson Tensor Factorization via
+  alternating Poisson regression, along with helper function
+  tt_loglikelihood. 
+- Added TENEYE to create "identity tensor".
+- Helper functions for CP_OPT and CP_WOPT (like cp_fg) now have "tt_"
+  prepended to their names. They are not listed in the contents files.
+- Adding ability to import and export text versions of matrices and
+  tensors via IMPORT_DATA/EXPORT_DATA functions.
+- Making calling sequence to TENZEROS, TENRAND, and TENONES
+  consistent. Now all three will take either a size array or a list,
+  i.e., tenones([5 4 3]) or tenones(5,4,3) produce the same
+  results. Eliminated two-argument version of tenzeros, i.e., a call
+  to tenzeros(M,N) should be changed to tenzeros(N*ones(1,M)).
+- Added additional comments in CP_ALS.
+- Made output of CP_WOPT consistent with CP_OPT, i.e., now includes
+  output of optimization method.  
+- Fixed bug for empty tensor in TENONES.
+- Fixed TT_IND2SUB, TT_SUB2IND to handle empty inputs.
+
+Documentation
+
+- Added documentation in the help browser for cp_opt, cp_wopt, cp_als,
+  and sshopm.
+
+Class: tensor
+
+- Added SYMMETRIZE function to symmetrize a tensor and ISSYMMETRIC
+  function to check if a tensor is symmetric.
+- Adding new TTSV function to compute a tensor times the same vector
+  in every mode. Intended for symmetric tensors and doesn't allow user
+  to specify exactly which modes are skipped.
+- Fixed "empty tensor" bugs in TENSOR (constructor), PERMUTE, COLLAPSE.
+- Fixed "1D tensor" bug in TENMAT.
+- Fixed bug with no results in FIND.
+- More error checking in MTTKRP.
+
+CLASS: sptensor
+
+- Added DIVIDE function for elementwise division.
+
+Class: ktensor
+
+- Added new SCORE function to compute "factor match score" for
+  two ktensor's. Includes "greedy" option when
+- Added new REDISTRIBUTE function to redistribute the weights from
+  lambda into a specified mode.
+- Fixed bug in NORM, which sometimes returned a negative value due to
+  small errors in the calculation. Now it returns max(0,val).
+- Added ISEQUAL function that checks for elementwise equality on
+  individual components.
+- Lots of new options for the NORMALIZE function.
+
+Class: ttensor
+
+- Added ISEQUAL function that checks for elementwise equality on
+  individual components.
+
+## Changes from Version 2.3 (July 8, 2009)
+
+General
+
+- tenzeros(m,n): Now has the ability to create an mth-order tensor of
+  size n in every mode. tenzeros(siz) still works as usual.
+- tt_subcheck now uses isfinite rather than ~isnan and ~isinf based on
+  error report from user.
+
+Algorithms
+
+- Added new cp_opt and cp_wopt functions (and related utility
+  functions) for computing CP and weighted CP via optimization.
+  Requires that the user also install the Poblano Toolbox for
+  Matlab. This is freely available at
+  http://software.sandia.gov/trac/poblano.
+- Changed the way that cp_als and tucker_als handle input arguments so
+  that they can now be parameter-value pairs. Should be backwards
+  compatible with old calling sequence.
+- cp_als: Reverted the way that Unew is calculated from Unew = Unew *
+  pinv(Y) to Unew (Y \ Unew')'; which is from TTB2.2 and seems to give
+  better performance.
+
+Class: sptensor
+
+- permute - Added check for empty tensor based on user error report.
+- spmatrix - Added check for empty tensor based on user error report.
+- sptensor - Replaced "~" with "junk" so it will work with Matlab 7.8
+  (older version). Allowed sptensor to take an sptensor3 object
+  (though this class is not released yet) as input and convert it.
+
+Class: ktensor
+
+- Revamped "arrange" so that it can also just accept a permutation and
+  rearrange the components. 
+- Adding a new "extract" function to select and extract a subset of the
+  components (rank-one factors) of a ktensor. 
+- Adding a new function "ncomponents" to return the number of
+  components.
+- Added a "normalize" function that normalizes the columns of the factor
+  matrices to length 1 and absorbs the weights into lambda (without
+  rearranging the factors). 
+- Added new function "tocell" to convert a ktensor to a cell array.
+
+Class: sptenmat
+
+- In function "double", added check for empty tensor based on error
+  report from user.
+
+## Changes from Version 2.2 (January 10, 2007)
+
+General:
+
+- Added Memory Efficient Tucker (MET) package by Tamara Kolda and
+  Jimeng Sun. Type 'help tucker_me' after installation for more
+  information. 
+- Fixed bug in tenzeros command so that it now returns an empty tensor
+  when the initial size is emtpy.
+- Fixed bug in tt_assignment_type so that it works with a sparse
+  tensor that is initially completely empty.
+- Added comments to tt_sub2ind and tt_ind2sub.
+- Removed errant ^M's at the end of every line of tt_subscheck.
+
+Algorithms:
+
+- Changed parafac_als to cp_als (old one can still be called but is
+  deprecated). 
+- Added an option to cp_als to only print the information every n
+  iterations where n is a user-defined parameter. Also fixed bug in
+  the case of R=1.
+- Added new cp_nmu function for computing a nonnegative tensor
+  factorization based upon Lee & Seung's NMF multiplicative update.
+- Made calculation of residual in Tucker more efficient.
+
+Class: tensor
+
+- Adds reshape command.
+- Fixed find function so that it always returns a column vector. 
+  (Bug# 3969) 
+- Fixed tenfun documentation. (Bug# 3339)
+
+Class: sptensor
+
+- Adds reshape and spmatrix commands.
+- Fixed bug in constructor so that it checks for subscripts out of
+  range and other input problems. (Bug# 3925)
+- Fixed bug is subsasgn so that it works for a certain way of
+  inserting complex values. (Bug #3868)
+- Fixed bug in disp function for sptensor that caused it not to accept
+  the user input to display all nonzeros for large tensors. (Bug #4009)
+- Fixed bug in collapse so that it handles empty sptensor's correctly.
+- Fixed bug in rdivide so that it will work correctly when either
+  argument is an empty tensor.
+- Fixed bug in squeeze so that it now works correctly for sptensor's
+  with no nonzero elements. (Bug #3002)
+- Fixed bug in subsasgn for a sptensor so that it works even when the
+  initial tensor is completely empty. 
+- Fixed bug in ttt so that it works even when one of the sptensors has
+  zero nonzeros. (Bug #3017)
+- Fixed bug in elemfun that didn't remove those nonzeros that had
+  become zero (e.g., log 1 = 0). (Bug# 3235)
+
+Class: sptenmat
+
+- Fixed bug in sptenmat so that it works when it is passed an sptensor
+  that doesn't have any entries.
+
+## Changes from Version 2.1 (December 1, 2006)
+
+General:
+
+- Added INSTALL.txt with installation instructions.
+- Updated copyright date from 2006 to 2007 throughout.
+
+Classes: tensor and sptensor
+
+- Added transpose and ctranspose functions that throw an error
+  (transpose is not supported for tensors, but previously would do
+  nothing as if it *had* performed the transpose).
+- Added ldivide, rdivide, lmdivide, and rmdivide, though they all work
+  only with scalars.
+
+Class: tensor
+
+- Added isequal.
+- Made find slightly more efficient in the case where the
+  corresponding values are not also returned.
+- Fixed bug in assigning elements to 1-dimensional tensors.
+
+Class: sptensor
+
+- Cleaner display with disp or display functions.
+- Added checks against invalid sizes and subscripts for tensor
+  construction and subscripted reference and assignment.
+- Fixed bug where the index 58 was confused with the character ':'
+  in subscripted reference and assignment.
+- Made results of logical operators consistent with how sparse
+  matrices work, i.e., produces a dense tensor iff the equivalent
+  command on a sparse matrix would do the same.
+- Plus and minus now work with a scalar or dense tensor, and the
+  result in those cases is dense.
+- Added ability to do .* with a scalar.
+- Made it so that isequal now works with dense tensors and will return
+  true if the two tensors are equivalent.
+- Fixed bugs in double and squeeze on an all-zero sparse tensor.
+
+## Changes from Version 2.0 (September 6, 2006)
+
+All
+
+- innerprod: Added checks that sizes match
+- Improved subscripted assignment for tensor and sptensor. Now
+  supports assignment to a scalar (i.e., assign every element to that
+  scalar) and growth in both the size and number of dimensions.
+
+Class: tensor
+
+- Added new function: nnz
+- tenfun (and most relational operations): Fixed major bug is
+  dense-sparse comparisons.
+
+Class: sptensor 
+
+- Added new functions: not, and, or, xor, eq, ne, le, lt, ge, gt, isequal
+- sptensor: Fixed bug where a 1D tensor was not correctly converted to
+  a sparse tensor. Also, added ability to accept an MDA as an input
+  and to accept a list of logical values as well as numerics.
+- subsref: Fixed bug on subscripted reference to an empty tensor.
+- ttt: Major overhaul that fixes a number of bugs and improves
+  efficiency dramatically.
+- nvecs: Improved efficiency by converting to MATLAB sparse matrix
+  and calling eigs on that rather than calling eigs with the aatx
+  function. 
+- disp/display: Fixed bug that caused tensors with a *single* element
+  to display incorrectly.
+- full: Fixed bug that caused it to fail if called on a completely
+  empty tensor.
+
+Class: ttensor
+
+- innerprod/norm/nvecs: Improved efficiency.
+- ttm: Removed errant debug print statements.
+
+Class: ktensor
+
+- datadisp.m: Minor changes to formatting.
+
+Other
+
+- License.txt: Removed an errant "7.3" that was in the text. 
+- Fixed top-level contents file and added version information so that
+  it will show up from MATLAB's ver command.
+
+## Changes from Version 1.0 (April 13, 2006)
+
+Classes
+
+- Added support for sparse tensors (sptensor and sptenmat)
+- Renamed tensor_as_matrix to tenmat
+- Renamed tucker_tensor to ttensor
+- Renamed cp_tensor to ktensor
+- Many functions have substantially improved efficiency
+
+Changes to the tensor class
+
+- Removed functions: issamesize, order, shiftdim
+- Renamed functions: multiarrayop to tenfun
+- New functions: collapse, contract, find, full, innerprod, mttkrp, nvecs,
+  scale
+
+Changes to the ktensor class (formerly cp_tensor)
+
+- Removed functions: issamesize, order
+- New functions: datadisp, double, end, fixsigns, innerprod, mttkrp,
+  nvecs, times, ttm 
+
+Changes to the ttensor class (formerly tucker_tensor)
+
+- Removed functions: issamesize, order
+- New functions: double, end, innerprod, mttkrp, norm, nvecs, ttm, ttv  
+
+Changes to the tenmat class (formerly tensor_as_matrix)
+
+- New functions: end, minus, norm, plus, uminus, uplus
+
+Changes to examples, algorithms, and documentation
+
+- The examples directory no longer exists.
+- Instead, documentation has been incorporated directly into the
+  MATLAB help navigator.
+- Also, a new algorithms directory has been added with two ALS methods
+  for CANDECOMP/PARAFAC and Tucker.
+
 

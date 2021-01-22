@@ -1,13 +1,22 @@
 %% Alternating randomized least squares for CP Decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_arls_doc.html">CP-ARLS</a>
+% </p>
+% </html>
+%
 % The function |cp_arls| computes an estimate of the best rank-R CP model
 % of a tensor X using alternating _randomized_ least-squares algorithm.
 % The input X must be a (dense) |tensor|. The output CP model is a
 % |ktensor|.  The CP-ARLS method is described in the following reference:
 %
-% * C. Battaglino, G. Ballard, T. G. Kolda. A Practical Randomized CP
-% Tensor Decomposition, to appear in SIAM J. Matrix Analysis and
-% Applications, 2017. Preprint:
-% <http://arxiv.org/abs/1701.06600 (arXiv:1701.06600)>.
+% * C. Battaglino, G. Ballard, T. G. Kolda.
+%   A Practical Randomized CP Tensor Decomposition.
+%   SIAM Journal on Matrix Analysis and Applications 39(2):876-901, 2018.
+%   <https://doi.org/10.1137/17M1112303>
 %% Set up a sample problem
 % We set up an especially difficult and somewhat large sample problem that
 % has high collinearity (0.9) and 1% noise. This is an example where the
@@ -33,9 +42,9 @@ M_true = info.Soln;
 % we check the convergence criteria. Because this is a randomized method,
 % we do not achieve strict decrease in the objective function. Instead, we
 % look at the number of epochs without improvement (newi) and exit when
-% this crosses the predefined tolerance (`newitol`), which defaults to 5.
+% this crosses the predefined tolerance (|newitol|), which defaults to 5.
 % It is important to note that the fit values that are reported are
-% approximate, so this is why it is denoted by `f~` rather than just `f`.
+% approximate, so this is why it is denoted by |f~| rather than just |f|.
 
 tic
 [M1, ~, out1] = cp_arls(X,R);
@@ -76,7 +85,7 @@ fprintf('Score (max=1): %.3f\n', scr3);
 %% How well does the approximate fit do?
 % It is possible to check the accuracy of the fit computation by having the
 % code compute the true fit and the final solution, enabled by the
-% `truefit` option.
+% |truefit| option.
 [M4,~,out4] = cp_arls(X,R,'truefit',true);
 
 %% Varying epoch size
@@ -123,7 +132,7 @@ fprintf('Score: %.4f\n',score(M,M_true));
 
 %% Changing the number of function evaluation samples
 % The function evaluation is approximate and based on sampling the number
-% of entries specified by `nsampfit`. If this is too small, the samples
+% of entries specified by |nsampfit|. If this is too small, the samples
 % will not be accurate enough. If this is too large, the computation will
 % take too long. The default is $2^14$, which should generally be
 % sufficient.  It may sometimes be possible to use smaller values. The same
@@ -134,7 +143,7 @@ fprintf('Score: %.4f\n',score(M,M_true));
 
 %% Change the number of sampled rows in least squares solve
 % The default number of sampled rows for the least squares solves is
-% `ceil(10*R*log2(R))`. This seemed to work well in most tests, but this can
+% |ceil(10*R*log2(R))|. This seemed to work well in most tests, but this can
 % be varied higher or lower. For R=5, this means we sample 117 rows per
 % solve. The rows are different for every least squares problem. Let's see
 % what happens if we reduce this to 10.

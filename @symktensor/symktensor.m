@@ -7,9 +7,13 @@
 %   double      - Convert a symktensor to a double array.
 %   end         - Last index of indexing expression for symktensor.
 %   entry       - Extract a single entry from a symktensor.
+%   f_implicit  - Function F(M)=||X-M||^2 for two symktensors.
 %   fg          - Master objective function for optimization of symmetric Kruskal model.
+%   fg_explicit - Function and gradient of F(M)=||X-M||^2 for symktensor.
+%   fg_implicit - Function and gradient of F(M)=||X-M||^2 for two symktensors.
 %   fg_setup    - Setup for optimization of symmetric Kruskal model.
 %   full        - Convert a symktensor to a symtensor.
+%   g_implicit  - Gradient of F(M)=||X-M||^2 for two symktensors.
 %   isequal     - True if each component of two symktensors is numerically equal.
 %   isscalar    - False for symktensors.
 %   issymmetric - Rhetorical function for a symktensor.
@@ -19,6 +23,7 @@
 %   norm        - Frobenius norm of a symktensor.
 %   normalize   - Normalizes the columns of the factor matrix.
 %   permute     - Permute dimensions of a symktensor.
+%   randextract - Create new symktensor with random subset of components.
 %   score       - Checks if two symktensors match except for permutation.
 %   size        - Size of symktensor.
 %   subsasgn    - Subscripted assignment for symktensor.
@@ -26,6 +31,7 @@
 %   symktensor  - Tensor stored as a symmetric Kruskal operator (decomposed).
 %   tovec       - Convert symktensor to vector representation.
 %   uminus      - Unary minus for symktensor. 
+%   update      - Convert vector to symktensor.
 %   uplus       - Unary plus for a symktensor. 
 %
 %   <a href="matlab:web(strcat('file://',...

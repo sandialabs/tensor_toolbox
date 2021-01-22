@@ -95,7 +95,7 @@ end
 
 %% Flip V is transposed
 if tflag == 't'
-    V = V';
+    V = V.';
 end
 
 %% Check n
@@ -123,7 +123,7 @@ cdims = Xnt.cdims;
 
 % Convert to sparse matrix and do the multiplication; result is generally a
 % dense matrix 
-Z = double(Xnt) * V';
+Z = double(Xnt) * V.';
 
 if nnz(Z) <= 0.5 * prod(siz)
     % Final result is a *sparse* tensor

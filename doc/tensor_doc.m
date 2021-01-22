@@ -1,14 +1,22 @@
 %% Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="tensor_doc.html">Tensors (dense)</a>
+% </p>
+% </html>
+%
 % Tensors are extensions of multidimensional arrays with additional
 % operations defined on them. Here we explain the |tensor| class, for
 % storing dense tensors, and the basics of creating and working with
 % tensors. The |tensor| class is best described in the following
 % reference:
 %
-% * B. W. Bader and T. G. Kolda. *Algorithm 862: MATLAB Tensor Classes
-% for Fast Algorithm Prototyping*, _ACM Trans. Mathematical Software_
-% 32:635-653, 2006. <http://dx.doi.org/10.1145/1186785.1186794
-% DOI:10.1145/1186785.1186794>. <bibtex.html#TTB_Dense [BibTeX]>
+% * B. W. Bader and T. G. Kolda. Algorithm 862: MATLAB Tensor Classes
+% for Fast Algorithm Prototyping, ACM Trans. Mathematical Software,
+% 32:635-653, 2006. <http://dx.doi.org/10.1145/1186785.1186794>. 
 %
 %% Creating a tensor from an array
 % The |tensor| command converts a (multidimensional) array to a tensor

@@ -1,4 +1,13 @@
 %% Alternating least squares for CANDECOMP/PARAFAC (CP) Decomposition
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_als_doc.html">CP-ALS</a>
+% </p>
+% </html>
+%
 % The function |cp_als| computes an estimate of the best rank-R
 % CP model of a tensor X using the well-known alternating least-squares
 % algorithm (see, e.g., Kolda and Bader, SIAM Review, 2009, for more
@@ -23,7 +32,7 @@ load aminoacids
 % This uses a _random_ initial guess. At each iteration, it reports the 'fit'
 % which is defined as |1-(norm(X-M)/norm(X))| and is loosely the proportion
 % of the data described by the CP model, i.e., a fit of 1 is perfect.
-rng(3) %<- Setting random seed for reproducibility of this script
+rng('default') %<- Setting random seed for reproducibility of this script
 M1 = cp_als(X,3); %<- Call the method
 %%
 % We typically can achieve a final fit of f = 0.97. The method stops when
@@ -101,6 +110,14 @@ score(M4,M4alt)
 % the fit. You may need to increase the number of iterations for it to
 % converge.
 M5 = cp_als(X,3,'init','nvecs','tol',1e-6,'maxiters',1000,'printitn',10);
+
+%% Control sign ambiguity of factor matrices
+% The default behavior of |cp_als| is to make a call to |fixsigns| to fix
+% the sign ambiguity of the factor matrices. You can turn off this behavior
+% by passing the |'fixsigns'| parameter value of |false| when calling |cp_als|.
+X = ktensor([1;1], {[1, 1; 1, -10],[1, 1; 1, -10]});
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U) % <-default behavior, fixsigns called
+M = cp_als(X, 2, 'printitn', 0, 'init', X.U, 'fixsigns', false) % <-fixsigns not called
 
 %% Recommendations
 % * Run multiple times with different guesses and select the solution with

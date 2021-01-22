@@ -1,11 +1,21 @@
 %% Weighted optimization for CP tensor decomposition with incomplete data
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="cp.html">CP Decompositions</a> 
+% &#62;&#62; <a href="cp_wopt_doc.html">CP-WOPT</a>
+% &#62;&#62; <a href="cp_wopt_poblano_doc.html">With Poblano</a>
+% </p>
+% </html>
+%
 % We explain how to use |cp_wopt| with the POBLANO toolbox. The method is
 % described in the following article:
 %
-% E. Acar, D. M. Dunlavy, T. G. Kolda and M. Mørup, 
-% Scalable Tensor Factorizations for Incomplete Data, 
-% Chemometrics and Intelligent Laboratory Systems 106(1):41-56, March 2011
-% (doi:10.1016/j.chemolab.2010.08.004) 
+% * E. Acar, D. M. Dunlavy, T. G. Kolda and M. Mørup, 
+%   Scalable Tensor Factorizations for Incomplete Data, 
+%   Chemometrics and Intelligent Laboratory Systems, 106(1):41-56, 2011,
+%   http://dx.doi.org/10.1016/j.chemolab.2010.08.004.
 
 %% Important Information
 % 

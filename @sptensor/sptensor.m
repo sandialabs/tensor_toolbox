@@ -42,6 +42,7 @@
 %   scale     - Scale along specified dimensions for sparse tensors.
 %   size      - Sparse tensor dimensions.
 %   spmatrix  - Converts a two-way sparse tensor to sparse matrix.
+%   spones    - Replace nonzero sparse tensor elements with ones.
 %   sptensor  - Create a sparse tensor.
 %   squeeze   - Remove singleton dimensions from a sparse tensor.
 %   subsasgn  - Subscripted assignment for sparse tensor.
@@ -61,12 +62,9 @@
 %   See also TENSOR_TOOLBOX
 %
 %   How to cite the sptensor class:
-%   * BW Bader and TG Kolda. Efficient MATLAB Computations with Sparse
-%     and Factored Tensors, SIAM J Scientific Computing 30:205-231, 2007.
-%     <a href="http:dx.doi.org/10.1137/060676489"
-%     >DOI: 10.1137/060676489</a>. <a href="matlab:web(strcat('file://',...
-%     fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%     'bibtex.html#TTB_Sparse')))">[BibTeX]</a>
+%   * B.W. Bader and T.G. Kolda. Efficient MATLAB Computations with Sparse
+%     and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007,
+%     http:dx.doi.org/10.1137/060676489. 
 %
 %MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
 
@@ -242,7 +240,8 @@ if (nargin == 1)
 
 end % nargin == 1
 
-% SPECIAL CASE for INTERACTION WITH MEX FILES
+% SPECIAL CASE for INTERACTION WITH MEX FILES OR DIRECT CREATION OF
+% SPTENSOR WITHOUT ANY SORTING OR OTHER STANDARD CHECKS
 if (nargin == 4) && (isnumeric(varargin{4})) && (varargin{4} == 0)
 
     % Store everything

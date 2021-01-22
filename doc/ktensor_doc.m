@@ -1,4 +1,13 @@
-%% Kruskal tensors
+%% Kruskal Tensors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="tensor_types.html">Tensor Types</a> 
+% &#62;&#62; <a href="ktensor_doc.html">Kruskal Tensors</a>
+% </p>
+% </html>
+%
 % Kruskal format is a decomposition of a tensor X as the sum of the outer
 % products as the columns of matrices. For example, we might write
 % 

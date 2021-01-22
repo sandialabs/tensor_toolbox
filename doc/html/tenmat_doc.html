@@ -6,16 +6,16 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Converting a tensor to a matrix and vice versa</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-09"><meta name="DC.source" content="tenmat_doc.m"><style type="text/css">
+      --><title>Converting a Tensor to a Matrix and Vice Versa</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="tenmat_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html { min-height:90%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#000; line-height:140%; background:#fff none; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -37,9 +37,11 @@ ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
 .content { font-size:1.2em; line-height:140%; padding: 20px; }
+.banner{ background-color:#15243c; text-align:center;}
+.navigate {font-size:0.8em; padding:0px; line-height:100%; }
 
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
+pre, code { font-size:14px; }
+tt { font-size: 1.0em; font-weight:bold; background:#f7f7f7; padding-right:5px; padding-left:5px }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
 pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
@@ -53,8 +55,8 @@ span.string { color:#A020F0 }
 span.untermstring { color:#B20000 }
 span.syscmd { color:#B28C00 }
 
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
+.footer { width:auto; padding:10px 0px; margin:20px 0px 0px; border-top:1px dotted #878787; font-size:0.9em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; padding:0px 20px; }
 .footer a { color:#878787; }
 .footer a:hover { color:#878787; text-decoration:underline; }
 .footer a:visited { color:#878787; }
@@ -66,7 +68,14 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Converting a tensor to a matrix and vice versa</h1><!--introduction--><p>We show how to convert a tensor to a matrix stored with extra information so that it can be converted back to a tensor. Converting to a matrix requies an ordered mapping of the tensor indices to the rows and the columns of the matrix.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating a tenmat (tensor as matrix) object</a></li><li><a href="#5">Creating a tenmat by specifying the dimensions mapped to the rows</a></li><li><a href="#6">Creating a tenmat by specifying the dimensions mapped to the columns</a></li><li><a href="#7">Vectorize via tenmat</a></li><li><a href="#8">Alternative ordering for the columns for mode-n matricization</a></li><li><a href="#12">Constituent parts of a tenmat</a></li><li><a href="#16">Creating a tenmat from its constituent parts</a></li><li><a href="#17">Creating an empty tenmat</a></li><li><a href="#18">Use double to convert a tenmat to a MATLAB matrix</a></li><li><a href="#19">Use tensor to convert a tenmat to a tensor</a></li><li><a href="#20">Use size and tsize for the dimensions of a tenmat</a></li><li><a href="#21">Subscripted reference for a tenmat</a></li><li><a href="#22">Subscripted assignment for a tenmat</a></li><li><a href="#23">Use end for the last index</a></li><li><a href="#24">Basic operations for tenmat</a></li><li><a href="#30">Multiplying two tenmats</a></li><li><a href="#32">Displaying a tenmat</a></li></ul></div><h2 id="1">Creating a tenmat (tensor as matrix) object</h2><pre class="codeinput">X = tensor(1:24,[3 2 2 2]) <span class="comment">%&lt;-- Create a tensor.</span>
+  </style></head><body><div class="banner"><a href="index.html"><img src="Tensor-Toolbox-for-MATLAB-Banner.png"></a></div><div class="content"><h1>Converting a Tensor to a Matrix and Vice Versa</h1><!--introduction--><p>
+<p class="navigate">
+&#62;&#62; <a href="index.html">Tensor Toolbox</a>
+&#62;&#62; <a href="working.html">Working with Tensors</a>
+&#62;&#62; <a href="converting.html">Converting Between Tensors and Matrices</a>
+&#62;&#62; <a href="tenmat_doc.html">Tensor as a Matrix</a>
+</p>
+</p><p>We show how to convert a tensor to a matrix stored with extra information so that it can be converted back to a tensor. Converting to a matrix requies an ordered mapping of the tensor indices to the rows and the columns of the matrix.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating a tenmat (tensor as matrix) object</a></li><li><a href="#5">Creating a tenmat by specifying the dimensions mapped to the rows</a></li><li><a href="#6">Creating a tenmat by specifying the dimensions mapped to the columns</a></li><li><a href="#7">Vectorize via tenmat</a></li><li><a href="#8">Alternative ordering for the columns for mode-n matricization</a></li><li><a href="#12">Constituent parts of a tenmat</a></li><li><a href="#16">Creating a tenmat from its constituent parts</a></li><li><a href="#17">Creating an empty tenmat</a></li><li><a href="#18">Use double to convert a tenmat to a MATLAB matrix</a></li><li><a href="#19">Use tensor to convert a tenmat to a tensor</a></li><li><a href="#20">Use size and tsize for the dimensions of a tenmat</a></li><li><a href="#21">Subscripted reference for a tenmat</a></li><li><a href="#22">Subscripted assignment for a tenmat</a></li><li><a href="#23">Use end for the last index</a></li><li><a href="#24">Basic operations for tenmat</a></li><li><a href="#30">Multiplying two tenmats</a></li><li><a href="#32">Displaying a tenmat</a></li></ul></div><h2 id="1">Creating a tenmat (tensor as matrix) object</h2><pre class="codeinput">X = tensor(1:24,[3 2 2 2]) <span class="comment">%&lt;-- Create a tensor.</span>
 </pre><pre class="codeoutput">X is a tensor of size 3 x 2 x 2 x 2
 	X(:,:,1,1) = 
 	     1     4
@@ -174,30 +183,18 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 		     1     2     3    13    14    15     7     8     9    19    20    21
 		     4     5     6    16    17    18    10    11    12    22    23    24
 </pre><h2 id="12">Constituent parts of a tenmat</h2><pre class="codeinput">A.data <span class="comment">%&lt;-- The matrix itself.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1     2     3    13    14    15     7     8     9    19    20    21
      4     5     6    16    17    18    10    11    12    22    23    24
-
 </pre><pre class="codeinput">A.tsize <span class="comment">%&lt;-- Size of the original tensor.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      3     2     2     2
-
 </pre><pre class="codeinput">A.rdims <span class="comment">%&lt;-- Dimensions that were mapped to the rows.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      2
-
 </pre><pre class="codeinput">A.cdims <span class="comment">%&lt;-- Dimensions that were mapped to the columns.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1     4     3
-
 </pre><h2 id="16">Creating a tenmat from its constituent parts</h2><pre class="codeinput">B = tenmat(A.data,A.rdims,A.cdims,A.tsize) <span class="comment">%&lt;-- Recreates A</span>
 </pre><pre class="codeoutput">B is a matrix corresponding to a tensor of size 3 x 2 x 2 x 2
 	B.rindices = [ 2 ] (modes of tensor corresponding to rows)
@@ -211,12 +208,9 @@ ans =
 	B.cindices = [  ] (modes of tensor corresponding to columns)
 	B.data = []
 </pre><h2 id="18">Use double to convert a tenmat to a MATLAB matrix</h2><pre class="codeinput">double(A) <span class="comment">%&lt;-- converts A to a standard matrix</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1     2     3    13    14    15     7     8     9    19    20    21
      4     5     6    16    17    18    10    11    12    22    23    24
-
 </pre><h2 id="19">Use tensor to convert a tenmat to a tensor</h2><pre class="codeinput">Y = tensor(A)
 </pre><pre class="codeoutput">Y is a tensor of size 3 x 2 x 2 x 2
 	Y(:,:,1,1) = 
@@ -237,22 +231,13 @@ ans =
 	    21    24
 </pre><h2 id="20">Use size and tsize for the dimensions of a tenmat</h2><pre class="codeinput">size(A) <span class="comment">%&lt;-- Matrix size</span>
 tsize(A) <span class="comment">%&lt;-- Corresponding tensor size</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      2    12
-
-
 ans =
-
      3     2     2     2
-
 </pre><h2 id="21">Subscripted reference for a tenmat</h2><pre class="codeinput">A(2,1) <span class="comment">%&lt;-- returns the (2,1) element of the matrix.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      4
-
 </pre><h2 id="22">Subscripted assignment for a tenmat</h2><pre class="codeinput">A(1:2,1:2) = ones(2) <span class="comment">%&lt;-- Replace part of the matrix.</span>
 </pre><pre class="codeoutput">A is a matrix corresponding to a tensor of size 3 x 2 x 2 x 2
 	A.rindices = [ 2 ] (modes of tensor corresponding to rows)
@@ -261,17 +246,11 @@ ans =
 		     1     1     3    13    14    15     7     8     9    19    20    21
 		     1     1     6    16    17    18    10    11    12    22    23    24
 </pre><h2 id="23">Use end for the last index</h2><pre class="codeinput">A(end,end) <span class="comment">%&lt;-- Same as X(2,12)</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
     24
-
 </pre><h2 id="24">Basic operations for tenmat</h2><pre class="codeinput">norm(A) <span class="comment">%&lt;-- Norm of the matrix.</span>
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
    69.6994
-
 </pre><pre class="codeinput">A' <span class="comment">%&lt;-- Calls ctranspose (also swaps mapped dimensions).</span>
 </pre><pre class="codeoutput">ans is a matrix corresponding to a tensor of size 3 x 2 x 2 x 2
 	ans.rindices = [ 1  4  3 ] (modes of tensor corresponding to rows)
@@ -336,9 +315,19 @@ ans =
 	ans.data = 
 		     1     1     3    13    14    15     7     8     9    19    20    21
 		     1     1     6    16    17    18    10    11    12    22    23    24
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
-%% Converting a tensor to a matrix and vice versa
+%% Converting a Tensor to a Matrix and Vice Versa
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="converting.html">Converting Between Tensors and Matrices</a>
+% &#62;&#62; <a href="tenmat_doc.html">Tensor as a Matrix</a>
+% </p>
+% </html>
+%
 % We show how to convert a tensor to a matrix stored with extra information
 % so that it can be converted back to a tensor. Converting to a matrix
 % requies an ordered mapping of the tensor indices to the rows and the

@@ -6,6 +6,7 @@ function export_data(A, fname)
 %
 %      - tensor
 %      - sptensor
+%      - ktensor
 %      - matrix
 %
 %   In the case of a tensor, the first three lines give details about the
@@ -35,7 +36,7 @@ function export_data(A, fname)
 %      3
 %      4 3 2
 %      10
-%      i1 j1 k1 <value of A(i1,j1,k1)>
+%      i1 j1 k1 
 %      i2 j2 k2 <value of A(i2,j2,k2)>
 %      ...
 %      i10 j10 k10 <value of A(i10,j10,k10)>
@@ -43,7 +44,36 @@ function export_data(A, fname)
 %   A matrix is formatted the same as a 2-way tensor except that the first
 %   line says "matrix" rather than "tensor".
 %
-%   See also TENSOR, SPTENSOR, IMPORT_DATA
+%   In the case of an ktensor, the first four lines give details about 
+%   the ktensor. The format for a 3 x 4 x 5 ktensor with rank=2 is as 
+%   follows, which contains the lambda values and factor matrices, U, 
+%   (one per tensor dimension), ...
+%
+%      ktensor
+%      3 
+%      3 4 5 
+%      2 
+%      <value of lambda1> <value of lambda2>
+%      matrix
+%      2 
+%      3 2 
+%      <value of U{1}(1,1)> <value of U{1}(1,2) 
+%      ...
+%      <value of U{1}(3,1)> <value of U{1}(3,2) 
+%      matrix
+%      2 
+%      4 2 
+%      <value of U{2}(1,1)> <value of U{2}(1,2) 
+%      ...
+%      <value of U{2}(4,1)> <value of U{2}(4,2) 
+%      matrix
+%      2 
+%      5 2 
+%      <value of U{3}(1,1)> <value of U{3}(1,2) 
+%      ...
+%      <value of U{3}(5,1)> <value of U{3}(5,2) 
+%
+%   See also TENSOR, SPTENSOR, KTENSOR, IMPORT_DATA
 %
 %MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
 
@@ -66,7 +96,19 @@ elseif isa(A,'sptensor')
     fprintf(fid, 'sptensor\n');
     export_sparse_size(fid, A);
     export_sparse_array(fid, A);   
- 
+
+elseif isa(A,'ktensor')
+    
+    fprintf(fid, 'ktensor\n');
+    export_size(fid, size(A));
+    export_rank(fid, A);
+    export_lambda(fid, A.lambda);   
+    for n = 1:length(size(A))
+        fprintf(fid, 'matrix\n');
+        export_size(fid, size(A.U{n}));
+        export_factor(fid, A.U{n});
+    end
+
 elseif isnumeric(A) && ndims(A) == 2        
 
     fprintf(fid, 'matrix\n');
@@ -89,10 +131,26 @@ fprintf(fid, '%d \n', length(sz)); % # of dimensions on one line
 fprintf(fid, '%d ', sz); % # size of each dimensions on the next line
 fprintf(fid, '\n');
 
+function export_rank(fid, data)
+% Export the rank of a ktensor to a file
+fprintf(fid, '%d \n', length(data.lambda)); % ktensor rank on one line
+
+function export_lambda(fid, data)
+% Export dense data that supports numel and linear indexing
+fprintf(fid, '%.16e ', data);
+fprintf(fid, '\n');
+
 function export_array(fid, data)
 % Export dense data that supports numel and linear indexing
 for i = 1:numel(data)
     fprintf(fid, '%.16e\n', data(i));
+end
+
+function export_factor(fid, data)
+% Export dense data that supports numel and linear indexing
+for i = 1:size(data,1)
+    fprintf(fid, '%.16e ', data(i,:));
+    fprintf(fid, '\n');
 end
 
 function export_sparse_size(fid, A)
@@ -110,3 +168,4 @@ for i = 1:nnz(A)
     end
     fprintf(fid,'%.16e\n',A.vals(i)); 
 end
+

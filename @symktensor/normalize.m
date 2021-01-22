@@ -68,8 +68,8 @@ end
 
 %% Absorb the weight into one factor, if requested
 if (N == 0)
-    D = diag(nthroot(abs(X.lambda),X.m));
-    X.u = X.u * D; 
+    d = nthroot(abs(X.lambda),X.m);
+    X.u = bsxfun(@times,X.u',d)'; 
     X.lambda = sign(X.lambda) .* ones(size(X.lambda));
 elseif (N == -2)
     if ncomponents(X) > 1

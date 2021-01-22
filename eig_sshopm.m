@@ -28,13 +28,16 @@ function [lambda,x,flag,its,x0] = eig_sshopm(A,varargin)
 %   [LAMBDA,X,FLAG,IT,X0]=EIG_SSHOPM(...) also returns the intial guess.
 %
 %   REFERENCES: 
-%   * T. G. Kolda and J. R. Mayo, Shifted Power Method for Computing Tensor
-%     Eigenpairs, SIAM Journal on Matrix Analysis and Applications
-%     32(4):1095-1124, October 2011, http://dx.doi/org/10.1137/100801482
-%   * T. G. Kolda and J. R. Mayo, An Adaptive Shifted Power Method for
-%     Computing Generalized Tensor Eigenpairs, SIAM Journal on Matrix
-%     Analysis and Applications 35(4):1563-1582, December 2014,
-%     http://dx.doi.org/0.1137/140951758   
+%   * T. G. Kolda, J. R. Mayo, Shifted Power Method for Computing Tensor
+%     Eigenpairs, SIAM J. Matrix Analysis and Applications, 32:1095-1124,
+%     2011, http://dx.doi/org/10.1137/100801482 
+%   * T. G. Kolda, J. R. Mayo, An Adaptive Shifted Power Method for
+%     Computing Generalized Tensor Eigenpairs, SIAM J. Matrix Analysis and
+%     Applications, 35:1563-1582, 2014, http://dx.doi.org/0.1137/140951758    
+%
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'sshopm_doc.html')))">Documentation page for SSHOPM</a>
 %
 %   See also EIG_GEAP, EIG_SSHOPMC, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %

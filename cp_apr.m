@@ -60,7 +60,7 @@ function [M, Minit, output] = cp_apr(X, R, varargin)
 %
 %   REFERENCES: 
 %   * E. C. Chi and T. G. Kolda. On Tensors, Sparsity, and Nonnegative
-%     Factorizations, SIAM J. Matrix Analysis,  33(4):1272-1299, Dec. 2012,
+%     Factorizations, SIAM J. Matrix Analysis, 33(4):1272-1299, Dec. 2012,
 %     http://dx.doi.org/10.1137/110859063  
 %   * S. Hansen, T. Plantenga and T. G. Kolda, Newton-Based Optimization
 %     for Kullback-Leibler Nonnegative Tensor Factorizations, 
@@ -232,6 +232,7 @@ printOuterItn           = params.Results.printitn;
 stoptime                = params.Results.stoptime;
 stoptol                 = params.Results.stoptol;
 
+out = [];
 
 % Extract the number of modes in tensor X.
 N = ndims(X);
@@ -259,6 +260,7 @@ end
 
 % Initialize output arrays.
 fnEvals = zeros(maxOuterIters,1);
+fnVals = zeros(maxOuterIters,1);
 kktViolations = -ones(maxOuterIters,1);
 nInnerIters = zeros(maxOuterIters,1);
 nzeros = zeros(maxOuterIters,1);
@@ -487,8 +489,9 @@ for iter = 1:maxOuterIters
 
     % Print outer iteration status.
     if (mod(iter,printOuterItn) == 0)
+        fnVals(iter) = -tt_loglikelihood(X,M);
         fprintf('%4d. Ttl Inner Its: %d, KKT viol = %.2e, obj = %.8e, nz: %d\n', ...
-        iter, nInnerIters(iter), kktViolations(iter), tt_loglikelihood(X,M), ...
+        iter, nInnerIters(iter), kktViolations(iter), fnVals(iter), ...
         num_zero);
     end
 
@@ -530,6 +533,7 @@ out = struct;
 out.params = params.Results;
 out.obj = loglike;
 out.kktViolations = kktViolations(1:iter);
+out.fnVals = fnVals(1:iter);
 out.fnEvals = fnEvals(1:iter);
 out.nInnerIters = nInnerIters(1:iter);
 out.nZeros = nzeros(1:iter);
@@ -751,6 +755,7 @@ else
 end
 
 % Initialize output arrays.
+fnVals = zeros(maxOuterIters,1);
 fnEvals = zeros(maxOuterIters,1);
 kktViolations = -ones(maxOuterIters,1);
 nInnerIters = zeros(maxOuterIters,1);
@@ -943,8 +948,9 @@ for iter = 1:maxOuterIters
 
     % Print outer iteration status.
     if (mod(iter,printOuterItn) == 0)
+        fnVals(iter) = -tt_loglikelihood(X,M);
         fprintf('%4d. Ttl Inner Its: %d, KKT viol = %.2e, obj = %.8e, nz: %d\n', ...
-        iter, nInnerIters(iter), kktViolations(iter), tt_loglikelihood(X,M), ...
+        iter, nInnerIters(iter), kktViolations(iter), fnVals(iter), ...
         num_zero);
     end
 
@@ -990,6 +996,7 @@ out.params = params.Results;
 out.obj = loglike;
 out.kktViolations = kktViolations(1:iter);
 out.fnEvals = fnEvals(1:iter);
+out.fnVals = fnVals(1:iter);
 out.nInnerIters = nInnerIters(1:iter);
 out.nZeros = nzeros(1:iter);
 out.times = times(1:iter);

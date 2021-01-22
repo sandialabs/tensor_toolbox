@@ -1,4 +1,13 @@
-%% Generating the leading mode-n vectors
+%% Generating the Leading Mode-n Vectors
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="nvecs_doc.html">Mode-n Vectors</a>
+% </p>
+% </html>
+%
 % The leading mode-n vectors are those vectors that span the subspace of
 % the mode-n fibers. In other words, the left singular vectors of the
 % n-mode matricization of X. 

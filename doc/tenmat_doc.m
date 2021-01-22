@@ -1,4 +1,14 @@
-%% Converting a tensor to a matrix and vice versa
+%% Converting a Tensor to a Matrix and Vice Versa
+%
+% <html>
+% <p class="navigate">
+% &#62;&#62; <a href="index.html">Tensor Toolbox</a> 
+% &#62;&#62; <a href="working.html">Working with Tensors</a> 
+% &#62;&#62; <a href="converting.html">Converting Between Tensors and Matrices</a>
+% &#62;&#62; <a href="tenmat_doc.html">Tensor as a Matrix</a>
+% </p>
+% </html>
+%
 % We show how to convert a tensor to a matrix stored with extra information
 % so that it can be converted back to a tensor. Converting to a matrix
 % requies an ordered mapping of the tensor indices to the rows and the
