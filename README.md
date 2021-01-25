@@ -14,7 +14,7 @@ Release notes follow below.
 
 ## Changes from Version 3.1 (June 4, 2019)
 
-- Overhaul of documentation (see !53)
+- Overhaul of documentation (see !53), including new logo (see !55)
 - Added [HTML documentation](doc/html/eig_geap_doc.html) for `eig_geap.m` (see !54)
 - Added support to export a `ktensor` in [`export_data.m`](export_data.m).
 - Fixing bug in [`@ktensor/score.m`](@ktensor/score.m) with zero lambdas in both inputs.
@@ -23,7 +23,6 @@ Release notes follow below.
   computation, including new top-level function [`cp_isym`](cp_isym.m).
 - Added interfaces to various optimization methods, including
   our own implementation of ADAM. 
-
 
 ## Changes from Version 2.6 (February 6, 2015)
 
