@@ -24,7 +24,6 @@ Assuming that current release number is of the form `3.N.a-dev`
 ## Files that need to be updated with the version and/or release date
 
 * [ ] `doc/html/index.html`
-   - [ ] Title
    - [ ] First H1 header
    - [ ] Downloading development version
    - [ ] Under "How to Cite" (**includes exact release date**)

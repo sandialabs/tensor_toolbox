@@ -1,5 +1,10 @@
-Primary POC: Tamara G. Kolda, tammy.kolda@mathsci.ai
+# Tensor Toolbox for MATLAB Acknowledgments
 
+## Contributors
+
+**Primary POC:** Tamara G. Kolda, tammy.kolda@mathsci.ai
+
+**Other Contributors:**
 * Evrim Acar - CP with optimization and missing data (`cp_opt`, `cp_wopt`)
 * Woody Austin - Various fixes
 * Brett W. Bader - Original author
@@ -17,3 +22,14 @@ Primary POC: Tamara G. Kolda, tammy.kolda@mathsci.ai
 * Jimeng Sun - Memory-efficient Tucker (distributed with version 2.6 or earlier)
 * Alex Williams - Ktensor/viz method (`ktensor/viz`)
 * Shaden Smith - Faster fitness computation in `cp_als`
+
+## Funding Acknowledgments
+
+Development of the Tensor Toolbox for MATLAB has received substantial support from
+Sandia National Laboratories, including the Laboratory Directed Research & Development (LDRD) program
+and the DOE Office of Science Advanced Scientific Computing Applied Mathematics research program.
+
+## Other Acknowledgments
+
+Banner image design by Kristin Pelletier Marketing & Design,
+in conjunction with MathSci.ai.
