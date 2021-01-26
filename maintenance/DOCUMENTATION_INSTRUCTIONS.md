@@ -39,6 +39,6 @@ All help files of the form `<XXXX>_doc.html` are generated from dot-m files in t
 The command to publish is:
 
 ```matlab
-publish('<XXXX>_doc.m','html','stylesheet','ttb.xsl')
+publish('<XXXX>_doc.m','stylesheet','ttb.xsl')
 ```
 

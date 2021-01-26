@@ -35,6 +35,10 @@ function [varargout] = eig_geap(A,B,varargin)
 %   Analysis and Applications 35(4):1563-1581, December 2014,
 %   http://dx.doi.org/10.1137/140951758 
 %
+%   <a href="matlab:web(strcat('file://',...
+%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
+%   'eig_geap_doc.html')))">Documentation page for GEAP</a>
+%
 %   See also EIG_SSHOPM, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %
 %MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
