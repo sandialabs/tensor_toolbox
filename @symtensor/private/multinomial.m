@@ -1,5 +1,5 @@
 function c = multinomial(n,varargin)
-% MULTINOMIAL Multinomial coefficients.
+%MULTINOMIAL Multinomial coefficients.
 %
 %   MULTINOMIAL(N, K1, K2, ..., Km) where N and Ki are floating point
 %   arrays of non-negative integers satisfying N = K1 + K2 + ... + Km, 
@@ -10,7 +10,7 @@ function c = multinomial(n,varargin)
 %
 %   Non-integer input arguments are pre-rounded by FLOOR function.
 %
-% EXAMPLES:
+%   EXAMPLES:
 %    multinomial(8, 2, 6) returns  28 
 %    binomial(8, 2) returns  28
 % 
@@ -18,10 +18,12 @@ function c = multinomial(n,varargin)
 %    multinomial(8, [2, 3, 3])  returns  560
 %
 %    multinomial([8 10], 2, [6 8]) returns  [28  45]
-
-% Mukhtar Ullah
-% November 1, 2004
-% mukhtar.ullah@informatik.uni-rostock.de
+%
+%    Mukhtar Ullah
+%    November 1, 2004
+%    mukhtar.ullah@informatik.uni-rostock.de
+%
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 nIn = nargin;
 %error(nargchk(2, nIn, nIn))

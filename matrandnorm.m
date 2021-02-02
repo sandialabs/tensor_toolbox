@@ -15,7 +15,7 @@ function X = matrandnorm(varargin)
 % 
 %   See also MATRANDORTH, MATRANDNORM, CREATE_PROBLEM, CREATE_GUESS.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 if nargin == 2
     X = randn(varargin{1}, varargin{2});

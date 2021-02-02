@@ -1,12 +1,12 @@
 function subs = tt_ind2sub64(siz,idx)
-%TT_IND2SUB Multiple subscripts from linear indices.
+%TT_IND2SUB64 Multiple subscripts from 64-bit linear indices.
 %
-%   SUBS = TT_IND2SUB(SIZ,INDS) returns that subscripts equivalent
+%   SUBS = TT_IND2SUB64(SIZ,INDS) returns that subscripts equivalent
 %   to the linear indices in INDS for a tensor of size SIZ.
 %
-%   See also TT_SUB2IND, IND2SUB, STRATIFIED_SAMPLE.
+%   See also TT_SUB2IND64, TT_SUB2IND, IND2SUB, TT_SAMPLE_STRATIFIED.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 % Created by Tamara G. Kolda, Fall 2018. 
 

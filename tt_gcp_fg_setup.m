@@ -1,7 +1,7 @@
-function [fh,gh,lowerbnd] = gcp_fg_setup(type,X)
-%GCP_FG_SETUP Sets the GCP functions according to specified name.
+function [fh,gh,lowerbnd] = tt_gcp_fg_setup(type,X)
+%TT_GCP_FG_SETUP Sets the GCP functions according to specified name.
 %
-%   [F,G,L] = GCP_FG_SETUP(TYPE,X) returns the function and gradient
+%   [F,G,L] = TT_GCP_FG_SETUP(TYPE,X) returns the function and gradient
 %   function as well as the lower bound for different types of objective
 %   functions. It also checks that X satisfies the standard constraints for
 %   that choice. The valid types are:
@@ -14,7 +14,7 @@ function [fh,gh,lowerbnd] = gcp_fg_setup(type,X)
 %      - 'Rayleigh'
 %      - 'Gamma'
 %
-%   [F,G,L] = GCP_FG_SETUP(TYPE,X) works for types that require a
+%   [F,G,L] = TT_GCP_FG_SETUP(TYPE,X) works for types that require a
 %   parameter, which is specified inside the type string. 
 %
 %      - 'negative-binomial (number of failures)'
@@ -29,9 +29,9 @@ function [fh,gh,lowerbnd] = gcp_fg_setup(type,X)
 %   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
 %   'gcp_fg_setup_doc.html')))">Documentation page</a>
 %
-%   See also GCP_OPT, GCP_FG, GCP_FG_EST.
+%   See also GCP_OPT, TT_GCP_FG, TT_GCP_FG_EST.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 tmp = split(type);

@@ -75,7 +75,7 @@ function export_data(A, fname)
 %
 %   See also TENSOR, SPTENSOR, KTENSOR, IMPORT_DATA
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% Open file
 fid = fopen(fname,'w');

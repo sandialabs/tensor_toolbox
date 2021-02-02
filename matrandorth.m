@@ -14,13 +14,13 @@ function M=matrandorth(n, tol)
 %   NOTE: This code is renamed from RandOrthMat by Ofek Shilon.
 %   https://www.mathworks.com/matlabcentral/fileexchange/11783-randorthmat
 %
-%  (c) Ofek Shilon, 2006.
+%   (c) Ofek Shilon, 2006.
 %
-%This code is *not* copyrighted by Sandia, but it is distributed with:
+%   This code is *not* copyrighted by Sandia, but it is distributed with:
 %
 %   See also MATRANDNORM, MATRANDCONG, CREATE_PROBLEM, CREATE_GUESS.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
     if exist('tol','var')
         if (tol >= 1)

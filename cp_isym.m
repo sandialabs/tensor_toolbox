@@ -38,7 +38,7 @@ function [M,info,M0,varargin] = cp_isym(X,r,varargin)
 %   Using Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and
 %   Applications, 41:1369-1387, 2020, https://doi.org/10.1137/19m1299633 
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %%
 tic; % Start timer for setup costs - finished inside optimization call!

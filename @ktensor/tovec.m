@@ -21,8 +21,7 @@ function x = tovec(K,lambdaflag)
 %
 %   See also KTENSOR, KTENSOR/SIZE, KTENSOR/NCOMPONENTS.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 if ~exist('lambdaflag','var')
     lambdaflag = true;

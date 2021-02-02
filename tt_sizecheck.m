@@ -1,15 +1,15 @@
 function ok = tt_sizecheck(siz)
 %TT_SIZECHECK Checks that the size is valid.
 %
-%  TT_SIZECHECK(S) throws an error if S is not a valid size array,
-%  which means that it is a row vector with strictly postitive,
-%  real-valued, finite integer values.
+%   TT_SIZECHECK(S) throws an error if S is not a valid size array,
+%   which means that it is a row vector with strictly postitive,
+%   real-valued, finite integer values.
 %
-%  X = TT_SIZECHECK(S) returns true if S is a valid and false otherwise.
+%   X = TT_SIZECHECK(S) returns true if S is a valid and false otherwise.
 %
-%  See also TT_SUBSCHECK.
+%   See also TT_SUBSCHECK.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if ndims(siz) == 2 && size(siz,1) == 1 ...

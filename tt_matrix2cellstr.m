@@ -1,7 +1,7 @@
 function S = tt_matrix2cellstr(M)
 %TT_MATRIX2CELLSTR Convert a matrix to a cell array of strings.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 fmt = get(0,'FormatSpacing');

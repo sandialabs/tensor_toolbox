@@ -1,23 +1,15 @@
 function loc = subdims(subd, t)
 %SUBDIMS Compute the locations of subscripts within a subdimension.
 %
-%  LOC = SUBDIMS(SUBD,T) finds the locations of the subscripts in T
-%  that are within the range specified by the cell array SUBD. For
-%  example, if SUBD = {1, [1,2], [1,2]}, then the locations of
-%  all elements of T that have a first subscript equal to 1, a
-%  second subscript equal to 1 or 2, and a third subscript equal to
-%  1 or 2 is returned.
+%   LOC = SUBDIMS(SUBD,T) finds the locations of the subscripts in T
+%   that are within the range specified by the cell array SUBD. For
+%   example, if SUBD = {1, [1,2], [1,2]}, then the locations of
+%   all elements of T that have a first subscript equal to 1, a
+%   second subscript equal to 1 or 2, and a third subscript equal to
+%   1 or 2 is returned.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2015, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 % Error check that subd is the right size

@@ -59,7 +59,7 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %
 %   See also CP_OPT, CP_APR.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 % Created by Tamara G. Kolda, Fall 2018. Includes work with
 % collaborators David Hong and Jed Duersch. 

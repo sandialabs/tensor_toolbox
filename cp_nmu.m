@@ -26,7 +26,7 @@ function [P,Uinit] = cp_nmu(X,R,opts)
 %
 %   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Fill in optional variable

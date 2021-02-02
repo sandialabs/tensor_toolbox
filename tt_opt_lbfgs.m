@@ -17,7 +17,8 @@ function [xbest, fbest, info] = tt_opt_lbfgs(xinit, fgh, varargin)
 %
 %   See also TT_OPT_ADAM, TT_OPT_LBFGSB, TT_OPT_FMINUNC.
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
+
 %%
 setupTimer = tic;
 

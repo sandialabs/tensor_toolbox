@@ -12,7 +12,7 @@ function f = f_implicit(M,X,normXsqr)
 %
 %   See also CP_ISYM, SYMKTENSOR/FG_IMPLICIT, SYMKTENSOR/G_IMPLICIT.
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% extract data
 
