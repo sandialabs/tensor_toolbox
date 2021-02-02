@@ -16,7 +16,7 @@ function A = teneye(M,N)
 %
 %   See also tensor, ttsv.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% Check that it's an even tensor
 if mod(M,2) ~= 0

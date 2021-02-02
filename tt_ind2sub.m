@@ -6,7 +6,7 @@ function subs = tt_ind2sub(siz,idx)
 %
 %   See also TT_SUB2IND, IND2SUB.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if isempty(idx)

@@ -1,40 +1,32 @@
 function s = collapse(t,dims,fun)
 %COLLAPSE Collapse sparse tensor along specified dimensions.
 %
-%  S = COLLAPSE(T,DIMS) sums the entries of T along all dimensions
-%  specified in DIMS. If DIMS is negative, then T is summed across
-%  all dimensions *not* specified by -DIMS.
+%   S = COLLAPSE(T,DIMS) sums the entries of T along all dimensions
+%   specified in DIMS. If DIMS is negative, then T is summed across
+%   all dimensions *not* specified by -DIMS.
 %
-%  S = COLLAPSE(T) is shorthand for S = COLLAPSE(T,1:ndims(T)).
+%   S = COLLAPSE(T) is shorthand for S = COLLAPSE(T,1:ndims(T)).
 %
-%  S = COLLAPSE(T,DIMS,FUN) accumulates the entries of T using the
-%  accumulation function @FUN.
+%   S = COLLAPSE(T,DIMS,FUN) accumulates the entries of T using the
+%   accumulation function @FUN.
 %
-%  Examples
-%  subs = [1 1 1; 1 1 3; 2 2 4; 4 4 4]
-%  vals = [10.5; 1.5; 2.5; 3.5]
-%  X = sptensor(subs,vals,[4 4 4]);
-%  Y = collapse(X,[2 3]) %<-- sum of entries in each mode-1 slice
-%  Y = collapse(ones(X),[1 2]) %<-- nnz in each mode-3 slide
-%  Y = collapse(ones(X),[1 2],@max) %<-- 1 if mode-3 has any entry
-%  Y = collapse(ones(X),-3,@max); %<-- equivalent
+%   Examples
+%   subs = [1 1 1; 1 1 3; 2 2 4; 4 4 4]
+%   vals = [10.5; 1.5; 2.5; 3.5]
+%   X = sptensor(subs,vals,[4 4 4]);
+%   Y = collapse(X,[2 3]) %<-- sum of entries in each mode-1 slice
+%   Y = collapse(ones(X),[1 2]) %<-- nnz in each mode-3 slide
+%   Y = collapse(ones(X),[1 2],@max) %<-- 1 if mode-3 has any entry
+%   Y = collapse(ones(X),-3,@max); %<-- equivalent
 %
 %   <a href="matlab:web(strcat('file://',...
 %   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
 %   'collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
 %
-%  See also SPTENSOR, SPTENSOR/SCALE.
+%   See also SPTENSOR, SPTENSOR/SCALE.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2015, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 if ~exist('fun', 'var')

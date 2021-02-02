@@ -23,7 +23,7 @@ function T = hosvd(X,tol,varargin)
 %
 %   See also TUCKER_ALS, TTENSOR
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% Read paramters
 d = ndims(X);

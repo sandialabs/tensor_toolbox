@@ -14,7 +14,7 @@ function X = tendiag(v,sz)
 %
 %   See also TENSOR, SPTENDIAG.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 % Make sure v is a column vector

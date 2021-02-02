@@ -4,7 +4,7 @@ function create_topcontents
 %% Open main contents file
 fidmain = fopen('../Contents.m','w');
 fprintf(fidmain,'%% Tensor Toolbox (Sandia National Labs)\n'); 
-fprintf(fidmain,'%% Version 3.2-a %s\n', date); 
+fprintf(fidmain,'%% Version 3.2-a (Development Version) %s\n', date); 
 fprintf(fidmain,'%% Tensor Toolbox for dense, sparse, and decomposed n-way arrays.\n'); 
 fprintf(fidmain,'%% \n'); 
 fprintf(fidmain,'%% Tensor Toolbox Classes:\n');
@@ -27,6 +27,9 @@ for i = 1:numel(C)
 end
 fprintf(fidmain,'%%\n');
 fprintf(fidmain,'%%   <a href="matlab:web(strcat(''file://'',fullfile(getfield(what(''tensor_toolbox''),''path''),''doc'',''html'',''index.html'')))">Documentation page for Tensor Toolbox</a>\n');
+fprintf(fidmain,'%%\n');
+fprintf(fidmain,'%%Tensor Toolbox for MATLAB: www.tensortoolbox.org\n');
+
 
 
 %% Close main contents file

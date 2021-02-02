@@ -31,7 +31,7 @@ function [T,Uinit] = tucker_als(X,R,varargin)
 %
 %   See also HOSVD, TTENSOR, TENSOR, SPTENSOR, KTENSOR.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 % Extract number of dimensions and norm of X.

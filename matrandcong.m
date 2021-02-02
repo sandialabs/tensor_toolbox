@@ -11,7 +11,7 @@ function X = matrandcong(m,n,gamma)
 %
 %   See also MATRANDORTH, MATRANDNORM, CREATE_PROBLEM, CREATE_GUESS.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 CG = gamma * ones(n,n) + (1-gamma) * eye(n);
 CGR = chol(CG);

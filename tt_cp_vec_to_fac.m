@@ -6,7 +6,7 @@ function A = tt_cp_vec_to_fac(x,Z)
 %
 %   See also TT_FAC_TO_VEC, TT_CP_FUN, TT_CP_OPT.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Set-up

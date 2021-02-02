@@ -1,7 +1,7 @@
 function a = tt_subsubsref(obj,s)
 %TT_SUBSUBSREF Helper function for tensor toolbox subsref.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if length(s) == 1

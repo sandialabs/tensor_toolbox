@@ -1,12 +1,12 @@
 function ok = tt_valscheck(vals)
 %TT_VALSCHECK Checks for valid values.
 %
-%  TT_VALSCHECK(S) throws an error if S is not a valid values
-%  array, which means that S is a column array.
+%   TT_VALSCHECK(S) throws an error if S is not a valid values
+%   array, which means that S is a column array.
 %
-%  X = TT_VALSCHECK(S) returns true if S is a valid and false otherwise.
+%   X = TT_VALSCHECK(S) returns true if S is a valid and false otherwise.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if isempty(vals)

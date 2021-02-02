@@ -60,8 +60,7 @@ function info = viz(K, varargin)
 %
 %   Thanks to Alex Williams for the prototype for this functionality.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 % TGK: Need to add options around line at zero, marks to use, font sizes, etc.
 

@@ -69,7 +69,7 @@ function [M, Minit, output] = cp_apr(X, R, varargin)
 %
 %   See also CP_ALS, KTENSOR, TENSOR, SPTENSOR.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Set the algorithm choice and initial guess from input or defaults.
@@ -197,13 +197,6 @@ function [M, out] = tt_cp_apr_pqnr(X, R, Minit, varargin)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Set algorithm parameters from input or by using defaults.
@@ -692,13 +685,6 @@ function [M, out] = tt_cp_apr_pdnr(X, R, Minit, varargin)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Set algorithm parameters from input or by using defaults.
@@ -1171,13 +1157,6 @@ function [M, output] = tt_cp_apr_mu(X, R, Minit, varargin)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Set algorithm parameters from input or by using defaults.
@@ -1430,13 +1409,6 @@ function Pi = tt_calcpi_prowsubprob(X, isSparse, M, R, n, N, sparse_indices)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
     if (isSparse)
@@ -1596,13 +1568,6 @@ function f = tt_loglikelihood_row(isSparse, x, m, Pi)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
     term1 = -sum(m);
@@ -1640,13 +1605,6 @@ function f = tt_loglikelihood(X,M)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 N = ndims(X);
 

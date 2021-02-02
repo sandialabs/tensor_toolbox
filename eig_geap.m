@@ -41,7 +41,7 @@ function [varargout] = eig_geap(A,B,varargin)
 %
 %   See also EIG_SSHOPM, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Error checking on A
