@@ -24,9 +24,7 @@
 %   uminus    - Unary minus for ttensor.
 %   uplus     - Unary plus for ttensor.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'ttensor_doc.html')))">Documentation page for Tucker tensor class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','ttensor_doc.html')))">Documentation page for Tucker tensor class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

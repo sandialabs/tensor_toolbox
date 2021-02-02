@@ -34,9 +34,7 @@
 %   update      - Convert vector to symktensor.
 %   uplus       - Unary plus for a symktensor. 
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'symktensor_doc.html')))">Documentation page for symmetric Kruskal tensor class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','symktensor_doc.html')))">Documentation page for symmetric Kruskal tensor class</a>
 %
 %   See also TENSOR_TOOLBOX, SYMTENSOR
 %

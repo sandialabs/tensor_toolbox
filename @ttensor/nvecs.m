@@ -16,9 +16,7 @@ function u = nvecs(X,n,r,opts)
 %   X = ttensor(tensor(ones(2,3,4)), 2*ones(1,2), 3*ones(2,3), 4*ones(4,4));
 %   nvecs(X, 2, 2)
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'nvecs_doc.html')))">Documentation page for n-vecs</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','nvecs_doc.html')))">Documentation page for n-vecs</a>
 %
 %   See also TTENSOR, TENMAT, EIGS.
 %

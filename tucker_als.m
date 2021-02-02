@@ -25,9 +25,7 @@ function [T,Uinit] = tucker_als(X,R,varargin)
 %   U0 = {rand(5,2),rand(4,2),[]}; %<-- Initial guess for factors of T
 %   T = tucker_als(X,2,'dimorder',[3 2 1],'init',U0);
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'tucker_als_doc.html')))">Documentation page for Tucker-ALS</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','tucker_als_doc.html')))">Documentation page for Tucker-ALS</a>
 %
 %   See also HOSVD, TTENSOR, TENSOR, SPTENSOR, KTENSOR.
 %

@@ -19,9 +19,7 @@ function s = collapse(t,dims,fun)
 %   Y = collapse(ones(X),[1 2],@max) %<-- 1 if mode-3 has any entry
 %   Y = collapse(ones(X),-3,@max); %<-- equivalent
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
 %
 %   See also SPTENSOR, SPTENSOR/SCALE.
 %

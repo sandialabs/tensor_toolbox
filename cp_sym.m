@@ -49,9 +49,7 @@ function [Model,Info] = cp_sym(A,P,varargin)
 %   Decomposition, Mathematical Programming B, Vol. 151, No. 1, pp.
 %   225-248, 2015, https://doi.org/10.1007/s10107-015-0895-0 
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'cp_sym_doc.html')))">Documentation page for CP-SYM</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_sym_doc.html')))">Documentation page for CP-SYM</a>
 %
 %   See also SYMKTENSOR, TENSOR/ISSYMMETRIC, SYMKTENSOR/FG,
 %   SYMKTENSOR/FG_SETUP.

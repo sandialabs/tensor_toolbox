@@ -46,9 +46,7 @@ function U = create_guess(varargin)
 %   'State' - State of the random number generator. This can be used
 %   to reproduce results.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'test_problems_doc.html')))">Documentation page for creating test problems</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','test_problems_doc.html')))">Documentation page for creating test problems</a>
 %
 %   See also CREATE_PROBLEM.
 %

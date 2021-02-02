@@ -53,9 +53,7 @@ function [P, P0, output] = cp_wopt(Z,W,R,varargin)
 %   Laboratory Systems, 106(1):41-56, 2011,
 %   http://dx.doi.org/10.1016/j.chemolab.2010.08.004.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'cp_wopt_doc.html')))">Documentation page for CP-WOPT</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_wopt_doc.html')))">Documentation page for CP-WOPT</a>
 %
 %   See also CP_OPT.
 %

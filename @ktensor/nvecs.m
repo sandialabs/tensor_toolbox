@@ -13,9 +13,7 @@ function u = nvecs(X,n,r,opts)
 %   K = ktensor(@rand, [3 4 5], 2);
 %   nvecs(K, 3, 1) %<--The largest eigenvector of the 3-mode matricization
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'nvecs_doc.html')))">Documentation page for n-vecs</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','nvecs_doc.html')))">Documentation page for n-vecs</a>
 %
 %   See also KTENSOR, TENMAT, EIGS.
 %

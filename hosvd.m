@@ -17,9 +17,7 @@ function T = hosvd(X,tol,varargin)
 %      'sequential' - Use sequentially-truncated version: Default: true.
 %      'ranks' - Specify ranks (rather than computing). Default: [].
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   hosvd_doc.html')))">Documentation page for HOSVD</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',hosvd_doc.html')))">Documentation page for HOSVD</a>
 %
 %   See also TUCKER_ALS, TTENSOR
 %

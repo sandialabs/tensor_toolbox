@@ -37,9 +37,7 @@ function [P,Uinit,output] = cp_als(X,R,varargin)
 %   [M,U0,out] = cp_als(X,2,'dimorder',[3 2 1],'init',U0);
 %   M = cp_als(X,2,out.params); %<-- Same params as previous run
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'cp_als_doc.html')))">Documentation page for CP-ALS</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_als_doc.html')))">Documentation page for CP-ALS</a>
 %
 %   See also KTENSOR, TENSOR, SPTENSOR, TTENSOR.
 %

@@ -58,9 +58,7 @@
 %   uplus       - Unary plus (+) for tensors.
 %   xor         - Logical EXCLUSIVE OR for tensors.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'tensor_doc.html')))">Documentation page for tensor class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','tensor_doc.html')))">Documentation page for tensor class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

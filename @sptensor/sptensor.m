@@ -55,9 +55,7 @@
 %   uplus     - Unary plus (+) for sptensor.
 %   xor       - Logical XOR for sptensors.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'sptensor_doc.html')))">Documentation page for Sparse Tensor Class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','sptensor_doc.html')))">Documentation page for Sparse Tensor Class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

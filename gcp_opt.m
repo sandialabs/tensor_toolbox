@@ -45,10 +45,6 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %   structure with additional information. To reproduce the
 %   run exactly, use M_alt = gcp_opt(X,R,out.params.Results).
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'gcp_opt_doc.html')))">Documentation page for GCP_OPT</a>
-%
 %   REFERENCES: 
 %   * D. Hong, T. G. Kolda, J. A. Duersch, Generalized Canonical
 %     Polyadic Tensor Decomposition, SIAM Review, 62:133-163, 2020,
@@ -56,6 +52,8 @@ function [M, M0, info] = gcp_opt(X, nc, varargin)
 %   * T. G. Kolda, D. Hong, Stochastic Gradients for Large-Scale Tensor
 %     Decomposition. SIAM J. Mathematics of Data Science, 2:1066-1095,
 %     2020, https://doi.org/10.1137/19m1266265
+%
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','gcp_opt_doc.html')))">Documentation page for GCP_OPT</a>
 %
 %   See also CP_OPT, CP_APR.
 %

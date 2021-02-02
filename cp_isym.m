@@ -29,14 +29,13 @@ function [M,info,M0,varargin] = cp_isym(X,r,varargin)
 %         has a constant term (||X||^2) that can be ignored.
 %         Choices are 'exact'=compute or specified value. Default: 0. 
 %
-%   <a
-%   href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_isym_doc.html')))">Additional documentation for CP-ISYM</a>
-%
-%   See also SYMKTENSOR/FG_IMPLICIT.
-%
 %   Reference: S. Sherman, T. G. Kolda, Estimating Higher-Order Moments
 %   Using Symmetric Tensor Decomposition, SIAM J. Matrix Analysis and
 %   Applications, 41:1369-1387, 2020, https://doi.org/10.1137/19m1299633 
+%
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_isym_doc.html')))">Additional documentation for CP-ISYM</a>
+%
+%   See also SYMKTENSOR/FG_IMPLICIT.
 %
 %Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 

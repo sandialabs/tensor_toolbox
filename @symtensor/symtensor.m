@@ -36,9 +36,7 @@
 %   uplus       - Unary plus (+) for symmetric tensors.
 %   xor         - Logical EXCLUSIVE OR for symmetric tensors.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'symtensor_doc.html')))">Documentation page for symmetric tensor class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','symtensor_doc.html')))">Documentation page for symmetric tensor class</a>
 %
 %   See also TENSOR_TOOLBOX, TENSOR/SYMMETRIZE, SYMKTENSOR, CP_SYM
 %
