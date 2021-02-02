@@ -1,7 +1,7 @@
 function s = tt_size2str(sz)
 %TT_SIZE2STR Convert size to a string that can be printed.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if isempty(sz)

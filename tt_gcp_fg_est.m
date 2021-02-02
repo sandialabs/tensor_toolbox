@@ -1,14 +1,14 @@
-function [F, G] = gcp_fg_est(M, fh, gh, subs, xvals, weights, computeF, computeG, vectorG, LambdaCheck, crng)
-%GCP_FG_EST Estimate the GCP function and gradient with a subsample
+function [F, G] = tt_gcp_fg_est(M, fh, gh, subs, xvals, weights, computeF, computeG, vectorG, LambdaCheck, crng)
+%TT_GCP_FG_EST Estimate the GCP function and gradient with a subsample.
 %
-%   [F,G] = GCP_FG_EST(M, FH, GH, XSUBS, XVALS, WVALS) estimates the GCP
+%   [F,G] = TT_GCP_FG_EST(M, FH, GH, XSUBS, XVALS, WVALS) estimates the GCP
 %   function and gradient specified by FH and GH for M and X. In this case,
 %   we have only a portion of X as  specified by XSUBS and XVALS along with
 %   the corresponding sampling weights in WVALS that are used in the estimate.
 %
-%   See also GCP_SGD, GCP_FG, GCP_FG_SETUP.
+%   See also GCP_OPT, TT_GCP_FG, TT_GCP_FG_SETUP.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 % Created by Tamara G. Kolda, Fall 2018. Includes work with
 % collaborators David Hong and Jed Duersch. 

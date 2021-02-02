@@ -27,7 +27,7 @@ function c = ttv(a,v,dims)
 %
 %   See also TENSOR/TTV, TTENSOR, TTENSOR/TTM.
 %
-%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%% ERROR CHECKING %%%

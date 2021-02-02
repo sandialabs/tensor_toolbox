@@ -15,7 +15,7 @@ function [f,g] = fg_implicit(M,X,normXsqr)
 %   See also cp_isym, symktensor/f_implicit, symktensor/g_implicit
 %   symktensor/fg_explicit.  
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %Code by Samantha Sherman, Summer 2018.
 

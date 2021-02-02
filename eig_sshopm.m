@@ -41,7 +41,7 @@ function [lambda,x,flag,its,x0] = eig_sshopm(A,varargin)
 %
 %   See also EIG_GEAP, EIG_SSHOPMC, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 				
 

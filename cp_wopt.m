@@ -59,7 +59,7 @@ function [P, P0, output] = cp_wopt(Z,W,R,varargin)
 %
 %   See also CP_OPT.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 
@@ -236,13 +236,6 @@ function [f,G] = tt_cp_wfg(Z,W,A,normZsqr)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Compute B = W.*ktensor(A)
@@ -291,13 +284,6 @@ function [f,g] = tt_cp_wfun(Zdata,W,x,normZsqr,memflag)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Convert x to factor matrices (i.e., a cell array).
@@ -339,13 +325,6 @@ function Zvals = tt_cp_wfg_sparse_setup(Z,W)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 Zsubs = Z.subs;
@@ -376,13 +355,6 @@ function [f,G] = tt_cp_wfg_sparse(Zvals,W,A,normZsqr,memflag)
 %MATLAB Tensor Toolbox.
 %Copyright 2015, Sandia Corporation.
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 
 
 %% Set-up

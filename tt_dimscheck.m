@@ -10,7 +10,7 @@ function [sdims,vidx] = tt_dimscheck(dims,N,M)
 %   [NEWDIMS,IDX] = TT_DIMCHECK(DIMS,N,M) does all of the above but
 %   also returns an index for M muliplicands. 
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 % Fix empty case

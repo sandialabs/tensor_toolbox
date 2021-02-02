@@ -1,7 +1,7 @@
 function s = tt_intvec2str(v)
 %TT_INTVEC2STR Print integer vector to a string with brackets.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if isempty(v)

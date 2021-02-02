@@ -11,7 +11,7 @@ function [Mnew,info] = randextract(M,s)
 %
 %   See also CP_ISYM.
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Extract sizes

@@ -1,5 +1,5 @@
 function [xbest, fbest, info] = tt_opt_lbfgsb(xinit, fgh, varargin)
-%TT_OPT_LBFBGB Wrapper for L-BFGS-B optimization code of Stephen Becker.
+%TT_OPT_LBFGSB Wrapper for L-BFGS-B optimization code of Stephen Becker.
 %
 %   [X, F, INFO] = TT_OPT_LBFGSB(X0, FGH, 'param', value, ...) is a wrapper
 %   for the LBFGSB wrapper by Stephen Becker. The wrapper just makes it a
@@ -36,7 +36,7 @@ function [xbest, fbest, info] = tt_opt_lbfgsb(xinit, fgh, varargin)
 %
 %   See also TT_OPT_ADAM, TT_OPT_LBFGS, TT_OPT_FMINUNC.
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %%

@@ -11,7 +11,7 @@ function g = g_implicit(M,X)
 %
 %   See also cp_isym, symktensor/fg_implicit, symktensor/f_implicit.
 %
-%MATLAB Tensor Toolbox, https://www.tensortoolbox.org.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %Code by Samantha Sherman, Summer 2018.
 

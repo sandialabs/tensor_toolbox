@@ -13,20 +13,20 @@ function [lambda,x,flag,its,x0,trace] = eig_sshopmc(A,varargin)
 %     'Tol'      : Tolerance on norm of change in |lambda| (Default: 1e-16)
 %     'Display'  : Display every n iterations (Default: -1 for no display)
 %
-%  [LAMBDA,X,FLAG]=EIG_SSHOPMC(...) also returns a flag indicating
-%  convergence. 
+%   [LAMBDA,X,FLAG]=EIG_SSHOPMC(...) also returns a flag indicating
+%   convergence. 
 %
 %      FLAG = 0  => Succesfully terminated with |lambda - lambda_old| < Tol
 %      FLAG = -1 => Norm(X) = 0
 %      FLAG = -2 => Maximum iterations exceeded
 %
-%  [LAMBDA,X,FLAG,IT]=EIG_SSHOPMC(...) also returns the number of
-%  iterations. 
+%   [LAMBDA,X,FLAG,IT]=EIG_SSHOPMC(...) also returns the number of
+%   iterations. 
 %
-%  [LAMBDA,X,FLAG,IT,X0]=EIG_SSHOPMC(...) also returns the intial guess.
+%   [LAMBDA,X,FLAG,IT,X0]=EIG_SSHOPMC(...) also returns the intial guess.
 %
-%  [LAMBDA,X,FLAG,IT,X0,TRACE]=EIG_SSHOPMC(...) also returns a trace of the
-%  |lambda| values at each iteration.
+%   [LAMBDA,X,FLAG,IT,X0,TRACE]=EIG_SSHOPMC(...) also returns a trace of the
+%   |lambda| values at each iteration.
 %
 %   REFERENCE: T. G. Kolda and J. R. Mayo, Shifted Power Method for
 %   Computing Tensor Eigenpairs, SIAM Journal on Matrix Analysis and
@@ -34,7 +34,7 @@ function [lambda,x,flag,its,x0,trace] = eig_sshopmc(A,varargin)
 %
 %   See also EIG_SSHOPM, TENSOR, SYMMETRIZE, ISSYMMETRIC.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Error checking on A

@@ -16,7 +16,7 @@ function subs = tt_sample_zeros(X,Xnzidx,nsamps,oversample,with_replacement)
 %
 %   See also SAMPLE_STRATIFIED.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 % Created by Tamara G. Kolda, Fall 2018. Includes work with
 % collaborators David Hong and Jed Duersch. 

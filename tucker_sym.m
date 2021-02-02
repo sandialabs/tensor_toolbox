@@ -24,7 +24,7 @@ function [T,Xinit] = tucker_sym(S,R,varargin)
 %   Symmetric Tensor Approximation, Linear Algebra and its Applications
 %   438(2):875-890, 2013, http://dx.doi.org/10.1016/j.laa.2011.10.033.   
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 %% Input checking

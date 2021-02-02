@@ -11,16 +11,8 @@ function B = subsref(A, S)
 %   X(1,2,1) %<- Returns X(1,2,1) = X(1,1,2) = 2nd element
 %   X([1 1 2;3 2 1]) %<- Return two elements
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2015, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
-% This is the MATLAB Tensor Toolbox by T. Kolda, B. Bader, and others.
-% http://www.sandia.gov/~tgkolda/TensorToolbox.
-% Copyright (2015) Sandia Corporation. Under the terms of Contract
-% DE-AC04-94AL85000, there is a non-exclusive license for use of this
-% work by or on behalf of the U.S. Government. Export of this data may
-% require a license from the United States Government.
-% The full license terms can be found in the file LICENSE.txt
 sz=size(S);
 
 switch S(1).type

@@ -56,7 +56,7 @@ function [Model,Info] = cp_sym(A,P,varargin)
 %   See also SYMKTENSOR, TENSOR/ISSYMMETRIC, SYMKTENSOR/FG,
 %   SYMKTENSOR/FG_SETUP.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% Check inputs
 if nargin < 2

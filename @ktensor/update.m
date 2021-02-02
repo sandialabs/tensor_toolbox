@@ -15,8 +15,7 @@ function M = update(M,modes,data)
 %   working with an optimization method that understands only vectors of
 %   unknowns.
 %
-%MATLAB Tensor Toolbox.
-%Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 %% Error checking
 if nargin < 3

@@ -8,7 +8,7 @@ function X = tenrand(varargin)
 %
 %   See also TENSOR, SPTENRAND, RAND.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if nargin == 1

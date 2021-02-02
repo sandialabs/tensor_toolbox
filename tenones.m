@@ -7,7 +7,7 @@ function X = tenones(varargin)
 %
 %   See also TENSOR, ONES.
 %
-%MATLAB Tensor Toolbox. Copyright 2018, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 
 if nargin == 1
