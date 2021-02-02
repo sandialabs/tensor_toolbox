@@ -25,10 +25,6 @@ function [fh,gh,lowerbnd] = tt_gcp_fg_setup(type,X)
 %   Generalized Canonical Polyadic Tensor Decomposition. arXiv:1808.07452,
 %   2018.  
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'gcp_fg_setup_doc.html')))">Documentation page</a>
-%
 %   See also GCP_OPT, TT_GCP_FG, TT_GCP_FG_EST.
 %
 %Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>

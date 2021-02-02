@@ -21,9 +21,7 @@ function c = ttv(a,v,dims)
 %   ttv(X, {[1:3]', [1:2]', [1:2]'})
 %   ttv(X, {[1:3]', [1:2]'}, [1 3])
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'multiply_doc.html')))">Documentation page for multiplying tensors</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','multiply_doc.html')))">Documentation page for multiplying tensors</a>
 %
 %   See also TENSOR/TTV, TTENSOR, TTENSOR/TTM.
 %

@@ -36,9 +36,7 @@ function [P, P0, output] = cp_opt(Z,R,varargin)
 %   Optimization Approach for Fitting Canonical Tensor Decompositions,
 %   J. Chemometrics, 25(2):67-86, 2011, http://doi.org/10.1002/cem.1335.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'cp_opt_doc.html')))">Documentation page for CP-OPT</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_opt_doc.html')))">Documentation page for CP-OPT</a>
 %
 %   See also TENSOR, SPTENSOR, KTENSOR.
 %

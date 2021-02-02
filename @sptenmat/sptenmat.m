@@ -17,9 +17,7 @@
 %   uminus   - Unary minus (-) for sptenmat.
 %   uplus    - Unary plus (+) for sptenmat.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'sptenmat_doc.html')))">Documentation page for sparse tensor-as-matrix class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','sptenmat_doc.html')))">Documentation page for sparse tensor-as-matrix class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

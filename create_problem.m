@@ -103,9 +103,7 @@ function [info,params] = create_problem(varargin)
 %   info = create_problem('Factor_Generator', @(m,n) matrandcong(m,n,.9), ...
 %     'Lambda_Generator', @ones);
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'test_problems_doc.html')))">Documentation page for creating test problems</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','test_problems_doc.html')))">Documentation page for creating test problems</a>
 %
 %   See also MATRANDCONG, MATRANDORTH, MATRANDNORM, CREATE_GUESS.
 %   

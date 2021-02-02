@@ -67,6 +67,8 @@ function [M, Minit, output] = cp_apr(X, R, varargin)
 %     Optimization Methods and Software, 2015, 
 %     http://dx.doi.org/10.1080/10556788.2015.1009977
 %
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_apr_doc.html')))">Documentation page for CP-APR</a>
+%
 %   See also CP_ALS, KTENSOR, TENSOR, SPTENSOR.
 %
 %Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>

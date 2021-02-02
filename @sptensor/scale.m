@@ -13,9 +13,7 @@ function t = scale(t,s,dims)
 %   S = tensor(1:12,[3 4]); Y = scale(X,S,[1 2])
 %   S = tensor(1:12,[3 4]); Y = scale(X,S,-3)
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','collapse_scale_doc.html')))">Documentation page for collapsing and scaling tensors</a>
 %
 %   See also SPTENSOR, SPTENSOR/COLLAPSE.
 %

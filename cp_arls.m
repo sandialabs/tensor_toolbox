@@ -43,9 +43,7 @@ function [P,Uinit,output] = cp_arls(X,R,varargin)
 %   Randomized CP Tensor Decomposition, SIAM J. Matrix Analysis and
 %   Applications, 39(2):876-901, 2018, https://doi.org/10.1137/17M1112303.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'cp_arls_doc.html')))">Documentation page for CP-ARLS</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_arls_doc.html')))">Documentation page for CP-ARLS</a>
 %
 %   See also CP_ALS, KTENSOR, TENSOR.
 %

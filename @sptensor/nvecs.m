@@ -16,9 +16,7 @@ function u = nvecs(t,n,r,opts)
 %   S = sptensor([3 3 3; 1 3 2; 1 1 3], 1, [3,3,3]); %<--Declare an sptensor
 %   nvecs(S,3,2)
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'nvecs_doc.html')))">Documentation page for n-vecs</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','nvecs_doc.html')))">Documentation page for n-vecs</a>
 %
 %   See also SPTENSOR, SPTENMAT, EIGS.
 %

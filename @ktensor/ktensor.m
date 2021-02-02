@@ -42,9 +42,7 @@
 %   uplus        - Unary plus for a ktensor. 
 %   viz          - Visualize a ktensor.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'ktensor_doc.html')))">Documentation page for Kruskal tensor class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','ktensor_doc.html')))">Documentation page for Kruskal tensor class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

@@ -18,9 +18,7 @@
 %   uminus    - Unary minus for sumtensor.
 %   uplus     - Unary plus for sumtensor.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'sumtensor_doc.html')))">Documentation page for sum of tensors class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','sumtensor_doc.html')))">Documentation page for sum of tensors class</a>
 %
 %   See also TENSOR_TOOLBOX
 %

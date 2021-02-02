@@ -18,9 +18,7 @@
 %   uminus     - Unary minus (-) for tenmat.
 %   uplus      - Unary plus (+) for tenmat.
 %
-%   <a href="matlab:web(strcat('file://',...
-%   fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html',...
-%   'tenmat_doc.html')))">Documentation page for tensor-as-matrix class</a>
+%   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','tenmat_doc.html')))">Documentation page for tensor-as-matrix class</a>
 %
 %   See also TENSOR_TOOLBOX
 %
