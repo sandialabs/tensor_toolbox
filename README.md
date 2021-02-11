@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.2-a
-Current development version  
+# Tensor Toolbox for MATLAB, Version 3.2
+February 10, 2021
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
 
@@ -14,16 +14,36 @@ Release notes follow below.
 
 ## Changes from Version 3.1 (June 4, 2019)
 
-- Overhaul of documentation (see !53), including new logo (see !55)
-- Added [HTML documentation](doc/html/eig_geap_doc.html) for `eig_geap.m` (see !54)
-- Added support to export a `ktensor` in [`export_data.m`](export_data.m).
-- Fixing bug in [`@ktensor/score.m`](@ktensor/score.m) with zero lambdas in both inputs.
-- Added [`sptenmat` constructor](@sptenmat/sptenmat.m) check on valid input. 
-- Added new functionality for implicit symmetric CP tensor
-  computation, including new top-level function [`cp_isym`](cp_isym.m).
-- Added interfaces to various optimization methods, including
-  our own implementation of ADAM. 
-
+- Added new functionality for implicit symmetric CP tensor computation per the paper: S. Sherman, T. G. Kolda. Estimating Higher-Order Moments Using Symmetric Tensor Decomposition, SIMAX, 2020 (see !43)
+  * New top-level function [`cp_isym`](cp_isym.m) 
+  * New functions within [`symktensor`](@symktensor/) class: [`f_implicit`](@symktensor/f_implicit.m), [`fg_explicit`](@symktensor/fg_explicit.m), [`fg_implicit`](@symktensor/fg_implicit.m), [`g_implicit`](@symktensor/g_implicit.m), [`randextract`](@symktensor/randextract.m), [`update`](@symkensor/update.m)
+  * New help page: [Implicit Symmetric CP Decomposition for Symmetric K-Tensors](https://www.tensortoolbox.org/cp_isym_doc.html)
+- Added interfaces to various optimization methods, including our own implementation of ADAM (see also !43)
+  * New top-level *hidden* functions that serve as somewhat standardized wrappers to optimization methods: [`tt_opt_adam`](tt_opt_adam.m), [`tt_opt_fminunc`](tt_opt_fminunc.m), [`tt_opt_lbfgs`](tt_opt_lbfgs.m), [`tt_opt_lbfgsb.m`](tt_opt_lbfgsb.m)
+  * New help pages: [Optimization Methods for Tensor Toolbox](https://www.tensortoolbox.com/opt_options_doc.html) and [Developer Information for Optimization Methods in Tensor Toolbox](https://www.tensortoolbox.com/tt_opt_doc.html)
+- Other new help pages: 
+  * [Shifted Power Method for Generalized Tensor Eigenproblem](https://www.tensortoolbox.com/eig_geap_doc.html) documenting [`eig_geap`](eig_geap.m) (fixes #11, see !54)
+  * [Symmetric CP Decomposition for Symmetric Tensors](https://www.tensortoolbox.com/cp_sym_doc.html) documenting [`cp_sym`](cp_sym.m) (see !43)
+- Overhaul of documentation (see !53), including [new logo](doc/html/Tensor-Toolbox-for-MATLAB-Banner.png) (see !55, fixes #18)
+  * Plus updated [Contribution Guide](CONTRIBUTION_GUIDE.md) with better instructions (see !44)
+  * Added funding and other acknowledgments to [`CONTRIBUTORS.md`](CONTRIBUTORS.md)
+  * Removed `RELEASE_NOTES.txt`, putting release notes into `README.md` (this file) in markdown format 
+  * Removed `INSTALL.txt`, which was out of date
+  * Added [Release Instructions](maintenance/RELEASE_INSTRUCTIONS.md) and [Documentation Instructions](maintenance/DOCUMENTATION_INSTRUCTIONS.md) 
+  * Added functions to update toolbox link in `maintenance`
+  * Removed `doc/html/bibtex.html`, `doc/html/getting_started.html`, `doc/html/helpscreen.PNG`
+- Various bug fixes and minor enhancements
+  * Fixed bug in [`@ktensor/score.m`](@ktensor/score.m) to handle zero lambda-values in both inputs (fixes #37)
+  * Added [`sptenmat` constructor](@sptenmat/sptenmat.m) check on valid input (fixes #33)
+  * Fixed wrong default lower bound in [`gcp_opt`](gcp_opt.m)
+  * Specified in [`tucker_sym`](tucker_sym.m) that input must be a `tensor` rather than a `symtensor`, which is admittedly counterintuitive (fixes #44)
+  * Fix [`sparse/ttt`](@sptensor/ttt.m) and [`sparse/ttm`](@sptensor/ttm.m) for complex tensors (fixes #40)
+  * Fix [`ktensor/full`](@ktensor/full.m) for complex tensors
+  * Updated documentation links so that every file now links to www.tensortoolbox.org (fixes #14, see !57) 
+  * Added support to export a `ktensor` in [`export_data.m`](export_data.m) plus relevant tests (fixes #23)
+  * Updated [`symktensor/normalize`](@symktensor/normalize.m) to be faster by using `bsxfun`
+  * Added/updated paper links: [`tensor`](@tensor/tensor.m), [`sptensor`](@sptensor/sptensor.m), [`cp_arls`](cp_arls.m), [`cp_sym`](cp_sym.m)
+ 
 ## Changes from Version 2.6 (February 6, 2015)
 
 - Changed license conditions: now open source BSD license.

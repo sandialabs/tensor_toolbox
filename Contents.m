@@ -1,5 +1,5 @@
 % Tensor Toolbox (Sandia National Labs)
-% Version 3.2-a (Development Version) 25-Jan-2021
+% Version 3.2 (R2021a) 10-Feb-2021
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:
@@ -51,4 +51,4 @@
 %
 %   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','index.html')))">Documentation page for Tensor Toolbox</a>
 %
-%Tensor Toolbox for MATLAB, https://www.tensortoolbox.org/
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
