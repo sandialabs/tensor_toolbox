@@ -46,7 +46,7 @@
 %
 %   See also TENSOR_TOOLBOX
 %
-%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 function t = ktensor(varargin)
 %KTENSOR Tensor stored as a Kruskal operator (decomposed).

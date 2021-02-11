@@ -62,9 +62,9 @@
 %   How to cite the sptensor class:
 %   * B.W. Bader and T.G. Kolda. Efficient MATLAB Computations with Sparse
 %     and Factored Tensors, SIAM J. Scientific Computing, 30:205-231, 2007,
-%     http:dx.doi.org/10.1137/060676489. 
+%     http://dx.doi.org/10.1137/060676489. 
 %
-%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 function t = sptensor(varargin)
 %SPTENSOR Create a sparse tensor.

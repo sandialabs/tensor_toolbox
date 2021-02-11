@@ -28,7 +28,7 @@
 %
 %   See also TENSOR_TOOLBOX
 %
-%MATLAB Tensor Toolbox. Copyright 2017, Sandia Corporation.
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
 function t = ttensor(varargin)
 %TTENSOR Tensor stored as a Tucker operator (decomposed).
