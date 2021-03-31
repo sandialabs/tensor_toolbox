@@ -45,6 +45,7 @@
     </tocitem>
     <tocitem target="test_problems_doc.html">Creating Test Problems</tocitem>
     <tocitem target="identities_doc.html">Identities</tocitem>
+    <tocitem target="import_export_doc.html">Importing and Exporting Tensor Data</tocitem>
 </tocitem>
 <tocitem target="opt_options_doc.html">Optimization Methods
     <tocitem target="tt_opt_doc.html">Developer Information for Optimization Methods</tocitem>
