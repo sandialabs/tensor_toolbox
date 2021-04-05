@@ -1,5 +1,5 @@
 # Tensor Toolbox for MATLAB, Version 3.2
-February 10, 2021
+April 5, 2021
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
 
