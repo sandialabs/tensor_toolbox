@@ -1,4 +1,4 @@
-# Tensor Toolbox for MATLAB, Version 3.2
+# Tensor Toolbox for MATLAB, Version 3.2.1
 April 5, 2021
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
