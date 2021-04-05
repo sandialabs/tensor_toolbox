@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.2
-February 10, 2021
+# Tensor Toolbox for MATLAB, Version 3.2.1
+April 5, 2021
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
 
@@ -11,6 +11,12 @@ For instructions on contributing, see [CONTRIBUTION_GUIDE.md](CONTRIBUTION_GUIDE
 For all other information, including download and usage instructions, see [www.tensortoolbox.org](https://www.tensortoolbox.org/).
 
 Release notes follow below.
+
+## Changes from Version 3.2 (February 10, 2021)
+
+- Changes to [`export_data`](export_data.m): support formatting of data and lambda values, improved write times for ['sptensor'](@sptensor/) when exporting (fixes #51)
+- New help pages:
+  * [Importing and Exporting Tensor Data](https://www.tensortoolbox.com/import_export_doc.html)
 
 ## Changes from Version 3.1 (June 4, 2019)
 
