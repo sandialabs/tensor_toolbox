@@ -9,7 +9,7 @@ function [P, P0, output] = cp_wopt(Z,W,R,varargin)
 %   K = CP_WOPT(X,W,R,'param', value,...) specifies additional
 %   parameters for the method. Specifically...
 %
-%   'skip_zeroing' - Skip the *expensive* step where all the missing
+%   'skip_zeroing' - Skip the somewhat expensive step where all the missing
 %   entries in X are set to zero. Only set this to true if the entries were
 %   already zeroed out. There is no way to disable the printing for the
 %   time for this unless you set this to true --- this is to avoid
@@ -92,7 +92,9 @@ end
 %% Zeroing
 if do_zeroing    
     tic;
-    Z = Z.*W;
+    Zdata = Z.data;
+    Zdata(double(W)==0) = 0;
+    Z = tensor(Zdata,size(Z));
     ztime = toc;
     fprintf('Time for zeroing out masked entries of data tensor is %.2e seconds.\n', ztime);
     fprintf('(If zeroing is done in preprocessing, set ''skip_zeroing'' to true.)\n');
