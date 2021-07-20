@@ -9,9 +9,11 @@
 % </html>
 %
 % The |tensor| and |sptensor| classes support the notion of collapsing and
-% scaling dimensions.
+% scaling dimensions, and the |tensor| class also supports centering (see
+% below).
 
 %% Examples of collapsing a tensor
+rng('default'); %<-- Make this reproducible.
 X = tenrand([4 3 2]) %<-- Generate some data.
 %%
 Y = collapse(X,[2 3]) %<-- Sum of entries in each mode-1 slice.
@@ -35,6 +37,22 @@ Y = collapse(X,-1) %<-- Same as above.
 Z = collapse(X,2) %<-- Sum of entries in each row fiber.
 %%
 collapse(X,1:3) %<-- Sum of all entries.
+
+%% Center tensor fibers for a dense tensor.
+% Suppose that we want to center a tensor's fiber in mode-2 so
+% that they each have mean zero. To do so, we can use |scale| function in
+% an unusual way, passing it a function handle to do the differences. 
+% (Note that |sptensor| does not support centering because it would cause
+% the tensor to become dense.)
+X = tensor(1:24,[4 3 2]) %<-- Generate some data.
+%%
+% Calculate the means in mode 2
+mu = collapse(X,2,@mean) 
+%%
+% Show the means of the mode-2 fibers
+Y = scale(X,mu,[1 3],@(x,y) x-y); 
+mu_new = collapse(Y,2,@mean)
+
 %% Alternate accumulation functions for sptensor
 Y = collapse(X,[1 2],@min) %<-- Min *nonzero* entry in each mode-3 slice.
 %%
