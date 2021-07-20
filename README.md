@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.2.1
-April 5, 2021
+# Tensor Toolbox for MATLAB, Version 3.3.a-dev
+July 20, 2021 (last modified)
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
 
@@ -11,6 +11,10 @@ For instructions on contributing, see [CONTRIBUTION_GUIDE.md](CONTRIBUTION_GUIDE
 For all other information, including download and usage instructions, see [www.tensortoolbox.org](https://www.tensortoolbox.org/).
 
 Release notes follow below.
+
+## Changes from Version 3.2.1 (April 5, 2021)
+
+- Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
 
 ## Changes from Version 3.2 (February 10, 2021)
 
