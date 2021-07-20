@@ -16,6 +16,8 @@ Release notes follow below.
 
 - Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
 
+- Added ability to do shifting via the tensor [`scale`](@tensor/scale.m) function. Also changed this function to use `bsxfun` which should be generally more efficient.
+
 ## Changes from Version 3.2 (February 10, 2021)
 
 - Changes to [`export_data`](export_data.m): support formatting of data and lambda values, improved write times for ['sptensor'](@sptensor/) when exporting (fixes #51)
