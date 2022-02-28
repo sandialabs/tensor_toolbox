@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.3-dev
-July 20, 2021 (last modified)
+# Tensor Toolbox for MATLAB, Version 3.3.a-dev
+February 28, 2021 (last modified)
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
 Sandia National Laboratories
 
@@ -17,6 +17,8 @@ Release notes follow below.
 - Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
 
 - Added ability to do shifting via the tensor [`scale`](@tensor/scale.m) function. Also changed this function to use `bsxfun` which should be generally more efficient.
+
+- Updated instructions in [`CONTRIBUTION_GUIDE.md`](CONTRIBUTION_GUIDE.md) to point to `dev` branch rather than `master`.
 
 ## Changes from Version 3.2 (February 10, 2021)
 

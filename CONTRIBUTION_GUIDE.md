@@ -2,15 +2,14 @@
 
 ## Getting Started
 
-We do not accept Developer requests, but we do accept Reporter requests.
-Before you can make a contribution, you need to create a **fork** of this repository.
-Then you will be able to make a merge request following the instructions below.
+Before you can make a contribution, you may need to create a **fork** of this repository.
+Then you will be able to make a merge request following the instructions below. Be sure to create a **branch** in your fork for your changes.
 
 ## Checklist
 
 - [ ] **Issue** Please link to any relevant issues that this merge request fixes.
 
-- [ ] **Fork** Create a branch or fork of the code and make your changes. It's helpful if you create a branch on your fork.
+- [ ] **Fork** Create a branch or fork of the code and make your changes. It's helpful if you **create a branch** on your fork.
 
 - [ ] **Help Comments** Create or update comments for the m-files, following the style of the existing files. Be sure to explain all code options.
 
@@ -28,7 +27,7 @@ Then you will be able to make a merge request following the instructions below.
 top level, go to `maintenance` and run `update_topcontents` to update the Contents.m file at the top level.
 
 - [ ] **Release Notes** 
-Update `README.txt` (under "Changes from [MOST RECENT VERSION]") with any significant bug fixes or additions.
+Update `README.md` (under "Changes from [MOST RECENT VERSION]") with any bug fixes or additions.
 
 - [ ] **Contributors List**
 Update `CONTRIBUTORS.md` with your name and a brief description of the contribution.
@@ -40,7 +39,7 @@ Confirm that all tests (including existing tests) pass in `tests` directory.
   * Start in your private branch
   * Go to Respoitory->Branches, select "Merge request"
   * On the "New Merge Request" screen, select "Change branches"
-  * For the Target branch, enter `tensors/tensor_toolbox` and `master`
+  * For the Target branch, enter `tensors/tensor_toolbox` and `dev`
   * Give a description of the merge request, referencing any issues or other information.
   * Include _this_ checklist as the _first comment_ on the merge request.
   
