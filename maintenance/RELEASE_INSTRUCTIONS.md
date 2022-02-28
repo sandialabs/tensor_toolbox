@@ -2,15 +2,15 @@
 
 ## Release Checklist
 
-Assuming that current release number is of the form `3.N.a-dev`
+Assuming that current release number is of the form `3.N.a-dev` in the `dev` branch.
 
 * [ ] Resolve as many [merge requests](-/merge_requests) and [issues](-/issues) as feasible
 
 * [ ] Comparing to the prior [release](-/releases), update the root [README.md](-/README.md) with release notes, if they haven't already been added
    - [ ] Grab the tag of the latest release, `v3.(N-1)`
-   - [ ] Using "Compare Revisions" under "Repsoitory", compare Source:`master` to Target:`v3.(N-1)`
+   - [ ] Using "Compare Revisions" under "Repsoitory", compare Source:`dev` to Target:`v3.(N-1)`
 
-* [ ] Create a branch, to be merged when complete, to update the version number and release date (see checklist below)
+* [ ] Freeze the `dev` branch, update the version number, release date, and help database (see checklist below)
   
 * [ ] Merge the branch into the master
 
@@ -18,7 +18,7 @@ Assuming that current release number is of the form `3.N.a-dev`
    - [ ] Tag with the new version number (v3.N)
    - [ ] Create a release
 
-* [ ] Before any new merges, change release number to `3.(N+1).a-dev` in all the places listed below and remove dates
+* [ ] Before any new into the `dev` branch, change release number to `3.(N+1).a-dev` in all the places listed below and remove dates
 
 
 ## Files that need to be updated with the version and/or release date
