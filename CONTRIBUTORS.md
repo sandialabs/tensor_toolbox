@@ -16,6 +16,7 @@
 * Daniel M. Dunlavy - CP with optimization and missing data (`cp_opt`, `cp_wopt`), various fixes
 * Samantha Hansen - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * David Hong - Generalized CP (`gcp_opt`)
+* Nirmit Joshi - ttsv for Symktensor (`symktensor/ttsv`)
 * Jackson Mayo - Eigenvalue methods (`eig_sshopm`, `eig_sshopmc`, `eig_geap`)
 * Todd Plantenga - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * Samantha Sherman - Implicit symmetric CP (`cp_isym`)
