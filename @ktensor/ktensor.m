@@ -51,17 +51,22 @@
 function t = ktensor(varargin)
 %KTENSOR Tensor stored as a Kruskal operator (decomposed).
 %
-%   K = KTENSOR(lambda,U1,U2,...,UM) creates a Kruskal tensor from its
-%   constituent parts. Here lambda is a k-vector and each Um is a
+%   K = KTENSOR(lambda,U1,U2,...,UD) creates a Kruskal tensor from its
+%   constituent parts. Here lambda is a k-vector and each Uk is a
 %   matrix with k columns.
 %
 %   K = KTENSOR(lambda, U) is the same as above except that U is a
-%   cell array containing matrix Um in cell m.
+%   cell array containing matrix Uk in cell k.
 %
-%   K = KTENSOR(U) assumes U is a cell array containing matrix Um in
-%   cell m and assigns the weight of each factor to be one.
+%   K = KTENSOR(U) assumes U is a cell array containing matrix Uk in
+%   cell k and assigns the weight of each factor to be one.
 %
 %   K = KTENSOR(T) creates a ktensor by copying an existing ktensor.
+%
+%   K = KTENSOR(V,SZ,D,LAMBDAFLAG) creates a ktensor from V, a
+%   vectorized ktensor of size SZ and order D. The vector is of the form 
+%   V = [lambda; vec(U1); ... vec(UD)] if LAMBDAFLAG=true and 
+%   V = [vec(U1); ... vec(UD)] if LAMBDAFLAG=false.
 %
 %   K = KTENSOR(S) creates a ktensor from a symktensor.
 %
@@ -74,7 +79,7 @@ function t = ktensor(varargin)
 %   K = ktensor([3; 2], ones(4,2), ones(5,2), ones(3,2)) %<- Constructor
 %   K = ktensor(@rand, [4 5 3], 2) %<- Create a random tensor
 %
-%   See also KTENSOR, CP_ALS, CP_OPT, CP_WOPT, CP_APR.
+%   See also KTENSOR, KTENSOR/TOVEC, CP_ALS, CP_OPT, CP_WOPT, CP_APR.
 %
 %Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
