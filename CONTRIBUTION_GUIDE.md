@@ -27,7 +27,8 @@ Then you will be able to make a merge request following the instructions below. 
 top level, go to `maintenance` and run `update_topcontents` to update the Contents.m file at the top level.
 
 - [ ] **Release Notes** 
-Update `README.md` (under "Changes from [MOST RECENT VERSION]") with any bug fixes or additions.
+Update `README.md` (under "Changes from [MOST RECENT VERSION]") with any significant bug fixes or additions.
+
 
 - [ ] **Contributors List**
 Update `CONTRIBUTORS.md` with your name and a brief description of the contribution.
