@@ -18,11 +18,12 @@
 * David Hong - Generalized CP (`gcp_opt`)
 * Nirmit Joshi - ttsv for Symktensor (`symktensor/ttsv`)
 * Jackson Mayo - Eigenvalue methods (`eig_sshopm`, `eig_sshopmc`, `eig_geap`)
+* Joao M. Pereira - Faster symtensor/indices method (`@symtensor/indices`)
 * Todd Plantenga - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * Samantha Sherman - Implicit symmetric CP (`cp_isym`)
+* Shaden Smith - Faster fitness computation in `cp_als`
 * Jimeng Sun - Memory-efficient Tucker (distributed with version 2.6 or earlier)
 * Alex Williams - Ktensor/viz method (`ktensor/viz`)
-* Shaden Smith - Faster fitness computation in `cp_als`
 
 ## Funding Acknowledgments
 

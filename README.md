@@ -14,6 +14,8 @@ Release notes follow below.
 
 ## Changes from Version 3.2.1 (April 5, 2021)
 
+- Changed [`indices`](@symtensor/indices.m) to improve performance. 
+
 - Changed [`cp_arls`](cp_arls.m) to default to 5 iterations per epoch rather than 50.
 
 - Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
