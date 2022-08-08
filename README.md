@@ -12,6 +12,13 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
+## Proposed changes (July 14, 2021)
+
+- Added new functionality for symmetric CP tensor computation using the Subspace Power Method (SPM).
+  * Relevant paper: J. Kileel, J. M. Pereira. "Subspace power method for symmetric tensor decomposition and generalized PCA." arXiv:1912.04007 (2019).
+  * New top-level function [`cp_ispm`](cp_ispm.m) 
+  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)
+
 ## Changes from Version 3.2.1 (April 5, 2021)
 
 - Changed [`indices`](@symtensor/indices.m) to improve performance. 
