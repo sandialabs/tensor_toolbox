@@ -20,6 +20,7 @@
 %   cp_isym               - Implicit symmetric CP for tensors formed from outer products.
 %   cp_nmu                - Compute nonnegative CP with multiplicative updates.
 %   cp_opt                - Fits a CP model to a tensor via optimization.
+%   cp_spm                - Symmetric tensor decomposition using Subspace Power Method (SPM).
 %   cp_sym                - Fit a symmetric P model to the symmetric input tensor.
 %   cp_wopt               - Fits a weighted CP model to a tensor via optimization.
 %   create_guess          - Creates initial guess for CP or Tucker fitting.

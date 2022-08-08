@@ -26,6 +26,7 @@
     </tocitem>    
     <tocitem target="cp_sym_doc.html">Symmetric (CP-SYM)</tocitem>
     <tocitem target="cp_isym_doc.html">Implicit Symmetric (CP-ISYM)</tocitem>
+    <tocitem target="cp_spm_doc.html">Subspace Power Method (CP-SPM)</tocitem>
 </tocitem>
 <tocitem target="tucker.html">Tucker Decompositions
     <tocitem target="hosvd_doc.html">Higher-order SVD (HOSVD)</tocitem>
