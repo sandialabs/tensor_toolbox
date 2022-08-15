@@ -52,7 +52,7 @@ opts.M = params.Results.m;
 opts.MaxIters = params.Results.maxiters;
 opts.MaxFuncEvals = params.Results.maxiters * params.Results.subiters;
 opts.RelFuncTol = params.Results.ftol;
-opts.StopTol = params.Results.gtol;
+opts.StopTol = params.Results.gtol/n;
 
 printitn = params.Results.printitn;
 if printitn == 0
@@ -76,13 +76,22 @@ if printitn > 0
     end
     fprintf('Parameters: ');    
     fprintf('m=%d, ', opts.M);
-    fprintf('ftol=%g, gtol=%g, ', opts.RelFuncTol, opts.StopTol);
+    fprintf('ftol=%g, gtol/N=%0.2g, ', opts.RelFuncTol, opts.StopTol);
     fprintf('maxiters = %d, maxsubiters=%d', opts.MaxIters, opts.MaxFuncEvals);
     fprintf('\n');
     fprintf('\n');
     fprintf('Begin Main Loop\n');
 end
 setuptime = toc(setupTimer);
+
+%% Check lbfgsb in path
+if ~exist('lbfgs.m','file')
+    fprintf('-> Required function lbfgs.m is not in your path and\n')
+    fprintf('-> requires the Poblano Toolbox, available free online.\n');
+    fprintf('-> If you do not have this toolbox, try instead\n')
+    fprintf('-> ''lbfgsb'' (included by default).\n')
+    fprintf('***\n');
+end
 
 %% Run optimization
 tic; 

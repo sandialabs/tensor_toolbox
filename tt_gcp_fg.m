@@ -15,7 +15,7 @@ function [F,G] = tt_gcp_fg(M, X, f, g, W, computeF, computeG, vectorG)
 %   [F,G] = TT_GCP_FG(M,X,f,g,W) specifies a weight tensor where W is a tensor
 %   that is the same size as X. It should have 1's for known values and 0's
 %   for missing values. The function/gradient is only computed w.r.t. the
-%   known values. Setting W to [] indicated no missing data.
+%   known values. Setting W to [] indicates no missing data.
 %
 %   See also GCP_OPT, TT_GCP_FG_SETUP.
 %
@@ -26,13 +26,13 @@ function [F,G] = tt_gcp_fg(M, X, f, g, W, computeF, computeG, vectorG)
 
 %% Hidden options
 %
-%   G = GCP_FG(M,X,f,g,W,false,true) computes only the gradient.
+%   G = TT_GCP_FG(M,X,f,g,W,false,true) computes only the gradient.
 %
-%   G = GCP_FG(M,X,f,g,W,false,true,true) computes only the gradient and
+%   G = TT_GCP_FG(M,X,f,g,W,false,true,true) computes only the gradient and
 %   converts it to a vector (equivalent to the tovec operation on a
 %   ktensor).
 %
-%   [F,G] = GCP_FG(M,X,f,g,W,true,true,true) computes boths the function
+%   [F,G] = TT_GCP_FG(M,X,f,g,W,true,true,true) computes boths the function
 %   and the gradient and converts the gradient to vector form.
 %
 

@@ -1,8 +1,8 @@
-function [xbest, fbest, info] = tt_opt_fminunc(xinit, fgh, varargin)
-%TT_OPT_FMINUNC Wrapper for FMINUNC in MATLAB Optimization Toolbox.
+function [xbest, fbest, info] = tt_opt_fmincon(xinit, fgh, varargin)
+%TT_OPT_FMINCON Wrapper for FMINCON in MATLAB Optimization Toolbox.
 %
-%   [X, F, INFO] = TT_OPT_FMINUNC(X0, FGH, 'param', value, ...) is a
-%   wrapper for the Quasi-Newton method in the MATLAB Optimization Toolbox.
+%   [X, F, INFO] = TT_OPT_FMINCON(X0, FGH, 'param', value, ...) is a
+%   wrapper for fmincon in the MATLAB Optimization Toolbox.
 %   The wrapper just makes it a bit easier to call from within Tensor
 %   Toolbox. Here X0 is in the initial guess for the solution, FGH is a
 %   function handle to a function that returns the function and gradient,
@@ -34,15 +34,17 @@ params.addParameter('maxiters', 1000); % maxIts
 params.addParameter('printitn', 1); % printEvery
 params.addParameter('subiters', 10) % maxTotalIts = maxiters*subiters
 params.addParameter('gtol', 1e-5); %pgtol
-params.addParameter('mdesc', 'Unconstrained Optimization (via Optimization Toolbox)');
+params.addParameter('lower', -Inf); 
+params.addParameter('upper', Inf); 
+params.addParameter('mdesc', 'Bound-Constrained Optimization (via Optimization Toolbox)');
 params.addParameter('xdesc', []);
 params.parse(varargin{:});
 mdesc = params.Results.mdesc;
 xdesc = params.Results.xdesc;
 printitn = params.Results.printitn;
 
-%% Setup options for quasi-Newton method
-opts = optimoptions('fminunc');
+%% Setup options for fmincon method
+opts = optimoptions('fmincon');
 opts.SpecifyObjectiveGradient = true;
 opts.MaxFunctionEvaluations = params.Results.maxiters * params.Results.subiters;
 opts.MaxIterations = params.Results.maxiters;
@@ -55,7 +57,6 @@ else
     opts.Display = 'final';
 end
 
-
 moreparams = fieldnames(params.Unmatched);
 if ~isempty(moreparams)
     for i = 1:length(moreparams)
@@ -63,6 +64,27 @@ if ~isempty(moreparams)
     end   
 end
 
+lb = params.Results.lower;
+if isscalar(lb)
+    if lb == -Inf 
+        lb = [];
+    else
+        lb = lb * ones(n,1);
+    end
+elseif ~isequal(size(lb), size(xinit))
+    error('Lower bound much be either a scalar or the same size as xinit');
+end
+
+ub = params.Results.upper;
+if isscalar(ub)
+    if ub == Inf 
+        ub = [];
+    else
+        ub = ub * ones(n,1);
+    end
+elseif ~isequal(size(ub), size(xinit))
+    error('Upper bound much be either a scalar or the same size as xinit');
+end
 
 %% Welcome message
 if printitn > 0
@@ -83,18 +105,18 @@ end
 setuptime = toc(setupTimer);
 
 %% Check fminunc in path
-if ~exist('fminunc.m','file')
+if ~exist('fmincon.m','file')
     fprintf('*** Important Notice ***\n');
-    fprintf('-> Required function fminunc.m is not in your path,\n')
+    fprintf('-> Required function fmincon.m is not in your path,\n')
     fprintf('-> and requires the MATLAB Optimization Toolbox.\n');
     fprintf('-> If you do not have this toolbox, try instead\n')
-    fprintf('-> ''lbfgs'' (included via Poblano toolbox).\n')
+    fprintf('-> ''lbfgsb'' (included by default).\n')
     fprintf('***\n');
 end
 
 %% Run method
 tic;
-[xbest, fbest, exitflag, output] = fminunc(fgh, xinit, opts);
+[xbest, fbest, exitflag, output] = fmincon(fgh,xinit,[],[],[],[],lb,ub,[],opts);
 opttime = toc;
 
 %% Save stuff
