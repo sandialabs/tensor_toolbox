@@ -12,12 +12,12 @@ function x = tovec(K,lambdaflag)
 %   K = ktensor([3; 2], rand(4,2), rand(5,2), rand(3,2));
 %   V = tovec(K);
 %   Kcopy = ktensor(V, size(K), ndims(K), true);
-%   norm(K-Kcopy) %<- Zero (or close to it)
+%   isequal(K,Kcopy) %<- TRUE
 %
 %   K = ktensor({rand(4,2), rand(5,2), rand(3,2)});
-%   V = tovec(K);
+%   V = tovec(K,false);
 %   Kcopy = ktensor(V, size(K), ndims(K), false);
-%   norm(K-Kcopy) %<- Zero (or close to it)
+%   isequal(K,Kcopy) %<- TRUE
 %
 %   See also KTENSOR, KTENSOR/SIZE, KTENSOR/NCOMPONENTS.
 %

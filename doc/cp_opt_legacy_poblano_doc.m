@@ -1,10 +1,13 @@
 %% All-at-once optimization for CP tensor decomposition (with Poblano)
-% We explain how to use |cp_opt| with the Poblano toolbox. The default is
-% to use L-BFGS-B (not Poblabo), which is described <cp_opt_doc.html here>.
+% We explain how to use |cp_opt_legacy| with the Poblano toolbox. The default is
+% to use L-BFGS-B (not Poblano), which is described <cp_opt_legacy_doc.html here>.
 
+%% Newer version available
+% This documentation is for the legacy implementation of CP-OPT. We
+% recommend using the newer version, described <cp_opt_doc.html here>.
 
 %% Poblano Optimization Toolbox
-% Check that you have Poblano 1.1 installed. The output of your 'ver'
+% Check that you have Poblano 1.1 (or later) installed. The output of your 'ver'
 % command should look something like the following.
 ver
 
@@ -38,12 +41,12 @@ ncg_opts.DisplayIters = 10;
 % Display the final set of options
 ncg_opts
 
-%% Call the |cp_opt| method
-% Here is an example call to the cp_opt method. By default, each iteration
+%% Call the |cp_opt_legacy| method
+% Here is an example call to the cp_opt_legacy method. By default, each iteration
 % prints the least squares fit function value (being minimized) and the
 % norm of the gradient. The meaning of any line search warnings
 % can be checked via <matlab:doc('cvsrch') doc cvsrch>.
-[M,~,output] = cp_opt(X, R, 'init', M_init, ...
+[M,~,output] = cp_opt_legacy(X, R, 'init', M_init, ...
     'opt', 'ncg', 'opt_options', ncg_opts);
 
 %% Check the output
@@ -85,7 +88,7 @@ ncg_opts.StopTol = 1.0e-2;
 %%
 
 % Run the algorithm
-[M_plus,~,output] = cp_opt(X, R+1, 'init', M_plus_init, ...
+[M_plus,~,output] = cp_opt_legacy(X, R+1, 'init', M_plus_init, ...
     'opt', 'ncg', 'opt_options', ncg_opts);
 exitflag = output.ExitFlag
 fit = output.Fit
