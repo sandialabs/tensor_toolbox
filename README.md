@@ -57,6 +57,10 @@ Release notes follow below.
 
 - Updated help on `ktensor` to construct a ktensor for a vectorized ktensor. #59
 
+- Made sure all the doc pages set the random seed before running so the pages can be easily reproduced, being able to understand which changes are due to changes in algorithms.
+
+- Added option for viz to show the actual weight (rather than the relative weight) and updated documentation.
+
 
 ## Changes from Version 3.2 (February 10, 2021)
 

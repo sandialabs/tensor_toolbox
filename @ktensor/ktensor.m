@@ -8,6 +8,7 @@
 %   double       - Convert a ktensor to a double array.
 %   end          - Last index of indexing expression for ktensor.
 %   extract      - Creates a new ktensor with only the specified components.
+%   fg           - CP decomposition function/gradient for ktensor with unit weights.
 %   fixsigns     - Fix sign ambiguity of a ktensor.
 %   full         - Convert a ktensor to a (dense) tensor.
 %   innerprod    - Efficient inner product with a ktensor.
