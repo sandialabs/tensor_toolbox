@@ -39,6 +39,7 @@
 %% Simple example of usage
 
 % Create random 50 x 40 x 30 tensor with 5 x 4 x 3 core
+rng('default'); %<- Setting random seed for reproducibility of this script
 info = create_problem('Type','Tucker','Num_Factors',[5 4 3],'Size',[50 40 30],'Noise',0.01);
 X = info.Data;
 

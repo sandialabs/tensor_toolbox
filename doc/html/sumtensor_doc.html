@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Sum of Structured Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="sumtensor_doc.m"><style type="text/css">
+      --><title>Sum of Structured Tensors</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-08-16"><meta name="DC.source" content="sumtensor_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:90%; margin-bottom:1px; }
@@ -97,7 +97,8 @@ T.part{2} is a sparse tensor of size 3 x 3 x 3 with 4 nonzeros
 	(2,1,1)     1
 	(2,2,2)     1
 	(3,3,2)     1
-</pre><h2 id="2">An Large-Scale Example</h2><p>For large-scale problems, the <tt>sumtensor</tt> class may make the difference as to whether or not a tensor can be stored in memory. Consider the following example, where <img src="sumtensor_doc_eq06518435724312786793.png" alt="$\mathcal{T}$" style="width:11px;height:10px;"> is of size <img src="sumtensor_doc_eq16571189024487911857.png" alt="$1000 x 1000 x 1000$" style="width:87px;height:9px;">, formed from the sum of a <tt>ktensor</tt> and an <tt>sptensor</tt>.</p><pre class="codeinput">X1 = rand(500, 3); <span class="comment">%Generating some factor matrices</span>
+</pre><h2 id="2">An Large-Scale Example</h2><p>For large-scale problems, the <tt>sumtensor</tt> class may make the difference as to whether or not a tensor can be stored in memory. Consider the following example, where <img src="sumtensor_doc_eq17572995506489108106.png" alt="$\mathcal{T}$" style="width:12px;height:12px;"> is of size <img src="sumtensor_doc_eq14760248084988842238.png" alt="$1000 x 1000 x 1000$" style="width:103px;height:11px;">, formed from the sum of a <tt>ktensor</tt> and an <tt>sptensor</tt>.</p><pre class="codeinput">rng(<span class="string">'default'</span>); <span class="comment">%&lt;- Setting random seed for reproducibility of this script</span>
+X1 = rand(500, 3); <span class="comment">%Generating some factor matrices</span>
 X2 = rand(500, 3);
 X3 = rand(500, 3);
 K = ktensor([1; 1; 1], X1, X2, X3);
@@ -109,8 +110,8 @@ TT = full(ST); <span class="comment">%&lt;-- Form the sum of the tensors explici
 whos <span class="string">ST</span> <span class="string">TT</span> <span class="comment">%&lt;--Output the storage information for these variables</span>
 </pre><pre class="codeoutput">  Name        Size                      Bytes  Class        Attributes
 
-  ST        500x500x500                 37696  sumtensor              
-  TT        500x500x500            1000000376  tensor                 
+  ST        500x500x500                 37608  sumtensor              
+  TT        500x500x500            1000000360  tensor                 
 
 </pre><p>The difference in memory between the full and sumtensor is a factor of 10^5! Hence we prefer to use the sumtensor object whenever possible.</p><h2 id="4">Further examples of the sumtensor constructer</h2><p>The sumtensor constructor can declare an empty sumtensor object, having no parts, as follows</p><pre class="codeinput">P = sumtensor()
 </pre><pre class="codeoutput">P is an empty sumtensor
@@ -118,10 +119,16 @@ whos <span class="string">ST</span> <span class="string">TT</span> <span class="
 </pre><pre class="codeoutput">S is an empty sumtensor
 </pre><h2 id="6">Use ndims and size for the dimensions of a sumtensor</h2><p>For a given sumtensor, <tt>ndims</tt> returns the number of modes of a sumtensor. Similarly, <tt>size</tt> returns a size array of the sumtensor.</p><pre class="codeinput">ndims(T)
 size(T)
-</pre><pre class="codeoutput">ans =
-     3
+</pre><pre class="codeoutput">
 ans =
+
+     3
+
+
+ans =
+
      3     3     3
+
 </pre><h2 id="7">Use full to convert a sumtensor to a "generic" tensor</h2><p>The <tt>full</tt> function can be used to convert a sumtensor to a generic tensor. Note that for large-scale tensors, this can a large amount of memory because each part of the sumtensor will be expanded and then summed.</p><pre class="codeinput">full(T)
 </pre><pre class="codeoutput">ans is a tensor of size 3 x 3 x 3
 	ans(:,:,1) = 
@@ -137,77 +144,100 @@ ans =
 	     1     1     1
 	     1     1     1
 </pre><h2 id="8">Use double to convert a sumtensor to a multidimensional array</h2><p>The <tt>double</tt> function can be used to convert a sumtensor to a multidimensional array. Similarly to the <tt>full</tt> expansion, this can use a prohibitive amount of memory for large-scale problems.</p><pre class="codeinput">double(T)
-</pre><pre class="codeoutput">ans(:,:,1) =
+</pre><pre class="codeoutput">
+ans(:,:,1) =
+
      2     1     1
      2     1     1
      1     1     1
+
+
 ans(:,:,2) =
+
      1     1     1
      1     2     1
      1     1     2
+
+
 ans(:,:,3) =
+
      1     1     1
      1     1     1
      1     1     1
+
 </pre><h2 id="9">Matricized Khatri-Rao product of a sumtensor</h2><p>The <tt>mttkrp</tt> function computes the Khatri-Rao product of a matricized tensor and a sumtensor. The required arguments are: a sumtensor X, a cell array of matrices U={U1,...,Um}, and a mode n. The cell array must consist of m matrices, where m is the number of modes in X. The number of columns of these matrices should be constant, and number of rows of matrix Ui should match the dimension of the tensor X in mode i. The matricized Khatri-Rao product operation on sumtensor distributes the operation to the summands of the sumtensor. For details of this specific computation, see the mttkrp documentation for a generic tensor. An example of the use of <tt>mttkrp</tt> follows.</p><pre class="codeinput">U={eye(3), ones(3,3), randn(3,3)}; <span class="comment">%&lt;--The cell array of matrices</span>
 mttkrp(T,U,2)
-</pre><pre class="codeoutput">ans =
-    4.4399   -2.5814   -2.4033
-    3.1497   -1.3988   -2.4033
-    3.1497   -1.3790   -2.1460
+</pre><pre class="codeoutput">
+ans =
+
+   -0.4047    2.3659    0.3224
+   -0.5803    2.8714    0.3224
+   -0.5803    1.6632   -0.4026
+
 </pre><h2 id="10">Use innerprod to compute the inner product of a sumtensor</h2><p>The <tt>innerprod</tt> function computes the inner product of a sumtensor T and any type of tensor. The operation is performed by distributing across each of the sumtensor's parts.</p><pre class="codeinput">S = sptensor([1 1 1; 2 1 3; 3 2 2; 2 1 1], 1, [3,3,3]);
 innerprod(T,S)
-</pre><pre class="codeoutput">ans =
-     6
-</pre><h2 id="11">Use norm for compatibility with the other types of tensors.</h2><p>The <tt>norm</tt> function returns 0 and a warning when called on a sumtensor. The procedure of computing the Frobenius norm of a sumtensor does not distribute across its parts, and hence is not supported for sumtensors. This default behavior is provided in order to ensure compatibility of the sumtensor class with existing decomposition routines.</p><pre class="codeinput">norm(T)
-</pre><pre class="codeoutput">Warning: The NORM function is not supported by SUMTENSOR. Returning zero. 
+</pre><pre class="codeoutput">
 ans =
+
+     6
+
+</pre><h2 id="11">Use norm for compatibility with the other types of tensors.</h2><p>The <tt>norm</tt> function returns 0 and a warning when called on a sumtensor. The procedure of computing the Frobenius norm of a sumtensor does not distribute across its parts, and hence is not supported for sumtensors. This default behavior is provided in order to ensure compatibility of the sumtensor class with existing decomposition routines.</p><pre class="codeinput">norm(T)
+</pre><pre class="codeoutput">Warning: The NORM function is not supported by SUMTENSOR.
+Returning zero. 
+
+ans =
+
      0
+
 </pre><p>In order avoid this default behavior and return the Frobenius norm of a sumtensor, it can be converted to a tensor using <tt>full</tt>.</p><pre class="codeinput">norm(full(T))
-</pre><pre class="codeoutput">ans =
+</pre><pre class="codeoutput">
+ans =
+
     6.2450
+
 </pre><h2 id="13">Use CP-ALS to find a CP decomposition of a sumtensor</h2><p>One of the primary motivations for defining the <tt>sumtensor</tt> class is for efficient decomposition. In particular, when trying to find a CP decomposition of a tensor using alternating least squares, the subproblems can be efficiently created and solved using <tt>mttkrp</tt> and <tt>innerprod</tt>. Both of these operations can be performed more efficiently by exploiting extra structure in the tensors which form the sum, so the performance of <tt>cp_als</tt> is also improved. Consider the following example, where a <tt>cp_als</tt> is run on a sumtensor.</p><pre class="codeinput">cp_als(T, 2)
-</pre><pre class="codeoutput">Warning: The NORM function is not supported by SUMTENSOR. Returning zero. 
+</pre><pre class="codeoutput">Warning: The NORM function is not supported by SUMTENSOR.
+Returning zero. 
 
 CP_ALS:
- Iter  1: f = -3.740453e+01 f-delta = 3.7e+01
- Iter  2: f = -3.755900e+01 f-delta = 1.5e-01
- Iter  3: f = -3.756781e+01 f-delta = 8.8e-03
- Iter  4: f = -3.757607e+01 f-delta = 8.3e-03
- Iter  5: f = -3.758587e+01 f-delta = 9.8e-03
- Iter  6: f = -3.759762e+01 f-delta = 1.2e-02
- Iter  7: f = -3.761184e+01 f-delta = 1.4e-02
- Iter  8: f = -3.762919e+01 f-delta = 1.7e-02
- Iter  9: f = -3.765037e+01 f-delta = 2.1e-02
- Iter 10: f = -3.767600e+01 f-delta = 2.6e-02
- Iter 11: f = -3.770612e+01 f-delta = 3.0e-02
- Iter 12: f = -3.773928e+01 f-delta = 3.3e-02
- Iter 13: f = -3.777165e+01 f-delta = 3.2e-02
- Iter 14: f = -3.779786e+01 f-delta = 2.6e-02
- Iter 15: f = -3.781462e+01 f-delta = 1.7e-02
- Iter 16: f = -3.782312e+01 f-delta = 8.5e-03
- Iter 17: f = -3.782675e+01 f-delta = 3.6e-03
- Iter 18: f = -3.782817e+01 f-delta = 1.4e-03
- Iter 19: f = -3.782871e+01 f-delta = 5.4e-04
- Iter 20: f = -3.782892e+01 f-delta = 2.1e-04
- Iter 21: f = -3.782901e+01 f-delta = 8.9e-05
- Final f = -3.782901e+01 
+ Iter  1: f = -3.738671e+01 f-delta = 3.7e+01
+ Iter  2: f = -3.781295e+01 f-delta = 4.3e-01
+ Iter  3: f = -3.781994e+01 f-delta = 7.0e-03
+ Iter  4: f = -3.782243e+01 f-delta = 2.5e-03
+ Iter  5: f = -3.782370e+01 f-delta = 1.3e-03
+ Iter  6: f = -3.782452e+01 f-delta = 8.2e-04
+ Iter  7: f = -3.782514e+01 f-delta = 6.2e-04
+ Iter  8: f = -3.782565e+01 f-delta = 5.1e-04
+ Iter  9: f = -3.782609e+01 f-delta = 4.4e-04
+ Iter 10: f = -3.782647e+01 f-delta = 3.8e-04
+ Iter 11: f = -3.782680e+01 f-delta = 3.3e-04
+ Iter 12: f = -3.782709e+01 f-delta = 2.9e-04
+ Iter 13: f = -3.782734e+01 f-delta = 2.5e-04
+ Iter 14: f = -3.782757e+01 f-delta = 2.2e-04
+ Iter 15: f = -3.782776e+01 f-delta = 2.0e-04
+ Iter 16: f = -3.782794e+01 f-delta = 1.7e-04
+ Iter 17: f = -3.782809e+01 f-delta = 1.5e-04
+ Iter 18: f = -3.782823e+01 f-delta = 1.4e-04
+ Iter 19: f = -3.782834e+01 f-delta = 1.2e-04
+ Iter 20: f = -3.782845e+01 f-delta = 1.1e-04
+ Iter 21: f = -3.782855e+01 f-delta = 9.4e-05
+ Final f = -3.782855e+01 
 ans is a ktensor of size 3 x 3 x 3
 	ans.lambda = 
-		    4.6822    2.5591
+		    4.8661    2.3774
 	ans.U{1} = 
-		    0.4686    0.7277
-		    0.5901    0.6432
-		    0.6574    0.2383
+		    0.4802    0.7336
+		    0.5928    0.6461
+		    0.6466    0.2109
 	ans.U{2} = 
-		    0.4087    0.9486
-		    0.6316    0.2483
-		    0.6588    0.1961
+		    0.4293    0.9629
+		    0.6286    0.2110
+		    0.6485    0.1680
 	ans.U{3} = 
-		    0.4120    0.9386
-		    0.7467    0.1492
-		    0.5222    0.3112
-</pre><p>It follows that in cases where <img src="sumtensor_doc_eq06518435724312786793.png" alt="$\mathcal{T}$" style="width:11px;height:10px;"> is too large for its full expansion to be stored in memory, we may still be able find a CP decomposition by exploiting the sumtensor structure.</p><p>Note that the fit returned by cp_als is not correct for sumtensors, because the norm operation is not supported.</p><h2 id="16">Basic operations (plus) for sumtensors</h2><p>Sumtensors can be added to any other type of tensor. The result is a new sumtensor with the tensor appended to the parts of the original sumtensor. Note that the tensor is always appended, despite the order of the operation.</p><pre class="codeinput">T+S <span class="comment">%&lt;--S is appended to the parts of T</span>
+		    0.4323    0.9515
+		    0.7346    0.1117
+		    0.5230    0.2866
+</pre><p>It follows that in cases where <img src="sumtensor_doc_eq17572995506489108106.png" alt="$\mathcal{T}$" style="width:12px;height:12px;"> is too large for its full expansion to be stored in memory, we may still be able find a CP decomposition by exploiting the sumtensor structure.</p><p>Note that the fit returned by cp_als is not correct for sumtensors, because the norm operation is not supported.</p><h2 id="16">Basic operations (plus) for sumtensors</h2><p>Sumtensors can be added to any other type of tensor. The result is a new sumtensor with the tensor appended to the parts of the original sumtensor. Note that the tensor is always appended, despite the order of the operation.</p><pre class="codeinput">T+S <span class="comment">%&lt;--S is appended to the parts of T</span>
 S+T <span class="comment">%&lt;--S is still the last part of T, despite order</span>
 </pre><pre class="codeoutput">ans is a sumtensor of size 3 x 3 x 3 with 3 parts
 ans.part{1} is a tensor of size 3 x 3 x 3
@@ -313,6 +343,7 @@ T = sumtensor(T1,T2)
 % as to whether or not a tensor can be stored in memory. Consider the
 % following example, where $\mathcal{T}$ is of size $1000 x 1000 x 1000$, 
 % formed from the sum of a |ktensor| and an |sptensor|.
+rng('default'); %<- Setting random seed for reproducibility of this script
 X1 = rand(500, 3); %Generating some factor matrices
 X2 = rand(500, 3); 
 X3 = rand(500, 3);

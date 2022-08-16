@@ -27,7 +27,7 @@
 % Note: Oftentimes it's better to use |hosvd| instead.
 
 %% Create a data tensor of size [5 4 3]
-rng('default'); rng(0); %<-- Set seed for reproducibility
+rng(0); %<-- Set seed for reproducibility
 X = sptenrand([5 4 3], 10)
 %% Create a [2 2 2] approximation
 T = tucker_als(X,2)        %<-- best rank(2,2,2) approximation 

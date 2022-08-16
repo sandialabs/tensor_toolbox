@@ -21,6 +21,7 @@
 % We set up an especially difficult and somewhat large sample problem that
 % has high collinearity (0.9) and 1% noise. This is an example where the
 % randomized method will generally outperform the standard method.
+rng('default') %<- Setting random seed for reproducibility of this script
 sz = [200 300 400];
 R = 5;
 ns = 0.01;
@@ -143,7 +144,7 @@ fprintf('Score: %.4f\n',score(M,M_true));
 
 %% Change the number of sampled rows in least squares solve
 % The default number of sampled rows for the least squares solves is
-% |ceil(10*R*log2(R))|. This seemed to work well in most tests, but this can
+% |ceil(10*R*log2( R ))|. This seemed to work well in most tests, but this can
 % be varied higher or lower. For R=5, this means we sample 117 rows per
 % solve. The rows are different for every least squares problem. Let's see
 % what happens if we reduce this to 10.

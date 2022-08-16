@@ -13,16 +13,17 @@ function info = viz(K, varargin)
 %   Primary optional parameters:
 %
 %   'PlotCommands' - Plot command, passed as name ('plot','bar', or'scatter')
-%                 or a function handle of the form |@(x,y) plot(x,y);|. 
+%                 or a function handle of the form |@(x,y) plot(x,y);|.
 %                 Can also be a cell array, one entry per mode.
 %   'ModeTitles' - Cell array of mode titles. Use 'none' to disable.
 %   'Figure' - Figure number. Default: [] (new figure).
 %   'RelModeWidth' - Relative vertical width per mode. Default: ones(D,1).
-%   'FactorTitles' - Choices are 'Weight' (relative), 'Number' or 'None'. 
+%   'FactorTitles' - Choices are 'Weight' (relative), 'True Weight',
+%                    'Number' or 'None'. Default: 'Weight'.
 %   'Normalize' - Automatically normalizes the factor matrix columns and
 %                 sorts the components by weight. Options: -1 (none), 1
 %                 (1-norm), 2 (2-norm). Can also be a function handle to an
-%                 appropriate function. Default: 2. 
+%                 appropriate function. Default: 2.
 %
 %   Detailed optional parameters:
 %
@@ -75,7 +76,7 @@ nc = ncomponents(K); % Rank
 params = inputParser;
 % Normalize
 params.addParameter('Normalize',2);
-% Figure 
+% Figure
 params.addParameter('Figure', []);
 % Spacing
 params.addParameter('RelModeWidth', ones(nd,1)); % Horizontal space for each mode
@@ -157,13 +158,13 @@ for k = 1:nd
         PlotCommands{k} = @(x,y) scatter(x,y,10,'b','filled');
     end
 end
-        
+
 h = cell(nd,nc);
 for k = 1 : nd
-    
+
     % Extract component, no modifications
     U = K.u{k};
-    
+
     % Add one extra at end of ticks
     xl = [0 size(K,k)+1];
 
@@ -171,21 +172,21 @@ for k = 1 : nd
     yl = [min( -0.01, min(U(:)) ), max( 0.01, max(U(:)) )];
 
     for j = 1 : nc
-        
+
         % Extract x & y data
         xx = (1:size(K,k))';
         yy = U(:,j);
-        
+
         % Set up plot
         hold(FactorAxes(k,j), 'off');
         axes(FactorAxes(k,j));
 
         % Do the plot command
         hh = PlotCommands{k}(xx, yy);
-        
+
         % Set x-axes
         xlim(FactorAxes(k,j),xl);
-        
+
         % Set y-axes
         if isequal(res.YLims{k}, 'same')
             ylim(FactorAxes(k,j),yl);
@@ -198,39 +199,39 @@ for k = 1 : nd
         else
             fprintf('Do nothing to FactorAxes\n');
         end
-        
+
         % Turn off y-label
         set(FactorAxes(k,j), 'Ylabel', []);
-        
+
         % Turn off y-ticks
         if ~res.YTicks
             set(FactorAxes(k,j),'Ytick',[]);
         end
-        
+
         % Draw a box around the axes
         set(FactorAxes(k,j),'Box','on')
 
         % Turn of x-labels if not the bottom plot
         if j < nc
             set(FactorAxes(k,j),'XtickLabel',{});
-        end            
-        
+        end
+
         % Draw dashed line at zero
         if res.ShowZero(k)
             hold(FactorAxes(k,j), 'on');
             plot(FactorAxes(k,j), xl, [0 0], 'k:', 'Linewidth', 1.5);
         end
-        
+
         % Save handle for main plot
         h{k,j} = hh;
-        
+
         % Make the fonts on the xtick labels big
         set(FactorAxes(k,j),'FontSize',res.BaseFontSize)
     end
 end
 
 %% Title for each mode, along the top
-if ( isa(res.ModeTitles,'char') && strcmpi(res.ModeTitles,'none') )   
+if ( isa(res.ModeTitles,'char') && strcmpi(res.ModeTitles,'none') )
     ModeTitleHandles = repmat({[]},nd,1);
 else
     ModeTitleHandles = gobjects(nd,1);
@@ -242,7 +243,7 @@ else
     else
         ModeTitles = res.ModeTitles;
     end
-    
+
     axes(GlobalAxis);
     for k = 1:nd
         xpos = res.LeftSpace + (k-1) * res.HorzSpace + sum(width(1:k-1)) + 0.5 * width(k);
@@ -262,8 +263,10 @@ if ~strcmpi(res.FactorTitles,'none')
     for j = 1:nc
         xpos = 0.1 * res.LeftSpace;
         ypos = 1 - res.TopSpace - 0.5 * height - (j-1) * (height + res.VertSpace);
-        if strcmpi(res.FactorTitles,'weight')          
+        if strcmpi(res.FactorTitles,'weight')
             txt = sprintf('%3.2f', rellambda(j));
+        elseif strcmpi(res.FactorTitles,'true weight')
+            txt = sprintf('%3.2f', K.lambda(j));
         else
             txt = sprintf('%d', j);
         end
@@ -279,4 +282,3 @@ info.FactorAxes = FactorAxes;
 info.ModeTitleHandles = ModeTitleHandles;
 info.CompTitleHandles = CompTitleHandles;
 info.PlotHandles = h;
-

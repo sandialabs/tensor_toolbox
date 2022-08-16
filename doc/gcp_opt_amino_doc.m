@@ -14,6 +14,8 @@
 % We use the well known amino acids dataset for some tests. This data has
 % some negative values, but the factorization itself should be nonnegative.
 
+rng('default'); %<- Setting random seed for reproducibility of this script
+
 % Load the data
 load(fullfile(getfield(what('tensor_toolbox'),'path'),'doc','aminoacids.mat'))
 

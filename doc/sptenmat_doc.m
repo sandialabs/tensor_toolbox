@@ -20,6 +20,7 @@
 % indices are stored explicitly.
 %%
 % First, we create a sparse tensor to be converted.
+rng('default'); %<- Setting random seed for reproducibility of this script
 X = sptenrand([10 10 10 10],10) %<-- Generate some data.
 %%
 % All the same options for tenmat are available as for tenmat.

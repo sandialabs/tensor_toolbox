@@ -32,6 +32,7 @@ T = sumtensor(T1,T2)
 % as to whether or not a tensor can be stored in memory. Consider the
 % following example, where $\mathcal{T}$ is of size $1000 x 1000 x 1000$, 
 % formed from the sum of a |ktensor| and an |sptensor|.
+rng('default'); %<- Setting random seed for reproducibility of this script
 X1 = rand(500, 3); %Generating some factor matrices
 X2 = rand(500, 3); 
 X3 = rand(500, 3);

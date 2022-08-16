@@ -68,7 +68,7 @@ end
 if (dnew == 2)
     y = reshape(y, [sz sz]);
 elseif dnew > 2
-    y = tensor(y, sz * ones(dnew,1));
+    y = tensor(y, sz * ones(1,dnew));
 end
 
 
