@@ -96,7 +96,7 @@ end
 N = ndims(X);
 sz = size(X);
 
-if ver == 0  %old verion
+if ver == 0  %original/default verion
     order = [n,1:n-1,n+1:N];
     newdata = double(permute(X,order));
     newdata = reshape(newdata,sz(n),prod(sz([1:n-1,n+1:N])));
