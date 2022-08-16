@@ -17,6 +17,9 @@
 % In MATLAB notation, |X=ttm(G,{A,B,C})|. The |ttensor| class stores the
 % components of the tensor X and can perform many operations, e.g., |ttm|,
 % without explicitly forming the tensor X.
+%%
+rng('default'); %<- Setting random seed for reproducibility of this script
+
 %% Creating a ttensor with a tensor core
 core = tensor(rand(3,2,1),[3 2 1]); %<-- The core tensor.
 U = {rand(5,3), rand(4,2), rand(3,1)}; %<-- The matrices.

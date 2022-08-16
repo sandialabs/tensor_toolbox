@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Alternating least squares for Tucker model</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="tucker_als_doc.m"><style type="text/css">
+      --><title>Alternating least squares for Tucker model</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-08-16"><meta name="DC.source" content="tucker_als_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:90%; margin-bottom:1px; }
@@ -74,7 +74,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 &#62;&#62; <a href="tucker.html">Tucker Decompositions</a>
 &#62;&#62; <a href="tucker_als_doc.html">Tucker-ALS</a>
 </p>
-</p><p>The function <tt>tucker_als</tt> computes the best rank(R1,R2,..,Rn) approximation of tensor X, according to the specified dimensions in vector R.  The input X can be a tensor, sptensor, ktensor, or ttensor.  The result returned in T is a ttensor.</p><p>The method is originally from Tucker (1966) and later revisited in De Lathauwer et al. (2000).</p><div><ul><li>L. R. Tucker, Some mathematical notes on three-mode factor analysis,   Psychometrika, 31:279-311, 1966, <a href="http://dx.doi.org/10.1007/BF02289464">http://dx.doi.org/10.1007/BF02289464</a></li><li>L. De Lathauwer, B. De Moor, J. Vandewalle,   On the best rank-1 and rank-(R_1, R_2, R_N) approximation of   higher-order tensors,   SIAM J. Matrix Analysis and Applications, 21:1324-1342, 2000,   <a href="http://doi.org/10.1137/S0895479898346995">http://doi.org/10.1137/S0895479898346995</a></li></ul></div><p>Note: Oftentimes it's better to use <tt>hosvd</tt> instead.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Create a data tensor of size [5 4 3]</a></li><li><a href="#2">Create a [2 2 2] approximation</a></li><li><a href="#3">Create a [2 2 1] approximation</a></li><li><a href="#4">Use a different ordering of the dimensions</a></li><li><a href="#5">Use the n-vecs initialization method</a></li><li><a href="#6">Specify the initial guess manually</a></li></ul></div><h2 id="1">Create a data tensor of size [5 4 3]</h2><pre class="codeinput">rng(<span class="string">'default'</span>); rng(0); <span class="comment">%&lt;-- Set seed for reproducibility</span>
+</p><p>The function <tt>tucker_als</tt> computes the best rank(R1,R2,..,Rn) approximation of tensor X, according to the specified dimensions in vector R.  The input X can be a tensor, sptensor, ktensor, or ttensor.  The result returned in T is a ttensor.</p><p>The method is originally from Tucker (1966) and later revisited in De Lathauwer et al. (2000).</p><div><ul><li>L. R. Tucker, Some mathematical notes on three-mode factor analysis,   Psychometrika, 31:279-311, 1966, <a href="http://dx.doi.org/10.1007/BF02289464">http://dx.doi.org/10.1007/BF02289464</a></li><li>L. De Lathauwer, B. De Moor, J. Vandewalle,   On the best rank-1 and rank-(R_1, R_2, R_N) approximation of   higher-order tensors,   SIAM J. Matrix Analysis and Applications, 21:1324-1342, 2000,   <a href="http://doi.org/10.1137/S0895479898346995">http://doi.org/10.1137/S0895479898346995</a></li></ul></div><p>Note: Oftentimes it's better to use <tt>hosvd</tt> instead.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Create a data tensor of size [5 4 3]</a></li><li><a href="#2">Create a [2 2 2] approximation</a></li><li><a href="#3">Create a [2 2 1] approximation</a></li><li><a href="#4">Use a different ordering of the dimensions</a></li><li><a href="#5">Use the n-vecs initialization method</a></li><li><a href="#6">Specify the initial guess manually</a></li></ul></div><h2 id="1">Create a data tensor of size [5 4 3]</h2><pre class="codeinput">rng(0); <span class="comment">%&lt;-- Set seed for reproducibility</span>
 X = sptenrand([5 4 3], 10)
 </pre><pre class="codeoutput">X is a sparse tensor of size 5 x 4 x 3 with 10 nonzeros
 	(1,2,3)    0.0759
@@ -275,7 +275,7 @@ T is a ttensor of size 5 x 4 x 3
 % Note: Oftentimes it's better to use |hosvd| instead.
 
 %% Create a data tensor of size [5 4 3]
-rng('default'); rng(0); %<REPLACE_WITH_DASH_DASH Set seed for reproducibility
+rng(0); %<REPLACE_WITH_DASH_DASH Set seed for reproducibility
 X = sptenrand([5 4 3], 10)
 %% Create a [2 2 2] approximation
 T = tucker_als(X,2)        %<REPLACE_WITH_DASH_DASH best rank(2,2,2) approximation 

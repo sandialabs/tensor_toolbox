@@ -11,6 +11,9 @@
 % We demonstrate how to use Tensor Toolbox |create_problem| and
 % |create_guess| functions to create test problems for fitting algorithms. 
 
+%%
+rng('default'); %<- Setting random seed for reproducibility of this script
+
 %% Creating a CP test problem
 % The |create_problem| function allows a user to generate a test problem
 % with a known solution having a pre-specified solution. The

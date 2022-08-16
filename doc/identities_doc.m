@@ -17,6 +17,9 @@
 % T.G. Kolda, Multilinear Operators for Higher-order Decompositions,
 % Tech. Rep. SAND2006-2081, Sandia National Laboratories, 2006
 
+%%
+rng('default'); %<- Setting random seed for reproducibility of this script
+
 %% N-mode product properties
 % Create some data.
 Y = tenrand([4 3 2]);
