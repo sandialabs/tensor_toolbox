@@ -1,7 +1,7 @@
 # Tensor Toolbox for MATLAB, Version 3.3.a-dev
-February 28, 2022 (last modified)
-by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
-Sandia National Laboratories
+February 28, 2022 (last modified)         
+by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
+Sandia National Laboratories and MathSci.ai   
 
 The **Tensor Toolbox for MATLAB** is open source software; see [LICENSE.txt](LICENSE.txt) for the terms of the license (2-clause BSD). 
 
@@ -12,10 +12,12 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Proposed changes (July 14, 2021)
+## Changes in NEXT RELEASE from Version 3.3 (August 17, 2022)
 
-- New and improved version of [`sptensor/mttkrp.m`](@sptensor/mttkrp.m),
-now 2-3X faster on sparse tensors with O(100k) nonzeros or more.
+
+## Changes in Version 3.3 from Version 3.2.1 (April 5, 2021)
+
+### New or substantially changes functionality
 
 - Added new ttensor/reconstruction function to reconstruct a partial and/or downsampled tensor from a ttensor.
   * New function [`ttensor/reconstruct.m`](@ttensor/reconstruct.m) 
@@ -26,19 +28,33 @@ now 2-3X faster on sparse tensors with O(100k) nonzeros or more.
   * New top-level function [`cp_ispm`](cp_ispm.m) 
   * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)
 
-## Changes from Version 3.2.1 (April 5, 2021)
+- Added tensor-times-same-vector [`ttsv`](@symktensor/ttsv.m) for `symktensor`.
+
+### Improved functionality
+
+- Updates to optimization-based methods to continue builing on the common set of wrappers.
+  * Incorportation of LBFGSB by Stephen Becker from [L-BFGS-B-C on GitHub](https://github.com/stephenbeckr/L-BFGS-B-C) directly into this repository as `library/lbfgsb', saving users the trouble of installation.
+  * Updated optimization wrappers and the additional of a new wrapper for the MATLAB Optimization Toolbox `fmincon` called [`tt_opt_fmincon`](tt_opt_fmincon.m).
+  * New `ktensor/fg.m` - Function and gradient calculation for F(M) = ||M-X||^2/||X||^2 where M is the ktensor (with unit weights) and the gradient is in terms of the factor matrices.
+  * New version of (`cp_opt`)[cp_opt.m] that uses the optimization wrappers. The old version is now called (`cp_opt_legacy`)[`cp_opt_legacy.m`]. 
+
+- New and improved version of [`sptensor/mttkrp.m`](@sptensor/mttkrp.m),
+now 2-3X faster on sparse tensors with O(100k) nonzeros or more.
+
 
 - Changed [`indices`](@symtensor/indices.m) to improve performance. 
 
 - Changed [`cp_arls`](cp_arls.m) to default to 5 iterations per epoch rather than 50.
 
+### Minor changes
+
 - Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
 
 - Added ability to do shifting via the tensor [`scale`](@tensor/scale.m) function. Also changed this function to use `bsxfun` which should be generally more efficient.
 
-- Added tensor-times-same-vector [`ttsv`](@symktensor/ttsv.m) for `symktensor`.
+- Updated instructions in [`CONTRIBUTION_GUIDE.md`](CONTRIBUTION_GUIDE.md) to point to `dev` branch rather than `master`, more details on granting permissions, etc.
 
-- Updated instructions in [`CONTRIBUTION_GUIDE.md`](CONTRIBUTION_GUIDE.md) to point to `dev` branch rather than `master`.
+- 
 
 ## Changes from Version 3.2 (February 10, 2021)
 
