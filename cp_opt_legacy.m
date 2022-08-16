@@ -1,11 +1,11 @@
-function [P, P0, output] = cp_opt(Z,R,varargin)
-%CP_OPT Fits a CP model to a tensor via optimization.
+function [P, P0, output] = cp_opt_legacy(Z,R,varargin)
+%CP_OPT_LEGACY Fits a CP model to a tensor via optimization.
 %
-%   K = CP_OPT(X,R) fits an R-component CANDECOMP/PARAFAC (CP) model
+%   K = CP_OPT_LEGACY(X,R) fits an R-component CANDECOMP/PARAFAC (CP) model
 %   to the tensor X. The result K is a ktensor. The function being
 %   optimized is F(K) = 1/2 || X - K ||^2.
 %
-%   K = CP_OPT(X,R,'param',value,...) specifies additional
+%   K = CP_OPT_LEGACY(X,R,'param',value,...) specifies additional
 %   parameters for the method. Specifically...
 %
 %   'init' - Initialization for factor matrices (default: 'randn'). This
@@ -24,9 +24,9 @@ function [P, P0, output] = cp_opt(Z,R,varargin)
 %   are all the same), vector, cell array, or ktensor (lambda values
 %   ignored).  
 %
-%   [K, U0] = CP_OPT(...) also returns the initial guess.
+%   [K, U0] = CP_OPT_LEGACY(...) also returns the initial guess.
 %
-%   [K, U0, OUT] = CP_OPT(...) also returns a structure with the
+%   [K, U0, OUT] = CP_OPT_LEGACY(...) also returns a structure with the
 %   optimization exit flag, the final relative fit, and the full
 %   output from the optimization method. The fit is defined as 
 %
