@@ -11,9 +11,10 @@
 % Reference: E. C. Chi, T. G. Kolda, On Tensors, Sparsity, and Nonnegative Factorizations,
 % SIAM J. Matrix Analysis and Applications, 33:1272-1299, 2012, https://doi.org/10.1137/110859063.
 %
-
 %% Set up a sample problem
 % We follow the general procedure outlined by Chi and Kolda (2013).
+
+rng('default') %<- Setting random seed for reproducibility of this script
 
 % Pick the size and rank
 sz = [100 80 60];

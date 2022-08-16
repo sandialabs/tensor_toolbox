@@ -13,6 +13,7 @@ ver
 
 %% Create an example problem. 
 % Create an example 50 x 40 x 30 tensor with rank 5 and add 10% noise.
+rng('default'); %<- Setting random seed for reproducibility of this script
 R = 5;
 info = create_problem('Size', [50 40 30], 'Num_Factors', R, 'Noise', 0.10);
 X = info.Data;

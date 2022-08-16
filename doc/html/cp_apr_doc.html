@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Alternating Poisson Regression for fitting CP to sparse count data</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="cp_apr_doc.m"><style type="text/css">
+      --><title>Alternating Poisson Regression for fitting CP to sparse count data</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-08-16"><meta name="DC.source" content="cp_apr_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:90%; margin-bottom:1px; }
@@ -74,7 +74,9 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 &#62;&#62; <a href="cp.html">CP Decompositions</a>
 &#62;&#62; <a href="cp_apr_doc.html">CP-APR</a>
 </p>
-</p><p>Reference: E. C. Chi, T. G. Kolda, On Tensors, Sparsity, and Nonnegative Factorizations, SIAM J. Matrix Analysis and Applications, 33:1272-1299, 2012, https://doi.org/10.1137/110859063.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Set up a sample problem</a></li><li><a href="#2">Call CP-APR</a></li></ul></div><h2 id="1">Set up a sample problem</h2><p>We follow the general procedure outlined by Chi and Kolda (2013).</p><pre class="codeinput"><span class="comment">% Pick the size and rank</span>
+</p><p>Reference: E. C. Chi, T. G. Kolda, On Tensors, Sparsity, and Nonnegative Factorizations, SIAM J. Matrix Analysis and Applications, 33:1272-1299, 2012, <a href="https://doi.org/10.1137/110859063">https://doi.org/10.1137/110859063</a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Set up a sample problem</a></li><li><a href="#2">Call CP-APR</a></li></ul></div><h2 id="1">Set up a sample problem</h2><p>We follow the general procedure outlined by Chi and Kolda (2013).</p><pre class="codeinput">rng(<span class="string">'default'</span>) <span class="comment">%&lt;- Setting random seed for reproducibility of this script</span>
+
+<span class="comment">% Pick the size and rank</span>
 sz = [100 80 60];
 R = 5;
 
@@ -108,17 +110,19 @@ factor_match_score = score(M, M_true, <span class="string">'greedy'</span>, true
 </pre><pre class="codeoutput">
 CP_PQNR (alternating Poisson regression using quasi-Newton)
   Precomputing sparse index sets...done
-  10. Ttl Inner Its: 1842, KKT viol = 2.47e-01, obj = 1.93755689e+04, nz: 311
-  20. Ttl Inner Its: 397, KKT viol = 1.82e-02, obj = 1.54718147e+04, nz: 292
-  30. Ttl Inner Its: 253, KKT viol = 1.07e-03, obj = 1.54718106e+04, nz: 292
+  10. Ttl Inner Its: 1576, KKT viol = 2.00e-01, obj = 1.43584130e+04, nz: 291
+  20. Ttl Inner Its: 336, KKT viol = 6.45e-03, obj = 1.25598428e+04, nz: 279
 ===========================================
- Final log-likelihood = -1.547181e+04 
- Final least squares fit = 5.257318e-01 
- Final KKT violation = 9.6665420e-05
- Total inner iterations = 39776
- Total execution time = 10.28 secs
+ Final log-likelihood = -1.255984e+04 
+ Final least squares fit = 5.232259e-01 
+ Final KKT violation = 9.5452289e-05
+ Total inner iterations = 36709
+ Total execution time = 4.78 secs
+
 factor_match_score =
-    0.9884
+
+    0.9745
+
 </pre><p class="footer">Tensor Toolbox for MATLAB: <a href="index.html">www.tensortoolbox.org</a>.</p></div><!--
 ##### SOURCE BEGIN #####
 %% Alternating Poisson Regression for fitting CP to sparse count data
@@ -134,9 +138,10 @@ factor_match_score =
 % Reference: E. C. Chi, T. G. Kolda, On Tensors, Sparsity, and Nonnegative Factorizations,
 % SIAM J. Matrix Analysis and Applications, 33:1272-1299, 2012, https://doi.org/10.1137/110859063.
 %
-
 %% Set up a sample problem
 % We follow the general procedure outlined by Chi and Kolda (2013).
+
+rng('default') %<- Setting random seed for reproducibility of this script
 
 % Pick the size and rank
 sz = [100 80 60];
