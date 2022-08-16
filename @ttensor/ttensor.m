@@ -1,28 +1,29 @@
 %TTENSOR Class for Tucker tensors (decomposed).
 %
 %TTENSOR Methods:
-%   disp      - Command window display of a ttensor.
-%   display   - Command window display of a ttensor.
-%   double    - Convert ttensor to double array.
-%   end       - Last index of indexing expression for ttensor.
-%   full      - Convert a ttensor to a (dense) tensor.
-%   innerprod - Efficient inner product with a ttensor.
-%   isequal   - True if the part of two ttensor's are numerically equal.
-%   isscalar  - False for ttensors.
-%   mtimes    - Implement scalar multiplication for a ttensor.
-%   mttkrp    - Matricized tensor times Khatri-Rao product for ttensor.
-%   ndims     - Return the number of dimensions for a ttensor.
-%   norm      - Norm of a ttensor.
-%   nvecs     - Compute the leading mode-n vectors for a ttensor.
-%   permute   - Permute dimensions for a ttensor.
-%   size      - Size of a ttensor.
-%   subsasgn  - Subscripted assignment for a ttensor.
-%   subsref   - Subscripted reference for a ttensor.
-%   ttensor   - Tensor stored as a Tucker operator (decomposed).
-%   ttm       - Tensor times matrix for ttensor.
-%   ttv       - Tensor times vector for ttensor.
-%   uminus    - Unary minus for ttensor.
-%   uplus     - Unary plus for ttensor.
+%   disp        - Command window display of a ttensor.
+%   display     - Command window display of a ttensor.
+%   double      - Convert ttensor to double array.
+%   end         - Last index of indexing expression for ttensor.
+%   full        - Convert a ttensor to a (dense) tensor.
+%   innerprod   - Efficient inner product with a ttensor.
+%   isequal     - True if the part of two ttensor's are numerically equal.
+%   isscalar    - False for ttensors.
+%   mtimes      - Implement scalar multiplication for a ttensor.
+%   mttkrp      - Matricized tensor times Khatri-Rao product for ttensor.
+%   ndims       - Return the number of dimensions for a ttensor.
+%   norm        - Norm of a ttensor.
+%   nvecs       - Compute the leading mode-n vectors for a ttensor.
+%   permute     - Permute dimensions for a ttensor.
+%   reconstruct - Reconstruct or partially reconstruct tensor from ttensor.
+%   size        - Size of a ttensor.
+%   subsasgn    - Subscripted assignment for a ttensor.
+%   subsref     - Subscripted reference for a ttensor.
+%   ttensor     - Tensor stored as a Tucker operator (decomposed).
+%   ttm         - Tensor times matrix for ttensor.
+%   ttv         - Tensor times vector for ttensor.
+%   uminus      - Unary minus for ttensor.
+%   uplus       - Unary plus for ttensor.
 %
 %   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','ttensor_doc.html')))">Documentation page for Tucker tensor class</a>
 %

@@ -47,6 +47,9 @@ X = ttensor(core,U) %<-- Create a tensor
 full(X) %<-- Converts to a tensor.
 %%
 tensor(X) %<-- Also converts to a tensor.
+%% Use reconstruct to compute part of a full tensor
+% See also <ttensor_reconstruct_doc.html Partial Reconstruction> 
+reconstruct(X,3,1) % Extract first front slice
 %% Use double to convert a ttensor to a (multidimensional) array
 double(X) %<-- Converts to a MATLAB array
 %% Use ndims and size to get the size of a ttensor

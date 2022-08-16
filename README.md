@@ -14,6 +14,10 @@ Release notes follow below.
 
 ## Proposed changes (July 14, 2021)
 
+- Added new ttensor/reconstruction function to reconstruct a partial and/or downsampled tensor from a ttensor.
+  * New function [`ttensor/reconstruct.m`](@ttensor/reconstruct.m) 
+  * New help page: [Partial Reconstruction of a Tucker Tensor](https://www.tensortoolbox.org/ttensor_reconstruct_doc.html)
+
 - Added new functionality for symmetric CP tensor computation using the Subspace Power Method (SPM).
   * Relevant paper: J. Kileel, J. M. Pereira. "Subspace power method for symmetric tensor decomposition and generalized PCA." arXiv:1912.04007 (2019).
   * New top-level function [`cp_ispm`](cp_ispm.m) 
