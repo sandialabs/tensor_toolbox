@@ -59,8 +59,7 @@ now 2-3X faster on sparse tensors with O(100k) nonzeros or more.
 ## Changes from Version 3.2 (February 10, 2021)
 
 - Changes to [`export_data`](export_data.m): support formatting of data and lambda values, improved write times for ['sptensor'](@sptensor/) when exporting (fixes #51)
-- New help pages:
-  * [Importing and Exporting Tensor Data](https://www.tensortoolbox.com/import_export_doc.html)
+- New help page: [Importing and Exporting Tensor Data](https://www.tensortoolbox.com/import_export_doc.html)
 
 ## Changes from Version 3.1 (June 4, 2019)
 
