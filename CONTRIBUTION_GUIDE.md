@@ -8,7 +8,7 @@ See the bottom of these instructionts for detailed instructions.
 
 ## Checklist
 
-- [ ] [Fork][How to Fork & Create a New Branch] **Fork** Create a fork of this repository and **create a new branch** for your changes.
+- [ ] **Fork** Create a fork of this repository and **create a new branch** for your changes.
 - [ ] **Merge Request** Create a draft merge request from your new branch when you are ready for feedback.
   * [ ] **Grants Permission** Grant permissions for the Tensor Toolbox maintainers to make modifications to your branch.
   * [ ] **Description** Describe the changes your merge request will make. 
