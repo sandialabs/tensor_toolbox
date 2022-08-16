@@ -14,6 +14,9 @@ Release notes follow below.
 
 ## Proposed changes (July 14, 2021)
 
+- New and improved version of [`sptensor/mttkrp.m`](@sptensor/mttkrp.m),
+now 2-3X faster on sparse tensors with O(100k) nonzeros or more.
+
 - Added new ttensor/reconstruction function to reconstruct a partial and/or downsampled tensor from a ttensor.
   * New function [`ttensor/reconstruct.m`](@ttensor/reconstruct.m) 
   * New help page: [Partial Reconstruction of a Tucker Tensor](https://www.tensortoolbox.org/ttensor_reconstruct_doc.html)
