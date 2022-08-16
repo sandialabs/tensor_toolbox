@@ -20,6 +20,7 @@
 %   </ul>
 % </html>
 
+
 %% Tensor/Matrix Data
 % In the case of a tensor, the first three lines give details about the
 % tensor. The format for a 4 x 3 x 2 tensor is as follows...
@@ -43,6 +44,7 @@
 % A matrix is formatted the same as a 2-way tensor except that the first
 % line says |matrix| rather than |tensor|.
 %
+rng('default'); %<- Setting random seed for reproducibility of this script
 Y1 = tenrand([4 3 2]);
 export_data(Y1,'Y.tensor');
 Y2 = import_data('Y.tensor');

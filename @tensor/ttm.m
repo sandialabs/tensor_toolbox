@@ -96,7 +96,7 @@ end
 N = ndims(X);
 sz = size(X);
 
-if ver == 0  %old verion
+if ver == 0  %original/default verion
     order = [n,1:n-1,n+1:N];
     newdata = double(permute(X,order));
     newdata = reshape(newdata,sz(n),prod(sz([1:n-1,n+1:N])));
@@ -110,7 +110,7 @@ if ver == 0  %old verion
     newsz = [p,sz(1:n-1),sz(n+1:N)];
     Y = tensor(newdata,newsz);
     Y = ipermute(Y,order);
-else % new version
+elseif ver == 1 % new version
     
     if tflag == 't'
         p = size(V, 2);
@@ -155,6 +155,8 @@ else % new version
     newsz(n) = p;
     Y = tensor(B, newsz);
    
+elseif ver == 2
+    Y = newttm(X,V,n,tflag == 't');
    
 end
 

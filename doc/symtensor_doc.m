@@ -58,6 +58,7 @@ symmetrize(T2)
 S3 = symtensor(@ones, 3, 2)
 
 %% Create a random symtensor
+rng('default'); %<- Setting random seed for reproducibility of this script
 S4 = symtensor(@randn, 3, 2)
 
 %% Using a generating function to populate a symmetric tensor

@@ -19,7 +19,7 @@ function [P,Uinit,output] = cp_arls(X,R,varargin)
 %   M = CP_ARLS(X,R,'param',value,...) specifies optional parameters and
 %   values. Valid parameters and their default values are:
 %   o 'mix'       - Include FJLT transformations {true}
-%   o 'epoch'     - Number of iterations between convergence checks {50}
+%   o 'epoch'     - Number of iterations between convergence checks {5}
 %   o 'maxepochs' - Maximum number of epochs {1000}
 %   o 'newitol'   - Quit after this many epochs with no improvement {5}
 %   o 'tol'       - Tolerance for improvement, i.e., fit - maxfit > tol {0}
@@ -66,7 +66,7 @@ params.addParameter('maxepochs', 1000);
 params.addParameter('nsampfit', 2^14);
 params.addParameter('tol', 0, @isscalar);
 params.addParameter('fitthresh', 1, @(x) isscalar(x) & x > 0 & x <= 1);
-params.addParameter('epoch', 50)
+params.addParameter('epoch', 5)
 params.addParameter('newitol', 5);
 params.addParameter('truefit', false, @islogical);
 params.parse(varargin{:});
@@ -236,7 +236,11 @@ for epoch = 1:maxepochs
 end
 %% Clean up final result
 % Arrange the final tensor so that the columns are normalized.
-P = Psave;
+if exist('Psave','var')
+    P = Psave;
+else
+    warning('There may be a problem - we see no improvement in fit')
+end
 P = arrange(P);
 P = fixsigns(P); % Fix the signs
 

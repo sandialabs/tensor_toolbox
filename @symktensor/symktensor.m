@@ -30,6 +30,7 @@
 %   subsref     - Subscripted reference for a symktensor.
 %   symktensor  - Tensor stored as a symmetric Kruskal operator (decomposed).
 %   tovec       - Convert symktensor to vector representation.
+%   ttsv        - Symktensor times same vector in multiple modes.
 %   uminus      - Unary minus for symktensor. 
 %   update      - Convert vector to symktensor.
 %   uplus       - Unary plus for a symktensor. 

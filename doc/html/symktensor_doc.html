@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Symmetric Kruskal Tensors</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-01-13"><meta name="DC.source" content="symktensor_doc.m"><style type="text/css">
+      --><title>Symmetric Kruskal Tensors</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-08-16"><meta name="DC.source" content="symktensor_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:90%; margin-bottom:1px; }
@@ -74,7 +74,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 &#62;&#62; <a href="tensor_types.html">Tensor Types</a>
 &#62;&#62; <a href="symktensor_doc.html">Symmetric Kruskal Tensors</a>
 </p>
-</p><p>A symmetric Kruskal tensor is a decomposition of a tensor into a sum of vector outer products. The symmetric structure means that each term in the summand is the outer product of a single vector with itself <img src="symktensor_doc_eq11319871188381094158.png" alt="$m$" style="width:11px;height:6px;"> times, where <img src="symktensor_doc_eq11319871188381094158.png" alt="$m$" style="width:11px;height:6px;"> is the number of modes of the decomposed tensor. This contrasts with a generic <a href="D1_ktensor_doc.html">Kruskal tensor</a>, where each summand is an outer product of m different vectors.  More concisely, a symmetric Kruskal tensor decomposition of a tensor <img src="symktensor_doc_eq08497775237003891062.png" alt="$\mathcal{A}$" style="width:10px;height:10px;"> has the following form:</p><p><img src="symktensor_doc_eq04038970227095449752.png" alt="$$\mathcal{A} = \sum_{i=1}^{r} x_{i}^{m}$$" style="width:61px;height:34px;"></p><p>In this notation, a subscript refers to a column index. A superscript refers to  the outer product of a single vector with itself <img src="symktensor_doc_eq11319871188381094158.png" alt="$m$" style="width:11px;height:6px;"> times.</p><p><img src="symktensor_doc_eq11648977147180364325.png" alt="$$x^{m} = \underbrace{x \circ x \circ ... \circ x}_{\mbox{m-times}}.$$" style="width:102px;height:29px;"></p><p>The number of summands in the decomposition, <img src="symktensor_doc_eq04958265083611378313.png" alt="$r$" style="width:6px;height:6px;">, is referred to as the number of components of the symmetric Kruskal tensor.</p><p>An alternative, often equivalent expression for a symmetric Kruskal tensor decomposition specifies a real-valued weight for each of the summands in the outer product. The <img src="symktensor_doc_eq04958265083611378313.png" alt="$r$" style="width:6px;height:6px;">-vector formed by these weights is referred to as the weight or lambda vector of the symmetric Kruskal decomposition.</p><p><img src="symktensor_doc_eq05806180203954740673.png" alt="$$\mathcal{A} = \sum_{i=1}^{r} \lambda_{i} \; x_{i}^{m}$$" style="width:75px;height:34px;"></p><p>In certain cases the lambda vector is required in order for a symmetric Kruskal decomposition to exist, e.g. when a symmetric Kruskal tensor has an even number of components and the tensor to be decomposed has a negative element on its main diagonal. In many other cases, the lambda vector is optional and the symmetric Kruskal decomposition can be represented without specifying a lambda vector.</p><p>The <tt>symktensor</tt> class stores symmetric Kruskal tensors, and exploits the extra symmetric structure to perform many calculations more efficiently.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Declaring a symmetric Kruskal tensor with symktensor</a></li><li><a href="#8">Use ndims and size for the dimensions of a symktensor</a></li><li><a href="#9">Use ncomponents for the rank of symktensor</a></li><li><a href="#10">Use full to convert a symktensor to a tensor</a></li><li><a href="#11">Use double to convert a symktensor to a multi-dimensional array</a></li><li><a href="#12">Basic operations with symktensors</a></li><li><a href="#13">Use norm to compute the Frobenius norm of a symktensor</a></li><li><a href="#14">Use normalize to normalize the components of a symktensor.</a></li><li><a href="#16">Use arrange to normalize and sort a symktensor</a></li><li><a href="#17">Computing the score of the match between two symktensors</a></li><li><a href="#19">Subscripted reference for symktensors</a></li><li><a href="#20">Subscripted assignment for symktensors</a></li></ul></div><h2 id="1">Declaring a symmetric Kruskal tensor with symktensor</h2><p>The <tt>symktensor</tt> format stores the vectors and weights of a symmetric Kruskal tensor decomposition. The vectors in the decomposition are collected as the columns of a matrix <tt>X</tt>, referred to as the factor matrix. The lambda vector, containing the (often optional) weights is input into the constructor as a column vector. The lambda vector and factor matrix are collectively referred to as the constituent parts in the declaration of a <tt>symktensor</tt>. For example, consider the decomposition of a tensor <img src="symktensor_doc_eq08497775237003891062.png" alt="$\mathcal{A}$" style="width:10px;height:10px;">.</p><p><img src="symktensor_doc_eq08735869139591352709.png" alt="$$\mathcal{A} = \sum_{r} \lambda_{r} \; x_{r}^{m}$$" style="width:76px;height:27px;"></p><p>In the example that follows, we form a symmetric Kruskal decomposition by specifying a factor matrix, lambda vector, and the number of modes of the decomposed tensor. We pass all three arguments to the <tt>symktensor</tt> constructor. This can be stored as a symmetric Kruskal tensor as follows.</p><pre class="codeinput">n = 4; <span class="comment">%The dimension in each mode of the tensor A</span>
+</p><p>A symmetric Kruskal tensor is a decomposition of a tensor into a sum of vector outer products. The symmetric structure means that each term in the summand is the outer product of a single vector with itself <img src="symktensor_doc_eq18216620034067401164.png" alt="$m$" style="width:13px;height:7px;"> times, where <img src="symktensor_doc_eq18216620034067401164.png" alt="$m$" style="width:13px;height:7px;"> is the number of modes of the decomposed tensor. This contrasts with a generic <a href="D1_ktensor_doc.html">Kruskal tensor</a>, where each summand is an outer product of m different vectors.  More concisely, a symmetric Kruskal tensor decomposition of a tensor <img src="symktensor_doc_eq14749534358855424893.png" alt="$\mathcal{A}$" style="width:12px;height:12px;"> has the following form:</p><p><img src="symktensor_doc_eq05064677277207311457.png" alt="$$\mathcal{A} = \sum_{i=1}^{r} x_{i}^{m}$$" style="width:72px;height:41px;"></p><p>In this notation, a subscript refers to a column index. A superscript refers to  the outer product of a single vector with itself <img src="symktensor_doc_eq18216620034067401164.png" alt="$m$" style="width:13px;height:7px;"> times.</p><p><img src="symktensor_doc_eq10095295565440416226.png" alt="$$x^{m} = \underbrace{x \circ x \circ ... \circ x}_{\mbox{m-times}}.$$" style="width:122px;height:34px;"></p><p>The number of summands in the decomposition, <img src="symktensor_doc_eq03659017738081218615.png" alt="$r$" style="width:7px;height:7px;">, is referred to as the number of components of the symmetric Kruskal tensor.</p><p>An alternative, often equivalent expression for a symmetric Kruskal tensor decomposition specifies a real-valued weight for each of the summands in the outer product. The <img src="symktensor_doc_eq03659017738081218615.png" alt="$r$" style="width:7px;height:7px;">-vector formed by these weights is referred to as the weight or lambda vector of the symmetric Kruskal decomposition.</p><p><img src="symktensor_doc_eq00345751677182251556.png" alt="$$\mathcal{A} = \sum_{i=1}^{r} \lambda_{i} \; x_{i}^{m}$$" style="width:89px;height:41px;"></p><p>In certain cases the lambda vector is required in order for a symmetric Kruskal decomposition to exist, e.g. when a symmetric Kruskal tensor has an even number of components and the tensor to be decomposed has a negative element on its main diagonal. In many other cases, the lambda vector is optional and the symmetric Kruskal decomposition can be represented without specifying a lambda vector.</p><p>The <tt>symktensor</tt> class stores symmetric Kruskal tensors, and exploits the extra symmetric structure to perform many calculations more efficiently.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Declaring a symmetric Kruskal tensor with symktensor</a></li><li><a href="#8">Use ndims and size for the dimensions of a symktensor</a></li><li><a href="#9">Use ncomponents for the rank of symktensor</a></li><li><a href="#10">Use full to convert a symktensor to a tensor</a></li><li><a href="#11">Use double to convert a symktensor to a multi-dimensional array</a></li><li><a href="#12">Basic operations with symktensors</a></li><li><a href="#13">Use norm to compute the Frobenius norm of a symktensor</a></li><li><a href="#14">Use normalize to normalize the components of a symktensor.</a></li><li><a href="#16">Use arrange to normalize and sort a symktensor</a></li><li><a href="#17">Computing the score of the match between two symktensors</a></li><li><a href="#19">Subscripted reference for symktensors</a></li><li><a href="#20">Subscripted assignment for symktensors</a></li></ul></div><h2 id="1">Declaring a symmetric Kruskal tensor with symktensor</h2><p>The <tt>symktensor</tt> format stores the vectors and weights of a symmetric Kruskal tensor decomposition. The vectors in the decomposition are collected as the columns of a matrix <tt>X</tt>, referred to as the factor matrix. The lambda vector, containing the (often optional) weights is input into the constructor as a column vector. The lambda vector and factor matrix are collectively referred to as the constituent parts in the declaration of a <tt>symktensor</tt>. For example, consider the decomposition of a tensor <img src="symktensor_doc_eq14749534358855424893.png" alt="$\mathcal{A}$" style="width:12px;height:12px;">.</p><p><img src="symktensor_doc_eq10979782656502677440.png" alt="$$\mathcal{A} = \sum_{r} \lambda_{r} \; x_{r}^{m}$$" style="width:91px;height:31px;"></p><p>In the example that follows, we form a symmetric Kruskal decomposition by specifying a factor matrix, lambda vector, and the number of modes of the decomposed tensor. We pass all three arguments to the <tt>symktensor</tt> constructor. This can be stored as a symmetric Kruskal tensor as follows.</p><pre class="codeinput">n = 4; <span class="comment">%The dimension in each mode of the tensor A</span>
 m = 3; <span class="comment">%The number of modes of A</span>
 r = 2; <span class="comment">%The rank of the decomposition</span>
 X = reshape(1:n*r,n,r); <span class="comment">%The columns of this matrix are the vectors in decomposition</span>
@@ -97,19 +97,20 @@ S = symktensor(L, X, m) <span class="comment">%Declare a symktensor object</span
 		     4     8
 </pre><p>A random <tt>symktensor</tt> object can be declared by passing the constructor two arguments: the rank of the decomposition and a tensor or symtensor (for size). The lambda vector is taken to be all ones, and the factor matrix has elements drawn uniformly from (0,1).</p><pre class="codeinput">T1 = tensor(n*ones(1,m)); <span class="comment">%&lt;-- Declare a tensor for size</span>
 T2 = symtensor(@ones, n,m); <span class="comment">%&lt;-- Declare a symtensor for size</span>
+rng(<span class="string">'default'</span>); <span class="comment">%&lt;- Setting random seed for reproducibility of this script</span>
 
 S2 = symktensor(r, T1) <span class="comment">%&lt;--Declare a random symktensor from tensor for size</span>
 S2 = symktensor(r, T2) <span class="comment">%&lt;--Declare a random symktensor from symtensor for size</span>
 </pre><pre class="codeoutput">S2 is a symktensor of order 2 and dimension 1
 	S2.lambda = [ 1  1 ]
 	S2.U = 
-		    0.9943    0.4398
+		    0.8147    0.9058
 S2 is a symktensor of order 4 and dimension 3
 	S2.lambda = [ 1  1 ]
 	S2.U = 
-		    0.3400    0.3932
-		    0.3142    0.5915
-		    0.3651    0.1197
+		    0.1270    0.0975
+		    0.9134    0.2785
+		    0.6324    0.5469
 </pre><p>This method of randomly generating a symktensor is useful when setting an initialization point in symmetric decomposition methods (i.e. <tt>cp_sym</tt>).</p><p>Lastly, a <tt>symktensor</tt> object can be declared from a vectorized version of the factor matrix and lambda vector, in which the lambda vector is stacked on top of a vectorized version of the factor matrix. The shape of the tensor must also be specified, by either passing a tensor/symtensor or listing the number of modes and the rank of the decomposition explicitly. Additionally, a 'nolambda' option can be added to any of these constructions, in which case the lambda vector should not be stacked onto the factor matrix.</p><pre class="codeinput">V = [L; X(:)]; <span class="comment">%&lt;--Forming the vectorized version</span>
 S2 = symktensor(V, symtensor(@ones,m,n)) <span class="comment">%&lt;--size specified from symtensor</span>
 
@@ -158,13 +159,22 @@ S2 = symktensor(K)
 </pre><p>This method of declaring a symktensor is useful in comparing decomposition methods: this constructor allows any decomposition method which generates a ktensor CP model to also generate a symktensor. In this way, decomposition methods which are non-symmetric in nature may easily be applied to symmetric problems.</p><h2 id="8">Use ndims and size for the dimensions of a symktensor</h2><p>For a given symktensor, <tt>ndims</tt> returns the number of dimensions (i.e. the number of modes) of the symmetric Kruskal tensor. <tt>size</tt> returns a size array of the symmetric Kruskal tensor.</p><pre class="codeinput"><span class="comment">%Declaring a symmetric Kruskal tensor</span>
 ndims(S)
 size(S)
-</pre><pre class="codeoutput">ans =
-     3
+</pre><pre class="codeoutput">
 ans =
+
+     3
+
+
+ans =
+
      4     4     4
-</pre><h2 id="9">Use ncomponents for the rank of symktensor</h2><p>The function <tt>ncomponents</tt> returns the number of components of a <tt>symktensor</tt> object. This is <img src="symktensor_doc_eq04958265083611378313.png" alt="$r$" style="width:6px;height:6px;"> in the symktensor's definition, the number of outer-product summands in the symmetric Kruskal tensor decomposition.</p><pre class="codeinput">ncomponents(S)
-</pre><pre class="codeoutput">ans =
+
+</pre><h2 id="9">Use ncomponents for the rank of symktensor</h2><p>The function <tt>ncomponents</tt> returns the number of components of a <tt>symktensor</tt> object. This is <img src="symktensor_doc_eq03659017738081218615.png" alt="$r$" style="width:7px;height:7px;"> in the symktensor's definition, the number of outer-product summands in the symmetric Kruskal tensor decomposition.</p><pre class="codeinput">ncomponents(S)
+</pre><pre class="codeoutput">
+ans =
+
      2
+
 </pre><h2 id="10">Use full to convert a symktensor to a tensor</h2><p>The function <tt>full</tt> converts a symktensor to a tensor.</p><pre class="codeinput">full(S)
 </pre><pre class="codeoutput">ans is a symmetric tensor with 3 modes of dimension 4
 	(1,1,1)  -124
@@ -188,26 +198,38 @@ ans =
 	(3,4,4)  -400
 	(4,4,4)  -448
 </pre><h2 id="11">Use double to convert a symktensor to a multi-dimensional array</h2><p>The function <tt>double</tt> converts a symktensor to a multi-dimensional array.</p><pre class="codeinput">double(S)
-</pre><pre class="codeoutput">ans(:,:,1) =
+</pre><pre class="codeoutput">
+ans(:,:,1) =
+
   -124  -148  -172  -196
   -148  -176  -204  -232
   -172  -204  -236  -268
   -196  -232  -268  -304
+
+
 ans(:,:,2) =
+
   -148  -176  -204  -232
   -176  -208  -240  -272
   -204  -240  -276  -312
   -232  -272  -312  -352
+
+
 ans(:,:,3) =
+
   -172  -204  -236  -268
   -204  -240  -276  -312
   -236  -276  -316  -356
   -268  -312  -356  -400
+
+
 ans(:,:,4) =
+
   -196  -232  -268  -304
   -232  -272  -312  -352
   -268  -312  -356  -400
   -304  -352  -400  -448
+
 </pre><h2 id="12">Basic operations with symktensors</h2><p>Symktensors support multiplication by scalars. The result is the symktensor with the weight vector multiplied by the scalar.</p><pre class="codeinput">4*S
 </pre><pre class="codeoutput">ans is a symktensor of order 3 and dimension 4
 	ans.lambda = [ 4 -4 ]
@@ -217,8 +239,11 @@ ans(:,:,4) =
 		     3     7
 		     4     8
 </pre><h2 id="13">Use norm to compute the Frobenius norm of a symktensor</h2><p>The function <tt>norm</tt> returns the Frobenius norm of a symktensor.</p><pre class="codeinput">norm(S)
-</pre><pre class="codeoutput">ans =
+</pre><pre class="codeoutput">
+ans =
+
    2.1469e+03
+
 </pre><h2 id="14">Use normalize to normalize the components of a symktensor.</h2><p>The function <tt>normalize</tt> divides each of the columns in a factor matrix by its vector 2-norm. The 2-norm weight is then absorbed into the weight vector of that column.</p><pre class="codeinput">normalize(S)
 </pre><pre class="codeoutput">ans is a symktensor of order 3 and dimension 4
 	ans.lambda = [ 164.31677      2295.2176 ]
@@ -227,7 +252,7 @@ ans(:,:,4) =
 		    0.3651   -0.4549
 		    0.5477   -0.5307
 		    0.7303   -0.6065
-</pre><p>By passing an additional <img src="symktensor_doc_eq00202142981986870057.png" alt="$0$" style="width:6px;height:9px;"> argument to the normalize function, the weight vector is set to <img src="symktensor_doc_eq11323801440510160924.png" alt="$\pm 1$" style="width:15px;height:9px;"> and the weights are absorbed into the factor matrix.</p><pre class="codeinput">normalize(S,0)
+</pre><p>By passing an additional <img src="symktensor_doc_eq11318174275339748612.png" alt="$0$" style="width:7px;height:11px;"> argument to the normalize function, the weight vector is set to <img src="symktensor_doc_eq17672484632548418367.png" alt="$\pm 1$" style="width:17px;height:10px;"> and the weights are absorbed into the factor matrix.</p><pre class="codeinput">normalize(S,0)
 </pre><pre class="codeoutput">ans is a symktensor of order 3 and dimension 4
 	ans.lambda = [ 1  1 ]
 	ans.U = 
@@ -253,26 +278,38 @@ ans is a symktensor of order 3 and dimension 4
 		     6     2
 		     7     3
 		     8     4
-</pre><h2 id="17">Computing the score of the match between two symktensors</h2><p>The function <tt>score</tt> provides a measure of similarity between two symktensors. Given two symktensors <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;"> and <img src="symktensor_doc_eq16873731553224511843.png" alt="$R2$" style="width:15px;height:9px;">, we denote by <img src="symktensor_doc_eq12814350230280326311.png" alt="$\lambda_{R1}$" style="width:17px;height:11px;"> and <img src="symktensor_doc_eq11394424094874866914.png" alt="$\lambda_{R2}$" style="width:18px;height:11px;"> their respective weight vectors and <tt>X</tt> and <tt>Y</tt> their respective factor matrices. The function <tt>score(R1,R2)</tt> first normalizes the symtensor. It then attempts to match the symktensor <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;"> to <img src="symktensor_doc_eq16873731553224511843.png" alt="$R2$" style="width:15px;height:9px;"> and returns the following numeric quantification of their similarity.</p><p><img src="symktensor_doc_eq06294303226023592057.png" alt="$$\frac{1 - ||\lambda_{R1}-\lambda_{R2}||}{\max(\lambda_{R1}, \lambda_{R2})} \prod_{i=1}^{r} X_{i}' Y_{i}$$" style="width:132px;height:34px;"></p><p>In the above formula, <img src="symktensor_doc_eq04958265083611378313.png" alt="$r$" style="width:6px;height:6px;"> is the number of components of <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;">. <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;"> must have at least as many components as <img src="symktensor_doc_eq16873731553224511843.png" alt="$R2$" style="width:15px;height:9px;">. Any additional components are ignored in the score calculation. Since the formula for score depends on the arrangement of the components of <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;">, score rearranges <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;"> and tries a number of permuations. By default, <img src="symktensor_doc_eq04130678697752676651.png" alt="$R1$" style="width:15px;height:9px;"> is rearranged by permuting indices greedily to increase the score. Calling <tt>score</tt> on two symktensors converts the symktensors to ktensors and calls the |score</p><pre class="codeinput">R1 = symktensor([1; -1; 1], reshape(1:9, 3, 3), 3); <span class="comment">%Declare some symtensors</span>
+</pre><h2 id="17">Computing the score of the match between two symktensors</h2><p>The function <tt>score</tt> provides a measure of similarity between two symktensors. Given two symktensors <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;"> and <img src="symktensor_doc_eq05310357354230404831.png" alt="$R2$" style="width:18px;height:11px;">, we denote by <img src="symktensor_doc_eq00331281939561795837.png" alt="$\lambda_{R1}$" style="width:20px;height:13px;"> and <img src="symktensor_doc_eq00247932618970074820.png" alt="$\lambda_{R2}$" style="width:21px;height:13px;"> their respective weight vectors and <tt>X</tt> and <tt>Y</tt> their respective factor matrices. The function <tt>score(R1,R2)</tt> first normalizes the symtensor. It then attempts to match the symktensor <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;"> to <img src="symktensor_doc_eq05310357354230404831.png" alt="$R2$" style="width:18px;height:11px;"> and returns the following numeric quantification of their similarity.</p><p><img src="symktensor_doc_eq18124668837576924414.png" alt="$$\frac{1 - ||\lambda_{R1}-\lambda_{R2}||}{\max(\lambda_{R1}, \lambda_{R2})} \prod_{i=1}^{r} X_{i}' Y_{i}$$" style="width:159px;height:41px;"></p><p>In the above formula, <img src="symktensor_doc_eq03659017738081218615.png" alt="$r$" style="width:7px;height:7px;"> is the number of components of <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;">. <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;"> must have at least as many components as <img src="symktensor_doc_eq05310357354230404831.png" alt="$R2$" style="width:18px;height:11px;">. Any additional components are ignored in the score calculation. Since the formula for score depends on the arrangement of the components of <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;">, score rearranges <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;"> and tries a number of permuations. By default, <img src="symktensor_doc_eq12322940410440702214.png" alt="$R1$" style="width:17px;height:11px;"> is rearranged by permuting indices greedily to increase the score. Calling <tt>score</tt> on two symktensors converts the symktensors to ktensors and calls the |score</p><pre class="codeinput">R1 = symktensor([1; -1; 1], reshape(1:9, 3, 3), 3); <span class="comment">%Declare some symtensors</span>
 R2 = symktensor([1; -1], reshape(1:6, 3,2), 3);
 
 score(R1, R2) <span class="comment">%The score is 1 (perfect match) because the 1st 2 components of R1 match those of R2</span>
-</pre><pre class="codeoutput">ans =
+</pre><pre class="codeoutput">
+ans =
+
      1
+
 </pre><p>Calling <tt>score</tt> on two symktensor converts the symktensors to ktensors and calls the <tt>score</tt> function for ktensor. See the <tt>ktensor/score</tt> documentation for more information.</p><h2 id="19">Subscripted reference for symktensors</h2><p>After defining a symktensor, one can reference its weight vector, factor matrix, or element using the following conventions. Note that elements are queried using multi-dimensional subscript notation, as opposed to linear.</p><pre class="codeinput">S.lambda <span class="comment">%&lt;-- The weight vector</span>
 S.X <span class="comment">%&lt;-- The factor matrix</span>
 
 S(1,2,1) <span class="comment">%&lt;-- Generate the element of index (1,2,1) from the factorization</span>
-</pre><pre class="codeoutput">ans =
+</pre><pre class="codeoutput">
+ans =
+
      1
     -1
+
+
 ans =
+
      1     5
      2     6
      3     7
      4     8
+
+
 ans =
+
   -148
+
 </pre><h2 id="20">Subscripted assignment for symktensors</h2><p>Subscripted assignment can be used to change the order, weight vector, or factor matrix of a symktensor. First, we change the weight vector</p><pre class="codeinput">S.lambda = [1;1]
 </pre><pre class="codeoutput">S is a symktensor of order 3 and dimension 4
 	S.lambda = [ 1  1 ]
@@ -289,7 +326,7 @@ ans =
 		     0     1
 		     1     0
 		     0     1
-</pre><p>Lastly, we alter the order. This changes <img src="symktensor_doc_eq11319871188381094158.png" alt="$m$" style="width:11px;height:6px;">, in the <img src="symktensor_doc_eq11319871188381094158.png" alt="$m$" style="width:11px;height:6px;">-way outer product expansion of a symmetric Kruskal tensor.</p><pre class="codeinput">S.m = 4
+</pre><p>Lastly, we alter the order. This changes <img src="symktensor_doc_eq18216620034067401164.png" alt="$m$" style="width:13px;height:7px;">, in the <img src="symktensor_doc_eq18216620034067401164.png" alt="$m$" style="width:13px;height:7px;">-way outer product expansion of a symmetric Kruskal tensor.</p><pre class="codeinput">S.m = 4
 </pre><pre class="codeoutput">S is a symktensor of order 4 and dimension 4
 	S.lambda = [ 1  1 ]
 	S.U = 
@@ -381,6 +418,7 @@ S2 = symktensor(X, m, r, true)
 % factor matrix has elements drawn uniformly from (0,1).
 T1 = tensor(n*ones(1,m)); %<REPLACE_WITH_DASH_DASH Declare a tensor for size
 T2 = symtensor(@ones, n,m); %<REPLACE_WITH_DASH_DASH Declare a symtensor for size
+rng('default'); %<- Setting random seed for reproducibility of this script
 
 S2 = symktensor(r, T1) %<REPLACE_WITH_DASH_DASHDeclare a random symktensor from tensor for size
 S2 = symktensor(r, T2) %<REPLACE_WITH_DASH_DASHDeclare a random symktensor from symtensor for size

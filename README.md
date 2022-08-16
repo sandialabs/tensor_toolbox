@@ -1,7 +1,7 @@
-# Tensor Toolbox for MATLAB, Version 3.3.a-dev
-July 20, 2021 (last modified)
-by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.
-Sandia National Laboratories
+# Tensor Toolbox for MATLAB, Version 3.3
+August 16, 2022 (last modified)         
+by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
+Sandia National Laboratories and MathSci.ai   
 
 The **Tensor Toolbox for MATLAB** is open source software; see [LICENSE.txt](LICENSE.txt) for the terms of the license (2-clause BSD). 
 
@@ -12,17 +12,57 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Changes from Version 3.2.1 (April 5, 2021)
+## Changes in Version 3.3 from Version 3.2.1 (April 5, 2021)
 
-- Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN.
+### New or substantially changes functionality
 
-- Added ability to do shifting via the tensor [`scale`](@tensor/scale.m) function. Also changed this function to use `bsxfun` which should be generally more efficient.
+- Added new ttensor/reconstruction function to reconstruct a partial and/or downsampled tensor from a ttensor. See merge request !73.
+  * New function [`ttensor/reconstruct.m`](@ttensor/reconstruct.m) 
+  * New help page: [Partial Reconstruction of a Tucker Tensor](https://www.tensortoolbox.org/ttensor_reconstruct_doc.html)
+
+- Added new functionality for symmetric CP tensor computation using the Subspace Power Method (SPM). See merge request !70.
+  * Relevant paper: J. Kileel, J. M. Pereira. "Subspace power method for symmetric tensor decomposition and generalized PCA." arXiv:1912.04007 (2019).
+  * New top-level function [`cp_ispm`](cp_ispm.m) 
+  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)
+
+- Added tensor-times-same-vector [`ttsv`](@symktensor/ttsv.m) for `symktensor`. See merge request !69, #61.
+
+### Improved functionality
+
+- Updates to optimization-based methods to continue builing on the common set of wrappers. See !71,!66, #63, #62, #58.
+  * Incorportation of LBFGSB by Stephen Becker from [L-BFGS-B-C on GitHub](https://github.com/stephenbeckr/L-BFGS-B-C) directly into this repository as `library/lbfgsb', saving users the trouble of installation.
+  * Updated optimization wrappers and the additional of a new wrapper for the MATLAB Optimization Toolbox `fmincon` called [`tt_opt_fmincon`](tt_opt_fmincon.m).
+  * New `ktensor/fg.m` - Function and gradient calculation for F(M) = ||M-X||^2/||X||^2 where M is the ktensor (with unit weights) and the gradient is in terms of the factor matrices.
+  * New version of (`cp_opt`)[cp_opt.m] that uses the optimization wrappers. The old version is now called (`cp_opt_legacy`)[`cp_opt_legacy.m`]. 
+
+- New and improved version of [`sptensor/mttkrp.m`](@sptensor/mttkrp.m), now 2-3X faster on sparse tensors with O(100k) nonzeros or more. See merge request !74.
+
+- Added ability to do shifting via the tensor [`scale`](@tensor/scale.m) function. Also changed this function to use `bsxfun` which should be generally more efficient. See merge request !62.
+
+- Changed [`indices`](@symtensor/indices.m) to improve performance. See merge request !64,!63,#54.
+
+- Changed [`cp_arls`](cp_arls.m) to default to 5 iterations per epoch rather than 50. See merge request !67,#53.
+
+- Changed [`cp_wopt`](cp_wopt.m) to be able to properly zero out NaN's in data tensor. Prior version didn't work even when weight tensor had zeros for the missing data entries because 0 * NaN = NaN. See merge request !61.
+
+
+### Minor changes
+
+- Updated help email address in [`doc/html/index.html`](doc/html/index.html) to `help@tensortoolbox.org`. #60
+
+- Updated instructions in [`CONTRIBUTION_GUIDE.md`](CONTRIBUTION_GUIDE.md) to point to `dev` branch rather than `master`, more details on granting permissions, etc.
+
+- Updated help on `ktensor` to construct a ktensor for a vectorized ktensor. #59
+
+- Made sure all the doc pages set the random seed before running so the pages can be easily reproduced, being able to understand which changes are due to changes in algorithms.
+
+- Added option for viz to show the actual weight (rather than the relative weight) and updated documentation.
+
 
 ## Changes from Version 3.2 (February 10, 2021)
 
 - Changes to [`export_data`](export_data.m): support formatting of data and lambda values, improved write times for ['sptensor'](@sptensor/) when exporting (fixes #51)
-- New help pages:
-  * [Importing and Exporting Tensor Data](https://www.tensortoolbox.com/import_export_doc.html)
+- New help page: [Importing and Exporting Tensor Data](https://www.tensortoolbox.com/import_export_doc.html)
 
 ## Changes from Version 3.1 (June 4, 2019)
 

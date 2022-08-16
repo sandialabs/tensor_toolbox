@@ -34,7 +34,7 @@ params.addParameter('maxiters', 1000); % maxIts
 params.addParameter('printitn', 1); % printEvery
 params.addParameter('subiters', 10) % maxTotalIts = maxiters*subiters
 params.addParameter('gtol', 1e-5); %pgtol
-params.addParameter('mdesc', 'Quasi-Newton Optimization (via Optimization Toolbox)');
+params.addParameter('mdesc', 'Unconstrained Optimization (via Optimization Toolbox)');
 params.addParameter('xdesc', []);
 params.parse(varargin{:});
 mdesc = params.Results.mdesc;
@@ -49,9 +49,12 @@ opts.MaxIterations = params.Results.maxiters;
 opts.OptimalityTolerance = params.Results.gtol;
 if printitn == 0
     opts.Display = 'off';
-else
+elseif printitn == 1
     opts.Display = 'iter';
+else    
+    opts.Display = 'final';
 end
+
 
 moreparams = fieldnames(params.Unmatched);
 if ~isempty(moreparams)
@@ -78,6 +81,16 @@ if printitn > 0
     fprintf('Begin Main Loop\n');
 end
 setuptime = toc(setupTimer);
+
+%% Check fminunc in path
+if ~exist('fminunc.m','file')
+    fprintf('*** Important Notice ***\n');
+    fprintf('-> Required function fminunc.m is not in your path,\n')
+    fprintf('-> and requires the MATLAB Optimization Toolbox.\n');
+    fprintf('-> If you do not have this toolbox, try instead\n')
+    fprintf('-> ''lbfgs'' (included via Poblano toolbox).\n')
+    fprintf('***\n');
+end
 
 %% Run method
 tic;

@@ -18,6 +18,9 @@
 % for Fast Algorithm Prototyping, ACM Trans. Mathematical Software,
 % 32:635-653, 2006. <http://dx.doi.org/10.1145/1186785.1186794>. 
 %
+%%
+rng('default'); %<- Setting random seed for reproducibility of this script
+
 %% Creating a tensor from an array
 % The |tensor| command converts a (multidimensional) array to a tensor
 % object.

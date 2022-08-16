@@ -127,6 +127,18 @@ if printitn > 0
 end
 setuptime = toc(setupTimer);
 
+%% Check lbfgsb in path
+if ~exist('lbfgsb.m','file')
+    ttbpath = fileparts(which('tt_opt_lbfgsb.m'));
+    lbfgsbpath = fullfile(ttbpath,'libraries','lbfgsb','matlab');
+    fprintf('*** Important Notice ***\n');
+    fprintf('-> lbfgsb.m is not in your current path!\n')
+    fprintf('-> Adding to your path: %s\n',lbfgsbpath);
+    fprintf('-> Save your path to avoid this notice in the future\n');
+    fprintf('***\n');
+    addpath(lbfgsbpath,'-BEGIN');
+end
+
 %% Run method
 tic; % Do not rename this timer (used inside the lbfgsb method)
 [xbest,fbest,optout] = lbfgsb(fgh, lb, ub, opts);

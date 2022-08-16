@@ -245,7 +245,168 @@ classdef Test_Symtensor < matlab.unittest.TestCase
             testCase.verifyEqual(Z, symtensor(Zf));
         end
         
+        function Indices(testCase, m, n, g)
+            Y = symtensor(g, m, n);
+            [out_new{1:4}] = indices(Y);
+            [out_old{1:4}] = indices_old(Y);
+            
+            for i=1:4
+                testCase.verifyEqual(out_new{i}, out_old{i});
+            end
+            
+        end
+            
+             
+        
     end
 end
 
+function [I,C,W,Q] = indices_old(varargin)
+%INDICES Compute unique indices of a symmetric tensor.
+%
+%   [I,C,W,Q] = INDICES(A) returns all unique indices for a
+%   symmetric tensor. Each row of I is an index listed in increasing order.
+%   Each row of C is the corresponding monomial representation, and W 
+%   is the count of how many times that index appears in the symmetric 
+%   tensor. Q is the number of rows of I, the number of unique indices.
+%
+%   See also SYMTENSOR.
+%
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
+
+
+if nargin == 0
+    error('INDICES requires at least one input argument');
+elseif nargin == 2 % Specify m and n      
+    m = varargin{1};
+    n = varargin{2};    
+elseif nargin == 1
+    A = varargin{1};
+    if ~(isa(A,'symktensor') || isa(A,'tensor') || isa(A,'symtensor'))
+        error('First argument must be a scalar or a tensor-like class');
+    end
+    m = ndims(A);
+    n = size(A,1);
+else
+    error('Wrong number of input arguments');
+end
+
+%% Determine size
+sz = nchoosek(m+n-1,m);
+
+%% Create I
+% Following from function UpdateIndex (Figure 4) in
+% G. Ballard, T. G. Kolda and T. Plantenga, Efficiently Computing Tensor
+% Eigenvalues on a GPU, IPDPSW'11: Proceedings of the 2011 IEEE
+% International Symposium on Parallel and Distributed Processing Workshops
+% and PhD Forum, 12th IEEE International Workshop on Parallel and
+% Distributed Scientific and Engineering Computing (PDSEC-11), Anchorage,
+% Alaska (2011-05-16 to 2011-05-20), IEEE Computer Society, pp. 1340-1348,
+% May 2011, doi:10.1109/IPDPS.2011.287       
+
+I = zeros(sz,m);
+
+for loc = 1:sz
+    if loc == 1
+        I(loc,:) = ones(1,m);
+    else
+        I(loc,:) = I(loc-1,:);
+        j = m;
+        while (I(loc,j) == n)
+            j = j - 1;
+        end
+        I(loc,j:m) = I(loc,j)+1;
+    end
+end
+
+if nargout==1    %Function can be called without monomials or weights
+    return
+end
+
+%% Compute C from I
+C = zeros(sz,n);
+for i = 1:n
+    C(:,i) = sum(I == i,2);
+end
+
+%% COMPUTE W (weights) from C
+W = ones(sz,1);
+if m > 1 && n > 1
+    for i = 1:sz
+        W(i) = multinomial(m,C(i,:));
+    end
+end
+Q=sz;
+end
+
+
+function c = multinomial(n,varargin)
+%MULTINOMIAL Multinomial coefficients.
+%
+%   MULTINOMIAL(N, K1, K2, ..., Km) where N and Ki are floating point
+%   arrays of non-negative integers satisfying N = K1 + K2 + ... + Km, 
+%   returns the multinomial  coefficient   N!/( K1!* K2! ... *Km!).
+%
+%   MULTINOMIAL(N, [K1 K2 ... Km]) when Ki's are all scalar, is the 
+%   same as MULTINOMIAL(N, K1, K2, ..., Km) and runs faster.
+%
+%   Non-integer input arguments are pre-rounded by FLOOR function.
+%
+%   EXAMPLES:
+%    multinomial(8, 2, 6) returns  28 
+%    binomial(8, 2) returns  28
+% 
+%    multinomial(8, 2, 3, 3)  returns  560
+%    multinomial(8, [2, 3, 3])  returns  560
+%
+%    multinomial([8 10], 2, [6 8]) returns  [28  45]
+%
+%    Mukhtar Ullah
+%    November 1, 2004
+%    mukhtar.ullah@informatik.uni-rostock.de
+%
+%Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
+
+nIn = nargin;
+%error(nargchk(2, nIn, nIn))
+
+if ~isreal(n) || ~isfloat(n) || any(n(:)<0)
+    error('Inputs must be floating point arrays of non-negative reals')
+end
+
+arg2 = varargin; 
+dim = 2;
+
+if nIn < 3                         
+    k = arg2{1}(:).'; 
+    if isscalar(k)
+        error('In case of two arguments, the 2nd cannot be scalar')
+    end    
+else
+    [arg2{:},sizk] = sclrexpnd(arg2{:});
+    if sizk == 1
+        k = [arg2{:}];        
+    else
+        if ~isscalar(n) && ~isequal(sizk,size(n))
+            error('Non-scalar arguments must have the same size')
+        end
+        dim = numel(sizk) + 1; 
+        k = cat(dim,arg2{:});              
+    end    
+end
+
+if ~isreal(k) || ~isfloat(k) || any(k(:)<0)
+    error('Inputs must be floating point arrays of non-negative reals')
+end
+
+n = floor(n);
+k = floor(k);
+
+if any(sum(k,dim)~=n)
+    error('Inputs must satisfy N = K1 + K2 ... + Km ')
+end
+
+c = floor(exp(gammaln(n+1) - sum(gammaln(k+1),dim)) + .5); 
+
+end
 

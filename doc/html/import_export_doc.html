@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Importing and Exporting Tensor Data</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-30"><meta name="DC.source" content="import_export_doc.m"><style type="text/css">
+      --><title>Importing and Exporting Tensor Data</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-08-16"><meta name="DC.source" content="import_export_doc.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:90%; margin-bottom:1px; }
@@ -95,7 +95,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
   ...
   &lt;value of A(2,3,2)&gt;
   &lt;value of A(3,3,2)&gt;
-  &lt;value of A(4,3,2)&gt;</pre><p>A matrix is formatted the same as a 2-way tensor except that the first line says <tt>matrix</tt> rather than <tt>tensor</tt>.</p><pre class="codeinput">Y1 = tenrand([4 3 2]);
+  &lt;value of A(4,3,2)&gt;</pre><p>A matrix is formatted the same as a 2-way tensor except that the first line says <tt>matrix</tt> rather than <tt>tensor</tt>.</p><pre class="codeinput">rng(<span class="string">'default'</span>); <span class="comment">%&lt;- Setting random seed for reproducibility of this script</span>
+Y1 = tenrand([4 3 2]);
 export_data(Y1,<span class="string">'Y.tensor'</span>);
 Y2 = import_data(<span class="string">'Y.tensor'</span>);
 assert(isequal(Y1,Y2)) <span class="comment">%&lt;-- test if equal when reading tensor from file</span>
@@ -104,30 +105,30 @@ type <span class="string">'Y.tensor'</span>
 tensor
 3 
 4 3 2 
-7.8410984944456918e-01
-2.6761755162945355e-01
-9.7039153429968650e-01
-9.4510452140896994e-01
-9.1857177911762622e-01
-7.6670088559754168e-01
-1.5661279895469682e-01
-7.5410547015482998e-01
-1.4114456638613404e-01
-7.1495769667190401e-02
-5.9315889926690779e-01
-5.5243694756677753e-01
-7.7619043346318617e-01
-4.7640496891668416e-01
-7.2436234142735267e-01
-5.7227121419711569e-01
-3.5316198205832472e-01
-5.8119606757561004e-02
-6.4105967325759805e-01
-3.1387368807787064e-01
-2.5976459387313477e-01
-3.4807513253975986e-01
-1.2389652883493230e-01
-9.2594519156509847e-02
+8.1472368639317894e-01
+9.0579193707561922e-01
+1.2698681629350606e-01
+9.1337585613901939e-01
+6.3235924622540951e-01
+9.7540404999409525e-02
+2.7849821886704840e-01
+5.4688151920498385e-01
+9.5750683543429760e-01
+9.6488853519927653e-01
+1.5761308167754828e-01
+9.7059278176061570e-01
+9.5716694824294557e-01
+4.8537564872284122e-01
+8.0028046888880011e-01
+1.4188633862721534e-01
+4.2176128262627499e-01
+9.1573552518906709e-01
+7.9220732955955442e-01
+9.5949242639290300e-01
+6.5574069915658684e-01
+3.5711678574189554e-02
+8.4912930586877711e-01
+9.3399324775755055e-01
 </pre><h2 id="2">Sptensor Data</h2><p>In the case of an sptensor, the first four lines give details about the sptensor. The format for a 4 x 3 x 2 sptensor with 10 nonzeros is as follows...</p><pre>  sptensor
   3
   4 3 2
@@ -144,9 +145,9 @@ sptensor
 3 
 4 3 2 
 3 
-1 1 1 8.9733153495338303e-01
-2 2 2 4.9896060922967300e-01
-4 3 2 6.5262946333672744e-01
+1 1 1 6.7873515485777347e-01
+2 2 2 7.5774013057833345e-01
+4 3 2 7.4313246812491618e-01
 </pre><h2 id="3">Ktensor Data</h2><p>In the case of an ktensor, the first four lines give details about the ktensor. The format for a 4 x 3 x 2 ktensor with rank=2 is as follows, which contains the lambda values and factor matrices, U, (one per tensor dimension), ...</p><pre>  ktensor
   3
   4 3 2
@@ -178,25 +179,25 @@ ktensor
 3 
 4 3 2 
 2 
-5.5321794848598371e-01 2.8539029379907055e-01 
+3.9222701953416816e-01 6.5547789017755664e-01 
 matrix
 2 
 4 2 
-9.7373498999922170e-01 5.0705186097791988e-01 
-7.2298481642071333e-01 9.2451864889949120e-01 
-5.3540633990533504e-01 9.6085221326105419e-03 
-9.1921869350005314e-01 2.6354160551053118e-01 
+1.7118668781156177e-01 4.6171390631153941e-02 
+7.0604608801960878e-01 9.7131781235847536e-02 
+3.1832846377420676e-02 8.2345782832729264e-01 
+2.7692298496088996e-01 6.9482862297581705e-01 
 matrix
 2 
 3 2 
-4.1401269139957864e-01 7.8129482939465800e-01 
-8.9449474691739461e-01 6.2150938203639761e-01 
-4.3032399708548463e-01 3.4315258530567716e-01 
+3.1709948006086053e-01 4.3874435965639824e-01 
+9.5022204883835493e-01 3.8155845709300840e-01 
+3.4446080502908760e-02 7.6551678814900237e-01 
 matrix
 2 
 2 2 
-2.0310353424746941e-01 6.4395364377355735e-01 
-9.2082402018958531e-01 5.7706691115717912e-02 
+7.9519990113706318e-01 4.8976439578823106e-01 
+1.8687260455437860e-01 4.4558620071089949e-01 
 </pre><h2 id="4">Formatting Output - Data Values</h2><p>When exporting tensor data your can specify the format of the data values using character vector that follows the convention used in <tt>fprintf</tt>. For example, this can be useful when exporting tensors that contain only integers, resulting in a file that is smaller in size. The optional <tt>fmt_data</tt> parameter to <tt>export_data</tt> specifies the format string, with <tt>'%.16</tt>' being the default value.</p><pre class="codeinput">X3 = sptensor([1 1 1;2 2 2; 4 3 2],[1;2;3],[4 3 2]);
 export_data(X3,<span class="string">'X_fmt_data.sptensor'</span>,<span class="string">'fmt_data'</span>,<span class="string">'%d'</span>);
 X4 = import_data(<span class="string">'X_fmt_data.sptensor'</span>);
@@ -263,6 +264,7 @@ matrix
 %   </ul>
 % </html>
 
+
 %% Tensor/Matrix Data
 % In the case of a tensor, the first three lines give details about the
 % tensor. The format for a 4 x 3 x 2 tensor is as follows...
@@ -286,6 +288,7 @@ matrix
 % A matrix is formatted the same as a 2-way tensor except that the first
 % line says |matrix| rather than |tensor|.
 %
+rng('default'); %<- Setting random seed for reproducibility of this script
 Y1 = tenrand([4 3 2]);
 export_data(Y1,'Y.tensor');
 Y2 = import_data('Y.tensor');
