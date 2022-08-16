@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.3
-August 16, 2022 (last modified)         
+# Tensor Toolbox for MATLAB, Version 3.4.a-dev
+August 16, 2022 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
@@ -11,6 +11,10 @@ For instructions on contributing, see [CONTRIBUTION_GUIDE.md](CONTRIBUTION_GUIDE
 For all other information, including download and usage instructions, see [www.tensortoolbox.org](https://www.tensortoolbox.org/).
 
 Release notes follow below.
+
+## Changes in development version 3.4.a-dev from Version 3.3 (August 16, 2022)
+
+- _Add changes here! Please include references to any relevant merge requests and issues. Thanks!_
 
 ## Changes in Version 3.3 from Version 3.2.1 (April 5, 2021)
 

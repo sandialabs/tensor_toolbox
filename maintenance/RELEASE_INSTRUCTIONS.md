@@ -15,8 +15,12 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
 * [ ] Merge the branch into the master
 
 * [ ] Create a release
-   - [ ] Tag with the new version number (v3.N)
+   - [ ] Tag with the new version number (v3.N) on MASTER branch.
+   - [ ] In Message, 
+   - [ ] Put changes into Release Notes (copy from README.md)
    - [ ] Create a release
+   
+* [ ] *IMPORTANT* Merge 'master' back into 'dev' branch!
 
 * [ ] Before any new into the `dev` branch, change release number to `3.(N+1).a-dev` in all the places listed below and remove dates
 
@@ -25,7 +29,7 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
 
 * [ ] `doc/html/index.html`
    - [ ] First H1 header
-   - [ ] Downloading development version
+   - [ ] Downloading version
    - [ ] Under "How to Cite" (**includes exact release date**)
 * [ ] `README.md` 
    - [ ] First two lines (**includes exact release date**)
