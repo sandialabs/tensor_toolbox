@@ -189,7 +189,7 @@
 % <tr><td><tt>maxfails</tt></td><td>Maximum number of failed epochs</td><td>1</td></tr>
 % <tr><td><tt>decay</tt></td><td>Decay of learning rate after failed epoch</td><td>0.1</td></tr>
 % <tr><td><tt>backup</tt></td><td>Revert to end of previous epoch after failure</td><td>true</td></tr>
-% <tr><td><tt>ftol</tt></td><td>uit if function value goes below this value</td><td><tt>-Inf</tt></td></tr>
+% <tr><td><tt>ftol</tt></td><td>Quit if function value goes below this value</td><td><tt>-Inf</tt></td></tr>
 % <tr><td><tt>beta1</tt></td><td>Adam parameter</td><td>0.9</td></tr>
 % <tr><td><tt>beta2</tt></td><td>Adam parameter</td><td>0.999</td></tr>
 % <tr><td><tt>epsilon</tt></td><td>Adam parameter</td><td>1e-8</td></tr>

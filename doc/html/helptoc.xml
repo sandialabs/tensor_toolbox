@@ -31,7 +31,7 @@
 <tocitem target="tucker.html">Tucker Decompositions
     <tocitem target="hosvd_doc.html">Higher-order SVD (HOSVD)</tocitem>
     <tocitem target="tucker_als_doc.html">Alternating Least Squares (ALS)</tocitem>
-    <tocitem target="ttensor_reconstruct_doc.html">Partional Reconstruction</tocitem>
+    <tocitem target="ttensor_reconstruct_doc.html">Partial Reconstruction</tocitem>
 </tocitem>
 <tocitem target="eigen.html">Tensor Eigenproblem
     <tocitem target="sshopm_doc.html">Shifted Symmetric Higher-order Power Method</tocitem>
