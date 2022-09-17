@@ -14,7 +14,7 @@ Release notes follow below.
 
 ## Changes in development version 3.4.a-dev from Version 3.3 (August 16, 2022)
 
-- _Add changes here! Please include references to any relevant merge requests and issues. Thanks!_
+- Updated `tt_sample_zeros` to use effecient `ismembc`. See merge request !77, #64.
 
 ## Changes in Version 3.3 from Version 3.2.1 (April 5, 2021)
 
