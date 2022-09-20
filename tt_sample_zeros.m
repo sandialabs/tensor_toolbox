@@ -84,7 +84,7 @@ end
 
 % Select out just the zeros
 tmpidx = tt_sub2ind64(sz, tmpsubs);
-iszero = ~builtin('_ismemberhelper',tmpidx,Xnzidx);
+iszero = ~ismembc(tmpidx,Xnzidx);
 tmpsubs = tmpsubs(iszero,:);
 
 % Trim back to desired number of samples
