@@ -1,5 +1,5 @@
 % Tensor Toolbox (Sandia Natl Labs & MathSci.ai)
-% Version 3.3 (R2022b) 16-Aug-2022
+% Version 3.4 (R2022c) 21-Sep-2022
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:

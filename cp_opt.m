@@ -26,6 +26,13 @@ function [M, M0, info] = cp_opt(X,r,varargin)
 %
 %      'state' - Random state, to re-create the same outcome.
 %
+%      'scale' - The optimization can be sensitive to scaling. This option
+%                changes the demoninator of the objective function, i.e.,
+%                to  F(M) = ||X-M||^2 / S. If the optimization is
+%                converging prematurely due to lack of improvement in the
+%                function value, try setting S = ||X||^2 / C so that S is
+%                less than O(1e10). The default is S = ||X||^2.
+%
 %   Optimization and other options are discussed in the <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_opt_doc.html')))">documentation</a>.
 %
 %   REFERENCE: E. Acar, D. M. Dunlavy and T. G. Kolda, A Scalable
@@ -43,8 +50,6 @@ function [M, M0, info] = cp_opt(X,r,varargin)
 % 'Xnormsqr' - Value for constant term ||X||^2 in objective function.
 %  If not specified, will be computed. Set to scalar value to skip.
 %
-% 'scale' - Scale passed to ktensor/fg. Defaults to Xnormsqr. Cannot be
-% zero.
 
 %%
 tic; 
@@ -97,10 +102,11 @@ elseif isa(init,'ktensor')
         M0 = normalize(M0,1);
     end
 elseif strcmpi(init,'nvecs')
-    M0 = ktensor(@ones,sz,r);
+    U0 = cell(d,1);
     for k = 1:d
-        M0{k} = nvecs(X,k,r);
+        U0{k} = nvecs(X,k,r);
     end
+    M0 = ktensor(U0);
 elseif strcmpi(init,'rand')
     M0 = ktensor(@rand,sz,r);
 elseif strcmpi(init,'randn')

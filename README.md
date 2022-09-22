@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.3
-August 16, 2022 (last modified)         
+# Tensor Toolbox for MATLAB, Version 3.4
+September 21, 2022 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
@@ -11,6 +11,14 @@ For instructions on contributing, see [CONTRIBUTION_GUIDE.md](CONTRIBUTION_GUIDE
 For all other information, including download and usage instructions, see [www.tensortoolbox.org](https://www.tensortoolbox.org/).
 
 Release notes follow below.
+
+## Changes in Version 3.4 for Version 3.3 (August 16, 2022)
+
+- Updated `tt_gcp_fg_setup` to fix Negative Binomial loss function. Also added `tests/Test_GCP_OPT.m`. See merge request !78, #65.
+- Updated `tt_sample_zeros` to use efficient `ismembc`. See merge request !77, #64.
+- Fixed off-by-2 bug in gradient computed by `@ktensor/fg.m`.
+- Described `scale` option in `cp_opt`.
+- Minor spelling corrections in documentation.
 
 ## Changes in Version 3.3 from Version 3.2.1 (April 5, 2021)
 
