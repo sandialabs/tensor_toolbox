@@ -99,7 +99,7 @@ switch lower(type)
             error('Need to specify number of trials')
         end
         r = param;
-        eval(sprintf('fh = @(x,m) (%d+x) .* log(1+m) - x * log(m+1e-10);',r));
+        eval(sprintf('fh = @(x,m) (%d+x) .* log(1+m) - x .* log(m+1e-10);',r));
         eval(sprintf('gh = @(x,m) (%d)./(1+m) - x./(m+1e-10);',r+1));
         lowerbnd = 0;
      case 'beta'

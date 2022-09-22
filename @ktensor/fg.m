@@ -101,7 +101,7 @@ if computeG
         U = mttkrp(X,A,k);
         G{k} = -U + A{k}*Gamma{k};
     end
-    G = cellfun(@(x) x./S, G, 'UniformOutput', false);
+    G = cellfun(@(x) x.*(2/S), G, 'UniformOutput', false);
     if vecG
         G = cell2mat(cellfun(@(x) x(:), G, 'UniformOutput', false));
     end
