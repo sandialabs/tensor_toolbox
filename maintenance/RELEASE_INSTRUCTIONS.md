@@ -14,9 +14,9 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
   
 * [ ] Merge the branch into the master
 
-* [ ] Create a release
+* [ ] Create a release using "New Tag" option
    - [ ] Tag with the new version number (v3.N) on MASTER branch.
-   - [ ] In Message, 
+   - [ ] In Message: Tensor Toolbox Version 3.X (R202YX) DD-MMM-YYYY
    - [ ] Put changes into Release Notes (copy from README.md)
    - [ ] Create a release
    

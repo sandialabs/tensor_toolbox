@@ -4,7 +4,7 @@ function create_topcontents
 %% Open main contents file
 fidmain = fopen('../Contents.m','w');
 fprintf(fidmain,'%% Tensor Toolbox (Sandia Natl Labs & MathSci.ai)\n'); 
-fprintf(fidmain,'%% Version 3.4 (R2022c) %s\n', date); 
+fprintf(fidmain,'%% Version 3.5.a-dev (R2022d) %s\n', date); 
 fprintf(fidmain,'%% Tensor Toolbox for dense, sparse, and decomposed n-way arrays.\n'); 
 fprintf(fidmain,'%% \n'); 
 fprintf(fidmain,'%% Tensor Toolbox Classes:\n');
