@@ -99,7 +99,8 @@
 %
 % * |'factr'| - Tolerance on the change on the objective value. Defaults to
 % 1e7, which is multiplied by machine epsilon.
-% * |'pgtol'| - Projected gradient tolerance, defaults to 1e-5.
+% * |'pgtol'| - Projected gradient tolerance, defaults to 1e-4 times total
+% tensor size. 
 %
 % It can sometimes be useful to increase or decrease |pgtol| depending on
 % the objective function and size of the tensor.
