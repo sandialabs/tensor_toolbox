@@ -20,8 +20,8 @@ Release notes follow below.
   * New functions within [`tensor`](@tensor/) class: [`fibers`](@tensor/fibers.m) 
   * New top-level *hidden* functions that aid in randomized least squares: [`tt_fsampler_setup`](tt_fsampler_setup.m), [`tt_leverage_scores`](tt_leverage_scores.m), [`tt_random_sample`](tt_random_sample.m), [`tt_sampled_solve`](tt_sampled_solve.m)    
   * New help page: [Alternating randomized least squares with leverage scores for CP Decomposition](https://www.tensortoolbox.org/cp_arls_lev_doc.html)
-- Add new `sptensor/squash` command to remove empty hyperslices in a sparse tensor. See merge request !83.
-- Added additional options to `ktensor/viz` command (see !82).
+- Add new [`sptensor/squash`](@sptensor/squash.m) command to remove empty hyperslices in a sparse tensor. See merge request !83.
+- Added additional options to [`ktensor/viz`](@ktensor/viz.m) command (see !82).
 
 ## Changes in Version 3.4 from Version 3.3 (August 16, 2022)
 
