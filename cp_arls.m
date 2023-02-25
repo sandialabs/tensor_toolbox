@@ -45,7 +45,7 @@ function [P,Uinit,output] = cp_arls(X,R,varargin)
 %
 %   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','cp_arls_doc.html')))">Documentation page for CP-ARLS</a>
 %
-%   See also CP_ALS, KTENSOR, TENSOR.
+%   See also CP_ARLS_LEV, CP_ALS, KTENSOR, TENSOR.
 %
 %Tensor Toolbox for MATLAB: <a href="https://www.tensortoolbox.org">www.tensortoolbox.org</a>
 
