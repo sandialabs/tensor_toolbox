@@ -34,6 +34,11 @@ function info = viz(K, varargin)
 %   'RightSpace' - Space at right. Default: 0.025.
 %   'VertSpace' - Vertical space inbetween factor axes. Default: 0.01.
 %   'HorzSpace' - Horizontal space inbetween factor axes. Default: 0.01.
+%   'XLims' - Choose one per mode:
+%             o 'same' - Same x-limits on all axes in the same mode
+%             o [xl yl] - Specific limits
+%             o [] - No modification to what is done by the plot routine
+%             Default: repmat({'same'},[nd 1]).
 %   'YLims' - Choose one per mode:
 %             o 'same' - Same y-limits on all axes in the same mode
 %             o 'addzero' - Adjust limits so that zero is shown
@@ -41,8 +46,9 @@ function info = viz(K, varargin)
 %             o [] - No modification to what is done by the plot routine
 %             Default: repmat({'same'},[nd 1]).
 %   'ShowZero' - Show dashed line at zero? Default: true(nd,1).
-%   'YTicks' - Boolean for showing yticks or not. Default: false. (Note
-%              that if this is true, then need to increase 'HorzSpace'.)
+%   'XTicks' - Boolean array for showing xticks or not. Default: true(nd,1).
+%   'YTicks' - Boolean array for showing yticks or not. Default: false(nd,1).
+%              (Note that if this is true, then need to increase 'HorzSpace'.)
 %   'BaseFontSize' - Smallest font size. Default: 14.
 %
 %   Return values:
@@ -91,14 +97,24 @@ params.addParameter('ModeTitles', 'default');
 params.addParameter('FactorTitles', 'weight'); % Default is 'none'. Options are 'weight' or 'number'
 % Plots
 params.addParameter('PlotCommands', repmat({@(x,y) plot(x,y,'LineWidth',1,'Color','b');}, [nd 1]));
+params.addParameter('XLims', repmat({'same'},[nd 1]));
 params.addParameter('YLims', repmat({'same'},[nd 1]));
 params.addParameter('ShowZero',true(nd,1));
-params.addParameter('YTicks',false);
+params.addParameter('XTicks',true(nd,1));
+params.addParameter('YTicks',false(nd,1));
 params.addParameter('BaseFontSize',14);
 
 
 params.parse(varargin{:});
 res = params.Results;
+
+%% Handle scalar 'XTicks', 'YTicks'
+if length(res.XTicks) == 1
+   res.XTicks = repmat(res.XTicks,[nd 1]);
+end
+if length(res.YTicks) == 1
+   res.YTicks = repmat(res.YTicks,[nd 1]);
+end
 
 %% Clean up tensor
 if isa(res.Normalize,'function_handle')
@@ -185,7 +201,13 @@ for k = 1 : nd
         hh = PlotCommands{k}(xx, yy);
 
         % Set x-axes
-        xlim(FactorAxes(k,j),xl);
+        if isequal(res.XLims{k}, 'same')
+            xlim(FactorAxes(k,j),xl);
+        elseif isnumeric(res.XLims{k}) && isequal(size(res.XLims{k}),[1 2])
+            xlim(FactorAxes(k,j),res.XLims{k});
+        else
+            fprintf('Do nothing to FactorAxes\n');
+        end
 
         % Set y-axes
         if isequal(res.YLims{k}, 'same')
@@ -203,8 +225,13 @@ for k = 1 : nd
         % Turn off y-label
         set(FactorAxes(k,j), 'Ylabel', []);
 
+         % Turn off x-ticks
+        if ~res.XTicks(k)
+            set(FactorAxes(k,j),'Xtick',[]);
+        end
+
         % Turn off y-ticks
-        if ~res.YTicks
+        if ~res.YTicks(k)
             set(FactorAxes(k,j),'Ytick',[]);
         end
 
