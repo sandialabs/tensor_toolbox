@@ -17,6 +17,7 @@
 * Samantha Hansen - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)
 * David Hong - Generalized CP (`gcp_opt`)
 * Nirmit Joshi - ttsv for Symktensor (`symktensor/ttsv`)
+* Brett W. Larsen - Randomized CP with Leverage Scores (`cp_arls_lev`)
 * Jackson Mayo - Eigenvalue methods (`eig_sshopm`, `eig_sshopmc`, `eig_geap`)
 * Joao M Pereira - Subspace Power method (`cp_spm`) and faster symtensor/indices method (`@symtensor/indices`)
 * Todd Plantenga - Alternating Poisson Regression with QN or Newton Updates (`cp_apr`)

@@ -17,6 +17,7 @@
 <tocitem target="cp.html">CP Decompositions
     <tocitem target="cp_als_doc.html">Alternating Least Squares (CP-ALS)</tocitem>
     <tocitem target="cp_arls_doc.html">Alternating Randomized Least Squares (CP-ARLS)</tocitem>
+    <tocitem target="cp_arls_lev_doc.html">ARLS with Leverage Scores (CP-ARLS-LEV)</tocitem>
     <tocitem target="cp_opt_doc.html">All-at-once Optimization (CP-OPT)</tocitem>
     <tocitem target="cp_wopt_doc.html">Incomplete Data (CP-WOPT)</tocitem>
     <tocitem target="cp_apr_doc.html">Alternating Poisson Regression (APR)</tocitem>
