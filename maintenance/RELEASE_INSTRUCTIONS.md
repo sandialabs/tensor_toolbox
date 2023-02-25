@@ -6,11 +6,11 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
 
 * [ ] Resolve as many [merge requests](-/merge_requests) and [issues](-/issues) as feasible
 
+* [ ] Merge 'master' back into 'dev' branch, just in case any changes were made to 'master'
+
 * [ ] Comparing to the prior [release](-/releases), update the root [README.md](-/README.md) with release notes, if they haven't already been added
    - [ ] Grab the tag of the latest release, `v3.(N-1)`
    - [ ] Using "Compare Revisions" under "Repository", compare Source:`dev` to Target:`v3.(N-1)`
-
-* [ ] Merge 'master' back into 'dev' branch, just in case any changes were made to 'master'
 
 * [ ] Freeze the `dev` branch, update the version number, release date, and help database (see checklist below)
   

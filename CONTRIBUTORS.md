@@ -25,7 +25,7 @@
 * Shaden Smith - Faster fitness computation in `cp_als`
 * Jimeng Sun - Memory-efficient Tucker (distributed with version 2.6 or earlier)
 * Alex Williams - Ktensor/viz method (`ktensor/viz`)
-* Eric Phipps - Improvements to ktensor/viz and added sptensor/squash
+* Eric Phipps - Improvements to (`ktensor/viz`) and added (`@sptensor/squash`)
 
 
 
