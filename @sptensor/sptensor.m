@@ -44,6 +44,7 @@
 %   spmatrix  - Converts a two-way sparse tensor to sparse matrix.
 %   spones    - Replace nonzero sparse tensor elements with ones.
 %   sptensor  - Create a sparse tensor.
+%   squash    - Remove empty slices from a sparse tensor.
 %   squeeze   - Remove singleton dimensions from a sparse tensor.
 %   subsasgn  - Subscripted assignment for sparse tensor.
 %   subsref   - Subscripted reference for a sparse tensor.

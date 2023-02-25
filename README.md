@@ -13,6 +13,8 @@ For all other information, including download and usage instructions, see [www.t
 Release notes follow below.
 
 ## Changes in Version 3.5.a-dev from Version 3.4 (21-Sep-2022)
+
+- Add new `sptensor/squash` command to remove empty hyperslices in a sparse tensor. See merge request !83.
 - Added additional options to `ktensor/viz` command (see !82).
 
 
