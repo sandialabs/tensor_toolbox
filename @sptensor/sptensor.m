@@ -11,7 +11,9 @@
 %   elemfun   - Manipulate the nonzero elements of a sparse tensor.
 %   end       - Last index of indexing expression for sparse tensor.
 %   eq        - Equal (==) for sptensors.
+%   fibers    - Extracts specified mode-k fibers and creates matrix.
 %   find      - Find subscripts of nonzero elements in a sparse tensor.
+%   findices  - Compute mode-k unfolding column index for every nonzero.
 %   full      - Convert a sparse tensor to a (dense) tensor.
 %   ge        - Greater than or equal for sptensors.
 %   gt        - Greater than for sptensors.
@@ -39,11 +41,13 @@
 %   plus      - Binary addition for sparse tensors. 
 %   rdivide   - Array right division for sparse tensors.
 %   reshape   - Reshape sparse tensor.
+%   rrf       - Produce matrix via sparse randomized range finder in mode-k.
 %   scale     - Scale along specified dimensions for sparse tensors.
 %   size      - Sparse tensor dimensions.
 %   spmatrix  - Converts a two-way sparse tensor to sparse matrix.
 %   spones    - Replace nonzero sparse tensor elements with ones.
 %   sptensor  - Create a sparse tensor.
+%   squash    - Remove empty slices from a sparse tensor.
 %   squeeze   - Remove singleton dimensions from a sparse tensor.
 %   subsasgn  - Subscripted assignment for sparse tensor.
 %   subsref   - Subscripted reference for a sparse tensor.

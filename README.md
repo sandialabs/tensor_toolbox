@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.4
-September 21, 2022 (last release)         
+# Tensor Toolbox for MATLAB, Version 3.5
+February 25, 2023 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
@@ -12,7 +12,19 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Changes in Version 3.4 for Version 3.3 (August 16, 2022)
+## Changes in Version 3.5.a-dev from Version 3.4 (21-Sep-2022)
+
+- Added new functionality for alternating randomized least squares via leverage scores per the paper. B. W. Larsen, T. G. Kolda. Practical Leverage-Based Sampling for Low-Rank Tensor Decomposition, SIMAX, 2022 (see !72).
+  * New top-level function [`cp_arls_lev`](cp_arls_lev.m) 
+  * New functions within [`sptensor`](@sptensor/) class: [`fibers`](@sptensor/fibers.m), [`findices`](@sptensor/findices.m), [`rrf`](@sptensor/rrf.m) 
+  * New functions within [`tensor`](@tensor/) class: [`fibers`](@tensor/fibers.m) 
+  * New top-level *hidden* functions that aid in randomized least squares: [`tt_fsampler_setup`](tt_fsampler_setup.m), [`tt_leverage_scores`](tt_leverage_scores.m), [`tt_random_sample`](tt_random_sample.m), [`tt_sampled_solve`](tt_sampled_solve.m)    
+  * New help page: [Alternating randomized least squares with leverage scores for CP Decomposition](https://www.tensortoolbox.org/cp_arls_lev_doc.html)
+- Add new [`sptensor/squash`](@sptensor/squash.m) command to remove empty hyperslices in a sparse tensor. See merge request !83.
+- Added additional options to [`ktensor/viz`](@ktensor/viz.m) command (see !82).
+- Updated [`LICENSE`](`LICENSE`) so it is recognized automatically by GITLAB.
+
+## Changes in Version 3.4 from Version 3.3 (August 16, 2022)
 
 - Updated `tt_gcp_fg_setup` to fix Negative Binomial loss function. Also added `tests/Test_GCP_OPT.m`. See merge request !78, #65.
 - Updated `tt_sample_zeros` to use efficient `ismembc`. See merge request !77, #64.
@@ -31,7 +43,7 @@ Release notes follow below.
 - Added new functionality for symmetric CP tensor computation using the Subspace Power Method (SPM). See merge request !70.
   * Relevant paper: J. Kileel, J. M. Pereira. "Subspace power method for symmetric tensor decomposition and generalized PCA." arXiv:1912.04007 (2019).
   * New top-level function [`cp_ispm`](cp_ispm.m) 
-  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)
+  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)  
 
 - Added tensor-times-same-vector [`ttsv`](@symktensor/ttsv.m) for `symktensor`. See merge request !69, #61.
 

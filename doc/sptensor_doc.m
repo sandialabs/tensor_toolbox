@@ -72,6 +72,9 @@ X = sptenrand([10 10 10],10) %<-- Create a tensor with 10 nonzeros.
 %% Use squeeze to remove singleton dimensions from a sptensor
 Y = sptensor([1 1 1; 2 1 1], 1, [2 1 1]) %<-- Create a sparse tensor.
 squeeze(Y) %<-- Remove singleton dimensions.
+%% Use squash to remove empty slices from a sptensor
+Y = sptensor([1 1 1; 3 3 3], [1; 3], [3 3 3]) %<-- Create a sparse tensor.
+squash(Y) %<-- Remove empty slices.
 %% Use full or tensor to convert a sptensor to a (dense) tensor
 X = sptensor([1 1 1; 2 2 2], [1; 1]); %<-- Create a sparse tensor.
 Y = full(X) %<-- Convert it to a (dense) tensor.
