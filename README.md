@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.5.a-dev
-September 21, 2022 (last release)         
+# Tensor Toolbox for MATLAB, Version 3.5
+February 25, 2023 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
@@ -22,6 +22,7 @@ Release notes follow below.
   * New help page: [Alternating randomized least squares with leverage scores for CP Decomposition](https://www.tensortoolbox.org/cp_arls_lev_doc.html)
 - Add new [`sptensor/squash`](@sptensor/squash.m) command to remove empty hyperslices in a sparse tensor. See merge request !83.
 - Added additional options to [`ktensor/viz`](@ktensor/viz.m) command (see !82).
+- Updated [`LICENSE`](`LICENSE`) so it is recognized automatically by GITLAB.
 
 ## Changes in Version 3.4 from Version 3.3 (August 16, 2022)
 
@@ -42,7 +43,7 @@ Release notes follow below.
 - Added new functionality for symmetric CP tensor computation using the Subspace Power Method (SPM). See merge request !70.
   * Relevant paper: J. Kileel, J. M. Pereira. "Subspace power method for symmetric tensor decomposition and generalized PCA." arXiv:1912.04007 (2019).
   * New top-level function [`cp_ispm`](cp_ispm.m) 
-  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)
+  * New help page: [Subspace Power Method for Symmetric CP Decomposition](https://www.tensortoolbox.org/cp_spm_doc.html)  
 
 - Added tensor-times-same-vector [`ttsv`](@symktensor/ttsv.m) for `symktensor`. See merge request !69, #61.
 
