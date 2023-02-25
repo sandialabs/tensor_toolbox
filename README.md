@@ -13,7 +13,7 @@ For all other information, including download and usage instructions, see [www.t
 Release notes follow below.
 
 ## Changes in Version 3.5.a-dev from Version 3.4 (21-Sep-2022)
-
+- Added additional options to `ktensor/viz` command (see !82).
 
 
 ## Changes in Version 3.4 from Version 3.3 (August 16, 2022)
