@@ -1,4 +1,4 @@
-# Tensor Toolbox for MATLAB, Version 3.5
+# Tensor Toolbox for MATLAB, Version 3.6.a-dev
 February 25, 2023 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
@@ -12,7 +12,9 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Changes in Version 3.5.a-dev from Version 3.4 (21-Sep-2022)
+## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
+
+## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
 - Added new functionality for alternating randomized least squares via leverage scores per the paper. B. W. Larsen, T. G. Kolda. Practical Leverage-Based Sampling for Low-Rank Tensor Decomposition, SIMAX, 2022 (see !72).
   * New top-level function [`cp_arls_lev`](cp_arls_lev.m) 
