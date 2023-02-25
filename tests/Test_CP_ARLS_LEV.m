@@ -45,36 +45,36 @@ classdef Test_CP_ARLS_LEV < matlab.unittest.TestCase
 
             % Run with default parameters
             rng("default");
-            M = cp_arls_lev(info.Data,R);
+            M = cp_arls_lev(info.Data,R,'printitn',0);
 
             % Run with different fit methods
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'truefit', 'iter');
+            M = cp_arls_lev(info.Data,R, 'truefit', 'iter','printitn',0);
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'truefit', 'final');
+            M = cp_arls_lev(info.Data,R, 'truefit', 'final','printitn',0);
 
             % Run with different least squres and fit samples (should
             % trigger nsampfit warning due to small tensor).
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'nsamplsq', 2^16);
+            M = cp_arls_lev(info.Data,R, 'nsamplsq', 2^16,'printitn',0);
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'nsampfit', 10^4);
+            M = cp_arls_lev(info.Data,R, 'nsampfit', 10^4,'printitn',0);
 
             % Run with different termination criteria
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'epoch', 6, 'newitol', 4, 'tol', 1e-3);
+            M = cp_arls_lev(info.Data,R, 'epoch', 6, 'newitol', 4, 'tol', 1e-3,'printitn',0);
 
             % Run with deterministic inclusion
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'thresh', 1.0/s);
+            M = cp_arls_lev(info.Data,R, 'thresh', 1.0/s,'printitn',0);
             
             % Run with RRF initialization
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'init', 'RRF');
+            M = cp_arls_lev(info.Data,R, 'init', 'RRF','printitn',0);
 
             % Run with different dimorder
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'dimorder', [2 1 3]);
+            M = cp_arls_lev(info.Data,R, 'dimorder', [2 1 3],'printitn',0);
         end
 
         function BasicDenseTensor(testCase)
@@ -85,32 +85,31 @@ classdef Test_CP_ARLS_LEV < matlab.unittest.TestCase
 
             % Run with default parameters
             rng("default");
-            M = cp_arls_lev(info.Data,R);
+            M = cp_arls_lev(info.Data,R,'printitn',0);
 
             % Run with different fit methods
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'truefit', 'iter');
+            M = cp_arls_lev(info.Data,R, 'truefit', 'iter','printitn',0);
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'truefit', 'final');
+            M = cp_arls_lev(info.Data,R, 'truefit', 'final','printitn',0);
 
-            % Run with different least squres and fit samples (should
-            % trigger nsampfit warning due to small tensor).
+            % Run with different least squres and fit samples 
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'nsamplsq', 2^16);
+            M = cp_arls_lev(info.Data,R, 'nsamplsq', 2^8,'printitn',0);
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'nsampfit', 10^5);
+            M = cp_arls_lev(info.Data,R, 'nsampfit', 10^2,'printitn',0);
 
             % Run with different termination criteria
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'epoch', 6, 'newitol', 4, 'tol', 1e-3);
+            M = cp_arls_lev(info.Data,R, 'epoch', 6, 'newitol', 4, 'tol', 1e-3,'printitn',0);
 
             % Run with deterministic inclusion
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'thresh', 1.0/s);
+            M = cp_arls_lev(info.Data,R, 'thresh', 1.0/s,'printitn',0);
 
             % Run with different dimorder
             rng("default");
-            M = cp_arls_lev(info.Data,R, 'dimorder', [2 1 3]);
+            M = cp_arls_lev(info.Data,R, 'dimorder', [2 1 3],'printitn',0);
         end
 
     end % methods

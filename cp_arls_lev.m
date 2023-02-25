@@ -197,9 +197,6 @@ end
 
 
 %% Print Welcome Message
-fprintf('Preprocessing Finished \n');
-
-
 if printitn > 0
     fprintf('\n');
     fprintf('CP-ARLS with Leverage Score Sampling:\n');
