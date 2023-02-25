@@ -10,6 +10,7 @@
 %   end         - Last index of indexing expression for tensor.
 %   eq          - Equal (==) for tensors.
 %   exp         - Exponential for tensors.
+%   fibers      - Extracts specified mode-k fibers and creates matrix.
 %   find        - Find subscripts of nonzero elements in a tensor.
 %   full        - Convert to a (dense) tensor.
 %   ge          - Greater than or equal (>=) for tensors.

@@ -412,6 +412,7 @@ if printitn > 0
     if issparse
         fprintf('Sparse tensor: %d (%.2g%%) Nonzeros and %d (%.2f%%) Zeros\n', nnonzeros, 100*nnonzeros/tsz, nzeros, 100*nzeros/tsz);
     end
+    fprintf('GCP rank: %d\n', nc)
     fprintf('Generalized function Type: %s\n', type);
     fprintf('Objective function: %s\n', func2str(fh));
     fprintf('Gradient function: %s\n', func2str(gh));
