@@ -56,7 +56,9 @@
 %   ttt         - Tensor mulitplication (tensor times tensor).
 %   ttv         - Tensor times vector.
 %   uminus      - Unary minus (-) for tensors.
+%   unfold      - Unfold a tensor into a matrix.
 %   uplus       - Unary plus (+) for tensors.
+%   vec         - Vectorize a tensor.
 %   xor         - Logical EXCLUSIVE OR for tensors.
 %
 %   <a href="matlab:web(strcat('file://',fullfile(getfield(what('tensor_toolbox'),'path'),'doc','html','tensor_doc.html')))">Documentation page for tensor class</a>

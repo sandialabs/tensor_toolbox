@@ -151,7 +151,13 @@ norm(T)
 % |reshape| reshapes a tensor into a given size array. The total
 % number of elements in the tensor cannot change.
 X = tensor(randi(10,3,2,3));
-reshape(X,[3,3,2]);
+Y = reshape(X,[3,3,2])
+%% Using |unfold| and |vec| to convert a tensor to a matrix or vector
+X = tenrand([2 3 2])
+X1 = unfold(X,1) % mode-1 unfolding
+X2 = unfold(X,2) % mode-2 unfolding
+X3 = unfold(X,3) % mode-3 unfolding
+xvec = vec(X)
 %% Basic operations (plus, minus, and, or, etc.) on a tensor
 % The tensor object supports many basic operations, illustrated here.
 A = tensor(floor(3*rand(2,3,2)))

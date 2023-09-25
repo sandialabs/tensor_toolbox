@@ -14,6 +14,8 @@ Release notes follow below.
 
 ## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
 
+- New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m)
+
 ## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
 - Added new functionality for alternating randomized least squares via leverage scores per the paper. B. W. Larsen, T. G. Kolda. Practical Leverage-Based Sampling for Low-Rank Tensor Decomposition, SIMAX, 2022 (see !72).

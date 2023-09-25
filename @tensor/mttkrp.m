@@ -95,9 +95,12 @@ else
     Y = reshape(X.data,[],szr);
     Y = Y * Ul;
     Y = reshape(Y,szl,szn,R);
-    if vers == 2
+    if vers == 2 % Not faster than version 1 in simple tests
         V = bsxfun(@times,Ur,Y);
         V = reshape(sum(V,1),szn,R);
+    elseif vers == 3 % Only marginally faster than version 1 and not consitently better
+        V = pagemtimes(Y,'transpose',Ur,'none');
+        V = reshape(V,szn,R);
     else % default (vers == 1)
         V = zeros(szn,R);
         for r =1:R
