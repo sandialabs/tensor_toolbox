@@ -12,17 +12,15 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Changes in Version 3.6.a-dev from Version 3.6 (24-Apr-2023)
-
-- Added new functionality for Orthogonalized ALS per the paper, Sharan, V., & Valiant, G. (2017, July). 
-Orthogonalized ALS: A theoretically principled tensor decomposition algorithm for practical use. 
-In International Conference on Machine Learning (pp. 3095-3104). PMLR.
-  * New top-level function [`cp_orth_als`](cp_orth_als.m)
-  
 ## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
 
-- New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m)
-
+- New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m) (#78)
+- New top-level function [`cp_orth_als`](cp_orth_als.m) for Orthogonalized ALS (!86)
+  * Reference: Sharan, V., & Valiant, G. (2017, July). 
+    Orthogonalized ALS: A theoretically principled tensor decomposition algorithm for practical use. 
+    In International Conference on Machine Learning (pp. 3095-3104). PMLR.
+- Updated documentation for tensor/subsref.m and sptensor/subsref.m to better explain the 1-way tensor behavior (#73)
+  
 ## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
 - Added new functionality for alternating randomized least squares via leverage scores per the paper. B. W. Larsen, T. G. Kolda. Practical Leverage-Based Sampling for Low-Rank Tensor Decomposition, SIMAX, 2022 (see !72).
