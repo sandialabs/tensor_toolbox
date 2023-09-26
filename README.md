@@ -12,6 +12,13 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
+## Changes in Version 3.6.a-dev from Version 3.6 (24-Apr-2023)
+
+- Added new functionality for Orthogonalized ALS per the paper, Sharan, V., & Valiant, G. (2017, July). 
+Orthogonalized ALS: A theoretically principled tensor decomposition algorithm for practical use. 
+In International Conference on Machine Learning (pp. 3095-3104). PMLR.
+  * New top-level function [`cp_orth_als`](cp_orth_als.m)
+  
 ## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
 
 - New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m)
