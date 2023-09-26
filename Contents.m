@@ -1,5 +1,5 @@
 % Tensor Toolbox (Sandia Natl Labs & MathSci.ai)
-% Version 3.6.a-dev (R2023a) 25-Feb-2023
+% Version 3.6.a-dev (R2023a) 25-Sep-2023
 % Tensor Toolbox for dense, sparse, and decomposed n-way arrays.
 % 
 % Tensor Toolbox Classes:
@@ -21,6 +21,7 @@
 %   cp_isym        - Implicit symmetric CP for tensors formed from outer products.
 %   cp_nmu         - Compute nonnegative CP with multiplicative updates.
 %   cp_opt         - Fits a CP model to a tensor via optimization.
+%   cp_orth_als    - Compute CP decomposition using OrthALS algorithm.
 %   cp_spm         - Symmetric tensor decomposition using Subspace Power Method (SPM).
 %   cp_sym         - Fit a symmetric P model to the symmetric input tensor.
 %   cp_wopt        - Fits a weighted CP model to a tensor via optimization.
