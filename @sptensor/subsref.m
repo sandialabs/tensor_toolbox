@@ -11,11 +11,13 @@ function a = subsref(t,s)
 %   the rest are indices, returns a sparse tensor. The elements are
 %   renumbered here as appropriate.
 %   
-%   Case 2a: V = X(S) or V = X(S,'extract'), where S is a p x n array
-%   of subscripts, returns a vector of p values.
+%   Case 2a: V = X(S), where S is a p x n array of subscripts, returns a
+%   vector of p values. If ndims(X)=1, use instead V = X(S,'extract') so
+%   that it knows this is extracting values rather than giving a set of
+%   indicies.
 %
-%   Case 2b: V = X(I) or V = X(I,'extract'), where I is a set of p
-%   linear indices, returns a vector of p values.
+%   Case 2b: V = X(I), where I is a set of p linear indices, returns a
+%   vector of p values. If ndims(X)=1, use V = X(I,'extract') instead.
 %
 %   Any ambiguity results in executing the first valid case. This
 %   is particularily an issue if ndims(X)==1. 
