@@ -22,6 +22,7 @@ Release notes follow below.
 - Updated documentation for [`tensor/subsref.m`](@tensor/subsref.m) and [`sptensor/subsref.m`](@sptensor/subsref.m) to better explain the 1-way tensor behavior (#73)
 - Updated documentation for [`tt_sample_semistrat.m`](tt_sample_semistrat.m) (#75)
 - Fixed error message in [`gcp_opt`](gcp_opt.m) when stratified sample is used with a dense tensor (#76)
+- Fixed check on number of input arguments in [`tt_sample_zeros.m`](tt_sample_zero.m) (#77)
   
 ## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
