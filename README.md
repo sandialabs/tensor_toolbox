@@ -19,8 +19,9 @@ Release notes follow below.
   * Reference: Sharan, V., & Valiant, G. (2017, July). 
     Orthogonalized ALS: A theoretically principled tensor decomposition algorithm for practical use. 
     In International Conference on Machine Learning (pp. 3095-3104). PMLR.
-- Updated documentation for tensor/subsref.m and sptensor/subsref.m to better explain the 1-way tensor behavior (#73)
-- Updated documentation for tt_sample_semistrat.m (#75)
+- Updated documentation for [`tensor/subsref.m`](@tensor/subsref.m) and [`sptensor/subsref.m`](@sptensor/subsref.m) to better explain the 1-way tensor behavior (#73)
+- Updated documentation for [`tt_sample_semistrat.m`](tt_sample_semistrat.m) (#75)
+- Fixed error message in [`gcp_opt`](gcp_opt.m) when stratified sample is used with a dense tensor (#76)
   
 ## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
