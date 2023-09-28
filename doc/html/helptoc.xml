@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?>
 <!-- $Revision: 1.1 $ $Date: 2006/08/30 23:22:37 $ -->
 
-<toc version="3.5">
+<toc version="3.6">
 
 <tocitem target="index.html" >Tensor Toolbox
 
@@ -28,6 +28,7 @@
     <tocitem target="cp_sym_doc.html">Symmetric (CP-SYM)</tocitem>
     <tocitem target="cp_isym_doc.html">Implicit Symmetric (CP-ISYM)</tocitem>
     <tocitem target="cp_spm_doc.html">Subspace Power Method (CP-SPM)</tocitem>
+    <tocitem target="cp_orth_als_doc.html">Orthogonalized Alternating Least Squares (OrthALS)</tocitem>
 </tocitem>
 <tocitem target="tucker.html">Tucker Decompositions
     <tocitem target="hosvd_doc.html">Higher-order SVD (HOSVD)</tocitem>

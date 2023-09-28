@@ -1,11 +1,11 @@
 function [subs, xvals, weights] = tt_sample_semistrat(X, nnzs, nzrs)
 %TT_SAMPLE_SEMISTRAT Sample nonzero and zero entries from a sparse tensor.
 %
-%   [SUBS,VALS,WGTS] = TT_SAMPLE_OVERLAPPED(X,NNZ,NZR) creates a
+%   [SUBS,VALS,WGTS] = TT_SAMPLE_SEMISTRAT(X,NNZ,NZR) creates a
 %   stratified sample of nonzero and zero entries of the sparse tensor X.
 %
 %   Example
-%   [subs,vals,wgts] = tt_sample_overlapped(X,1000,1000);
+%   [subs,vals,wgts] = tt_sample_semistrat(X,1000,1000);
 %   [f,G] = tt_gcp_fg_est(M,fh,gh,subs,vals,wgts,true,true,true,false,1000);
 %
 %   See also GCP_OPT, TT_GCP_FG_EST, TT_SAMPLE_UNIFORM.

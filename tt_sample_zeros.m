@@ -29,13 +29,13 @@ nelx = prod(sz); % Number of entries in X
 nnzx = length(Xnzidx); % Number of Nonzeros in X
 nzrx = nelx - nnzx; % Number of Zeros in X
 
-if nargin < 3
+if nargin < 4
     oversample = 1.1;
 elseif oversample < 1.1
     error('Oversampling rate must be >= 1.1');
 end
 
-if nargin < 4
+if nargin < 5
    with_replacement = true;    
 end
 
