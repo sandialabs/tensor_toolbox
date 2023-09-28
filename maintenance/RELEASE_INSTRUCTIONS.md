@@ -10,7 +10,7 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
 
 * [ ] Comparing to the prior [release](-/releases), update the root [README.md](-/README.md) with release notes, if they haven't already been added
    - [ ] Grab the tag of the latest release, `v3.(N-1)`
-   - [ ] Using "Compare Revisions" under "Repository", compare Source:`dev` to Target:`v3.(N-1)`
+   - [ ] Using "Compare Revisions" under "Code", compare Source:`dev` to Target:`v3.(N-1)`
 
 * [ ] Freeze the `dev` branch, update the version number, release date, and help database (see checklist below)
   
