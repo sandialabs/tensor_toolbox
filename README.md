@@ -12,6 +12,8 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
+## Changes in Version 3.7-dev from Version 3.6 (28-Sep-2023)
+
 ## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
 
 - New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m) (#78)

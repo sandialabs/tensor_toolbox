@@ -2,7 +2,7 @@
 
 ## Release Checklist
 
-Assuming that current release number is of the form `3.N.a-dev` in the `dev` branch.
+Assuming that current release number is of the form `3.N-dev` in the `dev` branch.
 
 * [ ] Resolve as many [merge requests](-/merge_requests) and [issues](-/issues) as feasible
 
@@ -24,7 +24,7 @@ Assuming that current release number is of the form `3.N.a-dev` in the `dev` bra
    
 * [ ] *IMPORTANT* Merge 'master' back into 'dev' branch!
 
-* [ ] Before any new into the `dev` branch, change release number to `3.(N+1).a-dev` in all the places listed below and remove dates
+* [ ] Before any new into the `dev` branch, change release number to `3.(N+1)-dev` in all the places listed below and remove dates
 
 
 ## Files that need to be updated with the version and/or release date
