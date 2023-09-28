@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.6.a-dev
-February 25, 2023 (last release)         
+# Tensor Toolbox for MATLAB, Version 3.6
+September 28, 2023 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
