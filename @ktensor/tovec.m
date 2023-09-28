@@ -27,6 +27,10 @@ if ~exist('lambdaflag','var')
     lambdaflag = true;
 end
 
+if ~lambdaflag && any(K.lambda ~= 1)
+    warning('Using tovec(X,false) on ktensor with nonunit weights')
+end
+
 xcell = cellfun(@(x) x(:), K.u, 'UniformOutput', false);
 x = cell2mat(xcell);
 

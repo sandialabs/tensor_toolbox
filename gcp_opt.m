@@ -292,14 +292,16 @@ if use_stoc
         
         % Create and sort linear indices of X nonzeros for the sampler
         if isempty(xnzidx)
+            if isdense
+                error('Stratified sampling only works for sparse tensors');
+            end
             xnzidx = tt_sub2ind64(sz,X.subs);
             xnzidx = sort(xnzidx);
         end
         
         fsampler = @() tt_sample_stratified(X, xnzidx, fsamp(1), fsamp(2), oversample);
-        fsampler_str =  sprintf('stratified with %d nonzero and %d zero samples', fsamp);
-        
-        
+        fsampler_str =  sprintf('stratified with %d nonzero and %d zero samples', fsamp);                
+
     elseif strcmp(fsampler_type, 'uniform')
         
         if isempty(fsamp)

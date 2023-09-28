@@ -50,7 +50,7 @@ end
 %% Create 'n' and 'tflag' arguments from varargin
 n = 1:ndims(X);
 tflag = '';
-ver = 0;
+ver = 2;
 if numel(varargin) == 1
     if ischar(varargin{1})
         tflag = varargin{1};
@@ -96,7 +96,7 @@ end
 N = ndims(X);
 sz = size(X);
 
-if ver == 0  %original/default verion
+if ver == 0  %original verion
     order = [n,1:n-1,n+1:N];
     newdata = double(permute(X,order));
     newdata = reshape(newdata,sz(n),prod(sz([1:n-1,n+1:N])));
@@ -110,7 +110,7 @@ if ver == 0  %original/default verion
     newsz = [p,sz(1:n-1),sz(n+1:N)];
     Y = tensor(newdata,newsz);
     Y = ipermute(Y,order);
-elseif ver == 1 % new version
+elseif ver == 1 % loop-based version
     
     if tflag == 't'
         p = size(V, 2);
@@ -155,8 +155,35 @@ elseif ver == 1 % new version
     newsz(n) = p;
     Y = tensor(B, newsz);
    
-elseif ver == 2
-    Y = newttm(X,V,n,tflag == 't');
+elseif ver == 2 % default version
+
+    % determine new dimension and set transpose flag for pagemtimes
+    if tflag == 't'
+        p = size(V, 2);
+        transpV = 'none';
+    else
+        p = size(V, 1);
+        transpV = 'transpose';
+    end  
+
+    if n == 1 
+        % 1st unfolding is col-major
+        A = reshape(X.data, sz(n), []);
+        if tflag == 't'
+            B = V' * A;
+        else
+            B = V * A;
+        end
+    else
+        % reshape to 3-way to use pagemtimes
+        A = reshape(X.data,prod(sz(1:n-1)),sz(n),[]);
+        % reverse order and transpose matrix because each page is row-major
+        B = pagemtimes(A,'none',V,transpV); 
+    end
+    % reshape back to N-way tensor
+    newsz = sz;
+    newsz(n) = p;
+    Y = tensor(B,newsz);
    
 end
 

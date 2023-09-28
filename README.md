@@ -1,5 +1,5 @@
-# Tensor Toolbox for MATLAB, Version 3.5
-February 25, 2023 (last release)         
+# Tensor Toolbox for MATLAB, Version 3.6
+September 28, 2023 (last release)         
 by Brett W. Bader, Tamara G. Kolda, Daniel M. Dunlavy, et al.        
 Sandia National Laboratories and MathSci.ai   
 
@@ -12,7 +12,22 @@ For all other information, including download and usage instructions, see [www.t
 
 Release notes follow below.
 
-## Changes in Version 3.5.a-dev from Version 3.4 (21-Sep-2022)
+## Changes in Version 3.6 from Version 3.5 (25-Feb-2023)
+
+- New functions within [`tensor`](@tensor/) class: [`unfold`](@tensor/unfold.m) and [`vec`](@tensor/vec.m) (#78)
+- New top-level function [`cp_orth_als`](cp_orth_als.m) for Orthogonalized ALS (!86)
+  * Reference: Sharan, V., & Valiant, G. (2017, July). 
+    Orthogonalized ALS: A theoretically principled tensor decomposition algorithm for practical use. 
+    In International Conference on Machine Learning (pp. 3095-3104). PMLR.
+- Improves [`tensor/ttm.m`](@tensor/ttm.m) to use `pagemtimes` rather than explicit looping and permuations. This is the new default. (!88)
+- Added pagemtimes option to [`tensor/mttkrp.m`](@tensor/mttkrp.m), but dd not change the default.
+- Updated [`ktensor/tovec.m`](@ktensor/tovec.m) to print an error if not including lambda but some lambda entries are not equal to one.
+- Updated documentation for [`tensor/subsref.m`](@tensor/subsref.m) and [`sptensor/subsref.m`](@sptensor/subsref.m) to better explain the 1-way tensor behavior (#73)
+- Updated documentation for [`tt_sample_semistrat.m`](tt_sample_semistrat.m) (#75)
+- Fixed error message in [`gcp_opt`](gcp_opt.m) when stratified sample is used with a dense tensor (#76)
+- Fixed check on number of input arguments in [`tt_sample_zeros.m`](tt_sample_zero.m) (#77)
+  
+## Changes in Version 3.5 from Version 3.4 (21-Sep-2022)
 
 - Added new functionality for alternating randomized least squares via leverage scores per the paper. B. W. Larsen, T. G. Kolda. Practical Leverage-Based Sampling for Low-Rank Tensor Decomposition, SIMAX, 2022 (see !72).
   * New top-level function [`cp_arls_lev`](cp_arls_lev.m) 
