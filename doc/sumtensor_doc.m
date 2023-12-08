@@ -16,9 +16,9 @@
 % toolbox supports a |sumtensor| object designed to exploit this structure.
 % Here we explain the basics of defining and using sumtensors.
 %% Creating sumtensors
-% A sumtensor T can only be delared as a sum of same-sized tensors |T1,
+% A sumtensor T can only be declared as a sum of same-sized tensors |T1,
 % T2,...,TN|. The summand tensors are stored in a cell array, which define
-% the "parts" of the sumtensor. The parts of a sumtensor can be (generic) 
+% the "parts" of the sumtensor. The parts of a sumtensor can be (dense) 
 % tensors (as |tensor|), sparse tensors (as |sptensor|), Kruskal tensors 
 % (as |ktensor|), or Tucker tensors (as |ttensor|). An example of the use
 % of the |sumtensor| constructor follows.
@@ -30,7 +30,7 @@ T = sumtensor(T1,T2)
 %% An Large-Scale Example
 % For large-scale problems, the |sumtensor| class may make the difference
 % as to whether or not a tensor can be stored in memory. Consider the
-% following example, where $\mathcal{T}$ is of size $1000 x 1000 x 1000$, 
+% following example, where $\mathcal{T}$ is of size $500 x 500 x 500$, 
 % formed from the sum of a |ktensor| and an |sptensor|.
 rng('default'); %<- Setting random seed for reproducibility of this script
 X1 = rand(500, 3); %Generating some factor matrices
@@ -47,7 +47,7 @@ whos ST TT %<--Output the storage information for these variables
 %%
 % The difference in memory between the full and sumtensor is a factor of 10^5!
 % Hence we prefer to use the sumtensor object whenever possible.
-%% Further examples of the sumtensor constructer
+%% Further examples of the sumtensor constructor
 % The sumtensor constructor can declare an empty sumtensor object, having 
 % no parts, as follows
 P = sumtensor()
@@ -59,9 +59,9 @@ S = sumtensor(P)
 % Similarly, |size| returns a size array of the sumtensor.
 ndims(T)
 size(T)
-%% Use full to convert a sumtensor to a "generic" tensor
-% The |full| function can be used to convert a sumtensor to a generic tensor. Note that
-% for large-scale tensors, this can a large amount of memory because each part of
+%% Use full to convert a sumtensor to a dense tensor
+% The |full| function can be used to convert a sumtensor to a dense tensor. Note that
+% for large-scale tensors, this can use a large amount of memory because each part of
 % the sumtensor will be expanded and then summed.
 full(T)
 %% Use double to convert a sumtensor to a multidimensional array
@@ -74,11 +74,11 @@ double(T)
 % sumtensor. The required arguments are: a sumtensor X, a cell array of
 % matrices U={U1,...,Um}, and a mode n. The cell array must consist of m matrices, 
 % where m is the number of modes in X. The number of columns of these matrices
-% should be constant, and number of rows of matrix Ui should match the dimension
+% should be constant, and the number of rows of matrix Ui should match the dimension
 % of the tensor X in mode i. The matricized Khatri-Rao product operation on 
 % sumtensor distributes the operation to the summands of the sumtensor. 
 % For details of this specific computation, see the mttkrp documentation 
-% for a generic tensor. An example of the use of |mttkrp| follows.
+% for a dense tensor. An example of the use of |mttkrp| follows.
 U={eye(3), ones(3,3), randn(3,3)}; %<--The cell array of matrices
 mttkrp(T,U,2)
 %% Use innerprod to compute the inner product of a sumtensor
